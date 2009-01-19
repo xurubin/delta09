@@ -1,0 +1,5 @@
+\contentsline {section}{\numberline {1}Project Description}{2}
+\contentsline {section}{\numberline {2}Proposal}{2}
+\contentsline {section}{\numberline {3}Major Planned Features}{2}
+\contentsline {section}{\numberline {4}Acceptance Criteria}{3}
+\contentsline {section}{\numberline {5}Distribution of Responsibility}{4}

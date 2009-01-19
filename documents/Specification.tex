@@ -1,0 +1,119 @@
+\documentclass[12pt, a4paper, oneside,titlepage]{article}
+\usepackage{geometry}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{layout}
+\usepackage{epstopdf}
+\usepackage{gastex}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{soul}
+
+\setlength{\textheight}{58em}
+\setlength{\footskip}{5em}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{\bigskipamount}
+
+\frenchspacing
+
+%\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\renewcommand{\labelenumi}{(\textit{\alph{enumi}})}
+\renewcommand{\labelenumii}{(\textit{\roman{enumii}})}
+
+\begin{document}
+
+ \begin{titlepage}
+ \begin{center}
+ \textsc{\huge{Project Delta}} \\
+ {\Large{An Interactive FPGA Circuit Simulator}}
+\end{center}
+\vspace{10em}
+ \begin{center}
+{\huge{Specification}}
+\end{center}
+\vfill
+\setlength{\columnsep}{10em}
+\begin{multicols}{2}{
+\emph{Developers:}\\
+Robert Duncan -- \texttt{rad55@cam.ac.uk} \\
+Justus Matthiesen -- \texttt{jm614@cam.ac.uk}\\
+David Weston -- \texttt{djw83@cam.ac.uk}\\
+Christopher Wilson -- \texttt{cw397@cam.ac.uk}\\
+Rubin Xu -- \texttt{rx201@cam.ac.uk}\\
+\emph{Client:}\\
+Steven Gilham\\
+\texttt{steven.gilham@citrix.com}
+\\
+\\
+}
+\end{multicols}
+\begin{center}
+\today
+\end{center}
+ \end{titlepage}
+\tableofcontents
+\pagebreak
+\section{Project Description}
+It would be useful if a first year computer scientist could rapidly prototype a circuit on an Altera DE2 FPGA board without using a hardware description language. The user interface might be presented as a graphical circuit entry system allowing the user to select components from a library (including, 2- and 3-input NOR and NAND gates, RS-latch and D flip-flop) and place them on the screen. Additional components like RAMs and ROMs would be desirable. Switches and LEDs that are present on the DE2 board should be present in the graphical environment to allow circuits to be interfaced to them. Saving and loading of circuits is desirable. Circuits created should be simulated on the DE2 board. The transfer of the circuit to the FPGA simulation might happen in real-time (i.e. any change in the circuit is reflected "instantly" in the simulation). The simulation might be performed in software by a soft processor on the FPGA. For a high performance implementation, the graphical circuit might also be written out as Verilog and then synthesised for direct implementation on the FPGA.
+\section{Proposal}
+We propose to create a Java based GUI that allows the user, in this case a first year computer scientist, to design a simple circuit using a drag-and-drop interface. The application will allow the user to send their design to the Altera DE2 board for simulation using a Java-based processor.  What follows is a description of the required features and our plan to implement them within the time restriction given.
+\section{Major Planned Features}
+ \label{sec:majfeat}
+\begin{enumerate}
+\item Tri-state wires: with \texttt{0},\texttt{1}, and \texttt{X} states.
+\item A component library containing:	 \begin{enumerate}
+								\item NOR gate (2/3 input).
+								\item NAND gate (2/3 input).
+								\item AND gate (2/3 input).
+								\item OR gate (2/3 input).
+								\item XOR gate (2/3 input).
+								\item XNOR gate (2/3 input).
+								 \item Inverter
+								 \item Fixed Input (\texttt{0}/\texttt{1})
+								\item RS latch.
+								\item D flip-flop.
+								\item limited size RAM.
+								\item limited size ROM.
+								\end{enumerate}
+\item The ability to ``connect" circuit to built-in LEDs, toggle switches, and push buttons on DE2 boards.
+\item The ability to group and ungroup components into a single composite component.
+\item Reasonably accurate simulation of circuit on DE2 board, not withstanding variable gate and wire delay (i.e. only have fixed gate delay equal across all components).
+\item Single clock with variable frequency.
+\item Components can have multiple wires attached to each output connector, however they may only have one wire for each input connector.  
+\item An intuitive GUI with:  \begin{enumerate}
+						\item Expandable component library with separate component grouping.
+						\item Switch/button/LED library. 
+						\item Drag-and-drop component placing and wiring.
+					    \item Flexible wiring that can attach to input/output connectors on components
+					    \item Undo/redo.
+					    	\item Zooming.
+						 \item Copy/paste functionality.
+						\item Document loading/saving.
+						\item Component loading/saving.
+						\end{enumerate}
+\item Capability to export to verilog to be implemented directly onto the FPGA.
+\item Fast transfer of designed circuit to DE2 board to be simulated.
+\end{enumerate}
+
+\section{Acceptance Criteria}
+Even though we will endeavour to complete all the major features listed in section \ref{sec:majfeat}, we may find it necessary to make variations during development of the project. The final project must satisfy the following criteria:
+\begin{enumerate}
+\item Core GUI.
+\item Loading/saving of circuits.
+\item At least switch/button/LED connection along with NAND and NOR gates (2/3 input), RS latches and D flip-flops.
+\item Simulation of circuit on DE2 board.
+\item Clock frequency control.
+\end{enumerate}
+
+\section{Distribution of Responsibility}
+The r\^oles defined here are \hl{temporary} assignments. \\ \\ 
+\begin{tabular}{l l}
+Robert Duncan & Data Structure \& Integration\\ 
+Justus Matthiesen & Simulator \\
+David Weston & GUI \\
+Christopher Wilson & GUI \\
+Rubin Xu & Hardware \\
+\end{tabular}
+
+\end{document}  

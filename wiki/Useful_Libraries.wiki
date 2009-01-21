@@ -1,0 +1,8 @@
+#summary Libraries that might make our lives easier.
+=Useful Libraries=
+
+==Graph Libraries==
+
+[http://www.jgraph.com/jgraph.html JGraph]: Provides a graph data model and (Swing) classes for a visual representation.
+
+[http://jgrapht.sourceforge.net/ JGraphT]: More mathematical graph data model which can be used in combination with JGraph.

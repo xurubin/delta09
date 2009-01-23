@@ -54,11 +54,11 @@ Steven Gilham\\
  \end{titlepage}
 \tableofcontents
 \pagebreak
-\section{Project Description}
+\section{Project description}
 It would be useful if a first year computer scientist could rapidly prototype a circuit on an Altera DE2 FPGA board without using a hardware description language. The user interface might be presented as a graphical circuit entry system allowing the user to select components from a library (including, 2- and 3-input NOR and NAND gates, RS-latch and D flip-flop) and place them on the screen. Additional components like RAMs and ROMs would be desirable. Switches and LEDs that are present on the DE2 board should be present in the graphical environment to allow circuits to be interfaced to them. Saving and loading of circuits is desirable. Circuits created should be simulated on the DE2 board. The transfer of the circuit to the FPGA simulation might happen in real-time (i.e. any change in the circuit is reflected "instantly" in the simulation). The simulation might be performed in software by a soft processor on the FPGA. For a high performance implementation, the graphical circuit might also be written out as Verilog and then synthesised for direct implementation on the FPGA.
 \section{Proposal}
-We propose to create a Java based GUI that allows the user, in this case a first year computer scientist, to design a simple circuit using a drag-and-drop interface. The application will allow the user to send their design to the Altera DE2 board for simulation using a Java-based processor.  What follows is a description of the required features and our plan to implement them within the time restriction given.
-\section{Major Planned Features}
+A Java based solution is proposed with a GUI that allows the user, in this case a first year computer scientist, to design a simple circuit using a drag-and-drop interface. The application will allow the user to send their design to the Altera DE2 board for simulation using a Java-based processor.  What follows is a description of the required features and our plan to implement them within the time restriction given.
+\section{Major planned features}
  \label{sec:majfeat}
 \begin{enumerate}
 \item Tri-state wires: with \texttt{0},\texttt{1}, and \texttt{X} states.
@@ -69,7 +69,7 @@ We propose to create a Java based GUI that allows the user, in this case a first
 								\item OR gate (2/3 input).
 								\item XOR gate (2/3 input).
 								\item XNOR gate (2/3 input).
-								 \item Inverter
+								 \item NOT gate
 								 \item Fixed Input (\texttt{0}/\texttt{1})
 								\item RS latch.
 								\item D flip-flop.
@@ -82,21 +82,19 @@ We propose to create a Java based GUI that allows the user, in this case a first
 \item Single clock with variable frequency.
 \item Components can have multiple wires attached to each output connector, however they may only have one wire for each input connector.  
 \item An intuitive GUI with:  \begin{enumerate}
-						\item Expandable component library with separate component grouping.
+						\item Expandable component library.
 						\item Switch/button/LED library. 
 						\item Drag-and-drop component placing and wiring.
-					    \item Flexible wiring that can attach to input/output connectors on components
+					    \item Flexible wiring that can attach to input/output connectors on components.
 					    \item Undo/redo.
 					    	\item Zooming.
-						 \item Copy/paste functionality.
 						\item Document loading/saving.
-						\item Component loading/saving.
 						\end{enumerate}
 \item Capability to export to verilog to be implemented directly onto the FPGA.
 \item Fast transfer of designed circuit to DE2 board to be simulated.
 \end{enumerate}
 
-\section{Acceptance Criteria}
+\section{Acceptance criteria}
 Even though we will endeavour to complete all the major features listed in section \ref{sec:majfeat}, we may find it necessary to make variations during development of the project. The final project must satisfy the following criteria:
 \begin{enumerate}
 \item Core GUI.
@@ -106,7 +104,157 @@ Even though we will endeavour to complete all the major features listed in secti
 \item Clock frequency control.
 \end{enumerate}
 
-\section{Distribution of Responsibility}
+\section{Circuit description}
+A limited number of components are going to represented, trying to fairly represent the knowledge and interests of a first year computer scientist. 
+
+We will be considering the output of all gates to initially be \texttt{X}, and all disconnected wires will also have a value of \texttt{X}. This tri-state approach is necessary to model disconnection of wires, and also to represent an unknown signal on a wire. 
+
+Here follows a description of each component represented in the circuit simulator:
+
+\subsection{Simple gates}
+\subsubsection{NOT gate}
+A NOT gate is essentially an inverter, negating the input as per this table:
+\begin{center}
+\begin{tabular}{l |c}
+$x$ & \texttt{NOT}$(x)$\\
+\hline
+\texttt{0} & \texttt{1}\\
+\hline
+\texttt{1} & \texttt{0}\\
+\hline
+\texttt{X} & \texttt{X}\\
+\hline
+\end{tabular}
+\end{center}
+where $x$ is the input to the NOT gate. 
+
+\subsubsection{AND and NAND gates}
+A two input AND can be desribed with the following table in our tri-state logic:
+\begin{center}
+\begin{tabular}{c |l  l l}
+\texttt{AND} & \texttt{0} & \texttt{1} & \texttt{X}\\
+\hline
+\texttt{0} & \texttt{0} & \texttt{0} & \texttt{0}\\
+\hline
+\texttt{1} & \texttt{0} & \texttt{1} & \texttt{X}\\
+\hline
+\texttt{X} & \texttt{0} & \texttt{X} & \texttt{X}\\
+\hline
+\end{tabular}
+\end{center}
+A three input AND could be modelled as $y = ((x_1\ \texttt{AND}\ x_2)\ \texttt{AND}\ x_3)$ where $x_n$ are inputs to the AND gate, and $y$ is the output. 
+
+A NAND gate has exactly this behaviour except the output, $y$, is inverted, as if it were by a NOT gate. 
+
+
+\subsubsection{OR and NOR gates}
+A two input OR can be desribed with the following table in our tri-state logic:
+\begin{center}
+\begin{tabular}{c |l  l l}
+\texttt{OR} & \texttt{0} & \texttt{1} & \texttt{X}\\
+\hline
+\texttt{0} & \texttt{0} & \texttt{1} & \texttt{X}\\
+\hline
+\texttt{1} & \texttt{1} & \texttt{1} & \texttt{1}\\
+\hline
+\texttt{X} & \texttt{X} & \texttt{1} & \texttt{X}\\
+\hline
+\end{tabular}
+\end{center}
+A three input OR could be modelled as $y = ((x_1\ \texttt{OR}\ x_2)\ \texttt{OR}\ x_3)$ where $x_n$ are inputs to the OR gate, and $y$ is the output. 
+
+A NOR gate has exactly this behaviour except the output, $y$, is inverted, as it were by a NOT gate. 
+
+\subsubsection{XOR and XNOR gates}
+A two input OR can be desribed with the following table in our tri-state logic:
+\begin{center}
+\begin{tabular}{c |l  l l}
+\texttt{XOR} & \texttt{0} & \texttt{1} & \texttt{X}\\
+\hline
+\texttt{0} & \texttt{0} & \texttt{1} & \texttt{X}\\
+\hline
+\texttt{1} & \texttt{1} & \texttt{0} & \texttt{1}\\
+\hline
+\texttt{X} & \texttt{X} & \texttt{1} & \texttt{X}\\
+\hline
+\end{tabular}
+\end{center}
+A three input XOR could be modelled as $y = ((x_1\ \texttt{XOR}\ x_2)\ \texttt{XOR}\ x_3)$ where $x_n$ are inputs to the OR gate, and $y$ is the output. 
+
+An XNOR gate has exactly this behaviour except the output, $y$, is inverted, as if it were by a NOT gate. 
+
+\subsection{Further components}
+\subsubsection{Clock}
+Each circuit will have a single clock associated with it, that is automatically tied to each clock input on any clocked components. The Clock will have a customisable frequency that is some multiple of the simulation time quantum. 
+\subsubsection{D flip-flop}
+A D flip flop can be represented using a state transition table, where $Q'$ represents the output $Q$ after a clock tick:
+
+\begin{center}
+\begin{tabular}{c |c | c}
+$D$ & $Q$ & $Q'$\\
+\hline
+\texttt{0} & \texttt{Q} & \texttt{0}\\
+\texttt{1} & \texttt{Q} & \texttt{1}\\
+\texttt{X} & \texttt{Q} & \texttt{X}\\
+\end{tabular}
+\end{center}
+We will be using single output D flip-flops, i.e. they will not contain an extra negated output. This doesn't affect the potential set of circuits though, since a user can attach multiples wires to a single output.
+\subsubsection{RS Latch}
+This a grouped component described by the following table: \\
+\hl{I'm not sure this table is correct}
+\begin{center}
+\begin{tabular}{c |c | c | c}
+$R$ & $S$ & $Q$ & $\overline{Q}$\\
+\hline
+\texttt{0} & \texttt{0} & \texttt{Q} & $\overline{\texttt{Q}}$\\
+\texttt{0} & \texttt{1} & \texttt{1} & \texttt{0}\\
+\texttt{1} & \texttt{0} & \texttt{0} & \texttt{1}\\
+\texttt{1} & \texttt{1} & \texttt{U} & \texttt{U}\\
+\texttt{0} & \texttt{X} & \texttt{X} & \texttt{X}\\
+\texttt{X} & \texttt{0} & \texttt{X} & \texttt{X}\\
+\texttt{1} & \texttt{X} & \texttt{X} & \texttt{X}\\
+\texttt{X} & \texttt{1} & \texttt{X} & \texttt{X}\\
+\texttt{X} & \texttt{X} & \texttt{X} & \texttt{X}\\
+\end{tabular}
+\end{center}
+Where \texttt{U} stands for unstable. This conbination of inputs is to be avoided if at all possible.
+
+\subsubsection{ROM and RAM}
+Whilst we don't provide the ability to use buses natively, they can be constructed from groups of wires. With both ROM and RAM the user will be able to preset the contents in the GUI before loading it to the DE2 board. 
+
+However, ROMs will not have the ability to set the contents of the cell when addressing it, only to read out the contents. 
+
+\begin{enumerate}
+\item 16 cells, addressable with 4 address inputs.
+\item Each cell stores a single boolean value. 
+\item RAM has a write enable input along with a data input.
+\item A single output wire with the data contained at the addressed wire. 
+\item an implicit clock connection, so that reads and write only occur on clock pulses.
+\end{enumerate}
+
+\subsection{Inputs and outputs}
+\subsubsection{LEDs}
+These can be used within the circuit and they correspond to a labelled LED on the physical hardware.
+\subsubsection{Switches and buttons}
+These can be used within the circuit and they correspond to the labelled switch or button on the physical hardware. 
+
+\section{Data structure}
+This section contributed by Justus Matthiesen.
+
+\section{Simulation algorithm}
+This section contributed by Justus Matthiesen. 
+
+\section{Using the Altera DE2 board}
+This section contributed by Rubin Xu.
+
+
+
+\section{Exporting to verilog}
+
+\section{GUI}
+This section contributed by Christopher Wilson and David Weston.
+
+\section{Distribution of responsibility}
 The r\^oles defined here are \hl{temporary} assignments. \\ \\ 
 \begin{tabular}{l l}
 Robert Duncan & Data Structure \& Integration\\ 

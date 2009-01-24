@@ -7,6 +7,8 @@ Description of GUI (draft)
 
 = Details =
 
+A draft mockup of the GUI can be found [http://code.google.com/p/delta09/source/browse/trunk/documents/GUI_mockup.png here]. I still need to neaten it up a bit and add labels to explain the main components.
+
 The user interface will consist of the following elements:
 
  * A scrollable main panel where the circuit to be simulated is designed.

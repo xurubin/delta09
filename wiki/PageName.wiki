@@ -25,7 +25,22 @@ The user interface will consist of the following elements:
    * Export to Verilog
    * Zoom in
    * Zoom out
- * A menu bar containing File, Edit, View and Help menus. /`*` Include what is in them? `*`/
+ * A menu bar containing the following menus:
+   * File
+     * New
+     * Open
+     * Save
+     * Exit
+   * Edit
+     * Undo
+     * Redo
+     * Delete
+   * View
+     * Zoom in
+     * Zoom out
+   * Help
+     * Contents
+     * About
 
 The user should be able to drag components from the left or bottom panels and drop them in the main panel to form part of the circuit. The interface will allow unlimited uses of each type of component with the exception of the LEDs, which are single-use only. Each component in the main panel will have one or more ports for input (represented as blue circles) and/or output (represented as red circles). Wires will be constructed by clicking on one of these ports, followed by clicking on a port of the opposite type. The interface will disallow multiple wires being connected to the same input port, and wires being connected from one input port to another (and similarly with output ports). The user will be able to select intermediate points for the wires by clicking as many times as desired between the source and destination ports.
 

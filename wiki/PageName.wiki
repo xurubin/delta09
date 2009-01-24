@@ -16,15 +16,15 @@ The user interface will consist of the following elements:
  * A panel underneath the main one containing diagramatic representations of all the DE2 board's toggle switches, push-buttons and red and green LEDs.
  * A panel in the bottom-left corner of the window containing a clock icon and an adjustable frequency spinner.
  * A toolbar at the top of the window containing the following buttons:
- * * New circuit
- * * Load circuit
- * * Save circuit
- * * Undo
- * * Redo
- * * Transfer to board
- * * Export to Verilog
- * * Zoom in
- * * Zoom out
+ *  * New circuit
+ *  * Load circuit
+ *  * Save circuit
+ *  * Undo
+ *  * Redo
+ *  * Transfer to board
+ *  * Export to Verilog
+ *  * Zoom in
+ *  * Zoom out
  * A menu bar containing File, Edit, View and Help menus. /`*` Include what is in them? `*`/
 
 The user should be able to drag components from the left or bottom panels and drop them in the main panel to form part of the circuit. The interface will allow unlimited uses of each type of component with the exception of the LEDs, which are single-use only. Each component in the main panel will have one or more ports for input (represented as blue circles) and/or output (represented as red circles). Wires will be constructed by clicking on one of these ports, followed by clicking on a port of the opposite type. The interface will disallow multiple wires being connected to the same input port, and wires being connected from one input port to another (and similarly with output ports). The user will be able to select intermediate points for the wires by clicking as many times as desired between the source and destination ports.

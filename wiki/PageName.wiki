@@ -34,6 +34,9 @@ The user interface will consist of the following elements:
    * Edit
      * Undo
      * Redo
+     * Cut
+     * Copy
+     * Paste
      * Delete
    * View
      * Zoom in

@@ -11,8 +11,11 @@
 \usepackage{soul}
 \usepackage{hyperref}
 
+\hypersetup{linkbordercolor={0 0.5 1}}
+
 \setlength{\textheight}{58em}
 \setlength{\footskip}{5em}
+
 \setlength{\parindent}{0mm}
 
 \frenchspacing
@@ -89,6 +92,7 @@ A Java based solution is proposed with a GUI that allows the user, in this case 
 						\item Drag-and-drop component placing and wiring.
 					    \item Flexible wiring that can attach to input/output connectors on components.
 					    \item Undo/redo.
+					     \item Copy/paste.
 					    	\item Zooming.
 						\item Document loading/saving.
 						\end{enumerate}
@@ -262,9 +266,24 @@ Verilog modules will be used to describe the D flip-flop, RS latch, RAM, and the
 We will not implement a software component to send the Verilog to the board within the application, instead producing a Verilog \texttt{.v} source file to retain greater flexibility in the destination of the Verilog description. 
 
 \section{GUI}
-\subsection{Placing components}
-\subsection{Drawing wires}
-\subsection{Sending to DE2 board}
+\hl{DRAFT}\\
+The user interface will consist of the following elements:
+\begin{enumerate}
+\item A scrollable main panel where the circuit to be simulated is designed.
+\item A scrollable panel to the left of this, which contains a list of circuit components (gates, ROM/RAM, RS-latch, D-flip-flop, fixed inputs) with graphics and text descriptions.
+\item A panel underneath the main one containing diagramatic representations of all the DE2 board's toggle switches, push-buttons and red and green LEDs.
+\item A panel in the bottom-left corner of the window containing a clock icon and an adjustable frequency spinner.
+\item A toolbar at the top of the window containing /* ... */
+\item A menu bar containing File, Edit, View and Help menus. /* Include what is in them? */
+\end{enumerate}
+The user should be able to drag components from the left or bottom panels and drop them in the main panel to form part of the circuit. The interface will allow unlimited uses of each type of component with the exception of the LEDs, which are single-use only. Each component in the main panel will have one or more ports for input (represented as blue circles) and/or output (represented as red circles). Wires will be constructed by clicking on one of these ports, followed by clicking on a port of the opposite type. The interface will disallow multiple wires being connected to the same input port, and wires being connected from one input port to another (and similarly with output ports). /* Intermediate points? */
+
+The user should be able to select components and wires in the main panel by clicking on them, which will highlight them. Multiple components and wires will be selected by dragging out a box. Selections can be moved by dragging. They can also be cut, copied, pasted and deleted using the edit menu, buttons on the toolbar or keyboard shortcuts.
+
+The user will be able to change the size and position of the display of the circuit by zooming (using the toolbar/menu bar controls) and scrolling.
+
+The current circuit will be simulated on the board when the user clicks the "transfer to board" button. This will then be greyed out until a change is made to the circuit.
+
 This section contributed by Christopher Wilson and David Weston.
 
 \section{Distribution of responsibility}

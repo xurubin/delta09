@@ -9,11 +9,11 @@
 \usepackage{multicol}
 \usepackage{color}
 \usepackage{soul}
+\usepackage{hyperref}
 
 \setlength{\textheight}{58em}
 \setlength{\footskip}{5em}
 \setlength{\parindent}{0mm}
-\setlength{\parskip}{\bigskipamount}
 
 \frenchspacing
 
@@ -52,8 +52,10 @@ Steven Gilham\\
 \today
 \end{center}
  \end{titlepage}
+
 \tableofcontents
-\pagebreak
+\newpage
+\setlength{\parskip}{\medskipamount}
 \section{Project description}
 It would be useful if a first year computer scientist could rapidly prototype a circuit on an Altera DE2 FPGA board without using a hardware description language. The user interface might be presented as a graphical circuit entry system allowing the user to select components from a library (including, 2- and 3-input NOR and NAND gates, RS-latch and D flip-flop) and place them on the screen. Additional components like RAMs and ROMs would be desirable. Switches and LEDs that are present on the DE2 board should be present in the graphical environment to allow circuits to be interfaced to them. Saving and loading of circuits is desirable. Circuits created should be simulated on the DE2 board. The transfer of the circuit to the FPGA simulation might happen in real-time (i.e. any change in the circuit is reflected "instantly" in the simulation). The simulation might be performed in software by a soft processor on the FPGA. For a high performance implementation, the graphical circuit might also be written out as Verilog and then synthesised for direct implementation on the FPGA.
 \section{Proposal}
@@ -239,19 +241,30 @@ These can be used within the circuit and they correspond to a labelled LED on th
 These can be used within the circuit and they correspond to the labelled switch or button on the physical hardware. 
 
 \section{Data structure}
+\label{sec:datastruct}
 This section contributed by Justus Matthiesen.
 
 \section{Simulation algorithm}
 This section contributed by Justus Matthiesen. 
 
 \section{Using the Altera DE2 board}
+\subsection{Serial link}
+\subsection{Java processor}
 This section contributed by Rubin Xu.
 
 
 
-\section{Exporting to verilog}
+\section{Exporting to Verilog}
+Exporting the circuit description to Verilog means that our GUI application to design circuits can be used independently of the DE2 board. This enables a huge variety of hardware devices to be used with our application other than the DE2 board. It also allows for faster circuit simulation than using the \emph{JOP} on the board, allowing for more realistic simulation. 
+
+Verilog modules will be used to describe the D flip-flop, RS latch, RAM, and the ROM components. Using structural Verilog to describe the structure of the circuit, the application will be able to quickly produce Verilog descriptions from the internal data structure described in section \ref{sec:datastruct}.
+
+We will not implement a software component to send the Verilog to the board within the application, instead producing a Verilog \texttt{.v} source file to retain greater flexibility in the destination of the Verilog description. 
 
 \section{GUI}
+\subsection{Placing components}
+\subsection{Drawing wires}
+\subsection{Sending to DE2 board}
 This section contributed by Christopher Wilson and David Weston.
 
 \section{Distribution of responsibility}

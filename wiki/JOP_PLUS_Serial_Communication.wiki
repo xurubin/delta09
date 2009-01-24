@@ -1,0 +1,17 @@
+JOP is a real time processor running Java bytecode. It’s a RISC processor with its own stack-based microcode instruction set. Java bytecode is translated into corresponding microcode(s) during the decode stage of the processor cycle. A real time garbage collector is implemented in Java, compiled as part of the target Java application and is invoked by the processor when necessory. All I/O devices are integrated as memory-mapped devices into the uniform address space, distinguishing themselves from RAM spaces by the highest 2 bits of the address line. 
+
+What I have done: 
+
+Provide interfaces to the DE2 board’s LEDs and switchs by implementing them as a memory-mapped I/O. Write Java wrapper classes to access them. 
+
+Implement a serial-like connection between DE2 and PC over the USB-Blaster cable( currently only working in one way). This serial link is again implemented as a memory-mapped IO. The code is adapted from the DE2 control panel example provided by Altera with DE2. 
+
+Adapt a SDRAM controller(http://whoyouvotefor.info/altera_sdram.html. MIT-type licence. Shouldn't be a problem) for JOP‘s interconnect bus "SimpCon". Multiplex the SRAM controller and SDRAM controller to provide both fast SRAM access at lower address space and large SDRAM storage space at higher address.
+
+
+
+To Robert:
+I have uploaded two class definitions in the Downloads sections. I havn't got time to actually think about the detials though.
+If you need further explanations of what I have done, feel free to email me. I may be unable to reply on Sunday because it's Chinese new year. But I can certainly give you results on Monday's meeting. 
+
+My version of JOP in SVN: Sorry that has to been delayed for some time.

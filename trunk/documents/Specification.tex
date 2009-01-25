@@ -20,7 +20,7 @@
 
 \frenchspacing
 
-%\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 \renewcommand{\labelenumi}{(\textit{\alph{enumi}})}
 \renewcommand{\labelenumii}{(\textit{\roman{enumii}})}
 
@@ -252,8 +252,18 @@ This section contributed by Justus Matthiesen.
 This section contributed by Justus Matthiesen. 
 
 \section{Using the Altera DE2 board}
-\subsection{Serial link}
 \subsection{Java processor}
+The simulation program will be written in Java and executed on an open-source Java bytecode processor, \emph{JOP}\footnote{JOP: A Tiny Java Processor Core for FPGA \url{http://www.jopdesign.com/}}, running on the Altera DE2 board. The \emph{JOP} is a RISC processor with its own stack-based microcode instruction set. Java bytecode is translated into the corresponding microcode(s) during the decode stage of the processor cycle. A real-time garbage collector is implemented in Java, compiled as part of the target Java application and is invoked by the processor when necessary. All IO devices are integrated as memory-mapped devices into the uniform address space, distinguishing themselves from RAM spaces using the highest two bits of the address line. \emph{JOP} provides a pre-existing toolchain to compile and run Java programs onto the DE2 board, thus enabling more time to spent on the GUI and the simulation program that will run on the board. 
+
+Access to the DE2 board's LEDs and switches can be made through memory-mapped IO. Simple Java wrapper classes can be used to present an abstracted interface to the simulation program. 
+
+Access to the SDRAM provided by the board (8MB) can be provided with a adapted open-source SDRAM controller\footnote{Altera DE2 SDRAM Controller \url{http://whoyouvotefor.info/altera_sdram.html}} for the Altera DE2 board. This access will be multiplexed with the access to the faster SRAM (512KB) to provided a unified address space that can be access from a Java interface. 
+
+\subsection{Communication}
+A serial connection is already provided for within the \emph{JOP} toolchain, a datagram layer can be adapted from the JOP libraries to provide a packetised interface to and from the board that is suited to the needs of the application. On top of this datagram layer, a serialized object channel will be used to communicate the circuit design from the GUI to the simulation program running on the board. 
+
+There is the possibility of emulating the serial connection using the USB blaster connection to avoid having two cables between the board and the computer used for the design work. However, at the moment only one-way connection (to the computer from the board) on the USB cable has been achieved. 
+
 This section contributed by Rubin Xu.
 
 
@@ -266,17 +276,62 @@ Verilog modules will be used to describe the D flip-flop, RS latch, RAM, and the
 We will not implement a software component to send the Verilog to the board within the application, instead producing a Verilog \texttt{.v} source file to retain greater flexibility in the destination of the Verilog description. 
 
 \section{GUI}
-\hl{DRAFT}\\
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm]{GUI_mockup.png}
+\caption{Mockup of graphical interface}\label{fig:erptsqfit}
+\end{figure}
 The user interface will consist of the following elements:
 \begin{enumerate}
 \item A scrollable main panel where the circuit to be simulated is designed.
 \item A scrollable panel to the left of this, which contains a list of circuit components (gates, ROM/RAM, RS-latch, D-flip-flop, fixed inputs) with graphics and text descriptions.
 \item A panel underneath the main one containing diagramatic representations of all the DE2 board's toggle switches, push-buttons and red and green LEDs.
 \item A panel in the bottom-left corner of the window containing a clock icon and an adjustable frequency spinner.
-\item A toolbar at the top of the window containing /* ... */
-\item A menu bar containing File, Edit, View and Help menus. /* Include what is in them? */
+\item A toolbar at the top of the window containing: \begin{enumerate}
+												\item New circuit.
+												\item Load circuit.
+												\item Save circuit.
+												\item Undo.
+												\item Redo.
+												\item Transfer to board.
+												\item Export to Verilog.
+												\item Zoom in.
+												\item Zoom out.
+												\end{enumerate}
+												
+\item A menu bar containing the following menus: \begin{enumerate}
+												\item File
+												\begin{enumerate}
+												\item New.
+												\item Open.
+												\item Save.
+												\item Exit.
+												\end{enumerate}																											\item Edit
+																								\begin{enumerate}
+												\item Undo.
+												\item Redo.
+												\item Cut.
+												\item Copy.
+												\item Paste.
+												\item Delete.
+												\end{enumerate}		
+												
+												 \item View
+												 												\begin{enumerate}
+												\item Zoom in.
+												\item Zoom out.
+												\end{enumerate}	
+												
+												 \item Help
+												 												\begin{enumerate}
+												\item Contents.
+												\item About.
+												\end{enumerate}	
+												\end{enumerate}
+
 \end{enumerate}
-The user should be able to drag components from the left or bottom panels and drop them in the main panel to form part of the circuit. The interface will allow unlimited uses of each type of component with the exception of the LEDs, which are single-use only. Each component in the main panel will have one or more ports for input (represented as blue circles) and/or output (represented as red circles). Wires will be constructed by clicking on one of these ports, followed by clicking on a port of the opposite type. The interface will disallow multiple wires being connected to the same input port, and wires being connected from one input port to another (and similarly with output ports). /* Intermediate points? */
+The user should be able to drag components from the left or bottom panels and drop them in the main panel to form part of the circuit. The interface will allow unlimited uses of each type of component with the exception of the LEDs, which are single-use only. Each component in the main panel will have one or more ports for input (represented as blue circles) and/or output (represented as red circles). Wires will be constructed by clicking on one of these ports, followed by clicking on a port of the opposite type. The interface will disallow multiple wires being connected to the same input port, and wires being connected from one input port to another (and similarly with output ports). The user will be able to select intermediate points for the wires by clicking as many times as desired between the source and destination ports.
+
 
 The user should be able to select components and wires in the main panel by clicking on them, which will highlight them. Multiple components and wires will be selected by dragging out a box. Selections can be moved by dragging. They can also be cut, copied, pasted and deleted using the edit menu, buttons on the toolbar or keyboard shortcuts.
 

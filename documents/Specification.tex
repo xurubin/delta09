@@ -244,12 +244,46 @@ These can be used within the circuit and they correspond to a labelled LED on th
 \subsubsection{Switches and buttons}
 These can be used within the circuit and they correspond to the labelled switch or button on the physical hardware. 
 
-\section{Data structure}
+\section{Data structure and algorithm}
 \label{sec:datastruct}
-This section contributed by Justus Matthiesen.
+The target audience for the proposed digital logic simulator is computer science students in their first year. The first year of a computer science syllabus typically contains a course in ”Digital Logic” that treats the subject on a functional or gate level and is certainly not too concerned about physical details of logic circuits (like wire delays, voltage drops due to wire resistance, etc.). Thus, it has been decided to keep the simulation as close as possible to the functional level, where gates represent boolean functions from input signals (or wire in this model carry boolean values) to output signals. However, it has also been decided that the simulator should be capable of simulating any valid digital circuit.
 
-\section{Simulation algorithm}
-This section contributed by Justus Matthiesen. 
+To achieve a good compromise between both goals, the simulator will impose certain restrictions on circuits and the simulation will also model some digital circuit characteristics that go beyond pure functional simulation.
+
+Restrictions on the data structures:
+\begin{enumerate}
+ \item If the user is allowed to create wires which connect two wires, it is possible to create circuits which (if at all) only a simulator that models the physical properties of a circuit very accurately can simulate. The simplest example is a circuit where two wires carrying different logic signals are joined, see figure \ref{fig:indet}.
+\begin{figure}[h]
+\centering
+\includegraphics{01.pdf}
+\caption{Indeterminable output.}\label{fig:indet}
+\end{figure}
+ To avoid such situations in the chosen model, wires are only allowed between an input of a logic component and an output of a logic component (not necessarily different components). Furthermore, inputs to logic components are only allowed to be connected to one wire.
+ This restriction does not in any way limit the number of different circuit the user can build but it does prevent the user from building circuit that cannot be simulated on a gate or functional level.
+ \item Only one global clock is allowed which should be appropriate as only few circuits need more than one clock and even complex circuits (say a microprocessor) can be implemented with only one clock.
+ \begin{figure}[h]
+\centering
+\includegraphics{inverter_ring2.pdf}
+\caption{Inverter ring.}\label{fig:invert}
+\end{figure}
+ \item A purely functional simulation would not emulate gate delays. The proposed simulator does not, however, disallow cycles in the circuit. Since cycles are allowed, circuits which are not stable, i.e. oscillate, can be constructed. The classic example is a ring of three inverters,see figure \ref{fig:invert}, the depicted example uses a NAND gate instead of an inverter so that the initial configuration produces deterministic results). Without gate delays this circuit cannot be simulated, at all, and therefore the simulation model needs gate delays. To stay close to a functional simulation the algorithm will use unit gate delays for all gates.
+ 
+\item There are certain circuits that exhibit a behaviour that cannot be described in terms on combinatorial logic, that is they produce metastable outputs. Since it is algorithmically hard to detect whether a circuit belongs to this class of circuits and since this class includes components which are essential for sequential logic like RS latches, see figure \ref{fig:latch}, this class of circuits must not be rejected by the simulator. To simulate such circuits deterministically, a third logic state X (apart from 0 and 1) is introduced, representing logic states which are unknown or cannot be inferred by boolean logic.
+ 
+  \begin{figure}[h]
+\centering
+\includegraphics{latch.pdf}
+\caption{Latch.}\label{fig:latch}
+\end{figure}
+\end{enumerate}
+
+\subsection{Data Structure}
+The natural choice for a circuit representation is a graph-like data structure where vertices represent logic components and edges represent wires between component inputs and component outputs. Components are sub-circuits consisting of gates connected by wires (again, a graph-like data structure). Allowing circular circuits and including of gate delays make it, however, impossible to simulate a circuit component-wise. Thus, to allow editing the circuit in the GUI on a component level on the one hand and simulating the circuit on a gate level on the other hand, a data structure which can represent both has been designed: The data structure maintaining the circuit will hold two graphs simultaneously: One graph, in which vertices represent logic components, and one graph, in which vertices represent gates. When the user adds a logic component to the circuit, the component is first added to the former graph, the internal representation of the component consisting of gates and wires is then read and added to the latter graph (for more detail, see the UML diagrams in section \ref{sec:uml}).
+
+\subsection{Algorithm}
+For performance reasons, the simulation algorithm will be event-driven, i.e. the actual simulation algorithm is only run when an input signal changes (inputs are buttons and switches on the board [these have to be checked regularly], constant input 0 and 1, and the clock provided by the simulator):
+
+When an input signal changes, the algorithm sets the value, that each of the wires that is connected to the input carries, to the new logic value and saves the list of gates (or rather inputs to gates) that are connected (by one of those wires) to this input. And after a fixed time (a specified unit-time gate delay), the algorithm re-evaluates the output of each of the gates in the list and propagates all output values, that have changed, in a similar fashion. To schedule such input signal changes and re-evaluations of gate outputs, the algorithm keeps a priority queue.
 
 \section{Using the Altera DE2 board}
 \subsection{Java processor}
@@ -340,6 +374,15 @@ The user will be able to change the size and position of the display of the circ
 The current circuit will be simulated on the board when the user clicks the "transfer to board" button. This will then be greyed out until a change is made to the circuit.
 
 This section contributed by Christopher Wilson and David Weston.
+\section{Class Design}
+\label{sec:uml}
+\subsection{GUI UML diagram}
+\section{GUI}
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{GUIClassDiagram.eps}
+\caption{GUI UML diagram}\label{fig:erptsqfit}
+\end{figure}
 
 \section{Distribution of responsibility}
 The r\^oles defined here are \hl{temporary} assignments. \\ \\ 
@@ -350,5 +393,16 @@ David Weston & GUI \\
 Christopher Wilson & GUI \\
 Rubin Xu & Hardware \\
 \end{tabular}
+
+\section{Lorem Ipsum}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tempor magna nec mi. Donec commodo purus. Maecenas nulla leo, sollicitudin eget, tempor at, dignissim id, tortor. Sed sed velit. Nullam eu pede. Vestibulum turpis. In nisi leo, interdum sed, sodales quis, volutpat ut, tortor. Suspendisse velit. Integer nisi. Nunc fermentum euismod est. Sed at lacus non turpis gravida varius. Donec aliquet est non elit. Sed ac ipsum a turpis mollis egestas. Aenean pharetra. Fusce feugiat, pede sed viverra hendrerit, velit felis mollis nunc, ac consectetur mi sapien id sem.
+
+Sed pulvinar nibh vitae felis. Nullam viverra. Quisque molestie faucibus nibh. Etiam tincidunt pellentesque augue. Sed vitae ante non tortor consequat condimentum. Nulla ultrices augue at sem. Morbi varius. In luctus ornare est. Donec cursus consequat magna. Nullam placerat orci eu orci. Nullam venenatis quam vitae turpis. Nulla facilisi. Curabitur rhoncus. Vivamus bibendum mauris ut lorem. Donec condimentum turpis ut pede. Donec molestie ultrices risus. Quisque at est et velit volutpat dapibus. Vestibulum aliquam commodo ligula. Proin libero lectus, egestas ac, dictum in, iaculis eu, magna. Aliquam hendrerit.
+
+Nulla facilisi. Pellentesque tempus tortor nec magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed dignissim est in metus. Vestibulum ac pede quis neque ullamcorper interdum. Nulla vestibulum lectus a sem. Morbi id justo. Donec suscipit, tellus non porttitor scelerisque, nisl neque porta odio, sit amet dapibus mi turpis quis justo. Nam aliquet, sem a malesuada volutpat, massa felis vulputate arcu, non fermentum dolor erat vitae libero. In justo mi, varius congue, sagittis eget, auctor quis, dolor. Quisque tincidunt tortor ac diam. Mauris eget mi. Praesent scelerisque. Fusce convallis cursus dolor. Nam imperdiet mi ultricies mi.
+
+Nam mollis erat tincidunt sem. Nam bibendum eleifend mi. Mauris ante erat, ornare eu, cursus et, tincidunt a, sem. Aliquam est tortor, ultricies id, vulputate in, consectetur sit amet, lorem. Curabitur faucibus, sapien consequat vehicula tincidunt, dui dui commodo neque, in lobortis augue nibh nec justo. Praesent malesuada tellus sollicitudin odio. Phasellus ut leo. Suspendisse potenti. Maecenas nec nisi eget sapien eleifend lobortis. Curabitur dapibus pulvinar massa.
+
+Nunc nec arcu et tellus dictum rhoncus. Duis odio. Mauris nec ante consequat justo mollis rhoncus. Mauris mollis metus nec est. Nullam in mauris et mauris sollicitudin cursus. Phasellus volutpat adipiscing quam. Nulla facilisi. Morbi adipiscing pede vitae quam. Praesent purus metus, fringilla a, tincidunt vel, ultrices a, nibh. Quisque vulputate auctor lectus. Nunc risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed vel tortor. Nullam lectus. Nam eleifend, mauris at laoreet rutrum, urna nunc fermentum neque, vel dictum enim libero non dui.
 
 \end{document}  

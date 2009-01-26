@@ -21,7 +21,10 @@ The user interface will consist of the following elements:
    * Save circuit
    * Undo
    * Redo
-   * Transfer to board
+   * Cut
+   * Copy
+   * Paste
+   * Run on board
    * Export to Verilog
    * Zoom in
    * Zoom out
@@ -51,4 +54,4 @@ The user should be able to select components and wires in the main panel by clic
 
 The user will be able to change the size and position of the display of the circuit by zooming (using the toolbar/menu bar controls) and scrolling.
 
-The current circuit will be simulated on the board when the user clicks the "transfer to board" button. This will then be greyed out until a change is made to the circuit.
+The current circuit will be simulated on the board when the user clicks the "Run on board" button. This will then be greyed out until a change is made to the circuit, or to the clock speed which can be adjusted using the spinner. Clicking the "Export to Verilog" button will open a dialog asking the user the name and location of the Verilog file he/she wants to save.

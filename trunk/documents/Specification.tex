@@ -24,6 +24,11 @@
 \renewcommand{\labelenumi}{(\textit{\alph{enumi}})}
 \renewcommand{\labelenumii}{(\textit{\roman{enumii}})}
 
+\widowpenalty=10000
+\clubpenalty=10000
+\raggedbottom
+
+
 \begin{document}
 
  \begin{titlepage}
@@ -207,7 +212,6 @@ $D$ & $Q$ & $Q'$\\
 We will be using single output D flip-flops, i.e. they will not contain an extra negated output. This doesn't affect the potential set of circuits though, since a user can attach multiples wires to a single output.
 \subsubsection{RS Latch}
 This a grouped component described by the following table: \\
-\hl{I'm not sure this table is correct}
 \begin{center}
 \begin{tabular}{c |c | c | c}
 $R$ & $S$ & $Q$ & $\overline{Q}$\\
@@ -246,29 +250,29 @@ These can be used within the circuit and they correspond to the labelled switch 
 
 \section{Data structure and algorithm}
 \label{sec:datastruct}
-The target audience for the proposed digital logic simulator is computer science students in their first year. The first year of a computer science syllabus typically contains a course in ”Digital Logic” that treats the subject on a functional or gate level and is certainly not too concerned about physical details of logic circuits (like wire delays, voltage drops due to wire resistance, etc.). Thus, it has been decided to keep the simulation as close as possible to the functional level, where gates represent boolean functions from input signals (or wire in this model carry boolean values) to output signals. However, it has also been decided that the simulator should be capable of simulating any valid digital circuit.
+The target audience for the proposed digital logic simulator is computer science students in their first year. The first year of a computer science syllabus typically contains a course in ”Digital Logic” that treats the subject on a functional or gate level and is certainly not too concerned about physical details of logic circuits like wire delays, voltage drops due to wire resistance, etc\ldots Thus, it has been decided to keep the simulation as close as possible to the functional level, where gates represent boolean functions from input signals (or wires in this model carry boolean values) to output signals. However, it has also been decided that the simulator should be capable of simulating any valid digital circuit.
 
 To achieve a good compromise between both goals, the simulator will impose certain restrictions on circuits and the simulation will also model some digital circuit characteristics that go beyond pure functional simulation.
 
 Restrictions on the data structures:
 \begin{enumerate}
- \item If the user is allowed to create wires which connect two wires, it is possible to create circuits which (if at all) only a simulator that models the physical properties of a circuit very accurately can simulate. The simplest example is a circuit where two wires carrying different logic signals are joined, see figure \ref{fig:indet}.
+ \item If the user is allowed to create wires which connect two wires, it is possible to create circuits which only a simulator that models the physical properties of a circuit very accurately can simulate. The simplest example is a circuit where two wires carrying different logic signals are joined, see figure \ref{fig:indet}.
 \begin{figure}[h]
 \centering
 \includegraphics{01.pdf}
 \caption{Indeterminable output.}\label{fig:indet}
 \end{figure}
- To avoid such situations in the chosen model, wires are only allowed between an input of a logic component and an output of a logic component (not necessarily different components). Furthermore, inputs to logic components are only allowed to be connected to one wire.
+ To avoid such situations in the chosen model, wires are only allowed between an input of a logic component and an output of a logic component  which are not necessarily different components. Furthermore, inputs to logic components are only allowed to be connected to one wire.
  This restriction does not in any way limit the number of different circuit the user can build but it does prevent the user from building circuit that cannot be simulated on a gate or functional level.
- \item Only one global clock is allowed which should be appropriate as only few circuits need more than one clock and even complex circuits (say a microprocessor) can be implemented with only one clock.
+ \item Only one global clock is allowed which should be appropriate as only few circuits need more than one clock and even complex circuits, for example a microprocessor, can be implemented with only one clock.
  \begin{figure}[h]
 \centering
 \includegraphics{inverter_ring2.pdf}
 \caption{Inverter ring.}\label{fig:invert}
 \end{figure}
- \item A purely functional simulation would not emulate gate delays. The proposed simulator does not, however, disallow cycles in the circuit. Since cycles are allowed, circuits which are not stable, i.e. oscillate, can be constructed. The classic example is a ring of three inverters,see figure \ref{fig:invert}, the depicted example uses a NAND gate instead of an inverter so that the initial configuration produces deterministic results). Without gate delays this circuit cannot be simulated, at all, and therefore the simulation model needs gate delays. To stay close to a functional simulation the algorithm will use unit gate delays for all gates.
+ \item A purely functional simulation would not emulate gate delays. The proposed simulator does not, however, disallow cycles in the circuit. Since cycles are allowed, circuits which are not stable, i.e. oscillate, can be constructed. The classic example is a ring of three inverters,see figure \ref{fig:invert}, the depicted example uses a NAND gate instead of an inverter so that the initial configuration produces deterministic results. Without gate delays this circuit cannot be simulated, at all, and therefore the simulation model needs gate delays. To stay close to a functional simulation the algorithm will use a unit-time gate delay for all gates.
  
-\item There are certain circuits that exhibit a behaviour that cannot be described in terms on combinatorial logic, that is they produce metastable outputs. Since it is algorithmically hard to detect whether a circuit belongs to this class of circuits and since this class includes components which are essential for sequential logic like RS latches, see figure \ref{fig:latch}, this class of circuits must not be rejected by the simulator. To simulate such circuits deterministically, a third logic state X (apart from 0 and 1) is introduced, representing logic states which are unknown or cannot be inferred by boolean logic.
+\item There are certain circuits that exhibit a behaviour that cannot be described in terms on combinatorial logic, that is they produce metastable outputs. Since it is algorithmically hard to detect whether a circuit belongs to this class of circuits and since this class includes components which are essential for sequential logic like RS latches, see figure \ref{fig:latch}, this class of circuits must not be rejected by the simulator. To simulate such circuits deterministically, a third logic state \texttt{X} in addition to \texttt{0} and \texttt{1}, representing logic states which are unknown or cannot be inferred by boolean logic.
  
   \begin{figure}[h]
 \centering
@@ -278,14 +282,20 @@ Restrictions on the data structures:
 \end{enumerate}
 
 \subsection{Data Structure}
-The natural choice for a circuit representation is a graph-like data structure where vertices represent logic components and edges represent wires between component inputs and component outputs. Components are sub-circuits consisting of gates connected by wires (again, a graph-like data structure). Allowing circular circuits and including of gate delays make it, however, impossible to simulate a circuit component-wise. Thus, to allow editing the circuit in the GUI on a component level on the one hand and simulating the circuit on a gate level on the other hand, a data structure which can represent both has been designed: The data structure maintaining the circuit will hold two graphs simultaneously: One graph, in which vertices represent logic components, and one graph, in which vertices represent gates. When the user adds a logic component to the circuit, the component is first added to the former graph, the internal representation of the component consisting of gates and wires is then read and added to the latter graph (for more detail, see the UML diagrams in section \ref{sec:uml}).
+The natural choice for a circuit representation is a graph-like data structure where vertices represent logic components and edges represent wires between component inputs and component outputs. Components are sub-circuits consisting of gates connected by wires, potentially represented by a graph-like data structure. Allowing circular circuits and the inclusion of gate delays make it, however, impossible to simulate a circuit component-wise. Thus, to allow editing the circuit in the GUI on a component level on the one hand and simulating the circuit on a gate level on the other hand, a data structure which can represent both has been designed: The data structure maintaining the circuit will hold two graphs simultaneously: One graph, in which vertices represent logic components, and one graph, in which vertices represent gates. When the user adds a logic component to the circuit, the component is first added to the former graph, the internal representation of the component consisting of gates and wires is then read and added to the latter graph (for more detail, see the UML diagrams in section \ref{sec:uml}).
 
 \subsection{Algorithm}
-For performance reasons, the simulation algorithm will be event-driven, i.e. the actual simulation algorithm is only run when an input signal changes (inputs are buttons and switches on the board [these have to be checked regularly], constant input 0 and 1, and the clock provided by the simulator):
+For performance reasons, the simulation algorithm will be event-driven, i.e. the actual simulation algorithm is only run when an input signal changes. Inputs are defined in the application as buttons and switches on the board, constant input \texttt{0} and \texttt{1}, and the clock provided by the simulator. Switches and buttons have to be polled by the simulator at unit-time intervals to simulate event driven hardware inputs. 
 
-When an input signal changes, the algorithm sets the value, that each of the wires that is connected to the input carries, to the new logic value and saves the list of gates (or rather inputs to gates) that are connected (by one of those wires) to this input. And after a fixed time (a specified unit-time gate delay), the algorithm re-evaluates the output of each of the gates in the list and propagates all output values, that have changed, in a similar fashion. To schedule such input signal changes and re-evaluations of gate outputs, the algorithm keeps a priority queue.
+When an input signal changes, the algorithm sets the value, that each of the wires that is connected to the input carries, to the new logic value and saves the list of gates, or rather inputs to gates, that are connected by one of those wires to this input. And after a fixed unit-time gate delay, the algorithm re-evaluates the output of each of the gates in the list and propagates all output values, that have changed, in a similar fashion. To schedule such input signal changes and re-evaluations of gate outputs, the algorithm keeps a priority queue.
 
 \section{Using the Altera DE2 board}
+\subsection{Overview}
+  \begin{figure}[h]
+\centering
+\includegraphics[width=12cm]{delta_overview.eps}
+\caption{Overview of application structure.}\label{fig:overview}
+\end{figure}
 \subsection{Java processor}
 The simulation program will be written in Java and executed on an open-source Java bytecode processor, \emph{JOP}\footnote{JOP: A Tiny Java Processor Core for FPGA \url{http://www.jopdesign.com/}}, running on the Altera DE2 board. The \emph{JOP} is a RISC processor with its own stack-based microcode instruction set. Java bytecode is translated into the corresponding microcode(s) during the decode stage of the processor cycle. A real-time garbage collector is implemented in Java, compiled as part of the target Java application and is invoked by the processor when necessary. All IO devices are integrated as memory-mapped devices into the uniform address space, distinguishing themselves from RAM spaces using the highest two bits of the address line. \emph{JOP} provides a pre-existing toolchain to compile and run Java programs onto the DE2 board, thus enabling more time to spent on the GUI and the simulation program that will run on the board. 
 
@@ -298,6 +308,7 @@ A serial connection is already provided for within the \emph{JOP} toolchain, a d
 
 There is the possibility of emulating the serial connection using the USB blaster connection to avoid having two cables between the board and the computer used for the design work. However, at the moment only one-way connection (to the computer from the board) on the USB cable has been achieved. 
 
+
 This section contributed by Rubin Xu.
 
 
@@ -308,12 +319,11 @@ Exporting the circuit description to Verilog means that our GUI application to d
 Verilog modules will be used to describe the D flip-flop, RS latch, RAM, and the ROM components. Using structural Verilog to describe the structure of the circuit, the application will be able to quickly produce Verilog descriptions from the internal data structure described in section \ref{sec:datastruct}.
 
 We will not implement a software component to send the Verilog to the board within the application, instead producing a Verilog \texttt{.v} source file to retain greater flexibility in the destination of the Verilog description. 
-
 \section{GUI}
 \begin{figure}[h]
 \centering
-\includegraphics[width=12cm]{GUI_mockup.png}
-\caption{Mockup of graphical interface}\label{fig:erptsqfit}
+\includegraphics[width=16cm]{GUI_mockup.eps}
+\caption{Mockup of graphical interface.}\label{fig:guimockup}
 \end{figure}
 The user interface will consist of the following elements:
 \begin{enumerate}
@@ -364,45 +374,124 @@ The user interface will consist of the following elements:
 												\end{enumerate}
 
 \end{enumerate}
-The user should be able to drag components from the left or bottom panels and drop them in the main panel to form part of the circuit. The interface will allow unlimited uses of each type of component with the exception of the LEDs, which are single-use only. Each component in the main panel will have one or more ports for input (represented as blue circles) and/or output (represented as red circles). Wires will be constructed by clicking on one of these ports, followed by clicking on a port of the opposite type. The interface will disallow multiple wires being connected to the same input port, and wires being connected from one input port to another (and similarly with output ports). The user will be able to select intermediate points for the wires by clicking as many times as desired between the source and destination ports.
+The user should be able to drag components from the left or bottom panels and drop them in the main panel to form part of the circuit. The interface will allow unlimited uses of each type of component with the exception of the LEDs, which are single-use only. Each component in the main panel will have one or more ports for input, which are represented as blue circles, and/or output, which are represented as red circles. Wires will be constructed by clicking on one of these ports, followed by clicking on a port of the opposite type. The interface will disallow multiple wires being connected to the same input port, and wires being connected from one input port to another (and similarly with output ports). The user will be able to select intermediate points for the wires by clicking as many times as desired between the source and destination ports.
 
 
 The user should be able to select components and wires in the main panel by clicking on them, which will highlight them. Multiple components and wires will be selected by dragging out a box. Selections can be moved by dragging. They can also be cut, copied, pasted and deleted using the edit menu, buttons on the toolbar or keyboard shortcuts.
 
-The user will be able to change the size and position of the display of the circuit by zooming (using the toolbar/menu bar controls) and scrolling.
+The user will be able to change the size and position of the display of the circuit by zooming using the toolbar/menu bar controls and scrolling.
 
-The current circuit will be simulated on the board when the user clicks the "transfer to board" button. This will then be greyed out until a change is made to the circuit.
-
-This section contributed by Christopher Wilson and David Weston.
+The current circuit will be simulated on the board when the user clicks the``transfer to board" button. This will then be greyed out until a change is made to the circuit.
 \section{Class Design}
-\label{sec:uml}
+
+\subsection{Main UML diagram}
+See figure \ref{fig:mainclass}.
+\begin{figure}[h]
+\centering
+\includegraphics[width=16cm]{Delta_v1.eps}
+\caption{Main UML diagram.}\label{fig:mainclass}
+\end{figure}
+
+\subsection{Circuit data structure UML diagram}
+\begin{figure}[!h]
+\centering
+\includegraphics[width=16cm]{Delta_Circuit.eps}
+\caption{Circuit data structure UML diagram.}\label{fig:dsclass}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=12cm]{Delta_Logic.eps}
+\caption{Logic UML diagram.}\label{fig:logicclass}
+\end{figure}
+See figure \ref{fig:dsclass} and \ref{fig:logicclass}.
+
+
 \subsection{GUI UML diagram}
-\section{GUI}
 \begin{figure}[h]
 \centering
 \includegraphics[width=16cm]{GUIClassDiagram.eps}
-\caption{GUI UML diagram}\label{fig:erptsqfit}
+\caption{GUI UML diagram.}\label{fig:guiclass}
 \end{figure}
+\label{sec:uml}
+See figure \ref{fig:guiclass}.
+
 
 \section{Distribution of responsibility}
-The r\^oles defined here are \hl{temporary} assignments. \\ \\ 
+This is a rough outline of technical responsibility for the project.
+
 \begin{tabular}{l l}
-Robert Duncan & Data Structure \& Integration\\ 
-Justus Matthiesen & Simulator \\
-David Weston & GUI \\
-Christopher Wilson & GUI \\
-Rubin Xu & Hardware \\
+Robert Duncan & Project manager, serial link \& hardware-software integration.\\ 
+Justus Matthiesen & Data Structure \& Simulator.\\
+David Weston & GUI --  Circuit representation.\\
+Christopher Wilson & GUI -- Graphical.\\
+Rubin Xu & Hardware -- \emph{JOP} integration, Java interfaces to board devices.\\
 \end{tabular}
 
-\section{Lorem Ipsum}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tempor magna nec mi. Donec commodo purus. Maecenas nulla leo, sollicitudin eget, tempor at, dignissim id, tortor. Sed sed velit. Nullam eu pede. Vestibulum turpis. In nisi leo, interdum sed, sodales quis, volutpat ut, tortor. Suspendisse velit. Integer nisi. Nunc fermentum euismod est. Sed at lacus non turpis gravida varius. Donec aliquet est non elit. Sed ac ipsum a turpis mollis egestas. Aenean pharetra. Fusce feugiat, pede sed viverra hendrerit, velit felis mollis nunc, ac consectetur mi sapien id sem.
+More information on the break down of task is available in the project plan. 
 
-Sed pulvinar nibh vitae felis. Nullam viverra. Quisque molestie faucibus nibh. Etiam tincidunt pellentesque augue. Sed vitae ante non tortor consequat condimentum. Nulla ultrices augue at sem. Morbi varius. In luctus ornare est. Donec cursus consequat magna. Nullam placerat orci eu orci. Nullam venenatis quam vitae turpis. Nulla facilisi. Curabitur rhoncus. Vivamus bibendum mauris ut lorem. Donec condimentum turpis ut pede. Donec molestie ultrices risus. Quisque at est et velit volutpat dapibus. Vestibulum aliquam commodo ligula. Proin libero lectus, egestas ac, dictum in, iaculis eu, magna. Aliquam hendrerit.
-
-Nulla facilisi. Pellentesque tempus tortor nec magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed dignissim est in metus. Vestibulum ac pede quis neque ullamcorper interdum. Nulla vestibulum lectus a sem. Morbi id justo. Donec suscipit, tellus non porttitor scelerisque, nisl neque porta odio, sit amet dapibus mi turpis quis justo. Nam aliquet, sem a malesuada volutpat, massa felis vulputate arcu, non fermentum dolor erat vitae libero. In justo mi, varius congue, sagittis eget, auctor quis, dolor. Quisque tincidunt tortor ac diam. Mauris eget mi. Praesent scelerisque. Fusce convallis cursus dolor. Nam imperdiet mi ultricies mi.
-
-Nam mollis erat tincidunt sem. Nam bibendum eleifend mi. Mauris ante erat, ornare eu, cursus et, tincidunt a, sem. Aliquam est tortor, ultricies id, vulputate in, consectetur sit amet, lorem. Curabitur faucibus, sapien consequat vehicula tincidunt, dui dui commodo neque, in lobortis augue nibh nec justo. Praesent malesuada tellus sollicitudin odio. Phasellus ut leo. Suspendisse potenti. Maecenas nec nisi eget sapien eleifend lobortis. Curabitur dapibus pulvinar massa.
-
-Nunc nec arcu et tellus dictum rhoncus. Duis odio. Mauris nec ante consequat justo mollis rhoncus. Mauris mollis metus nec est. Nullam in mauris et mauris sollicitudin cursus. Phasellus volutpat adipiscing quam. Nulla facilisi. Morbi adipiscing pede vitae quam. Praesent purus metus, fringilla a, tincidunt vel, ultrices a, nibh. Quisque vulputate auctor lectus. Nunc risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed vel tortor. Nullam lectus. Nam eleifend, mauris at laoreet rutrum, urna nunc fermentum neque, vel dictum enim libero non dui.
-
-\end{document}  
+\section{Timetable}
+\begin{center}
+\begin{tabular}{| p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} | p{2cm} |}
+\hline
+Sunday & Monday & Tuesday & Wednesday & Thursday & Friday & Saturday \\
+\hline
+\parbox[t]{2cm}{\emph{25th Jan}\\\smallskip} &
+ \parbox[t]{2cm}{\emph{26th Jan}\\ \scriptsize \raggedright Meeting at 1pm to finalise spec. and project plan.\smallskip} &
+  \parbox[t]{2cm}{\emph{27th Jan}\\ \smallskip} &
+   \parbox[t]{2cm}{\emph{28th Jan}\\ \scriptsize \raggedright Deadline @ 12pm for specification.\smallskip} &
+    \parbox[t]{2cm}{\emph{29th Jan}\\ \scriptsize \raggedright Client meeting @ 4pm: discuss specification and project plan.\smallskip} &
+     \parbox[t]{2cm}{\emph{30th Jan}\\ \raggedright Start Coding.\smallskip} &
+      \parbox[t]{2cm}{\emph{31th Jan}\\\smallskip} \\
+\hline
+\parbox[t]{2cm}{\emph{1st Feb}\\\smallskip} &
+ \parbox[t]{2cm}{\emph{2nd Feb}\\\smallskip} &
+  \parbox[t]{2cm}{\emph{3rd Feb}\\\smallskip} &
+   \parbox[t]{2cm}{\emph{4th Feb}\\ \scriptsize \raggedright Group meeting. \smallskip} &
+    \parbox[t]{2cm}{\emph{5th Feb}\\\smallskip} &
+     \parbox[t]{2cm}{\emph{6th Feb}\\ \scriptsize \raggedright Finish major module implementation.\smallskip} &
+      \parbox[t]{2cm}{\emph{7th Feb}\\ \scriptsize \raggedright Begin modular testing \smallskip} \\
+\hline
+\parbox[t]{2cm}{\emph{8th Feb}\\\smallskip} &
+ \parbox[t]{2cm}{\emph{9th Feb}\\\scriptsize \raggedright Group meeting.\smallskip} &
+  \parbox[t]{2cm}{\emph{10th Feb}\\\smallskip} &
+   \parbox[t]{2cm}{\emph{11th Feb}\\ \scriptsize \raggedright Deadline @ 12pm for progress report.\smallskip} &
+    \parbox[t]{2cm}{\emph{12th Feb}\\ \scriptsize \raggedright Client meeting @ 4pm:discuss progress report and testing. \smallskip} &
+     \parbox[t]{2cm}{\emph{13th Feb}\\ \scriptsize \raggedright Corrections/bug fixes. Systems testing. \smallskip} &
+      \parbox[t]{2cm}{\emph{14th Feb}\\\smallskip} \\
+\hline
+\parbox[t]{2cm}{\emph{15th Feb}\\\smallskip} &
+ \parbox[t]{2cm}{\emph{16th Feb}\\\smallskip} &
+  \parbox[t]{2cm}{\emph{17th Feb}\\\smallskip} &
+   \parbox[t]{2cm}{\emph{18th Feb}\\ \scriptsize \raggedright Group meeting. \smallskip} &
+    \parbox[t]{2cm}{\emph{19th Feb}\\\smallskip} &
+     \parbox[t]{2cm}{\emph{20th Feb}\\ \scriptsize \raggedright Final version tagged. \smallskip} &
+      \parbox[t]{2cm}{\emph{21st Feb}\\ \scriptsize \raggedright Start writing reports. \smallskip} \\
+\hline
+\parbox[t]{2cm}{\emph{22nd Feb}\\\smallskip} &
+ \parbox[t]{2cm}{\emph{23rd Feb}\\ \scriptsize \raggedright Group meeting.  \smallskip} &
+  \parbox[t]{2cm}{\emph{24th Feb}\\\smallskip} &
+   \parbox[t]{2cm}{\emph{25th Feb}\\ \scriptsize \raggedright Deadline @ 12pm for group and individual reports \smallskip} &
+    \parbox[t]{2cm}{\emph{26th Feb}\\ \scriptsize \raggedright Client meeting @ 4pm. \smallskip} &
+     \parbox[t]{2cm}{\emph{27th Feb}\\\smallskip} &
+      \parbox[t]{2cm}{\emph{28th Feb}\\\smallskip} \\
+\hline
+\parbox[t]{2cm}{\emph{1st Mar}\\\smallskip} &
+ \parbox[t]{2cm}{\emph{2nd Mar}\\ \scriptsize \raggedright Code completion deadline. \smallskip} &
+  \parbox[t]{2cm}{\emph{3rd Mar}\\\smallskip} &
+   \parbox[t]{2cm}{\emph{4th Mar}\\ \scriptsize \raggedright Public presentation. \smallskip} &
+    \parbox[t]{2cm}{\emph{5th Mar}\\\smallskip} &
+     \parbox[t]{2cm}{\emph{6th Mar}\\\smallskip} &
+      \parbox[t]{2cm}{\emph{7th Mar}\\\smallskip} \\
+\hline
+\end{tabular}
+\end{center}
+\section{Contributions}
+\begin{tabular}{l l}
+Robert Duncan & \parbox{12cm}{Compilation of document, logic gates description, Verilog section, some UML diagrams.}\\[1em]
+Justus Matthiesen & Data Structures \& Algorithms descriptions, including diagrams.\\[1em]
+David Weston & Description of GUI. \\[1em]
+Christopher Wilson & GUI Mockup, UML diagram of GUI. \\[1em]
+Rubin Xu & Hardware description, JOP processor description, serial link description. \\[1em]
+\end{tabular}
+\end{document}

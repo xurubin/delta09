@@ -20,12 +20,15 @@
 \BOOKMARK [2][-]{subsection.6.1}{Data Structure}{section.6}
 \BOOKMARK [2][-]{subsection.6.2}{Algorithm}{section.6}
 \BOOKMARK [1][-]{section.7}{Using the Altera DE2 board}{}
-\BOOKMARK [2][-]{subsection.7.1}{Java processor}{section.7}
-\BOOKMARK [2][-]{subsection.7.2}{Communication}{section.7}
+\BOOKMARK [2][-]{subsection.7.1}{Overview}{section.7}
+\BOOKMARK [2][-]{subsection.7.2}{Java processor}{section.7}
+\BOOKMARK [2][-]{subsection.7.3}{Communication}{section.7}
 \BOOKMARK [1][-]{section.8}{Exporting to Verilog}{}
 \BOOKMARK [1][-]{section.9}{GUI}{}
 \BOOKMARK [1][-]{section.10}{Class Design}{}
-\BOOKMARK [2][-]{subsection.10.1}{GUI UML diagram}{section.10}
-\BOOKMARK [1][-]{section.11}{GUI}{}
-\BOOKMARK [1][-]{section.12}{Distribution of responsibility}{}
-\BOOKMARK [1][-]{section.13}{Lorem Ipsum}{}
+\BOOKMARK [2][-]{subsection.10.1}{Main UML diagram}{section.10}
+\BOOKMARK [2][-]{subsection.10.2}{Circuit data structure UML diagram}{section.10}
+\BOOKMARK [2][-]{subsection.10.3}{GUI UML diagram}{section.10}
+\BOOKMARK [1][-]{section.11}{Distribution of responsibility}{}
+\BOOKMARK [1][-]{section.12}{Timetable}{}
+\BOOKMARK [1][-]{section.13}{Contributions}{}

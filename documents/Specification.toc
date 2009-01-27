@@ -20,12 +20,15 @@
 \contentsline {subsection}{\numberline {6.1}Data Structure}{8}{subsection.6.1}
 \contentsline {subsection}{\numberline {6.2}Algorithm}{8}{subsection.6.2}
 \contentsline {section}{\numberline {7}Using the Altera DE2 board}{9}{section.7}
-\contentsline {subsection}{\numberline {7.1}Java processor}{9}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Communication}{9}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.1}Overview}{9}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Java processor}{9}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Communication}{10}{subsection.7.3}
 \contentsline {section}{\numberline {8}Exporting to Verilog}{10}{section.8}
 \contentsline {section}{\numberline {9}GUI}{10}{section.9}
-\contentsline {section}{\numberline {10}Class Design}{12}{section.10}
-\contentsline {subsection}{\numberline {10.1}GUI UML diagram}{12}{subsection.10.1}
-\contentsline {section}{\numberline {11}GUI}{12}{section.11}
-\contentsline {section}{\numberline {12}Distribution of responsibility}{12}{section.12}
-\contentsline {section}{\numberline {13}Lorem Ipsum}{12}{section.13}
+\contentsline {section}{\numberline {10}Class Design}{13}{section.10}
+\contentsline {subsection}{\numberline {10.1}Main UML diagram}{13}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Circuit data structure UML diagram}{13}{subsection.10.2}
+\contentsline {subsection}{\numberline {10.3}GUI UML diagram}{13}{subsection.10.3}
+\contentsline {section}{\numberline {11}Distribution of responsibility}{15}{section.11}
+\contentsline {section}{\numberline {12}Timetable}{16}{section.12}
+\contentsline {section}{\numberline {13}Contributions}{16}{section.13}

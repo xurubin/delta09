@@ -25,7 +25,7 @@
 --	SimpCon compliant external memory interface
 --	for 16-bit SRAM (e.g. Altera DE2 board) High 16-bit word is at lower address
 --	PLUS 16-bit SDRAM 8MBytes
---  PLUS Flash Memory
+--  TODO: PLUS Flash Memory
 --	Connection between mem_sc and the external memory bus
 --
 --	memory mapping
@@ -83,8 +83,10 @@ port (
 	ext_dram_cke		: out std_logic;
 	ext_dram_clk		: out std_logic;
 	ext_dram_we_n		: out std_logic;
-	ext_dram_cs_n		: out std_logic
+	ext_dram_cs_n		: out std_logic;
 	
+	----counter
+	sdram_count			: out std_logic_vector(31 downto 0)
 	
 );
 end sc_de2_mem_if;
@@ -114,12 +116,14 @@ architecture rtl of sc_de2_mem_if is
 	signal sdram_select :std_logic;
 	signal ram_sel :std_logic;
 	signal mem_access: std_logic;
+	
+	signal sdram_counter		: std_logic_vector(31 downto 0);
+	
 begin
 
 process (sc_mem_out) begin
 	sram_select <= '0';
 	sdram_select <= '0';
-	
 	case sc_mem_out.address(20 downto 17) is 
 		when "0000" =>	
 			sram_select <= '1';
@@ -130,9 +134,11 @@ end process;
 
 mem_access <= sram_sc_mem_out.rd or sram_sc_mem_out.wr or sdram_sc_mem_out.rd or sdram_sc_mem_out.wr;
 
+sdram_count <= sdram_counter;
 process (clk,reset) begin
   if (reset = '1') then
 	ram_sel <= '0';
+	sdram_counter <= (others => '0');
   elsif rising_edge(clk) then
 	case sc_mem_out.address(20 downto 17) is 
 		when "0000" =>	
@@ -142,6 +148,7 @@ process (clk,reset) begin
 		when others	=>	
 			if (mem_access='1') then
 				ram_sel <= '1';
+				sdram_counter <= std_logic_vector(unsigned(sdram_counter) + 1);
 			end if;
 	end case;
   end if;

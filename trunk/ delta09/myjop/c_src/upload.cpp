@@ -107,6 +107,7 @@ int main(int argc, char *argv[]) {
 	DWORD t0 = GetTickCount();
 	for (i=0; i<len; i += count) {
 		j = (len-i)>=count ? count : (len-i);
+		if (j == 0) break;
 		buf[0] = 0x80 | (j * 4);
 		for (j=0;j<count;j++) {
 			l1 = ram[i+j];

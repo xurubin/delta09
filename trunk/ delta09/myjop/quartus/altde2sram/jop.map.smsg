@@ -1,0 +1,5 @@
+Warning (10273): Verilog HDL warning at sc_de2_sdram_v.v(168): extended using "x" or "z"
+Warning (10273): Verilog HDL warning at sc_de2_sdram_v.v(437): extended using "x" or "z"
+Warning (10273): Verilog HDL warning at sc_de2_sdram_v.v(441): extended using "x" or "z"
+Warning (10273): Verilog HDL warning at sc_de2_sdram_v.v(444): extended using "x" or "z"
+Warning (10268): Verilog HDL information at sc_de2_sdram_v.v(422): Always Construct contains both blocking and non-blocking assignments

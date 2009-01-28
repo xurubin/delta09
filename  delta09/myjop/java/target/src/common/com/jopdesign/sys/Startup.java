@@ -162,7 +162,7 @@ public class Startup {
 
 	static void msg() {
 
-		JVMHelp.wr("JOP start\n");
+		JVMHelp.wr(" MyJOP start\n");
 		
 	}
 	

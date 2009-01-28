@@ -300,7 +300,6 @@ set_location_assignment PIN_AF21 -to FL_DQ[6]
 set_location_assignment PIN_AE21 -to FL_DQ[7]
 set_location_assignment PIN_AA18 -to FL_RST_N
 set_location_assignment PIN_AA17 -to FL_WE_N
-set_global_assignment -name VERILOG_FILE probe.v
 set_global_assignment -name VHDL_FILE clk_clock.vhd
 set_global_assignment -name VHDL_FILE ../../vhdl/scio/sc_jtag_uart.vhd
 set_global_assignment -name VERILOG_FILE ../../vhdl/scio/USB_JTAG.v

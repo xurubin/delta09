@@ -218,6 +218,7 @@ process(clk, reset) --State Machine for Write
 begin
 	if (reset='1') then
 		trans_state <= s0;
+		iTxD_Start <= '0';
 	elsif rising_edge(clk) then
 		case trans_state is
 		  when s0 =>  

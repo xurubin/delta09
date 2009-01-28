@@ -20,12 +20,12 @@
 
 
 --
---	jop_256x16.vhd
+--	jop_DE2.vhd
 --
---	top level for a 256x16 SRMA board (e.g. Altera DE2 board)
+--	top level for Altera DE2 board
+--	With 8 MBytes SDRAM and Memory-mapped I/O for LED,switch etc.
 --
---	2006-08-06	adapted from jopcyc.vhd
---	2007-06-04	Use jopcpu and change component interface to records
+--	2009-01-19	adapted from jop256x16.vhd
 --
 --
 
@@ -169,7 +169,8 @@ signal mTCK				:std_logic;
 signal sdram_clk_i		:std_logic;
 signal sdram_clk_locked :std_logic;
 		
-
+signal sdram_count : std_logic_vector(31 downto 0);
+signal external_reset	:std_logic;
 begin
 cmp_clk_clock: work.clk_clock
 	port map(
@@ -179,10 +180,11 @@ cmp_clk_clock: work.clk_clock
 
 	ser_ncts <= '0';
 --
---	intern reset
---	no extern reset, epm7064 has too less pins
+--	reset
+--	extern reset by holding Key[0..3]
 --
 
+external_reset <= (not KEY(0)) and (not KEY(1)) and (not KEY(2)) and (not KEY(3));
 process(clk_int)
 begin
 	if rising_edge(clk_int) then
@@ -190,7 +192,7 @@ begin
 			res_cnt <= res_cnt+1;
 		end if;
 
-		int_res <= not res_cnt(0) or not res_cnt(1) or not res_cnt(2);
+		int_res <= not res_cnt(0) or not res_cnt(1) or not res_cnt(2) or external_reset;
 	end if;
 end process;
 
@@ -291,7 +293,10 @@ end process;
 			ext_dram_cke => DRAM_CKE,
 			ext_dram_clk => DRAM_CLK,
 			ext_dram_we_n => DRAM_WE_N,
-			ext_dram_cs_n => DRAM_CS_N
+			ext_dram_cs_n => DRAM_CS_N,
+			
+			sdram_count => sdram_count
 		);
-
+--LEDR <= sdram_count(25 downto 8);
+--LEDG(7 downto 0) <= sdram_count(7 downto 0);
 end rtl;

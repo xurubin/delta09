@@ -65,12 +65,19 @@ int main(int argc, char **argv)
 	FT_SetLatencyTimer(ft_handle, 2);
 	buf[0] = 0x26;buf[1] = 0x27;buf[2] = 0x26;
 	FT_Write(ft_handle, buf, 3, &bytesread);
+	
+	if (argc > 1) {
+			buf[0] = 0x1F;
+		FT_Write(ft_handle, buf, 1, &bytesread); //Closing Device
+		FT_Close(ft_handle);
+		return 0;
+	}
 	while(1)
 	{
 		memset(buf,0,sizeof(buf));
 		len = recvStr(buf);
-		//if (len >0) printf("%s\n", buf);
 		Sleep(100);
 	}
+	
 	return 0;
 }

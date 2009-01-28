@@ -1,0 +1,3 @@
+Rev 50. 
+	JoP Hard Reset by pressing KEY[0..3]. Remember to close the jtag connection before reset by running "console.exe close"
+Rev 49. Basic Version

@@ -35,6 +35,11 @@ QPROJ=altde2sram
 P1=test
 P2=test
 P3=HelloWorld
+# To do a benchmark, using the following project
+#P1=bench
+#P2=jbe
+#P3=DoApp
+
 TARGET=java/target
 TARGET_APP_PATH=$(TARGET)/src/$(P1)
 MAIN_CLASS=$(P2)/$(P3)

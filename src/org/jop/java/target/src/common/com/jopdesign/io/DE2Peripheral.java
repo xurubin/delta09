@@ -16,6 +16,11 @@ public final class DE2Peripheral extends HardwareObject {
 								  0x1000000, 0x2000000, 0x4000000, 0x8000000,
 								  0x10000000,0x20000000,0x40000000,0x80000000 };
 	
+	static public int directSwitchState() {
+		int Switch;
+		return Native.rdMem(Const.IO_DE2_SWITCH);
+	}
+
 	/**
 		Valid Switch index value: 0..17
 	*/
@@ -32,6 +37,9 @@ public final class DE2Peripheral extends HardwareObject {
 		return ((SwitchState & BitMask[index+18]) != 0);
 	}
 	
+	static public void directLEDState(int data) {
+		Native.wrMem(data, Const.IO_DE2_LED);
+	}	
 	/**
 		Valid LED_Red index value: 0..17
 	*/
@@ -73,5 +81,12 @@ public final class DE2Peripheral extends HardwareObject {
 		Native.wrMem(LEDState, Const.IO_DE2_LED);
 	}
 	
+
+	static public void directHEX1State(int data) {
+		Native.wrMem(data, Const.IO_DE2_HEX1);
+	}	
+	static public void directHEX2State(int data) {
+		Native.wrMem(data, Const.IO_DE2_HEX2);
+	}	
 
 }

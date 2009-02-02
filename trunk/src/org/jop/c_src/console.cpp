@@ -28,6 +28,9 @@ int recvStr(char* cmd) {
 		len = 0;
 		cmd[len] = '\0';
 		status = FT_Read(ft_handle, cmd+len, 1, &bytesread);
+		
+		buf[0] = 0x84;buf[1] = 0xAA;buf[2] = 0x55;buf[3] = 0xAA;buf[4] = 0x55;
+		FT_Write(ft_handle, buf, 4+1, &bytesread); //Send DWORD
 		if (cmd[len]=='\0') break;
 		printf("%c",cmd[len]);
 		if (status != FT_OK) {

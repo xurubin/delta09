@@ -27,7 +27,10 @@
 package test;
 
 import com.jopdesign.io.DE2Peripheral;
+import com.jopdesign.io.Packet;
+import com.jopdesign.io.DatagramLayer;
 import com.jopdesign.sys.Native;
+import joprt.RtThread;
 /**
  * @author Rubin
  *
@@ -48,15 +51,25 @@ public class HelloDE2 {
 		DE2Peripheral.setLEDGState(2, true);
 		DE2Peripheral.setLEDGState(3, true);
 
-		displayMem(0);
-		displayMem(1);
-		displayMem(64*1024);
-		displayMem(64*1024+1);
-		displayMem(128*1024);
-		displayMem(128*1024+1);
-		displayMem(256*1024);
-		displayMem(256*1024+1);
-		displayMem(512*1024);
-		displayMem(512*1024+1);
+
+		DatagramLayer d = new DatagramLayer(10, 100000);
+		RtThread.startMission();
+		Packet p = new Packet();
+		Packet p2 = new Packet();
+		while (true) {
+			while (d.readDatagram(p) != 0)
+					RtThread.sleepMs(500);
+			
+			p2.clear();
+			System.out.println("Packet Len: "+ p.getCount());
+			for (int i=0;i<p.getCount();i++) {
+				System.out.print(p.getData(i)+" ");
+				p2.appendByte_raw((byte)(p.getData(i)));
+			}
+			p2.appendChecksum();
+			System.out.println(p2.buf[0]);
+			d.sendDatagram(p2);
+		}
+		
 	}
 }

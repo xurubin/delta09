@@ -10,7 +10,7 @@ class BoardInterface {
 	public BoardInterface(Simulator simulator) {
 		//start listener
 		SerialListener s = new SerialListener(usbInterface, simulator);
-		s.run();
+		s.start();
 		
 	}
 	

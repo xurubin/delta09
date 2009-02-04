@@ -1,9 +1,6 @@
-
-//package JFTD2XX;
-
-import java.io.IOException;
-
+package jftd2xx;
 /** Java FTD2XX class */
+import java.io.IOException;
 public class JFTD2XX {
 
 	/* Device status */
@@ -63,10 +60,31 @@ public class JFTD2XX {
 	*/
 	public native void setLatencyTimer(int time) throws IOException;
 
+	
+	public boolean closeConnection() {
+		if (handle == -1) return false;
+		cmdBuf[0] = 0x1F;
+		try {
+			return ( write(cmdBuf, 0, 1) == FT_OK);
+		}catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean initConnection() {
+		if (handle == -1) return false;
+		cmdBuf[0] = 0x26;cmdBuf[1] = 0x27;cmdBuf[2] = 0x26;
+		try {
+			return ( write(cmdBuf, 0, 3) == FT_OK);
+		}catch (Exception e) {
+			return false;
+		}
+	}
 
 	/** Internal FT_HANDLE */
 	protected int handle = -1;
 
+	private byte cmdBuf[] = new byte[64];
 	static {
 		System.loadLibrary("jftd2xx");
 	}
@@ -90,7 +108,4 @@ public class JFTD2XX {
 			super.finalize();
 		}
 	}
-
-
-
 }

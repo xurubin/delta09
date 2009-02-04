@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>usb_test</name>
+	<name>JoP_USB</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -17,11 +17,6 @@
 	<linkedResources>
 		<link>
 			<name>JoP</name>
-			<type>2</type>
-			<location>D:/delta/src/org/jop/java/target/src/common</location>
-		</link>
-		<link>
-			<name>JoP.common</name>
 			<type>2</type>
 			<location>D:/delta/src/org/jop/java/target/src/common</location>
 		</link>

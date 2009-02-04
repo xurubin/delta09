@@ -7,14 +7,13 @@
 JSRC = JFTD2XX.java
 JOBJ = JFTD2XX.class
 
-TARGETS = JFTD2XX.class JFTD2XX.h JFTD2XX.dll
+TARGETS = JFTD2XX.class jftd2xx_JFTD2XX.h JFTD2XX.dll
 
 INC = -I.
 DEF = -D_JNI_IMPLEMENTATION_
 LIB = FTD2XX.lib
 
 CC = cl
-OBJDUMP = objdump
 JAVAH = javah -jni
 JAVAC = javac
 
@@ -30,16 +29,13 @@ all: $(TARGETS)
 	$(JAVAC) $(JFLAGS) $^
 
 %.h: %.class
-	$(JAVAH) -classpath . $*
-
-%.lst: %.o
-	$(OBJDUMP) -dxStr $< > $@
+	$(JAVAH) -classpath .. $*
 
 %.dll: %.o
 	$(CC) $(LDFLAGS)  $^ $(LIB)
 
 clean:
-	$(RM) $(TARGETS) JFTD2XX.class JFTD2XX.h
+	$(RM) $(TARGETS) JFTD2XX.exp JFTD2XX.lib  JFTD2XX.obj
 
 distclean: clean
 	$(RM) *.bak *.bak

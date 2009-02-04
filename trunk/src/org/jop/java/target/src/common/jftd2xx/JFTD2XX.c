@@ -1,7 +1,7 @@
 
 #include "jni.h"
 #define JNIEXPORT __declspec(dllexport)
-#include "jftd2xx.h"
+#include "jftd2xx_JFTD2XX.h"
 
 #include <windows.h>
 #include "ftd2xx.h"
@@ -51,7 +51,7 @@ JNI_OnLoad(JavaVM *jvm, void *reserved) {
 	}
 
 	// cls = (*env)->GetObjectClass(env, obj);
-	cls = (*env)->FindClass(env, "JFTD2XX");
+	cls = (*env)->FindClass(env, "jftd2xx/JFTD2XX");
 	if (cls == 0) return JNI_ERR;
 	JFTD2XXCls = (*env)->NewWeakGlobalRef(env, cls); // weak allows library unloading
 	(*env)->DeleteLocalRef(env, cls);
@@ -82,7 +82,7 @@ JNI_OnUnLoad(JavaVM *jvm, void *reserved) {
 }
 
 void JNICALL
-Java_JFTD2XX_open(JNIEnv *env, jobject obj, jint dn) {
+Java_jftd2xx_JFTD2XX_open(JNIEnv *env, jobject obj, jint dn) {
 	//printf("open\n");
 	jint hnd = get_handle(env, obj);
 
@@ -99,7 +99,7 @@ Java_JFTD2XX_open(JNIEnv *env, jobject obj, jint dn) {
 
 
 void JNICALL
-Java_JFTD2XX_close(JNIEnv *env, jobject obj) {
+Java_jftd2xx_JFTD2XX_close(JNIEnv *env, jobject obj) {
 	jint hnd = get_handle(env, obj);
 
 	if (hnd != (jint)INVALID_HANDLE_VALUE) {
@@ -111,7 +111,7 @@ Java_JFTD2XX_close(JNIEnv *env, jobject obj) {
 
 
 jint JNICALL
-Java_JFTD2XX_read(JNIEnv *env, jobject obj, jbyteArray arr, jint off, jint len) {
+Java_jftd2xx_JFTD2XX_read(JNIEnv *env, jobject obj, jbyteArray arr, jint off, jint len) {
 	FT_STATUS st;
 	volatile DWORD ret;
 	jint hnd = get_handle(env, obj);
@@ -141,7 +141,7 @@ Java_JFTD2XX_read(JNIEnv *env, jobject obj, jbyteArray arr, jint off, jint len) 
 }
 
 jint JNICALL
-Java_JFTD2XX_write(JNIEnv *env, jobject obj, jbyteArray arr, jint off, jint len) {
+Java_jftd2xx_JFTD2XX_write(JNIEnv *env, jobject obj, jbyteArray arr, jint off, jint len) {
 	FT_STATUS st;
 	volatile DWORD ret;
 	jint hnd = get_handle(env, obj);
@@ -171,7 +171,7 @@ Java_JFTD2XX_write(JNIEnv *env, jobject obj, jbyteArray arr, jint off, jint len)
 }
 
 jint JNICALL
-Java_JFTD2XX_getQueueStatus(JNIEnv *env, jobject obj) {
+Java_jftd2xx_JFTD2XX_getQueueStatus(JNIEnv *env, jobject obj) {
 	FT_STATUS st;
 	jint hnd = get_handle(env, obj);
 	DWORD r;
@@ -183,7 +183,7 @@ Java_JFTD2XX_getQueueStatus(JNIEnv *env, jobject obj) {
 }
 
 void JNICALL
-Java_JFTD2XX_setLatencyTimer(JNIEnv *env, jobject obj, jint tmr) {
+Java_jftd2xx_JFTD2XX_setLatencyTimer(JNIEnv *env, jobject obj, jint tmr) {
 	FT_STATUS st;
 	jint hnd = get_handle(env, obj);
 

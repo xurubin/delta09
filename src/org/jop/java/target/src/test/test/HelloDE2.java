@@ -28,7 +28,7 @@ package test;
 
 import com.jopdesign.io.DE2Peripheral;
 import com.jopdesign.io.Packet;
-import com.jopdesign.io.DatagramLayer;
+import com.jopdesign.io.JoPDatagramLayer;
 import com.jopdesign.sys.Native;
 import joprt.RtThread;
 /**
@@ -52,10 +52,26 @@ public class HelloDE2 {
 		DE2Peripheral.setLEDGState(3, true);
 
 
-		DatagramLayer d = new DatagramLayer(10, 100000);
+		JoPDatagramLayer d = new JoPDatagramLayer(10, 200);
 		RtThread.startMission();
 		Packet p = new Packet();
-		Packet p2 = new Packet();
+		char c = '0';
+		while (true) {
+			p.clear();
+			p.appendByte_raw((byte)'H');
+			p.appendByte_raw((byte)'e');
+			p.appendByte_raw((byte)'l');
+			p.appendByte_raw((byte)'l');
+			p.appendByte_raw((byte)'o');
+			p.appendByte_raw((byte)c);
+			if (c=='9') c='0'; else c++;
+			p.appendChecksum();
+			//DE2Peripheral.setLEDRState(17,0 == d.sendDatagram(p));
+			while(d.sendDatagram(p) != 0);
+			DE2Peripheral.setLEDRState(16, !DE2Peripheral.getLEDRState(16));
+			//RtThread.sleepMs(50);
+		}
+		/*
 		while (true) {
 			while (d.readDatagram(p) != 0)
 					RtThread.sleepMs(500);
@@ -70,6 +86,6 @@ public class HelloDE2 {
 			System.out.println(p2.buf[0]);
 			d.sendDatagram(p2);
 		}
-		
+		*/
 	}
 }

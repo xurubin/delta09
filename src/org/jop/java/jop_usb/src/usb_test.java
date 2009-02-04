@@ -1,3 +1,6 @@
+import com.jopdesign.io.HostDatagramLayer;
+import com.jopdesign.io.Packet;
+import jftd2xx.JFTD2XX;;
 
 public class usb_test {
 
@@ -28,6 +31,16 @@ public class usb_test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		HostDatagramLayer u = new HostDatagramLayer(1);
+		Packet p = new Packet();
+		while (true) {
+			while (u.readDatagram(p) != 0);
+			for(int i=0;i<p.getCount();i++)
+				System.out.print((char)p.getData(i));
+			System.out.println();
+			
+		}
 	}
 
 }

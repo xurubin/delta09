@@ -6,17 +6,15 @@ Adapted from Serial.java in ejip123 in the JoP Distribution
 */
 package com.jopdesign.io;
 
-import com.jopdesign.io.*;
-import com.jopdesign.sys.Native;
-import joprt.RtThread;
+import com.jopdesign.io.Packet;
 
 
-public class DatagramLayer{
+public abstract class BaseDatagramLayer{
 //Packet Separator
-protected static final int END = 0x0A;
-protected static final int ESC = 65;//0xdb;
-protected static final int ESC_END = 66;//0xdc;
-protected static final int ESC_ESC = 67;//0xdd;
+protected static final int END = 0x0;
+protected static final int ESC = 0xdb;
+protected static final int ESC_END = 0xdc;
+protected static final int ESC_ESC = 0xdd;
 protected int translateEscape(int d) {
 	return (d == ESC_END) ? END :
 		   (d == ESC_ESC) ? ESC :
@@ -36,19 +34,14 @@ protected int[] txBuf = null;
 protected int rdptTx, wrptTx;
 
 
-protected SerialPort sp;
-protected final Object monitor = null;
+protected final Object monitor;
 
 /** internal Packets */
 protected Packet curRxPacket;
 protected Packet curTxPacket;
 protected int curTxPacketIndex;
 
-private DatagramLayer(){}
-public DatagramLayer(int prio, int us){
-	
-	sp = IOFactory.getFactory().getSerialPort();
-
+public BaseDatagramLayer(){
 	txBuf = new int[BUF_LEN];		// should be byte
 	rdptTx = wrptTx = 0;
 	rxBuf = new int[BUF_LEN];
@@ -59,15 +52,6 @@ public DatagramLayer(int prio, int us){
 	curTxPacket = null;
 	curTxPacketIndex = 0;
 	
-	new RtThread(prio, us){
-		public void run(){
-			for(; ;){
-				waitForNextPeriod();
-				loop();
-			}
-		}
-	};
-
 }
 
 /** 
@@ -94,7 +78,7 @@ synchronized(monitor){
 	int data;
 	while( i != j){
 		data = rxBuf[i];
-		DE2Peripheral.directLEDState(data);
+		//DE2Peripheral.directLEDState(data);
 		if (data == END) {//End of Packet
 			if (curRxPacket.isValid()) { //Good Packet
 				p.copyFrom(curRxPacket);
@@ -116,7 +100,7 @@ synchronized(monitor){
 				}
 			} else {//Character after escape is not available yet
 				rdptRx = (i)&BUF_MSK;
- 				return 2;//Have to break to leave the revious escape untouched for next call.
+ 				return 2;//Have to break to leave the previous escape untouched for next call.
  			}
 		}else { // Just a normal character, put it into the buffer
 			curRxPacket.appendByte_raw((byte)data);
@@ -145,7 +129,8 @@ synchronized(monitor){
 	int i = wrptTx;
 	int j = rdptTx;
 	int returnVal = 1;
-	
+	if (p.getCount()+1 >= ((j+BUF_MSK-i)&BUF_MSK))
+		return 1;
 	while((((i + 1)&BUF_MSK) != j) && (((i + 2)&BUF_MSK) != j)){ //Need 2 slots 
 		// Put curTxPacket[index] into txBuf
 		byte d = curTxPacket.getData(curTxPacketIndex);
@@ -180,44 +165,15 @@ synchronized(monitor){
 }
 }
 
-/* copy from send buffer to serial buffer. called by handler */
-protected void send(){
-	synchronized(monitor){
-//	write serial data
-		int i = rdptTx;
-		int j = wrptTx;
-		while(sp.txEmpty() && i != j){
-			// FIXME deadlock in simulator under windows if there is no slip connection established
-			sp.write(txBuf[i]);
-			i = (i + 1)&BUF_MSK;
-		}
-		rdptTx = i;
-	}
-}
+/**
+ copy from send buffer to serial buffer. called by handler 
+ */
+abstract protected void send();
 /**
  Reads from the serial buffer into the receive buffer. If more bytes are received, than the receive buffer can hold, the
  packet will be truncated.
  */
-protected void recv(){
-	synchronized(monitor){
-//	read serial data
-		int i = wrptRx;
-		int j = rdptRx;
-		while(sp.rxFull() && ((i + 1)&BUF_MSK) != j){
-			rxBuf[i] = sp.read();
-			if ( (i != rdptRx)&&(rxBuf[(i-1)&BUF_MSK] == END)&&(rxBuf[i]==END) ) //Consecutive ENDs are not stored
-			;
-			else
-				i = (i + 1)&BUF_MSK;
-		}
-		wrptRx = i;
-		if (rdptRx != wrptRx) {
-			DE2Peripheral.directHEX1State(rdptRx);
-			DE2Peripheral.directHEX2State(wrptRx);
-		}
-		//System.out.println(wrptRx-rdptRx);
-	}
-}
+abstract protected void recv();
 
 
 }

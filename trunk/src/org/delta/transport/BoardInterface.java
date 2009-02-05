@@ -1,15 +1,14 @@
 package org.delta.transport;
 import org.delta.simulation.StateChangeEvent;
 import org.delta.simulation.Simulator;
-import org.jop.common.jftd2xx.JFTD2XX;
 
 class BoardInterface {
 	
-	private JFTD2XX usbInterface = new JFTD2XX();
 	
 	public BoardInterface(Simulator simulator) {
 		//start listener
-		SerialListener s = new SerialListener(usbInterface, simulator);
+		SerialListener s = new SerialListener(, hostLayer, simulator);
+		HostDatagramLayer u = new HostDatagramLayer(1);
 		s.start();
 		
 	}

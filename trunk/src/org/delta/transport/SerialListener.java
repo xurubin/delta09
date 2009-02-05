@@ -1,30 +1,28 @@
 package org.delta.transport;
 import org.delta.simulation.Simulator;
-import org.jop.common.jftd2xx.JFTD2XX;
+import org.jop.java.jop_usb.src.HostDatagramLayer;
+import org.jop.java.jop_usb.src.Packet;
 
 class SerialListener extends Thread {
 	private volatile boolean[] switches;
-	private JFTD2XX usbInterface;
+	private HostDatagramLayer hostLayer;
 	private Simulator simulator;
 	
-	public SerialListener(JFTD2XX usb, Simulator sm) {
-		usbInterface = usb;
+	public SerialListener(HostDatagramLayer hl, Simulator sm) {
+		hostLayer = hl;
 		simulator = sm;
 	}
 	
 	public run() {
 		while(true) {
-			read(/* arguments */);
-			//on receipt of switch packet
-			if(/* packet received is switch update packet */) {
-				//compare to switches array
-				if(/* change */) {
-					StateChangeEvent event = new StateChangeEvent(/* */);
-					simulator.addSwitchEvent(event);
-				}
+			Packet p = new Packet();
+			while (true) {
+				while (hostLayer.readDatagram(p) != 0);
+				for(int i=0;i<p.getCount();i++)
+					System.out.print((char)p.getData(i));
+				System.out.println();
+				
 			}
-			
-			
 		}
 	}
 }

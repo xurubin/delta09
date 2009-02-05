@@ -6,7 +6,7 @@ import com.jopdesign.io.Packet;
 
 class BoardInterface {
 	
-	private volatile boolean[] lights;
+	private volatile byte[] lights;
 	private HostDatagramLayer hostLayer;
 	
 	public BoardInterface(Simulator simulator) {

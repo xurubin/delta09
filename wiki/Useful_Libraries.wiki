@@ -6,3 +6,19 @@
 [http://www.jgraph.com/jgraph.html JGraph]: Provides a graph data model and (Swing) classes for a visual representation.
 
 [http://jgrapht.sourceforge.net/ JGraphT]: More mathematical graph data model which can be used in combination with JGraph.
+
+==GUI Libraries==
+Since our client has special interest in the GUI, here are some libraries to make the GUI fancier:
+
+[https://substance.dev.java.net/ Substance]: Modifying the Swing look and feel. Various plugins are available, e.g. for [https://substance-swingx.dev.java.net/ SwingX] or [https://substance-flamingo.dev.java.net/ Flamingo].
+
+[https://swingx.dev.java.net SwingX]: Additional Swing containers and components. For us the following components might be quite useful:
+ * JXTaskPane and JXCollapsiblePane: As far as I can know, Swing has no container which layouts components vertically in collapsible groups. So we could use one of the two classes to represent the list of gates/components on the left-hand side of the GUI.
+ * JXStatusBar, JXErrorPane, and others.
+
+[https://flamingo.dev.java.net Flamingo]: Advanced Components for Swing. We probably do not have much use for the components this library provides but it does have classes for drawing resizable SVG icons `(SvgBatikResizableIcon)`. This feature might be interesting for drawing gate/component pictures as this would look better when zooming in. Plus, it does not increase the code complexity since all the hard work is done by the library; it behaves exactly like an instance of the Swing Icon class.
+
+==Testing==
+[http://www.easymock.org/ EasyMock] Mocking library.
+
+[http://code.google.com/p/fest/ FEST]: Swing GUI Testing

@@ -21,7 +21,7 @@ public abstract class AbstractInputGate extends Gate {
     }
 
     @Override
-    public final Formula getFormula() {
+    public Formula getFormula() {
         return new Constant(value);
     }
 

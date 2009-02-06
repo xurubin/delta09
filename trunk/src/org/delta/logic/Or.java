@@ -15,6 +15,7 @@ public class Or extends Formula {
     public State evaluate() {
         switch (arg0.evaluate()) {
         case S1: return State.S1;
+        case SX: return (arg1.evaluate() == State.S1)? State.S1 : State.SX;
         default: return arg1.evaluate();
         }
     }

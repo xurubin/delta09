@@ -1,7 +1,6 @@
 package org.delta.circuit.component;
 
 import org.delta.circuit.Component;
-import org.delta.circuit.GateInputSelector;
 import org.delta.circuit.gate.AndGate;
 
 public class AndComponent extends Component {

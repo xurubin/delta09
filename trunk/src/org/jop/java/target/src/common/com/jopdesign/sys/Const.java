@@ -176,6 +176,8 @@ public class Const {
 
 	public static final int IO_STATUS = IO_BASE+0x10;
 	public static final int IO_UART = IO_BASE+0x10+1;
+	public static final int IO_UART_SR_L = IO_BASE+0x10+2; //Shift Registers
+	public static final int IO_UART_SR_H = IO_BASE+0x10+3;
 
 	public static final int MSK_UA_TDRE = 1;
 	public static final int MSK_UA_RDRF = 2;

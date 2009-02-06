@@ -11,7 +11,7 @@ import com.jopdesign.io.Packet;
 
 public abstract class BaseDatagramLayer{
 //Packet Separator
-protected static final int END = 0x0;
+protected static final int END = 0x00;
 protected static final int ESC = 0xdb;
 protected static final int ESC_END = 0xdc;
 protected static final int ESC_ESC = 0xdd;
@@ -59,7 +59,7 @@ public BaseDatagramLayer(){
     serial port to receive buffer and send data from send buffer
     to remote side
 */
-void loop(){
+public void loop(){
 	recv();
 	send();
 }

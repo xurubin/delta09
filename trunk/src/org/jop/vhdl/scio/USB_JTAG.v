@@ -28,7 +28,7 @@ begin
 	else
 	begin
 		Pre_RxD_Ready<=mRxD_Ready;
-		if({Pre_RxD_Ready,mRxD_Ready}==2'b01 && ~iTxD_Start)
+		if({Pre_RxD_Ready,mRxD_Ready}==2'b01)// && ~iTxD_Start)
 		begin
 			oRxD_Ready<=1;
 			oRxD_DATA<=mRxD_DATA;

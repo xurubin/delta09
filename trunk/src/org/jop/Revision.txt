@@ -1,3 +1,13 @@
+Rev 78.
+Communcations about Switches and LEDs states implemented. MAKE SURE to run "make jopser" to build a new version of JoP. Maximum refresh rate is roughly 50Hz.
+NOTE: Currently the general DatagramLayer is NOT working. The Switches and LED communications are implemented by sort of a hack.
+
+Java server on JoP is built by "make P3=DE2_Daemon japp". Source is located at java\target\src\test\test\DE2_Daemon.java
+
+PC side controller demonstration program is located at java\jop_sub. It will require a DLL file named JTFDX2XX.dll located at java\target\src\common\jftd2xx. Make sure JVM can find it otherwise an UnsatisfiedLinkError expection will be raised. Also, the basic USB-Blaster driver dll FTD2XX.dll should also be present.
+In order to build jop_sub, several packages are required. First is the package jftd2xx which is located at java\target\src\common\jftd2xx. Others(package com.jopdesign.io) are located at java\target\src\common\com\jopdesign\io
+
+
 Rev 50. 
 	JoP Hard Reset by pressing KEY[0..3]. Remember to close the jtag connection before reset by running "console.exe close"
 Rev 49. Basic Version

@@ -28,8 +28,11 @@ package test;
 
 import com.jopdesign.io.DE2Peripheral;
 import com.jopdesign.io.Packet;
+import com.jopdesign.io.SerialPort;
+import com.jopdesign.io.IOFactory;
 import com.jopdesign.io.JoPDatagramLayer;
 import com.jopdesign.sys.Native;
+import com.jopdesign.sys.Const;
 import joprt.RtThread;
 /**
  * @author Rubin
@@ -51,41 +54,15 @@ public class HelloDE2 {
 		DE2Peripheral.setLEDGState(2, true);
 		DE2Peripheral.setLEDGState(3, true);
 
-
-		JoPDatagramLayer d = new JoPDatagramLayer(10, 200);
+		JoPDatagramLayer d = new JoPDatagramLayer(0, 0);
 		RtThread.startMission();
-		Packet p = new Packet();
-		char c = '0';
 		while (true) {
-			p.clear();
-			p.appendByte_raw((byte)'H');
-			p.appendByte_raw((byte)'e');
-			p.appendByte_raw((byte)'l');
-			p.appendByte_raw((byte)'l');
-			p.appendByte_raw((byte)'o');
-			p.appendByte_raw((byte)c);
-			if (c=='9') c='0'; else c++;
-			p.appendChecksum();
-			//DE2Peripheral.setLEDRState(17,0 == d.sendDatagram(p));
-			while(d.sendDatagram(p) != 0);
-			DE2Peripheral.setLEDRState(16, !DE2Peripheral.getLEDRState(16));
-			//RtThread.sleepMs(50);
+			DE2Peripheral.directLEDState(d.readLEDStates());
+		
+			int sk = DE2Peripheral.directSwitchState();
+			d.sendSwitchStates(sk);
+			DE2Peripheral.setLEDRState(17, !DE2Peripheral.getLEDRState(17));
 		}
-		/*
-		while (true) {
-			while (d.readDatagram(p) != 0)
-					RtThread.sleepMs(500);
-			
-			p2.clear();
-			System.out.println("Packet Len: "+ p.getCount());
-			for (int i=0;i<p.getCount();i++) {
-				System.out.print(p.getData(i)+" ");
-				p2.appendByte_raw((byte)(p.getData(i)));
-			}
-			p2.appendChecksum();
-			System.out.println(p2.buf[0]);
-			d.sendDatagram(p2);
-		}
-		*/
+
 	}
 }

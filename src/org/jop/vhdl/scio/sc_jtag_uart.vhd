@@ -91,6 +91,9 @@ architecture rtl of sc_jtag_uart is
 	signal rf_empty	:std_logic;
 	signal rf_full	:std_logic;
 	signal rf_half	:std_logic;
+	
+	signal rx_ShiftRg	:std_logic_vector(71 downto 0);
+	signal rx_PacketBuf	:std_logic_vector(63 downto 0);
 
 component usb_jtag port(
 	iCLK 	: in std_logic;
@@ -163,39 +166,54 @@ begin
 
 		rx_buf <= (others => '0');
 		rx_new_data <= '0';
+		rx_ShiftRg <= (others => '0');
+		rx_PacketBuf <= (others => '0');
 	elsif rising_edge(clk) then
-
+		if (rx_ShiftRg(71 downto 64)="10101010") then
+			rx_PacketBuf <= rx_ShiftRg(63 downto 0);
+		end if;
+		
 		if (oRxD_Ready='1') then
 			if (rx_new_data = '0') then
 				rx_buf <= oRxD_Data;
 				rx_new_data <= '1';
 			end if;
+			if (oRxD_Data /= "00000000") then --New Non-zero data arrived.
+				rx_ShiftRg <= rx_ShiftRg(63 downto 0) & oRxD_Data;
+			end if;
 		end if;
 	
 		if rd='1' then
 			-- that's our very simple address decoder
-			rd_data(31 downto 8) <=(others =>'0');
-			if address(0)='1' then	--Read Data register
-				if rx_new_data = '1' then 
-					rd_data(7 downto 0) <= rx_buf;
-					if (oRxD_Ready='0') then 
-						rx_new_data <= '0';
+			if (address(1)='0') then --Status/Data registers
+				rd_data(31 downto 8) <=(others =>'0');
+				if address(0)='1' then	--Read Data register
+					if rx_new_data = '1' then 
+						rd_data(7 downto 0) <= rx_buf;
+						if (oRxD_Ready='0') then 
+							rx_new_data <= '0';
+						end if;
+					else
+						rd_data(7 downto 0) <= rx_buf;
 					end if;
-				else
-					rd_data(7 downto 0) <= (others => '0');
+				else -- Read State register
+					rd_data(7 downto 2) <= "000000";
+					rd_data(1) <= rx_new_data;
+					if (trans_state=s0) and (oTxD_Done='0') then
+						rd_data(0) <= '1';
+					else
+						rd_data(0) <= '0';
+					end if;
 				end if;
-			else -- Read State register
-				rd_data(7 downto 2) <= "000000";
-				rd_data(1) <= rx_new_data;
-				if (trans_state=s0) and (oTxD_Done='0') then
-					rd_data(0) <= '1';
+			else --address(1)='1' -- ShiftRegisters
+				if (address(0) = '0') then
+					rd_data(31 downto 0) <= rx_PacketBuf(31 downto 0);
 				else
-					rd_data(0) <= '0';
+					rd_data(31 downto 0) <= rx_PacketBuf(63 downto 32);
 				end if;
 			end if;
 		end if;
 	end if;
-
 end process;
 
 --

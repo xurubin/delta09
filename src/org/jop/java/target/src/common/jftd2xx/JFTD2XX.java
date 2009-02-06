@@ -102,6 +102,7 @@ public class JFTD2XX {
 	throws Throwable {
 		try {
 			// if (handle != 0) close();
+			closeConnection();
 			close();
 		}
 		finally {

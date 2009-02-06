@@ -3,8 +3,8 @@ package com.jopdesign.io;
 
 public class Packet{
 	static private int[] BYTE_MASK={0xFF, 0xFF00, 0xFF0000, 0xFF000000};
-	static private int MAX_BUF_LEN = 16; //16 DWORDS, must be greater than MAX_PACKET_LEN/4
-	static private int MAX_PACKET_LEN = 57;
+	static private int MAX_BUF_LEN = 32; //16 DWORDS, must be greater than MAX_PACKET_LEN/4
+	static private int MAX_PACKET_LEN = 126;
 	private int count;
 	public int[] buf;
 	private byte iteratedChecksum;

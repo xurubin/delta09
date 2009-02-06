@@ -1,10 +1,9 @@
 package org.delta.simulation;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TimerTask;
 
@@ -13,83 +12,141 @@ import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.logic.State;
 
-public class Simulator extends TimerTask {
+/**
+ * An event-driven discrete time simulation algorithm for digital logic.
+ * @author Group Delta 2009
+ *
+ */
+public final class Simulator extends TimerTask {
     /**
      * The clock frequency of the simulated circuit given as a multiple of the
      * simulation frequency.
      * @see SimulationScheduler#simulationFrequency
+     * @see Simulator#setClockFrequency(int)
      */
-    private int clockFrequency; // TODO: Default value.
+    // TODO: Default value.
+    private int clockFrequency;
+    /**
+     * Counts up to the value of the clock frequency. When reached, the circuit
+     * clock is updated .
+     * @see Simulator#clockTick()
+     * @see Simulator#clockFrequency
+     */
     private int clockCounter;
-    private SimulationQueue simulationQueue;
+    /**
+     * Keeps a queue of lists of gates whose output has to be re-calculated.
+     * Each list of gates corresponds to one time step in the discrete time
+     * simulation.
+     */
+    private SimulationQueue simulationQueue = new SimulationQueue();
+    /**
+     * The circuit to simulate.
+     * @see Simulator#setCircuit(Circuit)
+     */
     private Circuit circuit;
 
-    public Simulator(Circuit circuit) {
-        simulationQueue = new SimulationQueue();
+    /**
+     * Empty constructor.
+     */
+    public Simulator() {
+    }
+    
+    /**
+     * Sets the circuit which the simulator should simulate.
+     * @param circuit The circuit to simulate.
+     */
+    public void setCircuit(final Circuit circuit) {
         this.circuit = circuit;
     }
 
-    public int getClockFrequency() {
-        return clockFrequency;
-    }
-
+    /**
+     * Sets the frequency at which the simulated clock runs.
+     * @param clockFrequency Integer multiple of the simulation frequency.
+     * @see SimulationScheduler#setSimulationFrequency(long)
+     */
      public void setClockFrequency(final int clockFrequency) {
         this.clockFrequency = clockFrequency;
     }
 
+    /**
+     * Advance the internal (counter) clock by one step. If it reaches the value
+     * of the clock frequency, change the output of the simulated circuit clock.
+     * @see Simulator#clockFrequency
+     */
+    private void clockTick() {
+        if ((clockCounter = (++clockCounter) % clockFrequency) == 0) {
+            simulationQueue.addClock(circuit.getClock());
+        }
+    }
+
+    /**
+     * Calculate the next state.
+     */
     @Override
     public void run() {
-        // System.out.println("Entered simulator.");
-        if ((clockCounter = (++clockCounter) % clockFrequency) == 0) {
-            SimulationEvent clockEvent = new SimulationEvent(
-                circuit.getClock()
-            );
-            simulationQueue.clockTick(clockEvent);
+        clockTick();
+
+        // Retrieve gates whose output has to be re-evaluated for the time step.
+        Set<Gate> gateSet = simulationQueue.getFirstEventSet();
+        
+        // If the set is empty, we are done.
+        if (gateSet == null || gateSet.isEmpty()) return;
+
+        List<Gate> nextGateList = new LinkedList<Gate>();
+        
+        /* Temporary store for wires whose state value is altered in this
+         * simulation step. Maps from the new state value to a list of wires.
+         */
+        Map<State, LinkedList<Wire>> nextWireState
+            = new EnumMap<State, LinkedList<Wire>>(State.class);
+        // Initialise map for all three possible state values.
+        for (State state: State.values()) {
+            nextWireState.put(state, new LinkedList<Wire>());
         }
-
-        List<SimulationEvent> eventList = simulationQueue.dequeue();
-        if (eventList == null || eventList.isEmpty()) return;
-        List<SimulationEvent> updateList = new LinkedList<SimulationEvent>();
-
-        Set<Gate> nextGateList = new HashSet<Gate>();
-        HashMap<Wire, State> wireToValueMap = new HashMap<Wire, State>();
-
-        for (Iterator<SimulationEvent> i = eventList.iterator(); i.hasNext();) {
-            SimulationEvent event = i.next();
-
-            Gate gate = event.getGate();
+        
+        /* Iterate over all gates, re-evaluate their output and, if it has
+         * changed, propagate new value, i.e. create a list (nextGateList) of
+         * gates connected to the output of one of those gates.
+         */
+        for (Gate gate: gateSet) {
             State gateOutput = gate.getFormula().evaluate();
 
             Set<Wire> outgoingWires = circuit.outgoingEdgesOf(gate);
-            if (outgoingWires.isEmpty()
-             || outgoingWires.iterator().next().getState() == gateOutput) {
-                i.remove();
-                continue;
-            }
-
             for (Wire wire: outgoingWires) {
-                wireToValueMap.put(wire, gateOutput);
+                /* If gate output has not changed, there is no need to update
+                 * gates connected to it.
+                 */
+                if (wire.getState() == gateOutput) break;
+                
+                // Add wire to the map which is later used to update its value.
+                nextWireState.get(gateOutput).add(wire);
 
+                /* Add gate at the other end of the wire to the list of gates
+                 * which will be updated in the next time step of the
+                 * simulation.
+                 */
                 Gate targetGate = circuit.getEdgeTarget(wire);
                 if (!nextGateList.contains(targetGate)) {
                     nextGateList.add(targetGate);
-                    updateList.add(
-                        new SimulationEvent(targetGate)
-                    );
                 }
             }
         }
 
-        for (Wire wire: wireToValueMap.keySet()) {
-            wire.setValue(wireToValueMap.get(wire));
+        // Update wire values.
+        for (State state: State.values()) {
+            for(Wire wire: nextWireState.get(state)) {
+                wire.setValue(state);
+            }
         }
-        simulationQueue.enqueue(updateList);
+        
+        // Add gates which need re-evaluation to the queue.
+        simulationQueue.addAllGates(nextGateList);
     }
 
-    // FIXME: Only for degub purposes.
+    // FIXME: Only for debug purposes.
     @Deprecated
-    public void addEvent(SimulationEvent event) {
-        simulationQueue.enqueue(event);
+    public void addGate(final Gate gate) {
+        simulationQueue.addGate(gate);
     }
 
 }

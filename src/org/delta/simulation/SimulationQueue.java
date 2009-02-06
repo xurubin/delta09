@@ -1,43 +1,48 @@
 package org.delta.simulation;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
+
+import org.delta.circuit.Gate;
+import org.delta.circuit.gate.Clock;
 
 
 public class SimulationQueue {
-    private LinkedList<LinkedList<SimulationEvent>> eventQueue;
+    private LinkedList<Set<Gate>> eventQueue;
 
     public SimulationQueue() {
-        eventQueue = new LinkedList<LinkedList<SimulationEvent>>();
+        eventQueue = new LinkedList<Set<Gate>>();
     }
 
-    public synchronized void enqueue(SimulationEvent event) {
+    public synchronized void addGate(Gate gate) {
         if (eventQueue.isEmpty()) {
-            eventQueue.add(new LinkedList<SimulationEvent>());
+            eventQueue.add(new HashSet<Gate>());
         }
-        eventQueue.getLast().add(event);
+        eventQueue.getLast().add(gate);
     }
     
-    public synchronized void enqueue(Collection<SimulationEvent> eventList) {
+    public synchronized void addAllGates(Collection<Gate> gateCollection) {
         if (eventQueue.isEmpty()) {
-            eventQueue.add(new LinkedList<SimulationEvent>());
+            eventQueue.add(new HashSet<Gate>(gateCollection));
+        } else {
+            eventQueue.getLast().addAll(gateCollection);
         }
-        eventQueue.getLast().addAll(eventList);
     }
 
-    synchronized List<SimulationEvent> dequeue() {
+    synchronized Set<Gate> getFirstEventSet() {
         if (eventQueue.isEmpty()) return null;
         return eventQueue.removeFirst();
     }
 
-    synchronized void clockTick(final SimulationEvent tick) {
-        LinkedList<SimulationEvent> list = new LinkedList<SimulationEvent>();
-        list.add(tick);
-        eventQueue.add(list);
+    synchronized void addClock(final Clock clock) {
+        Set<Gate> set = new HashSet<Gate>();
+        set.add(clock);
+        eventQueue.add(set);
     }
 
-    synchronized void clear() {
+    public synchronized void clear() {
         eventQueue.clear();
     }
 }

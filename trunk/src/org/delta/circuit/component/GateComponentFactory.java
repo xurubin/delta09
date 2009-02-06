@@ -2,7 +2,6 @@ package org.delta.circuit.component;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
-import org.delta.circuit.GateInputSelector;
 
 public class GateComponentFactory {
 

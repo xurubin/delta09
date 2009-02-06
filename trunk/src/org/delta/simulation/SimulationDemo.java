@@ -10,7 +10,7 @@ import org.delta.circuit.gate.LowGate;
 import org.delta.circuit.gate.NorGate;
 import org.delta.logic.State;
 
-public class SimulationTest {
+public class SimulationDemo {
 
     /**
      * @param args
@@ -18,10 +18,11 @@ public class SimulationTest {
     public static void main(String[] args) {
         Circuit circ = new Circuit();
         Circuit circ2 = new Circuit();
-        Simulator sim = new Simulator(circ2);
+        Simulator sim = new Simulator();
+        sim.setCircuit(circ2);
         sim.setClockFrequency(2000);
         SimulationScheduler sched = new SimulationScheduler(sim);
-        sched.setSimulationFrequency(1000L);
+        sched.setSimulationFrequency(200L);
 
         NorGate n1 = new NorGate();
         NorGate n2 = new NorGate();
@@ -78,14 +79,14 @@ public class SimulationTest {
 //        sim.addEvent(new SimulationEvent(h1));
 //        sim.addEvent(new SimulationEvent(l1));
         din1.setValue(State.S1);
-        sim.addEvent(new SimulationEvent(din1));
+        sim.addGate(din1);
         sim.run();
         sim.run();
         sim.run();
         sim.run();
 //        sim.DEBUG_RECURSE = true;
         din1.setValue(State.S0);
-        sim.addEvent(new SimulationEvent(din1));
+        sim.addGate(din1);
 //        sim.run();
         sched.start();
     }

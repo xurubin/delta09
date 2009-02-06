@@ -1,12 +1,11 @@
 package org.delta.simulation;
 
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class SimulationScheduler {
     private Simulator simulator;
-    private Timer timer;
+    private Timer timer = new Timer();
     /**
      * Time in milliseconds between two discrete times steps in the simulation.
      */
@@ -17,7 +16,7 @@ public class SimulationScheduler {
     }
 
     public void start() {
-        timer.scheduleAtFixedRate((TimerTask) simulator, new Date(),
+        timer.scheduleAtFixedRate((TimerTask) simulator, 0,
                 simulationFrequency);
     }
 

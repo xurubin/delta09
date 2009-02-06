@@ -13,14 +13,21 @@ public class SimulationQueue {
     }
 
     public synchronized void enqueue(SimulationEvent event) {
+        if (eventQueue.isEmpty()) {
+            eventQueue.add(new LinkedList<SimulationEvent>());
+        }
         eventQueue.getLast().add(event);
     }
     
     public synchronized void enqueue(Collection<SimulationEvent> eventList) {
+        if (eventQueue.isEmpty()) {
+            eventQueue.add(new LinkedList<SimulationEvent>());
+        }
         eventQueue.getLast().addAll(eventList);
     }
 
     synchronized List<SimulationEvent> dequeue() {
+        if (eventQueue.isEmpty()) return null;
         return eventQueue.removeFirst();
     }
 

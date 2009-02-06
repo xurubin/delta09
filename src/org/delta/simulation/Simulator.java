@@ -26,6 +26,7 @@ public class Simulator extends TimerTask {
 
     public Simulator(Circuit circuit) {
         simulationQueue = new SimulationQueue();
+        this.circuit = circuit;
     }
 
     public int getClockFrequency() {
@@ -38,6 +39,7 @@ public class Simulator extends TimerTask {
 
     @Override
     public void run() {
+        // System.out.println("Entered simulator.");
         if ((clockCounter = (++clockCounter) % clockFrequency) == 0) {
             SimulationEvent clockEvent = new SimulationEvent(
                 circuit.getClock()
@@ -46,6 +48,7 @@ public class Simulator extends TimerTask {
         }
 
         List<SimulationEvent> eventList = simulationQueue.dequeue();
+        if (eventList == null || eventList.isEmpty()) return;
         List<SimulationEvent> updateList = new LinkedList<SimulationEvent>();
 
         Set<Gate> nextGateList = new HashSet<Gate>();
@@ -81,6 +84,12 @@ public class Simulator extends TimerTask {
             wire.setValue(wireToValueMap.get(wire));
         }
         simulationQueue.enqueue(updateList);
+    }
+
+    // FIXME: Only for degub purposes.
+    @Deprecated
+    public void addEvent(SimulationEvent event) {
+        simulationQueue.enqueue(event);
     }
 
 }

@@ -13,10 +13,6 @@ class SerialListener extends Thread {
       simulator = sm;
    }
 
-   static int compare(byte a, byte b) {
-      if(a == b) return 10;
-   }
-
    public run() {
       while(true) {
          Packet p = new Packet();

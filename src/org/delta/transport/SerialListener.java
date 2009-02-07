@@ -3,44 +3,44 @@ import org.delta.simulation.Simulator;
 import com.jopdesign.io.HostDatagramLayer;
 import com.jopdesign.io.Packet;
 
+/**
+ * Interface to USB serial link to DE2 board. 
+ * Provides thread to listen for changes to switches from board. 
+ * @author Group Delta 2009
+ *
+ */
+
 class SerialListener extends Thread {
-   private volatile byte[] switches = new byte[4];
+   private volatile int switches = 0;
    private HostDatagramLayer hostLayer;
    private Simulator simulator;
 
+   /**
+    * Constructs a new SerialListener.
+    * @param hl a reference to the HostDatagramLayer that deals with the low level implementation of the USB interface.
+    * @param sm a reference to the simulator for call-backs. 
+    */
    public SerialListener(HostDatagramLayer hl, Simulator sm) {
       hostLayer = hl;
       simulator = sm;
    }
 
-   public run() {
-      while(true) {
-         Packet p = new Packet();
-         while (hostLayer.readDatagram(p) != 0);
-         //we've got our datagram
-         byte[] switchStatuses;
-         for(int i=0;i<p.getCount();i++) {
-            switchStatuses[i] = p.getData(i);
-         }
-         // byte 1 has switches 0-7
-         // byte 2 has switches 8-15
-         // byte 3 has switches 16-23
-         // byte 4 has switches 24-25
-         //find differences
-         for(int j = 0; j < 4; j++) {
-            byte difference = switches[j] ^ switchStatuses[j];
-            if(difference != 0) {
-               int i = 7;
-               do {
-                  if(difference & 0x1 == 1) {
-                     //this interface is yet to be clarified. 
-                     simulator.sendSwitchEvent(i, (switchStatuses[j] >> (7-i)) & 0x1);
-                  }
-                  i--;
-                  } while(difference >>= 1);	
-                  switches[i] = switchStatuses;
-               }
-            }								
-         }
+   /**
+    * runs the SerialListener thread. 
+    * Continuously listens for switch state packets, on receipt compares new switch states to previous to then send change events to the simulator. 
+    * @return void
+    */
+   public void run() {
+	   while(true) {
+		   int status = hostLayer.readSwitchStates();
+		   int diff = status ^ switches;
+		   int i = 31;
+		   do {
+			   if((diff & 0x1) == 1) {
+				   simulator.sendSwitchEvent(i, (status << i) == 1);
+			   }
+			   i--;
+		   } while ((diff >>= 1) == 0);
+	   }
       }
-   }
+}

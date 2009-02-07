@@ -2,27 +2,60 @@ package org.delta.circuit;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DirectedMultigraph;
 
+/**
+ * Graph data structure that represents the high-level/user view of the digital
+ * circuit.
+ * @author Group Delta 2009
+ * @see Circuit
+ */
 public class ComponentGraph extends
-        DefaultDirectedGraph<Component, ComponentWire> {
-    private Circuit circuit;
+        DirectedMultigraph<Component, ComponentWire> {
+    /**
+     * Internal gate-level representation of the circuit which can be passed to
+     * the simulator.
+     * @see Circuit
+     * @see Simulator
+     */
+    private Circuit circuit = new Circuit();
+    /**
+     * 
+     */
     private Map<ComponentWire, Wire> wireMap;
 
+    /**
+     * 
+     */
     public ComponentGraph() {
         super(ComponentWire.class);
 
         wireMap = new HashMap<ComponentWire, Wire>();
     }
 
+    /**
+     * Adds a component to the graph and updates the internal circuit
+     * representation: Each component internally stores a gate-level
+     * interpretation of its logic. When added to a ComponentGraph object, the
+     * gates and wires of this gate-level representation are added to the
+     * internal gate-level representation of the circuit.
+     * @param component - component to be added.
+     * @return true if the circuit did not already contain the component, false
+     * otherwise.
+     * @see Component
+     * @see ComponentGraph#circuit
+     * @see DirectedMultigraph#addVertex(Object)
+     */
     @Override
-    public boolean addVertex(Component vertex) {
-        if (!super.addVertex(vertex)) return false;
+    public final boolean addVertex(final Component component) {
+        if (!super.addVertex(component)) return false;
 
-        Circuit c = vertex.getCircuit();
+        final Circuit c = component.getCircuit();
         for (Gate g: c.vertexSet()) {
             circuit.addVertex(g);
         }
@@ -32,56 +65,130 @@ public class ComponentGraph extends
         return true;
     }
 
+    /**
+     * Removes several wires at once.
+     * @param wireCollection - wires to be removed.
+     * @return true if the operation altered the data structure,
+     * false otherwise.
+     * @see ComponentGraph#removeEdge(ComponentWire)
+     * @see DirectedMultigraph#removeAllEdges(Collection)
+     */
     @Override
-    public boolean removeAllEdges(Collection<? extends ComponentWire> edgeSet) {
-        // TODO: Update circuit.
-        return super.removeAllEdges(edgeSet);
+    public final boolean removeAllEdges(final Collection
+            <? extends ComponentWire> wireCollection) {
+        if (super.removeAllEdges(wireCollection)) {
+            for (ComponentWire wire: wireCollection) {
+                circuit.removeEdge(wireMap.get(wire));
+                wireMap.remove(wire);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Removes all wires between two components.
+     * @see ComponentGraph#removeEdge(ComponentWire)
+     * @see DirectedMultigraph#removeAllEdges(Object, Object)
+     */
+    @Override
+    public Set<ComponentWire> removeAllEdges(final Component source,
+            final Component target) {
+        final Set<ComponentWire> wireSet = super.removeAllEdges(source, target);
+        for (ComponentWire wire: wireSet) {
+            circuit.removeEdge(wireMap.get(wire));
+            wireMap.remove(wire);
+        }
+        return wireSet;
+    }
+
+    /**
+     * Removes several components at once.
+     * @see ComponentGraph#removeVertex(Component)
+     * @see DirectedMultigraph#removeAllVertices(Collection)
+     * @param vertexCollection
+     * @return
+     */
+    @Override
+    public boolean removeAllVertices(final Collection<? extends Component>
+            componentCollection) {
+        final List<ComponentWire> wireSet = new LinkedList<ComponentWire>();
+        for (Component component: componentCollection) {
+            wireSet.addAll(edgesOf(component));
+        }
+        
+        if (super.removeAllVertices(componentCollection)) {
+            for (ComponentWire wire: wireSet) {
+                circuit.removeEdge(wireMap.get(wire));
+                wireMap.remove(wire);
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public Set<ComponentWire> removeAllEdges(Component source, Component target) {
-        // TODO: Update circuit.
-        return super.removeAllEdges(source, target);
+    public ComponentWire removeEdge(final Component source,
+            final Component target) {
+        final ComponentWire wire = super.removeEdge(source, target);
+        if (wire != null) {
+            circuit.removeEdge(wireMap.get(wire));
+            wireMap.remove(wire);
+        }
+        return wire;
     }
 
     @Override
-    public boolean removeAllVertices(Collection<? extends Component> arg0) {
-        // TODO: Update circuit.
-        return super.removeAllVertices(arg0);
+    public boolean removeEdge(final ComponentWire wire) {
+        if (super.removeEdge(wire)) {
+            circuit.removeEdge(wireMap.get(wire));
+            wireMap.remove(wire);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public ComponentWire removeEdge(Component arg0, Component arg1) {
-        // TODO: Update circuit.
-        return super.removeEdge(arg0, arg1);
+    public boolean removeVertex(final Component component) {
+        final Set<ComponentWire> connectedWires = edgesOf(component);
+        if (super.removeVertex(component)) {
+            final Set<Gate> gateSet = component.getCircuit().vertexSet();
+            circuit.removeAllVertices(gateSet);
+            
+            for (ComponentWire wire: connectedWires) {
+                wireMap.remove(wire);
+            }
+            return true;
+        }
+        return false;
     }
-
+    
     @Override
-    public boolean removeEdge(ComponentWire arg0) {
-        // TODO: Update circuit.
-        return super.removeEdge(arg0);
+    protected boolean removeAllEdges(final ComponentWire[] wireArray) {
+        if (super.removeAllEdges(wireArray)) {
+            for (ComponentWire wire: wireArray) {
+                circuit.removeEdge(wireMap.get(wire));
+                wireMap.remove(wire);
+            }
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public boolean removeVertex(Component arg0) {
-        // TODO: Update circuit.
-        return super.removeVertex(arg0);
-    }
-
-    public boolean registerEdge(ComponentWire edge, int sourceOutputNumber,
-            int targetInputNumber) {
+    public boolean registerEdge(final ComponentWire edge,
+            final int sourceOutputNumber, final int targetInputNumber) {
         if (!edgeSet().contains(edge) || getEdgeSource(edge) == null
                                       || getEdgeTarget(edge) == null) {
             return false;
         }
 
-        Component sourceComponent = getEdgeSource(edge);
-        Component targetComponent = getEdgeTarget(edge);
+        final Component sourceComponent = getEdgeSource(edge);
+        final Component targetComponent = getEdgeTarget(edge);
 
-        if(targetComponent.getInputWire(targetInputNumber) != null) {
+        if (targetComponent.getInputWire(targetInputNumber) != null) {
             return false;
         }
-        Wire w = circuit.addEdge(
+        final Wire w = circuit.addEdge(
             sourceComponent.getOutputGate(sourceOutputNumber),
             targetComponent.getInputGate(targetInputNumber)
         );
@@ -90,13 +197,63 @@ public class ComponentGraph extends
         return true;
     }
 
-    public Circuit getCircuit() {
+    /**
+     * Method copies the data structure that is used internally to represent
+     * digital logic circuits. In this representation, the circuit can be
+     * simulated.
+     * @see ComponentGraph#circuit
+     * @see Circuit
+     * @see Simulator
+     * @see ComponentGraph#isValid()
+     * @return Copy of the internal circuit representation. The return value is
+     * null if the circuit data structure is inconsistent.
+     */
+    public final Circuit getCircuit() {
         if (!isValid()) return null;
 
         return (Circuit) circuit.clone();
     }
 
-    public boolean isValid() {
-        return false;
+    /**
+     * Method to check whether the graph contains any illegal edges.
+     * @return True if the component graph can be simulated, false otherwise.
+     * @see ComponentGraph#registerEdge(ComponentWire, int, int)
+     */
+    public final boolean isValid() {
+        int countEdges = 0;
+        
+        for (Component component: vertexSet()) {
+            for (int i = 0; i < component.getInputCount(); ++i) {
+                /* Get the wire registered with the input number i of the
+                 * component.
+                 */
+                final ComponentWire w = component.getInputWire(i);
+                
+                /* If the result is null, the input is unconnected and can be
+                 * ignored.
+                 */
+                if (w != null) {
+                    // Is the wire part of the component graph? If not, reject.
+                    if (!edgeSet().contains(w)) return false;
+                    /* Is the head of the wire the same component as the one the
+                     * wire is registered with? If not, reject.
+                     */
+                    if (component != getEdgeTarget(w)) return false;
+                    /* Is the tail vertex of the wire in the vertex set of the
+                     * component graph.
+                     */
+                    if (!vertexSet().contains(getEdgeSource(w))) return false;
+                    // Wire is valid, increase edge counter.
+                    ++countEdges;
+                }
+            }
+        }
+        /* If the number of registered vertices does not agree with the number
+         * edges in the graph, reject the graph.
+         */
+        if (countEdges != edgeSet().size()) {
+            return false;
+        }
+        return true;
     }
 }

@@ -28,6 +28,14 @@ abstract public class Gate {
         inputList.set(inputNumber, wire);
         return true;
     }
+    
+    public boolean removeWire(Wire wire) {
+        int index = inputList.indexOf(wire);
+        if (index != -1) {
+            setWire(null, index);
+        }
+        return false;
+    }
 
     public Wire getWire(int inputNumber) {
         return inputList.get(inputNumber);

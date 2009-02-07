@@ -53,51 +53,60 @@ public final class Simulator extends TimerTask {
     
     /**
      * Sets the circuit which the simulator should simulate.
-     * @param circuit The circuit to simulate.
+     * @param circuit - the circuit to simulate.
      */
     public void setCircuit(final Circuit circuit) {
         this.circuit = circuit;
     }
 
     /**
-     * Sets the frequency at which the simulated clock runs.
-     * @param clockFrequency Integer multiple of the simulation frequency.
+     * Sets the frequency at which the simulated clock runs and sets the clock
+     * counter to zero. If the clock frequency is set to zero, the simulated
+     * clock is stopped.
+     * @param clockFrequency - integer multiple of the simulation frequency.
      * @see SimulationScheduler#setSimulationFrequency(long)
+     * @see Simulator#clockCounter
      */
-     public void setClockFrequency(final int clockFrequency) {
+    public void setClockFrequency(final int clockFrequency) {
         this.clockFrequency = clockFrequency;
+        clockCounter = 0;
     }
 
     /**
-     * Advance the internal (counter) clock by one step. If it reaches the value
-     * of the clock frequency, change the output of the simulated circuit clock.
+     * Advance the internal (counter) clock by one step. When it reaches the
+     * value of the clock frequency, output of the simulated circuit clock is
+     * changed.
      * @see Simulator#clockFrequency
      */
     private void clockTick() {
-        if ((clockCounter = (++clockCounter) % clockFrequency) == 0) {
+        if (clockFrequency == 0) return;
+
+        clockCounter = (clockCounter + 1) % clockFrequency;
+        if (clockCounter == 0) {
             simulationQueue.addClock(circuit.getClock());
         }
     }
 
     /**
      * Calculate the next state.
+     * @see TimerTask#run()
      */
     @Override
     public void run() {
         clockTick();
 
         // Retrieve gates whose output has to be re-evaluated for the time step.
-        Set<Gate> gateSet = simulationQueue.getFirstEventSet();
+        final Set<Gate> gateSet = simulationQueue.getFirstEventSet();
         
         // If the set is empty, we are done.
         if (gateSet == null || gateSet.isEmpty()) return;
 
-        List<Gate> nextGateList = new LinkedList<Gate>();
+        final List<Gate> nextGateList = new LinkedList<Gate>();
         
         /* Temporary store for wires whose state value is altered in this
          * simulation step. Maps from the new state value to a list of wires.
          */
-        Map<State, LinkedList<Wire>> nextWireState
+        final Map<State, LinkedList<Wire>> nextWireState
             = new EnumMap<State, LinkedList<Wire>>(State.class);
         // Initialise map for all three possible state values.
         for (State state: State.values()) {
@@ -109,9 +118,9 @@ public final class Simulator extends TimerTask {
          * gates connected to the output of one of those gates.
          */
         for (Gate gate: gateSet) {
-            State gateOutput = gate.getFormula().evaluate();
+            final State gateOutput = gate.getFormula().evaluate();
 
-            Set<Wire> outgoingWires = circuit.outgoingEdgesOf(gate);
+            final Set<Wire> outgoingWires = circuit.outgoingEdgesOf(gate);
             for (Wire wire: outgoingWires) {
                 /* If gate output has not changed, there is no need to update
                  * gates connected to it.
@@ -125,7 +134,7 @@ public final class Simulator extends TimerTask {
                  * which will be updated in the next time step of the
                  * simulation.
                  */
-                Gate targetGate = circuit.getEdgeTarget(wire);
+                final Gate targetGate = circuit.getEdgeTarget(wire);
                 if (!nextGateList.contains(targetGate)) {
                     nextGateList.add(targetGate);
                 }
@@ -134,7 +143,7 @@ public final class Simulator extends TimerTask {
 
         // Update wire values.
         for (State state: State.values()) {
-            for(Wire wire: nextWireState.get(state)) {
+            for (Wire wire: nextWireState.get(state)) {
                 wire.setValue(state);
             }
         }

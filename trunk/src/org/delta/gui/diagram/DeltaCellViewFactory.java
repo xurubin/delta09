@@ -43,6 +43,10 @@ public class DeltaCellViewFactory extends DefaultCellViewFactory {
 	 * Constructs a PortView view for the specified object.
 	 */
 	protected PortView createPortView(Object cell) {
+		if (cell instanceof DeltaInputPort)
+			return new DeltaInputPortView(cell);
+		else if (cell instanceof DeltaOutputPort)
+			return new DeltaOutputPortView(cell);
 		return new PortView(cell);
 	}
 }

@@ -1,10 +1,11 @@
 package org.delta.gui.diagram;
 
 import org.jgraph.graph.*;
+
 import java.awt.geom.*;
 import java.awt.Color;
 
-public class DeltaInputPortView extends PortView
+public class DeltaOutputPortView extends PortView
 {
      /**
 	 * 
@@ -12,16 +13,16 @@ public class DeltaInputPortView extends PortView
 	private static final long serialVersionUID = 1L;
 	private static DeltaPortRenderer renderer = new DeltaPortRenderer();
      
-     public DeltaInputPortView()
+     public DeltaOutputPortView()
      {
            super();
-           GraphConstants.setForeground(this.getAttributes(),Color.red);
+           GraphConstants.setForeground(this.getAttributes(),Color.blue);
      }
      
-     public DeltaInputPortView(Object arg0)
+     public DeltaOutputPortView(Object arg0)
      {
            super(arg0);
-           GraphConstants.setForeground(this.getAttributes(),Color.red);
+           GraphConstants.setForeground(this.getAttributes(),Color.blue);
      }
      
      public CellViewRenderer getRenderer()
@@ -42,15 +43,15 @@ public class DeltaInputPortView extends PortView
      }
      
      public Rectangle2D getBounds() {
-		Point2D loc = getLocation();
-		double x = 0;
-		double y = 0;
-		if (loc != null) {
-			x = loc.getX();
-			y = loc.getY();
-		}
-		Rectangle2D bounds = new Rectangle2D.Double(x-5,y-5,10,10);
-		//bounds.setFrame(bounds.getX()-10,bounds.getY()-10,20,20);
-		return bounds;
-	}
+ 		Point2D loc = getLocation();
+ 		double x = 0;
+ 		double y = 0;
+ 		if (loc != null) {
+ 			x = loc.getX();
+ 			y = loc.getY();
+ 		}
+ 		Rectangle2D bounds = new Rectangle2D.Double(x-5,y-5,10,10);
+ 		//bounds.setFrame(bounds.getX()-10,bounds.getY()-10,20,20);
+ 		return bounds;
+ 	}
 }

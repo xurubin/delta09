@@ -16,8 +16,9 @@ import org.jgrapht.graph.DefaultDirectedGraph;
  *
  */
 public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
+	private static final long serialVersionUID = 1L;
 
-    public Circuit() {
+	public Circuit() {
         super(Wire.class);
     }
 

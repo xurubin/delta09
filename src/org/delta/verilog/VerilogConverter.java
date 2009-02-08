@@ -11,8 +11,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Set;
@@ -26,6 +24,7 @@ import java.util.HashMap;
 public class VerilogConverter {
 	
 	private static File verilogProjectFolder = new File("verilog/");
+	private static String verilogTopLevel = "test_verilog";
 	
 	/**
 	 * Constructs a Verilog source code file that can be used to simulate the circuit on the DE2 board. 
@@ -117,6 +116,12 @@ public class VerilogConverter {
 		
 	}
 	
+	/**
+	 * Copies a file using nio package.
+	 * @param in	source File
+	 * @param out	destination File
+	 * @throws IOException	If we encounter a file error
+	 */
 	private static void copyFile(File in, File out) throws IOException {
 	    FileChannel inChannel = new FileInputStream(in).getChannel();
 	    FileChannel outChannel = new FileOutputStream(out).getChannel();
@@ -134,7 +139,13 @@ public class VerilogConverter {
 	        if (outChannel != null) outChannel.close();
 	    }
 	}
-
+	/**
+	 * Copies a full directory using copyFile recursively.
+	 * @param srcDir	source directory
+	 * @param dstDir	destination directory
+	 * @throws IOException	If we encounter a file error. 
+	 * @see #copyFile(File, File)
+	 */
 	private static void copyDirectory(File srcDir, File dstDir) throws IOException {
 		if (srcDir.isDirectory()) {
 			if (!dstDir.exists()) dstDir.mkdir();
@@ -147,13 +158,20 @@ public class VerilogConverter {
 		else copyFile(srcDir, dstDir);
 		}
 	
+	/**
+	 * Saves a circuit to a file in Verilog format
+	 * @param saveFolder	folder to save circuit. 
+	 * @param c	circuit object. This is assumed to be a valid circuit. 
+	 * @see #convertToVerilog(Circuit)
+	 * @see #copyDirectory(File, File)
+	 */
 	public static void saveVerilogProject(File saveFolder, Circuit c) {
 		try {
 			//copy verilog project to saveFolder
 			copyDirectory(VerilogConverter.verilogProjectFolder, saveFolder);
 			//open main file for modification.
 			
-			File mainVerilogFile = new File(saveFolder, "test_verilog.v");
+			File mainVerilogFile = new File(saveFolder, verilogTopLevel + ".v");
 			FileReader inputReader = new FileReader(mainVerilogFile);
 			BufferedReader bufferedReader = new BufferedReader(inputReader);
 			
@@ -187,6 +205,11 @@ public class VerilogConverter {
 		}
 	}
 	
+	
+	/**
+	 * Demo main function.
+	 * @param args	command line arguments.
+	 */
 	public static void main(String[] args) {
 		//some simple demo code. 
 		Circuit circ = new Circuit();

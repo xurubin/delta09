@@ -1,6 +1,8 @@
 package org.delta.gui.diagram;
 
-import org.jgraph.graph.*;
+import org.jgraph.graph.DefaultGraphCell;
+import org.jgraph.graph.GraphConstants;
+import java.awt.geom.Point2D;
 
 public class DeltaComponent extends DefaultGraphCell
 {
@@ -19,5 +21,17 @@ public class DeltaComponent extends DefaultGraphCell
 		super(arg0);
 	}
 	
-	//public addInputPort()
+	public void addInputPort(Point2D offset)
+	{
+		DeltaInputPort port = new DeltaInputPort();
+		GraphConstants.setOffset(port.getAttributes(),offset);
+		add(port);
+	}
+	
+	public void addOutputPort(Point2D offset)
+	{
+		DeltaOutputPort port = new DeltaOutputPort();
+		GraphConstants.setOffset(port.getAttributes(),offset);
+		add(port);
+	}
 }

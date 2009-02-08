@@ -14,9 +14,9 @@ public class OrGate extends DeltaComponent
 	public OrGate()
 	{
 		super();
-		this.addPort(new Point(0,(GraphConstants.PERMILLE / 4) + 20));
-		this.addPort(new Point(0,(3*GraphConstants.PERMILLE / 4) + 7));
-		this.addPort(new Point(GraphConstants.PERMILLE,(GraphConstants.PERMILLE / 2) + 10));
+		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 4));
+		this.addInputPort(new Point(0,3*GraphConstants.PERMILLE / 4));
+		this.addOutputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2));
 		GraphConstants.setBounds(this.getAttributes(),new Rectangle2D.Double(50,50,60,40));
 	}
 }

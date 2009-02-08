@@ -47,6 +47,8 @@ public class CircuitPanel extends JPanel
 		cells[2] = edge;
 		
 		graph.getGraphLayoutCache().insert(cells);
+		graph.setPortsVisible(true);
+		
 		undoManager = new GraphUndoManager()
 		{
 			private static final long serialVersionUID = 1L;
@@ -60,6 +62,7 @@ public class CircuitPanel extends JPanel
 		};
 		graph.getModel().addUndoableEditListener(undoManager);
 		graph.setSizeable(false);
+		graph.setEditable(false);
 		
 		this.setLayout(new BorderLayout());
 		this.add(new JScrollPane(graph));

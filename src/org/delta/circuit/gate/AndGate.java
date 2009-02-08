@@ -23,5 +23,9 @@ public class AndGate extends Gate {
         }
         return and;
     }
+    
+    public String getVerilogGateName() {
+    	return "and";
+    }
 
 }

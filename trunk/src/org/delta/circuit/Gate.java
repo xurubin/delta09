@@ -44,4 +44,6 @@ abstract public class Gate {
     public int getInputCount() {
         return inputCount;
     }
+    
+    abstract public String getVerilogGateName();
 }

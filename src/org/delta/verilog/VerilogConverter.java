@@ -3,6 +3,18 @@ package org.delta.verilog;
 import org.delta.circuit.*;
 import org.delta.circuit.gate.*;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;
 
@@ -13,6 +25,7 @@ import java.util.HashMap;
  */
 public class VerilogConverter {
 	
+	private static File verilogProjectFolder = new File("verilog/");
 	
 	/**
 	 * Constructs a Verilog source code file that can be used to simulate the circuit on the DE2 board. 
@@ -27,7 +40,7 @@ public class VerilogConverter {
 		HashMap<Wire, String> wireNames = new HashMap<Wire,String>();
 		int wCounter = 0;
 		String wireDecl = "";
-		for(Wire w : wires) {
+		for(Wire w : wires) { 
 			String name = "w" + (++wCounter);
 			wireNames.put(w, name);
 			wireDecl += "wire [1:0] " + name + "; \n";
@@ -55,7 +68,7 @@ public class VerilogConverter {
 				 */
 			}
 			else if(incomingWires.isEmpty()) {
-				//we have an output only gate
+				//we have an output only gate 
 				String clockName = "c" + (++cCounter);
 				
 				if(g instanceof ClockGate) {
@@ -104,6 +117,76 @@ public class VerilogConverter {
 		
 	}
 	
+	private static void copyFile(File in, File out) throws IOException {
+	    FileChannel inChannel = new FileInputStream(in).getChannel();
+	    FileChannel outChannel = new FileOutputStream(out).getChannel();
+	    try {
+	        inChannel.transferTo(0, inChannel.size(), outChannel);
+	    } 
+	    catch (IOException e) {
+	        /*
+	         * TODO Proper exception handling
+	         */
+	    	e.printStackTrace();
+	    }
+	    finally {
+	        if (inChannel != null) inChannel.close();
+	        if (outChannel != null) outChannel.close();
+	    }
+	}
+
+	private static void copyDirectory(File srcDir, File dstDir) throws IOException {
+		if (srcDir.isDirectory()) {
+			if (!dstDir.exists()) dstDir.mkdir();
+			
+			String[] children = srcDir.list();
+			for (int i=0; i<children.length; i++) {
+				copyDirectory(new File(srcDir, children[i]), new File(dstDir, children[i]));
+			}
+		}
+		else copyFile(srcDir, dstDir);
+		}
+	
+	public static void saveVerilogProject(File saveFolder, Circuit c) {
+		try {
+			//copy verilog project to saveFolder
+			copyDirectory(VerilogConverter.verilogProjectFolder, saveFolder);
+			//open main file for modification.
+			
+			File mainVerilogFile = new File(saveFolder, "test_verilog.v");
+			FileReader inputReader = new FileReader(mainVerilogFile);
+			BufferedReader bufferedReader = new BufferedReader(inputReader);
+			
+			ArrayList<String> buffer = new ArrayList<String>();
+			while(bufferedReader.ready()) {
+				String line = bufferedReader.readLine();
+				if(line.matches("(.*)%%PLACEHOLDER%%(.*)")) {
+						String[] circuitVerilog = convertToVerilog(c).split("\n");
+						for(String s : circuitVerilog) {
+							buffer.add(s);
+						}
+				}
+				else buffer.add(line);
+			}
+			inputReader.close();
+			
+			FileWriter fileWriter = new FileWriter(mainVerilogFile);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			
+			for(String s : buffer) {
+				bufferedWriter.write(s);
+				bufferedWriter.newLine();
+			}
+			
+			bufferedWriter.close();
+			
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) {
 		//some simple demo code. 
 		Circuit circ = new Circuit();
@@ -127,6 +210,7 @@ public class VerilogConverter {
         
         
 		
-		System.out.println(convertToVerilog(circ));
+		//System.out.println(convertToVerilog(circ));
+		saveVerilogProject(new File("verilog_test/"),circ);
 	}
 }

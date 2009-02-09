@@ -1,8 +1,5 @@
 package org.delta.transport;
-import org.delta.simulation.Simulator;
-//import com.jopdesign.io.HostDatagramLayer;
-//import com.jopdesign.io.Packet;
-
+import com.jopdesign.io.HostDatagramLayer;
 
 /**
  * Interface to USB serial link to DE2 board. 
@@ -14,18 +11,32 @@ class BoardInterface {
 	
 	private volatile int lights = 0;
 	private HostDatagramLayer hostLayer;
+	private SerialListener serialListener;
+	private BoardInterface boardInterface;
 	
 	/**
-	 * Constructs a new BoardInterface.
+	 * Constructs a new BoardInterface. The method is protected.
 	 * @param simulator	a reference to the simulator object, so call-backs can be used.
+	 * @see #getInstance()
 	 */
-	public BoardInterface(Simulator simulator) {
+	protected BoardInterface() {
 		//start listener
 		HostDatagramLayer hostLayer  = new HostDatagramLayer(1);
-		SerialListener s = new SerialListener(hostLayer, simulator);
-		s.start();
+		serialListener = new SerialListener(hostLayer);
+		serialListener.start();
 		
 	}
+	
+	/**
+	 * Uses singleton pattern to return a single boardInterface.
+	 * @return BoardInterface instance. 
+	 * @see #BoardInterface()
+	 */
+	public BoardInterface getInstance() {
+		if(boardInterface == null) boardInterface =  new BoardInterface();
+		return boardInterface;
+	}
+	
 	/**
 	 * Sends a packet to the DE2 board with the new status of the lights.
 	 * @param i	the number of the LED on the board.
@@ -38,5 +49,15 @@ class BoardInterface {
 		status |= lights;
 		//send LED state packet. 
 		return hostLayer.sendLEDStates(status);
+	}
+	
+	/**
+	 * Gets the status of the ith switch.
+	 * @param i the switch number.
+	 * @return the status of the switch.
+	 */
+	public boolean getSwitchStatus(int i) {
+		int switches = serialListener.getSwitches();
+		return (switches >> (31 - i)) == 1;
 	}
 }

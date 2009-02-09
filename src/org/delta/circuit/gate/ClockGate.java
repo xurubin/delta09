@@ -10,12 +10,6 @@ public class ClockGate extends AbstractInputGate {
 
     public void tick() {
         setValue( (new Not(new Constant( getValue() ))).evaluate() );
-    }
-
-	@Override
-	public String getVerilogGateName() {
-		return "clock";
-	}
-    
+    }    
 
 }

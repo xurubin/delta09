@@ -15,10 +15,6 @@ public class NorGate extends Gate {
     public Formula getFormula() {
         return new Nor(new Constant(getWire(0)), new Constant(getWire(1)));
     }
-    
-    @Override
-    public String getVerilogGateName() {
-    	return "nor";
-    }
+
 
 }

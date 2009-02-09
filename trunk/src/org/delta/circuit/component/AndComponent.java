@@ -1,6 +1,7 @@
 package org.delta.circuit.component;
 
 import org.delta.circuit.Component;
+import org.delta.circuit.ComponentWire;
 import org.delta.circuit.gate.AndGate;
 
 public class AndComponent extends Component {
@@ -16,5 +17,9 @@ public class AndComponent extends Component {
         }
         outputList.add(andGate);
     }
+
+	public String getVerilogMethod() {
+		return "and";
+	}
 
 }

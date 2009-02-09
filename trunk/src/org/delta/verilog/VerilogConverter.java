@@ -37,6 +37,7 @@ public class VerilogConverter {
 		Set<Component> components = circuit.vertexSet();
 		
 		HashMap<ComponentWire, String> wireNames = new HashMap<ComponentWire,String>();
+		
 		int wCounter = 0;
 		String wireDecl = "";
 		for(ComponentWire w : wires) { 
@@ -65,11 +66,15 @@ public class VerilogConverter {
 						+ wireNames.get(c.getOutputWire(i)) + "; \n";
 					}
 				}
+				/*
+				 * TODO: deal with Clock input 
+				 */
 			}
 			else if(c.getOutputCount() == 0) {
 				//we have an input only component
 				/*
 				 * TODO: to be confirmed against Justus' code. 
+				 * TODO: add green LEDs and possibly HEX displays
 				 */
 				if(c instanceof LEDComponent) {
 					componentDecl += "assign LEDR[" + ((LEDComponent) c).getNumber() + "] = " +

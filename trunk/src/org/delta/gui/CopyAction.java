@@ -20,7 +20,7 @@ public class CopyAction extends AbstractAction
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		e = new ActionEvent(CircuitPanelTest.panel.getGraph(),
+		e = new ActionEvent(MainWindow.get().circuit_panel.getGraph(),
 				e.getID(),e.getActionCommand(),e.getModifiers());
 		action.actionPerformed(e);
 	}

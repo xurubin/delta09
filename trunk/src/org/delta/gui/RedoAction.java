@@ -20,9 +20,9 @@ public class RedoAction extends AbstractAction
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		JGraph graph = CircuitPanelTest.panel.getGraph();
+		JGraph graph = MainWindow.get().circuit_panel.getGraph();
 		GraphLayoutCache cache = graph.getGraphLayoutCache();
-		GraphUndoManager undoManager = CircuitPanelTest.panel.getGraphUndoManager();
+		GraphUndoManager undoManager = MainWindow.get().circuit_panel.getGraphUndoManager();
 		try
 		{
 			// Try to undo the previously undone action
@@ -35,8 +35,8 @@ public class RedoAction extends AbstractAction
 		finally
 		{
 			// Update the undo/redo buttons
-			CircuitPanelTest.undo.setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
-			CircuitPanelTest.redo.setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
+			MainWindow.get().toolbar.undo_button.getAction().setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
+			MainWindow.get().toolbar.redo_button.getAction().setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
 		}
 	}
 }

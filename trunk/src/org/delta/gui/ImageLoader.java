@@ -21,7 +21,7 @@ public class ImageLoader
 	
 	public Image loadImage (String name)
 	{
-		Image img = tk.createImage (name);
+		Image img = tk.createImage ("src/org/delta/gui/diagram/images/" + name);
 
 		mt.addImage (img, 0);
 		

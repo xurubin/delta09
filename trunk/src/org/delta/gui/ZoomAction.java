@@ -19,8 +19,8 @@ public class ZoomAction extends AbstractAction
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		double scale = CircuitPanelTest.panel.getGraph().getScale();
+		double scale = MainWindow.get().circuit_panel.getGraph().getScale();
 		scale = scale*scaleFactor;
-		CircuitPanelTest.panel.getGraph().setScale(scale);
+		MainWindow.get().circuit_panel.getGraph().setScale(scale);
 	}
 }

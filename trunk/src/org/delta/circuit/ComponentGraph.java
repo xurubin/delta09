@@ -188,6 +188,7 @@ public class ComponentGraph extends
         if (targetComponent.getInputWire(targetInputNumber) != null) {
             return false;
         }
+        // FIXME: Register with gate: setWire!
         final Wire w = circuit.addEdge(
             sourceComponent.getOutputGate(sourceOutputNumber),
             targetComponent.getInputGate(targetInputNumber)

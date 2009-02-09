@@ -10,9 +10,11 @@ abstract public class Component {
 
     private ArrayList<ComponentWire> inputList;
 
+    // FIXME: Get rid of protected fields.
+    // FIXME: inputMap should be a map from Integer to GateInputSelector.
     protected Map<Integer, Gate> inputMap;
     protected ArrayList<Gate> outputList;
-    protected Circuit circuit;
+    protected Circuit circuit = new Circuit();
 
     public Component(int inputCount, int outputCount) {
         this.inputCount = inputCount;
@@ -22,10 +24,10 @@ abstract public class Component {
         outputList = new ArrayList<Gate>(outputCount);
 
         // Initialise arrays.
-        for (int i = 0; i < inputCount; i++) {
+        for (int i = 0; i < inputCount; ++i) {
             inputList.add(null);
         }
-        for (int i = 0; i < outputCount; i++) {
+        for (int i = 0; i < outputCount; ++i) {
             outputList.add(null);
         }
     }
@@ -69,6 +71,25 @@ abstract public class Component {
             throw new IllegalArgumentException("Input number out of bounds.");
         
         return inputMap.get(inputNumber);
+    }
+    
+    class GateInputSelector {
+
+        private final Gate gate;
+        private final int inputNumber;
+        
+        public GateInputSelector(final Gate gate, final int inputNumber) {
+            this.gate = gate;
+            this.inputNumber = inputNumber;
+        }
+        
+        public Gate getGate() {
+            return gate;
+        }
+        
+        public int getInputNumber() {
+            return inputNumber;
+        }
     }
     
     abstract public String getVerilogMethod();

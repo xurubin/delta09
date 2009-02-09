@@ -16,14 +16,14 @@ abstract public class Gate {
         inputList = new ArrayList<Wire>(inputCount);
 
         // Initialise array.
-        for (int i = 0; i < inputCount; i++)
+        for (int i = 0; i < inputCount; ++i)
             inputList.add(null);
     }
 
     abstract public Formula getFormula();
 
     public boolean setWire(Wire wire, int inputNumber) {
-        if (inputNumber > inputCount -1) return false;
+        if (inputNumber >= inputCount) return false;
 
         inputList.set(inputNumber, wire);
         return true;

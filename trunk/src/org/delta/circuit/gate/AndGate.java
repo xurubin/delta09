@@ -23,10 +23,6 @@ public class AndGate extends Gate {
         }
         return and;
     }
-    
-    @Override
-    public String getVerilogGateName() {
-    	return "and";
-    }
+   
 
 }

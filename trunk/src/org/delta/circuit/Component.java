@@ -70,5 +70,9 @@ abstract public class Component {
         
         return inputMap.get(inputNumber);
     }
+    
+    abstract public String getVerilogMethod();
+    
+    abstract public ComponentWire getOutputWire(int outputNumber);
 
 }

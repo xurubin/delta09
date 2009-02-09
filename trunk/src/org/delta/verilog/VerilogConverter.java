@@ -28,91 +28,79 @@ public class VerilogConverter {
 	
 	/**
 	 * Constructs a Verilog source code file that can be used to simulate the circuit on the DE2 board. 
-	 * @param	circuit	the top-level circuit used for simulation. This is assumed to be valid.
+	 * @param	circuit	the top-level ComponentGraph used for simulation. This is assumed to be valid.
 	 * @return	a string containing the source to a .v verilog program. 
 	 */
-	public static String convertToVerilog(Circuit circuit) {
+	private static String convertToVerilog(ComponentGraph circuit) {
 		//get list of wires and gates
-		Set<Wire> wires = circuit.edgeSet();
-		Set<Gate> gates = circuit.vertexSet();
+		Set<ComponentWire> wires = circuit.edgeSet();
+		Set<Component> components = circuit.vertexSet();
 		
-		HashMap<Wire, String> wireNames = new HashMap<Wire,String>();
+		HashMap<ComponentWire, String> wireNames = new HashMap<ComponentWire,String>();
 		int wCounter = 0;
 		String wireDecl = "";
-		for(Wire w : wires) { 
+		for(ComponentWire w : wires) { 
 			String name = "w" + (++wCounter);
 			wireNames.put(w, name);
 			wireDecl += "wire [1:0] " + name + "; \n";
 		}
 		
-		String gateDecl = "";
+		String componentDecl = "";
 		int gCounter = 0;
-		int cCounter = 0;
-		for(Gate g : gates) {
-			Set<Wire> outgoingWires = circuit.outgoingEdgesOf(g);
-			Set<Wire> incomingWires = circuit.incomingEdgesOf(g);
+		for(Component c : components) {
+			Set<ComponentWire> outgoingWires = circuit.outgoingEdgesOf(c);
+			Set<ComponentWire> incomingWires = circuit.incomingEdgesOf(c);
 			
 			String name = "g" + (++gCounter);
 			
-			if(outgoingWires.isEmpty()) {
-				//we have an input only gate
-				if(g instanceof DebugOutputGate) {
-					/*
-					 * TODO Need to get output location from class. 
-					 */
-					gateDecl += "assign PLACEHOLDER = " + wireNames.get(incomingWires.iterator().next()) + "; \n";
-				}
+			
+			if(c.getInputCount() == 0) {
+				//we have an output only component
 				/*
-				 * Need to add handling for output to LEDs.
+				 * TODO: to be confirmed with Justus
 				 */
+				if(c instanceof SwitchComponent) {
+					for(int i = 0; i < c.getOutputCount(); i++) {
+						componentDecl += "assign SW[" + ((SwitchComponent) c).getNumber() + "] = "
+						+ wireNames.get(c.getOutputWire(i)) + "; \n";
+					}
+				}
 			}
-			else if(incomingWires.isEmpty()) {
-				//we have an output only gate 
-				String clockName = "c" + (++cCounter);
-				
-				if(g instanceof ClockGate) {
-					/*
-					 * TODO: Get clock properties.
-					 */
-					int mult = 0;
-					int div = 0;
-					gateDecl += "get_clock(CLOCK_50, " + mult + ", " + div + ", " + clockName + ") \n";
-				}
-				
-				gateDecl += "assign " + wireNames.get(outgoingWires.iterator().next()) + " = ";
-				
-				if(g instanceof HighGate) {
-					gateDecl += "1'b1";
-				}
-				else if(g instanceof LowGate) {
-					gateDecl += "1'b0";
-				}
-				else if(g instanceof ClockGate) {
-					gateDecl += clockName;
-				}
-				gateDecl += "; \n";
+			else if(c.getOutputCount() == 0) {
+				//we have an input only component
 				/*
-				 * TODO Need to add handling for input from clock and switches. 
+				 * TODO: to be confirmed against Justus' code. 
 				 */
+				if(c instanceof LEDComponent) {
+					componentDecl += "assign LEDR[" + ((LEDComponent) c).getNumber() + "] = " +
+					wireNames.get(c.getInputWire(0)) + "; \n";
+				}
 			}
 			else {
-				//we have a normal gate. 
-				gateDecl += g.getVerilogGateName() + " #(1,1) " + name + "(";
+				componentDecl += c.getVerilogMethod() + " #(1,1) " + name + "(";
+		
+				/*
+				 * Get outputs (in order)
+				 */
+				for(int i = 0; i < c.getOutputCount(); i++) {
+					componentDecl += wireNames.get(c.getOutputWire(i)) + ", ";
+				}
+				/*
+				 * Get inputs (in order)
+				 */
 				
-				for(Wire o : outgoingWires) {
-					gateDecl += wireNames.get(o) + ", ";
+				for(int i = 0; i < c.getInputCount(); i++) {
+					componentDecl += wireNames.get(c.getInputWire(i)) + ", ";
 				}
-				for(Wire i : incomingWires) {
-					gateDecl += wireNames.get(i) + ", ";
-				}
+				
 				//delete superfluous comma. 
-				gateDecl = gateDecl.substring(0, gateDecl.length() - 2);
-				gateDecl += "); \n";
+				componentDecl = componentDecl.substring(0, componentDecl.length() - 2);
+				componentDecl += "); \n";
 			}
 			
 		}
 		
-		return wireDecl + gateDecl;
+		return wireDecl + componentDecl;
 		
 	}
 	
@@ -161,11 +149,11 @@ public class VerilogConverter {
 	/**
 	 * Saves a circuit to a file in Verilog format
 	 * @param saveFolder	folder to save circuit. 
-	 * @param c	circuit object. This is assumed to be a valid circuit. 
+	 * @param c	CompoentGraph object. This is assumed to be a valid circuit. 
 	 * @see #convertToVerilog(Circuit)
 	 * @see #copyDirectory(File, File)
 	 */
-	public static void saveVerilogProject(File saveFolder, Circuit c) {
+	public static void saveVerilogProject(File saveFolder, ComponentGraph c) {
 		try {
 			//copy verilog project to saveFolder
 			copyDirectory(VerilogConverter.verilogProjectFolder, saveFolder);
@@ -212,28 +200,11 @@ public class VerilogConverter {
 	 */
 	public static void main(String[] args) {
 		//some simple demo code. 
-		Circuit circ = new Circuit();
 		
-		HighGate h1 = new HighGate();
-		LowGate l1 = new LowGate();
-		AndGate a1 = new AndGate(2);
-		DebugOutputGate d1 = new DebugOutputGate();
-		
-		circ.addVertex(h1);
-		circ.addVertex(l1);
-		circ.addVertex(a1);
-		circ.addVertex(d1);
-		
-        Wire a1_in = circ.addEdge(l1, a1);
-        Wire a2_in = circ.addEdge(h1, a1);
-        Wire out = circ.addEdge(a1, d1);
-        a1.setWire(a1_in, 0);
-        a1.setWire(a2_in, 1);
-        d1.setWire(out, 0);
         
         
 		
 		//System.out.println(convertToVerilog(circ));
-		saveVerilogProject(new File("verilog_test/"),circ);
+		//saveVerilogProject(new File("verilog_test/"),circ);
 	}
 }

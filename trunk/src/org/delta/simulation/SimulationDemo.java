@@ -19,8 +19,7 @@ public class SimulationDemo {
         Circuit circ = new Circuit();
         Circuit circ2 = new Circuit();
         Simulator sim = new Simulator();
-        sim.setCircuit(circ2);
-        sim.setClockFrequency(2000);
+
         SimulationScheduler sched = new SimulationScheduler(sim);
         sched.setSimulationFrequency(200L);
 
@@ -78,15 +77,14 @@ public class SimulationDemo {
 
 //        sim.addEvent(new SimulationEvent(h1));
 //        sim.addEvent(new SimulationEvent(l1));
-        din1.setValue(State.S1);
-        sim.addGate(din1);
+        sim.setCircuit(circ2);
+        din1.setState(State.S1);
         sim.run();
         sim.run();
         sim.run();
         sim.run();
 //        sim.DEBUG_RECURSE = true;
-        din1.setValue(State.S0);
-        sim.addGate(din1);
+        din1.setState(State.S0);
 //        sim.run();
         sched.start();
     }

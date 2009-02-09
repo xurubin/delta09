@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import org.delta.circuit.Gate;
-import org.delta.circuit.gate.Clock;
 
 
 public class SimulationQueue {
@@ -34,12 +33,6 @@ public class SimulationQueue {
     synchronized Set<Gate> getFirstEventSet() {
         if (eventQueue.isEmpty()) return null;
         return eventQueue.removeFirst();
-    }
-
-    synchronized void addClock(final Clock clock) {
-        Set<Gate> set = new HashSet<Gate>();
-        set.add(clock);
-        eventQueue.add(set);
     }
 
     public synchronized void clear() {

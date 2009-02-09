@@ -1,5 +1,6 @@
 package org.delta.simulation;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.TimerTask;
 import org.delta.circuit.Circuit;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
+import org.delta.circuit.gate.AbstractInputGate;
 import org.delta.logic.State;
 
 /**
@@ -29,7 +31,7 @@ public final class Simulator extends TimerTask {
     /**
      * Counts up to the value of the clock frequency. When reached, the circuit
      * clock is updated .
-     * @see Simulator#clockTick()
+     * @see Simulator#updateInputGates()
      * @see Simulator#clockFrequency
      */
     private int clockCounter;
@@ -44,6 +46,7 @@ public final class Simulator extends TimerTask {
      * @see Simulator#setCircuit(Circuit)
      */
     private Circuit circuit;
+    private List<AbstractInputGate> inputGates;
 
     /**
      * Empty constructor.
@@ -57,33 +60,21 @@ public final class Simulator extends TimerTask {
      */
     public void setCircuit(final Circuit circuit) {
         this.circuit = circuit;
+        
+        inputGates = new ArrayList<AbstractInputGate>();
+        for (Gate gate: circuit.vertexSet()) {
+            if (gate instanceof AbstractInputGate) {
+                inputGates.add((AbstractInputGate) gate);
+            }
+        }
     }
 
     /**
-     * Sets the frequency at which the simulated clock runs and sets the clock
-     * counter to zero. If the clock frequency is set to zero, the simulated
-     * clock is stopped.
-     * @param clockFrequency - integer multiple of the simulation frequency.
-     * @see SimulationScheduler#setSimulationFrequency(long)
-     * @see Simulator#clockCounter
+     * 
      */
-    public void setClockFrequency(final int clockFrequency) {
-        this.clockFrequency = clockFrequency;
-        clockCounter = 0;
-    }
-
-    /**
-     * Advance the internal (counter) clock by one step. When it reaches the
-     * value of the clock frequency, output of the simulated circuit clock is
-     * changed.
-     * @see Simulator#clockFrequency
-     */
-    private void clockTick() {
-        if (clockFrequency == 0) return;
-
-        clockCounter = (clockCounter + 1) % clockFrequency;
-        if (clockCounter == 0) {
-            simulationQueue.addClock(circuit.getClock());
+    private void updateInputGates() {
+        for (AbstractInputGate gate: inputGates) {
+            if (gate.update()) simulationQueue.addGate(gate);
         }
     }
 
@@ -93,7 +84,7 @@ public final class Simulator extends TimerTask {
      */
     @Override
     public void run() {
-        clockTick();
+        updateInputGates();
 
         // Retrieve gates whose output has to be re-evaluated for the time step.
         final Set<Gate> gateSet = simulationQueue.getFirstEventSet();
@@ -150,12 +141,6 @@ public final class Simulator extends TimerTask {
         
         // Add gates which need re-evaluation to the queue.
         simulationQueue.addAllGates(nextGateList);
-    }
-
-    // FIXME: Only for debug purposes.
-    @Deprecated
-    public void addGate(final Gate gate) {
-        simulationQueue.addGate(gate);
     }
 
 }

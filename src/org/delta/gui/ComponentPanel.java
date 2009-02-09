@@ -107,11 +107,11 @@ public class ComponentPanel extends javax.swing.JPanel
 		Category norandor   = new Category ( "'Nor' and 'Or' gates",   2 );
 //		Category yourface   = new Category ( "YOUR FACE", 1);
 
-		nandandand.add ("org/delta/gui/nand.png", "Nand Gate", "org/delta/gui/and.png", "And Gate");
+		nandandand.add ("nand.png", "Nand Gate", "and.png", "And Gate");
 	//	nandandand.add ("new.png", "Huh?");
 
-		norandor.add ("org/delta/gui/nor.png", "Nor Gate");
-		norandor.add ("org/delta/gui/or.png", "Or Gate");
+		norandor.add ("nor.png", "Nor Gate");
+		norandor.add ("or.png", "Or Gate");
 		
 //		yourface.add ("open.png", "Like?");
 //		yourface.add ("paste.png", "Your face", "copy.png", "COPEH!!!11");

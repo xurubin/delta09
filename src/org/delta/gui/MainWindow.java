@@ -8,10 +8,11 @@ import org.delta.gui.diagram.*;
 
 public class MainWindow extends javax.swing.JFrame {
 	
-	private CircuitPanel circuit_panel;
-	private ComponentPanel component_panel;
-	private JPanel status_panel;
-	private ClockPanel clock_panel;
+	protected CircuitPanel circuit_panel;
+	protected ComponentPanel component_panel;
+	protected JPanel status_panel;
+	protected ClockPanel clock_panel;
+	protected DeltaToolBar toolbar;
 	
 	private static MainWindow mw;
 	
@@ -27,7 +28,7 @@ public class MainWindow extends javax.swing.JFrame {
 			}
 		} );
 		
-		addComponentListener ( new ComponentAdapter() {
+/*		addComponentListener ( new ComponentAdapter() {
 			public void ComponentResized (ComponentEvent evt) {
 			/// /*
 			
@@ -49,14 +50,14 @@ public class MainWindow extends javax.swing.JFrame {
          }
 			}
 			
-			/// */
+			/// *//*
 		} );
-		
+	*/	
 		circuit_panel = new CircuitPanel();
 		circuit_panel.setPreferredSize ( new Dimension (620, 460) );
 		
 //		circuit_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
-		circuit_panel.addMouseMotionListener ( new MouseMotionAdapter() {
+/*		circuit_panel.addMouseMotionListener ( new MouseMotionAdapter() {
 			public void mouseDragged (MouseEvent evt) {
 				mainPanelMouseDragged (evt);
 			}
@@ -72,7 +73,7 @@ public class MainWindow extends javax.swing.JFrame {
 				mainPanelMouseClicked (evt);
 			}
 		} );
-		
+*/		
 		JScrollPane sp = new JScrollPane (circuit_panel);
 		cp.add (sp, BorderLayout.CENTER);
 		sp.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
@@ -159,13 +160,13 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		setJMenuBar (menu_bar);
 		
-		DeltaToolBar toolbar = new DeltaToolBar();
+		toolbar = new DeltaToolBar();
 		
 		add (toolbar, BorderLayout.PAGE_START);
 		
 		pack();
 	}
-	
+/*	
 	private void mainPanelMouseDragged (MouseEvent evt)
 	{
 		
@@ -185,7 +186,7 @@ public class MainWindow extends javax.swing.JFrame {
 	{
 		
 	}
-	
+	*/
 	private void quitApplication()
 	{
 		System.exit (0);

@@ -18,8 +18,8 @@ public class DeleteAction extends AbstractAction
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		JGraph graph = CircuitPanelTest.panel.getGraph();
-		if (CircuitPanelTest.panel.getGraph().isSelectionEmpty() == false)
+		JGraph graph = MainWindow.get().circuit_panel.getGraph();
+		if (MainWindow.get().circuit_panel.getGraph().isSelectionEmpty() == false)
 		{
 			Object[] cells = graph.getSelectionCells();
 			cells = graph.getDescendants(cells);

@@ -7,12 +7,12 @@ import com.jopdesign.io.HostDatagramLayer;
  * @author Group Delta 2009
  *
  */
-class BoardInterface {
+public class BoardInterface {
 	
 	private volatile int lights = 0;
 	private HostDatagramLayer hostLayer;
 	private SerialListener serialListener;
-	private BoardInterface boardInterface;
+	private static BoardInterface boardInterface;
 	
 	/**
 	 * Constructs a new BoardInterface. The method is protected.
@@ -32,7 +32,7 @@ class BoardInterface {
 	 * @return BoardInterface instance. 
 	 * @see #BoardInterface()
 	 */
-	public BoardInterface getInstance() {
+	public static BoardInterface getInstance() {
 		if(boardInterface == null) boardInterface =  new BoardInterface();
 		return boardInterface;
 	}

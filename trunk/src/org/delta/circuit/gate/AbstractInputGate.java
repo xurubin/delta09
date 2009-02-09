@@ -6,23 +6,24 @@ import org.delta.logic.Formula;
 import org.delta.logic.State;
 
 public abstract class AbstractInputGate extends Gate {
-    private State value = State.SX;
+    private State state = State.SX;
 
     public AbstractInputGate() {
         super(0);
     }
-
-    public State getValue() {
-        return value;
+    
+    public abstract boolean update();
+    
+    void setState(State state) {
+        this.state = state;
     }
-
-    public void setValue(State value) {
-        this.value = value;
+    
+    State getState() {
+        return state;
     }
 
     @Override
     public Formula getFormula() {
-        return new Constant(value);
+        return new Constant(state);
     }
-
 }

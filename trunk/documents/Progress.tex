@@ -66,7 +66,7 @@ Steven Gilham\\
 \setlength{\parskip}{\medskipamount}
 \section{Project Change}
 A serious problem with the \emph{JOP} processor's implementation of the standard Java library means that we have had to change our approach to the problem.
-The processor does not have any built-in support for either Reflection or Serialization, meaning that since our project was designed on the assumption that 
+The processor does not have any built-in support for either \emph{Reflection} or \emph{Serialization}, meaning that since our project was designed on the assumption that 
 these library classes were implemented, the whole structure of the simulation ascept has had to have been changed. The decision was made to instead perform
 most of the simulation on the PC and then use the serial link to communicate LED and switch changes with the DE2 board. This change still leads to effectively
 the same application, one where one designs a circuit on the PC and then interacts with it using the LEDs and switches present on the board. 
@@ -76,25 +76,39 @@ We have currently acheived a significant amount, however we are slightly behind 
 Every member of the team has contributed well to the project performing tasks assigned to them within reasonable time frames.
 \subsection{Robert Duncan}
 \begin{enumerate}
-\item Project management.
+\item Project management and document compilation. 
 \item Set up Google Code project repository.
 \item Wrote interface between the simulator and the board.
-\item Mostly completed Verilog translation. 
+\item Mostly completed ComponentGraph to Verilog translation. 
 \item Wrote file-handling code to deal with Quartus project for Verilog output. 
 \item Created Gate SVG diagrams.
 \end{enumerate}
+\subsection{Justus Matthiesen}
+\begin{enumerate}
+\item Implemented a (non-hierarchical) gate-level circuit data structure based on 
+a directed graph (provided by the JGraphT library).
+\item Implemented a hierarchical logic-component-level data structure for circuits 
+building on top of the gate-level data structure mentioned above.
+\item Created several classes representing boolean function (using an additional 
+state X) and their equivalents in gates (including pseudo-gates for LEDs and 
+switches which rely on the interface to the board written by Robert Duncan).
+\item Implemented a discrete time (event-driven) simulator for digital logic 
+circuits. It simulates at the gate level and uses unit-time gate delays.
+\item Investigated the use of several GUI libraries for enhancing the GUI (e.g. 
+SVG images).
+\end{enumerate}
 \subsection{David Weston}
 \begin{enumerate}
-\list Created classes for the main window, component panel and clock panel.
-\list Have used these to produce a window with the necessary panels, toolbars and menus.
-\list Created temporary icons.
-\list Designed a data structure to use to display components in the panel and a temporary method of displaying them
+\item Created classes for the main window, component panel and clock panel.
+\item Have used these to produce a window with the necessary panels, toolbars and menus.
+\item Created temporary icons.
+\item Designed a data structure to use to display components in the panel and a temporary method of displaying them
 (still need to implement concertina-style menu). 
-\list Integrated Chris's circuit panel into the window, with buttons on the toolbar successfully performing all the actions that have so far been implemented.
+\item Integrated circuit panel into the window, with buttons on the toolbar successfully performing all the actions that have so far been implemented.
 \end{enumerate}
 \subsection{Christopher Wilson}
 \begin{enumerate}
-    \item  Created a panel for the circuit diagram based around an example application that came with JGraph.
+    \item Created a panel for the circuit diagram based around an example application that came with JGraph.
     \item Implemented Undo and Redo functionality for the diagram.
     \item Implemented Cut, Copy and Paste for the diagram.
     \item Created Action classes for all of the above so they can easily be added to toolbars and menus.
@@ -113,10 +127,11 @@ Every member of the team has contributed well to the project performing tasks as
 \item High level communication class at PC side and daemon Java program on JoP side to allow controlling of switches and LEDs on DE2.
 \end{enumerate}
 \section{Time distribution}
-\begin{tabular}{c | c | c | c | c}
-& Week 1 & Week 2 & Week 3 & Week 4 & Total\\
+\begin{tabular}{|c | c | c | c | c | c|}
 \hline
-Robert Duncan & 5 & 5 & 15 & 15 & 40\\
+Hello & Week 1 & Week 2 & Week 3 & Week 4 & Total\\
+\hline
+Robert Duncan & 5 & 10 & 15 & 15 & 45\\
 \hline
 Justus Matthiesen & 0 & 0 & 0 & 0 & 0 \\
 \hline
@@ -124,6 +139,18 @@ Christopher Wilson & 0 & 0 & 0 & 0 & 0\\
 \hline
 Daivd Weston & 0 & 0 & 0 & 0 & 0\\
 \hline
-Rubin Xu & 0 & 0 & 0 & 0 & 0 & 0\\
+Rubin Xu & 0 & 0 & 0 & 0 & 0\\
+\hline
 \end{tabular}
+\section{Still to implement}
+\begin{enumerate}
+\item Integrating simulator functionality with board.
+\item Improve drag and drop functionality, including adding concertina effect on component library. 
+\item Improving method for creation of wires. 
+\item Improve look and feel of the GUI.
+\item Complete Verilog implementation to reflect components added. 
+\item Modular testing on the simulator package as well as mocking for the GUI. 
+\item System testing. 
+\item Documentation and help files. 
+\end{enumerate}
 \end{document}

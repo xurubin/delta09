@@ -8,7 +8,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.io.Serializable;
-import java.util.Map;
 
 //public class DeltaPortRenderer extends PortRenderer {
 	/**
@@ -23,7 +22,7 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	
 	/** Cache the current graph for drawing */
 	// protected transient JGraph graph;
-	/** Cache the current edgeview for drawing. */
+	/** Cache the current EdgeView for drawing. */
 	protected transient PortView view;
 	
 	/** Cache the current graph background. */
@@ -85,7 +84,7 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	 *            the cell view to retrieve the attribute values from.
 	 */
 	protected void installAttributes(CellView view) {
-		Map map = view.getAllAttributes();
+		AttributeMap map = view.getAllAttributes();
 		setForeground(GraphConstants.getForeground(map));
 	}
 	

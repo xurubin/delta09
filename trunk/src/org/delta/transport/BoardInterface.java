@@ -21,7 +21,7 @@ public class BoardInterface {
 	 */
 	protected BoardInterface() {
 		//start listener
-		HostDatagramLayer hostLayer  = new HostDatagramLayer(1);
+		HostDatagramLayer hostLayer  = new HostDatagramLayer();
 		serialListener = new SerialListener(hostLayer);
 		serialListener.start();
 		

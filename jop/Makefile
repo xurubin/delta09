@@ -202,14 +202,14 @@ compile_java:
 #
 #	TODO: change it to RXTXcomm if it's working ok
 #
-pc:
-	-rm -rf $(PCTOOLS)/dist
-	mkdir $(PCTOOLS)/dist
-	mkdir $(PCTOOLS)/dist/lib
-	mkdir $(PCTOOLS)/dist/classes
+#pc:
+#	-rm -rf $(PCTOOLS)/dist
+#	mkdir $(PCTOOLS)/dist
+#	mkdir $(PCTOOLS)/dist/lib
+#	mkdir $(PCTOOLS)/dist/classes
 #	make compile_java -e JAVA_DIR=$(PCTOOLS)/src
-	javac $(PCTOOLS_JFLAGS) $(PCTOOLS)/src/udp/*.java
-	cd $(PCTOOLS)/dist/classes && jar cf ../lib/jop-pc.jar *
+#	javac $(PCTOOLS_JFLAGS) $(PCTOOLS)/src/udp/*.java
+#	cd $(PCTOOLS)/dist/classes && jar cf ../lib/jop-pc.jar *
 
 #
 #	compile and JOPize the application

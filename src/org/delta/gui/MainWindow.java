@@ -18,7 +18,7 @@ public class MainWindow extends javax.swing.JFrame {
 	protected JPanel status_panel;
 	protected ClockPanel clock_panel;
 	protected JToolBar toolbar;
-	protected Action undo_action,redo_action;
+	protected Action undo_action, redo_action;
 	
 	private static MainWindow mw;
 	
@@ -62,32 +62,10 @@ public class MainWindow extends javax.swing.JFrame {
 		circuit_panel = new CircuitPanel();
 		circuit_panel.setPreferredSize ( new Dimension (620, 460) );
 		
-//		circuit_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
-/*		circuit_panel.addMouseMotionListener ( new MouseMotionAdapter() {
-			public void mouseDragged (MouseEvent evt) {
-				mainPanelMouseDragged (evt);
-			}
-		} );
-		circuit_panel.addMouseListener (new MouseAdapter() {
-			public void mousePressed (MouseEvent evt) {
-				mainPanelMousePressed (evt);
-			}
-			public void mouseReleased (MouseEvent evt) {
-				mainPanelMouseReleased (evt);
-			}
-			public void mouseClicked (MouseEvent evt) {
-				mainPanelMouseClicked (evt);
-			}
-		} );
-*/		
 		JScrollPane sp = new JScrollPane (circuit_panel);
 		cp.add (sp, BorderLayout.CENTER);
 		sp.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
 		sp.setPreferredSize ( new Dimension (640, 480) );
-		
-//		JPanel bottom_panel = new JPanel();
-//		bottom_panel.setMinimumSize ( new Dimension (840, 100) );
-//		cp.add (bottom_panel, BorderLayout.SOUTH);
 		
 		component_panel = new ComponentPanel();
 		component_panel.setPreferredSize ( new Dimension (180, 500) );
@@ -107,7 +85,6 @@ public class MainWindow extends javax.swing.JFrame {
 		component_panel.add(label);
 		
 		JScrollPane sb = new JScrollPane (component_panel);
-//		cp.add (sb, BorderLayout.WEST);
 		sb.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
 		sb.setPreferredSize ( new Dimension (200, 480) );
 		sb.setMinimumSize (new Dimension (200, 800) );
@@ -116,12 +93,6 @@ public class MainWindow extends javax.swing.JFrame {
 		clock_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 		clock_panel.setPreferredSize ( new Dimension (200, 100) );
 		clock_panel.setMinimumSize   ( new Dimension (200, 100) );
-//		bottom_panel.add (clock_panel, BorderLayout.WEST);
-		
-//		status_panel = new JPanel();
-//		status_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
-//		status_panel.setPreferredSize ( new Dimension (640, 100) );
-//		bottom_panel.add (status_panel, BorderLayout.CENTER);
 		
 		JSplitPane left_panel = new JSplitPane (JSplitPane.VERTICAL_SPLIT, sb, clock_panel);
 		left_panel.setResizeWeight (1.0);
@@ -163,9 +134,9 @@ public class MainWindow extends javax.swing.JFrame {
 		
 //		Create File menu
 		JMenu file_menu = new JMenu ("File");
-		file_menu.add(new_action);
-		file_menu.add(open_action);
-		file_menu.add(save_action);
+		file_menu.add (new_action);
+		file_menu.add (open_action);
+		file_menu.add (save_action);
 		JMenuItem exit_menu_item = new JMenuItem ("Exit");
 		exit_menu_item.addActionListener ( new ActionListener() {
 			public void actionPerformed (ActionEvent evt) {
@@ -175,23 +146,23 @@ public class MainWindow extends javax.swing.JFrame {
 		
 //		Create Edit menu
 		JMenu edit_menu = new JMenu ("Edit");
-		edit_menu.add(undo_action);
-		edit_menu.add(redo_action);
-		edit_menu.add(cut_action);
-		edit_menu.add(copy_action);
-		edit_menu.add(paste_action);
+		edit_menu.add (undo_action);
+		edit_menu.add (redo_action);
+		edit_menu.add (cut_action);
+		edit_menu.add (copy_action);
+		edit_menu.add (paste_action);
 		
 //		Create View menu
 		JMenu view_menu = new JMenu ("View");
-		view_menu.add(zoomin_action);
-		view_menu.add(zoomout_action);
+		view_menu.add (zoomin_action);
+		view_menu.add (zoomout_action);
 		
 //		Create Help menu
 		JMenu help_menu = new JMenu("Help");
 		JMenuItem contents_menu_item = new JMenuItem ("Contents");
-		help_menu.add(contents_menu_item);
+		help_menu.add (contents_menu_item);
 		JMenuItem about_menu_item    = new JMenuItem ("About");
-		help_menu.add(about_menu_item);
+		help_menu.add (about_menu_item);
 		
 //		Create menu bar for the window and add the menus
 		JMenuBar menu_bar = new JMenuBar();
@@ -205,45 +176,25 @@ public class MainWindow extends javax.swing.JFrame {
 		toolbar = new JToolBar();
 		toolbar.setFloatable (false);        
 		toolbar.setPreferredSize ( new Dimension (450, 50) );
-		toolbar.add ( new_action	);
-		toolbar.add ( open_action	);
-		toolbar.add ( save_action	);
-		toolbar.add ( undo_action	);
-		toolbar.add ( redo_action	);
-		toolbar.add ( run_action	);
-		toolbar.add ( export_action	);
-		toolbar.add ( zoomin_action	);
-		toolbar.add ( zoomout_action);
-		toolbar.add ( cut_action	);
-		toolbar.add ( copy_action	);
-		toolbar.add ( paste_action	);
+		toolbar.add ( new_action	 );
+		toolbar.add ( open_action	 );
+		toolbar.add ( save_action	 );
+		toolbar.add ( undo_action	 );
+		toolbar.add ( redo_action	 );
+		toolbar.add ( run_action	 );
+		toolbar.add ( export_action	 );
+		toolbar.add ( zoomin_action	 );
+		toolbar.add ( zoomout_action );
+		toolbar.add ( cut_action	 );
+		toolbar.add ( copy_action	 );
+		toolbar.add ( paste_action	 );
 		add (toolbar, BorderLayout.NORTH);
 		
 //		Pack components into the MainWindow
 		pack();
 
 	}
-/*	
-	private void mainPanelMouseDragged (MouseEvent evt)
-	{
-		
-	}
-	
-	private void mainPanelMousePressed (MouseEvent evt)
-	{
-		
-	}
-	
-	private void mainPanelMouseReleased (MouseEvent evt)
-	{
-		
-	}
-	
-	private void mainPanelMouseClicked (MouseEvent evt) 
-	{
-		
-	}
-	*/
+
 	private void quitApplication()
 	{
 		System.exit (0);

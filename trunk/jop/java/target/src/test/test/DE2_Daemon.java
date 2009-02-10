@@ -12,7 +12,7 @@ public class DE2_Daemon {
 
 	public static void main(String[] args) {
 
-		JoPDatagramLayer d = new JoPDatagramLayer(0, 0); //No polling thread
+		JoPDatagramLayer d = new JoPDatagramLayer(); //No polling thread
 		RtThread.startMission();
 		while (true) {
 			DE2Peripheral.directLEDState(d.readLEDStates());

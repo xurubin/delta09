@@ -41,9 +41,15 @@ import joprt.RtThread;
  */
 public class HelloDE2 {
 
-	private static void displayMem(int addr) {
-		int val = Native.rd(addr);
-		System.out.println("Addr: " + addr + " = "+val);
+	private static void sort(int[] a, int len){
+		int t;
+		for(int i=0;i<len;i++)
+			for(int j=i-1;j>=0;j--)
+				if (a[j]>a[j+1]) {
+					t = a[j];
+					a[j] = a[j+1];
+					a[j+1] = t;
+		}
 	}
 	public static void main(String[] args) {
 
@@ -56,13 +62,37 @@ public class HelloDE2 {
 
 		JoPDatagramLayer d = new JoPDatagramLayer(0, 0);
 		RtThread.startMission();
+		byte datagram[] = new byte[16*1024];
 		while (true) {
+			DE2Peripheral.directLEDState(1);
+			d.readDatagram(datagram);
+			DE2Peripheral.directLEDState(2);
+			int array[] = d.deserialiseIntArray(datagram);
+			DE2Peripheral.directLEDState(4);
+			sort(array, array.length);
+			DE2Peripheral.directLEDState(8);
+			
+			DE2Peripheral.setHEX1Display(array[0],true);
+			DE2Peripheral.setHEX2Display(array[array.length-1],true);
+
+			DE2Peripheral.setLEDRState(17, !DE2Peripheral.getLEDRState(17));
+			
+		}
+		
+		/*
+		byte data[] =new byte[56];
+		while (true) {
+			d.readPacket(data);
+			DE2Peripheral.setLEDRState(17, !DE2Peripheral.getLEDRState(17));
+		*/
+			/*
 			DE2Peripheral.directLEDState(d.readLEDStates());
 		
 			int sk = DE2Peripheral.directSwitchState();
 			d.sendSwitchStates(sk);
 			DE2Peripheral.setLEDRState(17, !DE2Peripheral.getLEDRState(17));
 		}
+			*/
 
 	}
 }

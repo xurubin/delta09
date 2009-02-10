@@ -5,6 +5,7 @@ import java.lang.Thread;
 import jftd2xx.JFTD2XX;
 
 public class HostDatagramLayer extends BaseDatagramLayer{
+	private final int TIME_OUT = 100;
 	private final int MAX_USBBUF = 64;
 	private byte usbBuf[] = new byte[MAX_USBBUF];
 	private JFTD2XX usb;
@@ -91,7 +92,7 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 			d = readByteFromUSB();
 			while (!( (d1==(byte)DATAGRAM_ACK)&&(d==0) )) {
 				timeout++;
-				if (timeout>300) return false;
+				if (timeout>TIME_OUT) return false;
 				d1 = d;
 				d = readByteFromUSB();
 			}
@@ -124,12 +125,16 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 			int count = 0;
 			int states = -1;
 			int data;
-			while (count < 4) { //Invalid Packet
+			int timeout;
+			//while (count < 4) { //Invalid Packet
 				states = 0;
 				count = 0;
-				while(  (data = readByteFromUSB()) == 0x00);
+				timeout = 0;
+				while((data = readByteFromUSB()) == 0x00) {
+					timeout++;
+					if (timeout == TIME_OUT) return -1;
+				}
 				while(data != 0x00){
-					if (count<4)
 						states = (states>>>7)| ((data&0x7F)<<21);
 					//System.out.printf("%02x",(byte)data);
 					data = readByteFromUSB();
@@ -137,7 +142,7 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 				}
 				//System.out.printf("%02x\n",(byte)data);
 				//System.out.printf("%02x %08x\n",(byte)data, states);
-			}
+			//}
 			if (count != 4)
 				return -1;
 			else
@@ -148,10 +153,10 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 			int byteCount = 1;
 
 			usbBuf[byteCount++]= (DATAGRAM_HEADER); 
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>>= 7;
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>>= 7;
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>>= 7;
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); 
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); 
 			usbBuf[byteCount++]= 0x21; //LED Packet Signature.
 			usbBuf[byteCount++]= 0x43; 
 			usbBuf[byteCount++]= 0x65; 

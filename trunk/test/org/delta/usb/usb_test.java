@@ -70,7 +70,7 @@ while(true){
 		int LED =0, L;
 		HostDatagramLayer u = new HostDatagramLayer();
 		long t;
-		while (true) {
+		while (true) { 
 			i++;
 			t = System.currentTimeMillis();
 			u.sendLEDStates((i&0xF)<<22 | LED);
@@ -78,7 +78,7 @@ while(true){
 			if (L != -1) LED = L;
 			t = System.currentTimeMillis() - t;
 			if (t != 0)
-			System.out.printf(" %2.4f",1000.0/t);
+			System.out.printf(" %3.1f ",1000.0/t);
 			System.out.print('\r');
 		}
 	}

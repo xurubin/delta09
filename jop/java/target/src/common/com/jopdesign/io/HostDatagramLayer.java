@@ -8,30 +8,15 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 	private final int MAX_USBBUF = 64;
 	private byte usbBuf[] = new byte[MAX_USBBUF];
 	private JFTD2XX usb;
-
-	public HostDatagramLayer(final int ms){
+	
+	public HostDatagramLayer(){
 		try {
 			usb  = new JFTD2XX(0);
 			close();
 			open();
-			usb.setLatencyTimer(2);
+			//usb.setLatencyTimer(2);
 		} catch (Exception e){
 			System.exit(1);
-		}
-		if (ms > 0){
-			Thread pollingThread = new Thread(){
-				public void run(){
-					while(true){
-						//recv();
-						try {
-							Thread.sleep(ms);
-						}catch (Exception e) {
-							return;
-						}
-					}
-				}
-			};
-			pollingThread.start();
 		}
 	}
 	
@@ -47,108 +32,132 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 			usb.initConnection();
 		}catch (Exception e){}
 	}
-	/* copy from send buffer to serial buffer. called by handler */
-	public void send(){
-		synchronized(monitor){
-//		write serial data
-			int byteCount = 1;
-			int i = rdptTx;
-			int j = wrptTx;
-			while(i != j && byteCount<MAX_USBBUF){
-				usbBuf[byteCount++] = (byte)txBuf[i];
-				i = (i + 1)&BUF_MSK;
-			}
-			usbBuf[0] = (byte) (0x80 | (byteCount-1));
-			try {
-				if (byteCount > 1)
-					if (usb.write(usbBuf, 0, byteCount)==byteCount){
-						rdptTx = i;
-						//System.out.printf("%d - %d\n", rdptTx, wrptTx);
-						//System.out.printf("(%d)%02x %02x %02x\n",byteCount, usbBuf[0], usbBuf[1], usbBuf[2]);
-					}else
-						;//System.out.println("send() error.");
-			} catch(Exception e){}
-		}
-	}
-	
 	private byte readByteFromUSB(){
-		
 		usbBuf[0] = (byte) 0xC1;
 		usbBuf[1] = 0;
 		try {
 			usb.write(usbBuf, 0, 2);
-			if (1 == usb.read(usbBuf, 0, 1))
+			if (1 == usb.read(usbBuf, 0, 1)) {
+				if (usbBuf[0] > DATAGRAM_END ) //A readable char, not Data
+						System.out.print((char)usbBuf[0]);
 				return usbBuf[0];
-			else 
-				return END;
+			}else 
+				return 0x00;
 		}catch(Exception e){
-			return END;
+			return 0x00;
 		}
 	}
+	
+	public boolean sendDatagram(byte[] data, int len) {
+		assert(PACKET_LEN==56);
+		byte b[] = new byte[PACKET_LEN];
+		b[0]= (byte) (((len&0x7F)<<1) + 1);
+		b[1]= (byte) ((((len>>>7)&0x7F)<<1) + 1);
+		b[2]= (byte) ((((len>>>14)&0x7F)<<1)+ 1);
+		b[3]= (byte) ((((len>>>21)&0x7F)<<1) + 1);
+		b[4]=b[5]=b[6]=b[7]=b[8]=b[9]=b[10]=b[11]=DATAGRAM_LEN_HEADER;
+		while(!sendPacket(b,12));// return false; 
+		
+		//One packet is able to carry 56 bytes. 
+		//Each byte contains only 7 bits of data
+		//So each packe maps to 56*7/8=49 bytes information
+		for(int i=0;i<(len+48)/49;i++){// i*49..i*49+48
+			for(int j=0;j<7;j++) // i*49+(j*7..j*7+6)
+				BytesExpand(data, i*49+j*7, b, j*8);
+			if (!sendPacket(b, 56)) return false;
+		}
+		return true;
+	}
+	
 
 	/**
-	 Reads from the serial buffer into the receive buffer. If more bytes are received, than the receive buffer can hold, the
-	 packet will be truncated.
+	 *  data[] requirement: No 0x00, 0xAA, maximum length PACKET_LEN=56
 	 */
-	public void recv(){
-		synchronized(monitor){
-//		read serial data
-			if ( ((wrptRx + 1)&BUF_MSK) == rdptRx) //Full rxBuf
-				return;
-			int i = wrptRx;
-			int j = rdptRx;
-			while(((i + 1)&BUF_MSK) != j){
-				rxBuf[i] = readByteFromUSB();
-				//if (rxBuf[i] != 0)	System.out.print((char)rxBuf[i]);
-				if ( (i != rdptRx)&&(rxBuf[(i-1)&BUF_MSK] == END)&&(rxBuf[i]==END) ) //Consecutive ENDs are not stored
-					break; 
-				else
-					i = (i + 1)&BUF_MSK;
+	public boolean sendPacket(byte[] data,int len) {
+		int i;
+		int timeout = 0;
+		byte d,d1;
+		d=d1=-1;
+		usbBuf[0] = (byte)(0x80|(PACKET_LEN+2));
+		usbBuf[1] = (byte)DATAGRAM_HEADER;
+		for (i=0;i<len;i++)
+			usbBuf[2+i] = data[i];
+		for (i=len;i<PACKET_LEN;i++)
+			usbBuf[2+i] = 1;
+		usbBuf[2+PACKET_LEN]= DATAGRAM_END;
+		try {
+			if (usb.write(usbBuf, 0, PACKET_LEN+3) != PACKET_LEN+3)
+				return false;
+			d = readByteFromUSB();
+			while (!( (d1==(byte)DATAGRAM_ACK)&&(d==0) )) {
+				timeout++;
+				if (timeout>300) return false;
+				d1 = d;
+				d = readByteFromUSB();
 			}
-			wrptRx = i;
-			//System.out.println(wrptRx-rdptRx);
+			readByteFromUSB();
+			usbBuf[0] = (byte)0x81; //Block JoP.readPacket
+			usbBuf[1] = DATAGRAM_END-1;
+			usb.write(usbBuf, 0, 2);
+			return true;
+		}catch(Exception e){
+			return false;
 		}
+ 	}
+	
+	public boolean readPacket(byte[] data) {
+		byte d;
+		int c = 0;
+		while ((d=readByteFromUSB())== 0 );
+		while (d != 0){
+			data[c++] = d;
+			d= readByteFromUSB();
+		}
+		return true;
+			
 	}
-
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 	public int readSwitchStates(){
-		synchronized(monitor){
 			//System.out.printf("%02x",data);
 			int count = 0;
 			int states = -1;
 			int data;
 			while (count < 4) { //Invalid Packet
 				states = 0;
-				while(  (data = readByteFromUSB()) == END);
-				while(data != END){
-					states = (states>>7)| ((data&0x7F)<<21);
+				count = 0;
+				while(  (data = readByteFromUSB()) == 0x00);
+				while(data != 0x00){
+					if (count<4)
+						states = (states>>>7)| ((data&0x7F)<<21);
 					//System.out.printf("%02x",(byte)data);
 					data = readByteFromUSB();
 					count++;
 				}
+				//System.out.printf("%02x\n",(byte)data);
 				//System.out.printf("%02x %08x\n",(byte)data, states);
 			}
-			return states;
-		}
+			if (count != 4)
+				return -1;
+			else
+				return states;
 	}
 	
 	public int sendLEDStates(int States){
-		synchronized(monitor){
 			int byteCount = 1;
 
-			usbBuf[byteCount++]= ((byte)0xAA); //LED Packet Signature. in sc_uart_jtag.vhdl
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>= 7;
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>= 7;
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>= 7;
+			usbBuf[byteCount++]= (DATAGRAM_HEADER); 
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); States >>>= 7;
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+1)); 
-			usbBuf[byteCount++]= 0x21; //Paddings
-			usbBuf[byteCount++]= 0x43; //Paddings
-			usbBuf[byteCount++]= 0x65; //Paddings
-			usbBuf[byteCount++]= 0x77; //Paddings
-			usbBuf[byteCount++]= 0x00; //Termination
-
+			usbBuf[byteCount++]= 0x21; //LED Packet Signature.
+			usbBuf[byteCount++]= 0x43; 
+			usbBuf[byteCount++]= 0x65; 
+			usbBuf[byteCount++]= 0x78; 
+			while (byteCount < PACKET_LEN+2) usbBuf[byteCount++] = 1; //Paddings
+			usbBuf[byteCount++]= DATAGRAM_END; //Termination
 
 
 
@@ -162,7 +171,6 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 			} catch(Exception e){}
 			return 1;
 		}
-	}
 	
 	
 }

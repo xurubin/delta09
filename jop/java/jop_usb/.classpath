@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry including="com/jopdesign/io/BaseDatagramLayer.java|com/jopdesign/io/HostDatagramLayer.java|com/jopdesign/io/Packet.java|jftd2xx/JFTD2XX.java" kind="src" path="JoP"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>

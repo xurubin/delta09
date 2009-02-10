@@ -161,6 +161,15 @@ else
     JAR=jar
 endif
 
+jop_usb:
+	-rm -rf $(TARGET)/dist/usb
+	mkdir $(TARGET)/dist/usb
+	javac -classpath $(TARGET)/src/common $(TARGET)/src/common/com/jopdesign/io/HostDatagramLayer.java -d $(TARGET)/dist/usb
+	javac -classpath $(TARGET)/src/common $(TARGET)/src/common/jftd2xx/JFTD2XX.java -d $(TARGET)/dist/usb
+	cd $(TARGET)/dist/usb && jar cf jop_usb.jar *
+	cp $(TARGET)/dist/usb/jop_usb.jar ../lib
+	-rm -rf $(TARGET)/dist/usb
+
 joptimizer:
 	make compile_java -e JAVAC_FLAGS="$(TOOLS_JFLAGS)" JAVA_DIR=$(TOOLS)/src/com/jopdesign/libgraph
 	make compile_java -e JAVAC_FLAGS="$(TOOLS_JFLAGS)" JAVA_DIR=$(TOOLS)/src/joptimizer

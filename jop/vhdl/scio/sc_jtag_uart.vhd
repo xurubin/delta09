@@ -90,11 +90,9 @@ architecture rtl of sc_jtag_uart is
 	signal rf_wr	:std_logic;
 	signal rf_empty	:std_logic;
 	signal rf_full	:std_logic;
-	signal rf_half	:std_logic;
 	
-	signal rx_ShiftRg	:std_logic_vector(71 downto 0);
-	signal rx_PacketBuf	:std_logic_vector(63 downto 0);
-
+	signal rx_ShiftRg	:std_logic_vector(455 downto 0);
+	signal rx_PacketBuf	:std_logic_vector(447 downto 0);
 component usb_jtag port(
 	iCLK 	: in std_logic;
 	iRST_n	: in std_logic;
@@ -169,23 +167,23 @@ begin
 		rx_ShiftRg <= (others => '0');
 		rx_PacketBuf <= (others => '0');
 	elsif rising_edge(clk) then
-		if (rx_ShiftRg(71 downto 64)="10101010") then
-			rx_PacketBuf <= rx_ShiftRg(63 downto 0);
+		if (rx_ShiftRg(455 downto 448)="10101010") then
+			rx_PacketBuf <= rx_ShiftRg(447 downto 0);
 		end if;
 		
 		if (oRxD_Ready='1') then
-			if (rx_new_data = '0') then
+			--if (rx_new_data = '0') then
 				rx_buf <= oRxD_Data;
 				rx_new_data <= '1';
-			end if;
+			--end if;
 			if (oRxD_Data /= "00000000") then --New Non-zero data arrived.
-				rx_ShiftRg <= rx_ShiftRg(63 downto 0) & oRxD_Data;
+				rx_ShiftRg <= rx_ShiftRg(447 downto 0) & oRxD_Data;
 			end if;
 		end if;
 	
 		if rd='1' then
 			-- that's our very simple address decoder
-			if (address(1)='0') then --Status/Data registers
+			if (address(3 downto 1)="000") then --Status/Data registers
 				rd_data(31 downto 8) <=(others =>'0');
 				if address(0)='1' then	--Read Data register
 					if rx_new_data = '1' then 
@@ -205,12 +203,24 @@ begin
 						rd_data(0) <= '0';
 					end if;
 				end if;
-			else --address(1)='1' -- ShiftRegisters
-				if (address(0) = '0') then
-					rd_data(31 downto 0) <= rx_PacketBuf(31 downto 0);
-				else
-					rd_data(31 downto 0) <= rx_PacketBuf(63 downto 32);
-				end if;
+			else --"0010,0011,...1111 -- ShiftRegisters
+				case address(3 downto 0) is 
+				  when "0010" => rd_data <= rx_PacketBuf(13*32+31 downto 13*32);
+				  when "0011" => rd_data <= rx_PacketBuf(12*32+31 downto 12*32);
+				  when "0100" => rd_data <= rx_PacketBuf(11*32+31 downto 11*32);
+				  when "0101" => rd_data <= rx_PacketBuf(10*32+31 downto 10*32);
+				  when "0110" => rd_data <= rx_PacketBuf(09*32+31 downto 09*32);
+				  when "0111" => rd_data <= rx_PacketBuf(08*32+31 downto 08*32);
+				  when "1000" => rd_data <= rx_PacketBuf(07*32+31 downto 07*32);
+				  when "1001" => rd_data <= rx_PacketBuf(06*32+31 downto 06*32);
+				  when "1010" => rd_data <= rx_PacketBuf(05*32+31 downto 05*32);
+				  when "1011" => rd_data <= rx_PacketBuf(04*32+31 downto 04*32);
+				  when "1100" => rd_data <= rx_PacketBuf(03*32+31 downto 03*32);
+				  when "1101" => rd_data <= rx_PacketBuf(02*32+31 downto 02*32);
+				  when "1110" => rd_data <= rx_PacketBuf(01*32+31 downto 01*32);
+				  when "1111" => rd_data <= rx_PacketBuf(00*32+31 downto 00*32);
+				  when others => rd_data <= (others => '0');
+				end case;
 			end if;
 		end if;
 	end if;

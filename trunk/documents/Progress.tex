@@ -1,0 +1,106 @@
+\documentclass[12pt, a4paper, oneside,titlepage]{article}
+\usepackage{geometry}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{layout}
+\usepackage{epstopdf}
+\usepackage{gastex}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{soul}
+\usepackage{hyperref}
+
+\hypersetup{linkbordercolor={0 0.5 1}}
+
+\setlength{\textheight}{58em}
+\setlength{\footskip}{5em}
+
+\setlength{\parindent}{0mm}
+
+\frenchspacing
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\renewcommand{\labelenumi}{(\textit{\alph{enumi}})}
+\renewcommand{\labelenumii}{(\textit{\roman{enumii}})}
+
+\widowpenalty=10000
+\clubpenalty=10000
+\raggedbottom
+
+
+\begin{document}
+
+ \begin{titlepage}
+ \begin{center}
+ \textsc{\huge{Project Delta}} \\
+ {\Large{An Interactive FPGA Circuit Simulator}}
+\end{center}
+\vspace{10em}
+ \begin{center}
+{\huge{Progress Report}}
+\end{center}
+\vfill
+\setlength{\columnsep}{10em}
+\begin{multicols}{2}{
+\emph{Developers:}\\
+Robert Duncan -- \texttt{rad55@cam.ac.uk} \\
+Justus Matthiesen -- \texttt{jm614@cam.ac.uk}\\
+David Weston -- \texttt{djw83@cam.ac.uk}\\
+Christopher Wilson -- \texttt{cw397@cam.ac.uk}\\
+Rubin Xu -- \texttt{rx201@cam.ac.uk}\\
+\emph{Client:}\\
+Steven Gilham\\
+\texttt{steven.gilham@citrix.com}
+\\
+\\
+}
+\end{multicols}
+\begin{center}
+\today
+\end{center}
+ \end{titlepage}
+
+\tableofcontents
+\newpage
+\setlength{\parskip}{\medskipamount}
+\section{Current acheivements}
+We have currently acheived a significant amount, however we are slightly behind schedule in beginning the testing phase of the project. 
+
+Every member of the team has contributed well to the project performing tasks assigned to them within reasonable time frames.
+
+\section{Christopher Wilson}
+\begin{enumerate}
+    \item  Created a panel for the circuit diagram based around an example application that came with JGraph
+    \item Implemented Undo and Redo functionality for the diagram
+    \item Implemented Cut, Copy and Paste for the diagram
+    \item Created Action classes for all of the above so they can easily be added to toolbars and menus
+    \item Created "model" classes for circuit components (just AND and OR initially)
+    \item Created "view" classes for those gates to contain visual information about the gates themselves
+    \item Created separate classes for Input and Output ports on components
+    \item Created view classes for Input and Output ports and created a renderer to display them as coloured blobs
+    \item Note: most of the above classes were created by subclassing what is already in the JGraph library
+\end{enumerate}
+\section{Rubin Xu}
+\begin{enumerate}
+\item SDRAM controller for JoP.
+\item Memory mapped I/O of LEDs and switches for JoP.
+\item Communication link over USB-Blaster for JoP.
+\item Win32 low level communication Java class via JNI and corresponding wrapper DLL.
+\item High level communication class at PC side and daemon Java program on JoP side to allow controlling of switches and LEDs on DE2.
+\end{enumerate}
+\section{Time distribution}
+\begin{tabular}{c | c | c | c | c}
+& Week 1 & Week 2 & Week 3 & Week 4 & Total\\
+\hline
+Robert Duncan & 5 & 5 & 15 & 15 & 40\\
+\hline
+Justus Matthiesen & 0 & 0 & 0 & 0 & 0 \\
+\hline
+Christopher Wilson & 0 & 0 & 0 & 0 & 0\\
+\hline
+Daivd Weston & 0 & 0 & 0 & 0 & 0\\
+\hline
+Rubin Xu & 0 & 0 & 0 & 0 & 0 & 0\\
+\end{tabular}
+\end{document}

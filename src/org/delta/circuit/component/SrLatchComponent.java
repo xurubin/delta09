@@ -1,6 +1,7 @@
 package org.delta.circuit.component;
 
 import org.delta.circuit.Component;
+import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.circuit.gate.NorGate;
@@ -24,5 +25,10 @@ public class SrLatchComponent extends Component {
         circuit.addVertex(nor1);
         circuit.addVertex(nor2);
     }
+
+	@Override
+	public String getVerilogMethod() {
+		return "rslatch";
+	}
 
 }

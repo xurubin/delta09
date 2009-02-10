@@ -1,6 +1,6 @@
 package org.delta.gui.diagram;
 
-import org.delta.gui.CircuitPanelTest;
+import org.delta.gui.MainWindow;
 import org.jgraph.*;
 import org.jgraph.graph.*;
 import java.awt.*;
@@ -8,8 +8,7 @@ import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class CircuitPanel extends JPanel
-{
+public class CircuitPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -17,8 +16,7 @@ public class CircuitPanel extends JPanel
 	private JGraph graph;
 	private GraphUndoManager undoManager;
 	
-	public CircuitPanel()
-	{
+	public CircuitPanel() {
 		GraphModel model = new DefaultGraphModel();
 		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory());
 		graph = new JGraph(model, view);
@@ -49,19 +47,21 @@ public class CircuitPanel extends JPanel
 		graph.getGraphLayoutCache().insert(cells);
 		graph.setPortsVisible(true);
 		
-		undoManager = new GraphUndoManager()
-		{
+		// Create undo manager and add to graph
+		undoManager = new GraphUndoManager() {
 			private static final long serialVersionUID = 1L;
 			// Override superclass method so we can update undo/redo buttons
-			public void undoableEditHappened(UndoableEditEvent e)
-			{
+			public void undoableEditHappened(UndoableEditEvent e) {
 				super.undoableEditHappened(e);
-				CircuitPanelTest.getUndo().setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
-				CircuitPanelTest.getRedo().setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
+				MainWindow.get().getUndoAction().setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
+				MainWindow.get().getRedoAction().setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
 			}
 		};
 		graph.getModel().addUndoableEditListener(undoManager);
+		
+		// Prevent user from changing size of components
 		graph.setSizeable(false);
+		// Prevent user from adding labels to components
 		graph.setEditable(false);
 		
 		this.setLayout(new BorderLayout());
@@ -69,13 +69,11 @@ public class CircuitPanel extends JPanel
 		this.setVisible(true);
 	}
 	
-	public JGraph getGraph()
-	{
+	public JGraph getGraph() {
 		return this.graph;
 	}
 	
-	public GraphUndoManager getGraphUndoManager()
-	{
+	public GraphUndoManager getGraphUndoManager() {
 		return this.undoManager;
 	}
 }

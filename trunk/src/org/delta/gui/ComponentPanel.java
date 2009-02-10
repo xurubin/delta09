@@ -7,11 +7,8 @@ import java.util.*;
 
 public class ComponentPanel extends javax.swing.JPanel
 {
-	private Image and;
-	private Image nand;
-	private Image or;
-	private Image nor;
-
+	static final long serialVersionUID = 1;
+	
 	private ImageLoader il;
 	
 	private ArrayList <Category> cats;

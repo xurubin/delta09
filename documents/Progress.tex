@@ -64,24 +64,47 @@ Steven Gilham\\
 \tableofcontents
 \newpage
 \setlength{\parskip}{\medskipamount}
+\section{Project Change}
+A serious problem with the \emph{JOP} processor's implementation of the standard Java library means that we have had to change our approach to the problem.
+The processor does not have any built-in support for either Reflection or Serialization, meaning that since our project was designed on the assumption that 
+these library classes were implemented, the whole structure of the simulation ascept has had to have been changed. The decision was made to instead perform
+most of the simulation on the PC and then use the serial link to communicate LED and switch changes with the DE2 board. This change still leads to effectively
+the same application, one where one designs a circuit on the PC and then interacts with it using the LEDs and switches present on the board. 
 \section{Current acheivements}
 We have currently acheived a significant amount, however we are slightly behind schedule in beginning the testing phase of the project. 
 
 Every member of the team has contributed well to the project performing tasks assigned to them within reasonable time frames.
-
-\section{Christopher Wilson}
+\subsection{Robert Duncan}
 \begin{enumerate}
-    \item  Created a panel for the circuit diagram based around an example application that came with JGraph
-    \item Implemented Undo and Redo functionality for the diagram
-    \item Implemented Cut, Copy and Paste for the diagram
-    \item Created Action classes for all of the above so they can easily be added to toolbars and menus
-    \item Created "model" classes for circuit components (just AND and OR initially)
-    \item Created "view" classes for those gates to contain visual information about the gates themselves
-    \item Created separate classes for Input and Output ports on components
-    \item Created view classes for Input and Output ports and created a renderer to display them as coloured blobs
-    \item Note: most of the above classes were created by subclassing what is already in the JGraph library
+\item Project management.
+\item Set up Google Code project repository.
+\item Wrote interface between the simulator and the board.
+\item Mostly completed Verilog translation. 
+\item Wrote file-handling code to deal with Quartus project for Verilog output. 
+\item Created Gate SVG diagrams.
 \end{enumerate}
-\section{Rubin Xu}
+\subsection{David Weston}
+\begin{enumerate}
+\list Created classes for the main window, component panel and clock panel.
+\list Have used these to produce a window with the necessary panels, toolbars and menus.
+\list Created temporary icons.
+\list Designed a data structure to use to display components in the panel and a temporary method of displaying them
+(still need to implement concertina-style menu). 
+\list Integrated Chris's circuit panel into the window, with buttons on the toolbar successfully performing all the actions that have so far been implemented.
+\end{enumerate}
+\subsection{Christopher Wilson}
+\begin{enumerate}
+    \item  Created a panel for the circuit diagram based around an example application that came with JGraph.
+    \item Implemented Undo and Redo functionality for the diagram.
+    \item Implemented Cut, Copy and Paste for the diagram.
+    \item Created Action classes for all of the above so they can easily be added to toolbars and menus.
+    \item Created "model" classes for circuit components (just AND and OR initially).
+    \item Created "view" classes for those gates to contain visual information about the gates themselves.
+    \item Created separate classes for Input and Output ports on components.
+    \item Created view classes for Input and Output ports and created a renderer to display them as coloured blobs.
+    \item Note: most of the above classes were created by subclassing what is already in the JGraph library.
+\end{enumerate}
+\subsection{Rubin Xu}
 \begin{enumerate}
 \item SDRAM controller for JoP.
 \item Memory mapped I/O of LEDs and switches for JoP.

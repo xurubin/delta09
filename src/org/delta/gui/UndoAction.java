@@ -33,9 +33,9 @@ public class UndoAction extends AbstractAction
 		}
 		finally
 		{
-			// Update the undo/redo buttons
-			MainWindow.get().toolbar.undo_button.getAction().setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
-			MainWindow.get().toolbar.redo_button.getAction().setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
+			// Update the undo/redo actions
+			MainWindow.get().undo_action.setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
+			MainWindow.get().redo_action.setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
 		}
 	}
 }

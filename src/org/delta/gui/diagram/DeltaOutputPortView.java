@@ -16,13 +16,13 @@ public class DeltaOutputPortView extends PortView
      public DeltaOutputPortView()
      {
            super();
-           GraphConstants.setForeground(this.getAttributes(),Color.blue);
+           GraphConstants.setForeground(this.getAttributes(),new Color(99,108,137));
      }
      
      public DeltaOutputPortView(Object arg0)
      {
            super(arg0);
-           GraphConstants.setForeground(this.getAttributes(),Color.blue);
+           GraphConstants.setForeground(this.getAttributes(),new Color(99,108,137));
      }
      
      public CellViewRenderer getRenderer()

@@ -32,7 +32,7 @@ public class DeltaGraphModel extends DefaultGraphModel {
 	 * @return
 	 */
 	public Map cloneCells(GraphModel model, Object[] cells) {
-		Map map = new Hashtable();
+		Map<Object,Object> map = new Hashtable<Object,Object>();
 		// Add Cells to Queue
 		for (int i = 0; i < cells.length; i++)
 			map.put(cells[i], cloneCell(model, cells[i]));

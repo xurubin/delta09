@@ -3,6 +3,8 @@ package org.delta.gui;
 import java.awt.*;
 import java.util.*;
 
+import org.delta.gui.i18n.Translator;
+
 public class ComponentPanel extends javax.swing.JPanel
 {
 	static final long serialVersionUID = 1;
@@ -99,21 +101,21 @@ public class ComponentPanel extends javax.swing.JPanel
 		}
 	}
 	
-	public ComponentPanel()
+	public ComponentPanel(Translator translator)
 	{
 		il = ImageLoader.get();
 		
 		cats = new ArrayList <Category> (2);
 		
-		Category nandandand = new Category ( "'Nand' and 'And' gates", 2 );
-		Category norandor   = new Category ( "'Nor' and 'Or' gates",   2 );
+		Category nandandand = new Category ( translator.getString("NANDAND"), 2 );
+		Category norandor   = new Category ( translator.getString("NOROR"),   2 );
 //		Category yourface   = new Category ( "YOUR FACE", 1);
 
-		nandandand.add ("nand.png", "Nand Gate", "and.png", "And Gate");
+		nandandand.add ("nand.png", translator.getString("NANDGATE"), "and.png", translator.getString("ANDGATE"));
 	//	nandandand.add ("new.png", "Huh?");
 
-		norandor.add ("nor.png", "Nor Gate");
-		norandor.add ("or.png", "Or Gate");
+		norandor.add ("nor.png", translator.getString("NORGATE"));
+		norandor.add ("or.png", translator.getString("ORGATE"));
 		
 //		yourface.add ("open.png", "Like?");
 //		yourface.add ("paste.png", "Your face", "copy.png", "COPEH!!!11");

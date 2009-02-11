@@ -7,7 +7,7 @@ import org.delta.gui.MainWindow;
 
 public class TestTranslator {
 	public static void main(String args[]) {
-		MainWindow mw = new MainWindow(new Locale("de"));
+		MainWindow mw = new MainWindow(new Locale("fr"));
 		mw.setVisible(true);
 	}
 }

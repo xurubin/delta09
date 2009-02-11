@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.delta.utils.BidirectionalIntegerMap;
+import org.delta.util.BidirectionalIntegerMap;
 
 abstract public class Component {
     private BidirectionalIntegerMap<ComponentWire> inputMap;

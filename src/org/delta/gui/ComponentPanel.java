@@ -9,6 +9,13 @@ public class ComponentPanel extends javax.swing.JPanel
 {
 	static final long serialVersionUID = 1;
 	
+	public static final int NONE = 0;
+	public static final int AND = 1;
+	public static final int NAND = 2;
+	public static final int OR = 3;
+	public static final int NOR = 4;
+	// TODO: Set up remaining component keys
+	
 	private ImageLoader il;
 	
 	private ArrayList <Category> cats;

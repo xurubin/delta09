@@ -10,12 +10,14 @@ import javax.swing.JComponent;
 
 import org.jgraph.JGraph;
 import org.jgraph.graph.ConnectionSet;
+import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.GraphLayoutCache;
+import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.GraphTransferable;
 import org.jgraph.graph.GraphTransferHandler;
-import org.jgraph.graph.DefaultGraphCell;
 
-import org.delta.gui.diagram.AndGate;
+import org.delta.gui.diagram.*;
 
 public class ComponentTransferHandler extends GraphTransferHandler {
 	
@@ -29,28 +31,31 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 	  }
 	
 	protected Transferable createTransferable(JComponent comp) {
-		DefaultGraphCell component = new AndGate(new Point(200,200));
-		Object[] cell = {(Object)component};
-		JGraph graph = MainWindow.get().circuit_panel.getGraph();
-		Map attributes = GraphConstants.createAttributes(cell,graph.getGraphLayoutCache());
-		Rectangle2D bounds = GraphConstants.getBounds(component.getAttributes());
-		return new GraphTransferable(cell,attributes,bounds,new ConnectionSet(),null);
+		// Create relevant component by checking the label
+		ComponentPanelLabel draggedComponent = (ComponentPanelLabel) comp;
+		int componentKey = draggedComponent.getComponentKey();
+		Object[] cells = new Object[1];
+		// TODO: Complete case statement
+		switch (componentKey) {
+		//case 0: unused
+		case 1: cells[0] = new AndGate(new Point(0,0)); break;
+		//case 2: cells[0] = new AndGate(new Point(0,0)); break;
+		case 3: cells[0] = new OrGate(new Point(0,0)); break;
+		//case 4: cells[0] = new AndGate(new Point(0,0)); break;
+		}
+		
+		// Create a new graph containing only the new component
+		GraphModel model = new DefaultGraphModel();
+		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory());
+		JGraph graph = new JGraph(model, view);
+		graph.getGraphLayoutCache().insert(cells);
+		
+		// Use this graph to find the relevant arguments for the GraphTransferable constructor
+		Map attributes = GraphConstants.createAttributes(cells, graph.getGraphLayoutCache());
+		Rectangle2D bounds = graph.getCellBounds(cells);
+		ConnectionSet cs = ConnectionSet.create(graph.getModel(), cells, false);
+		
+		// Use the library GraphTransferable constructor
+		return new GraphTransferable(cells, attributes, bounds, cs, null);
 	}
-	
-	/*public void exportAsDrag(JComponent JavaDoc comp, InputEvent e, int action) {
-		int srcActions = getSourceActions(comp);
-		int dragAction = srcActions & action;
-		if (! (e instanceof MouseEvent)) {
-			// only mouse events supported for drag operations
-			dragAction = NONE;
-		}
-		if (dragAction != NONE && !GraphicsEnvironment.isHeadless()) {
-			if (recognizer == null) {
-				recognizer = new SwingDragGestureRecognizer(new DragHandler());
-			}
-			recognizer.gestured(comp, (MouseEvent)e, srcActions, dragAction);
-		} else {
-			exportDone(comp, null, NONE);
-		}
-	}*/
 }

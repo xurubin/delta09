@@ -1,5 +1,7 @@
 package org.delta.circuit;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -94,11 +96,9 @@ public class ComponentGraph extends
     @Override
     public Set<ComponentWire> removeAllEdges(final Component source,
             final Component target) {
-        final Set<ComponentWire> wireSet = super.removeAllEdges(source, target);
-        for (ComponentWire wire: wireSet) {
-            circuit.removeEdge(wireMap.get(wire));
-            wireMap.remove(wire);
-        }
+        final Set<ComponentWire> wireSet = getAllEdges(source, target);
+        
+        removeAllEdges(wireSet);
         return wireSet;
     }
 
@@ -130,11 +130,8 @@ public class ComponentGraph extends
     @Override
     public ComponentWire removeEdge(final Component source,
             final Component target) {
-        final ComponentWire wire = super.removeEdge(source, target);
-        if (wire != null) {
-            circuit.removeEdge(wireMap.get(wire));
-            wireMap.remove(wire);
-        }
+        final ComponentWire wire = super.getEdge(source, target);
+        removeEdge(wire);
         return wire;
     }
 
@@ -165,36 +162,40 @@ public class ComponentGraph extends
     
     @Override
     protected boolean removeAllEdges(final ComponentWire[] wireArray) {
-        if (super.removeAllEdges(wireArray)) {
-            for (ComponentWire wire: wireArray) {
-                circuit.removeEdge(wireMap.get(wire));
-                wireMap.remove(wire);
-            }
-            return true;
-        }
-        return false;
+        return removeAllEdges(Arrays.asList(wireArray));
     }
 
-    public boolean registerEdge(final ComponentWire edge,
+    public boolean registerEdge(final ComponentWire wire,
             final int sourceOutputNumber, final int targetInputNumber) {
-        if (!edgeSet().contains(edge) || getEdgeSource(edge) == null
-                                      || getEdgeTarget(edge) == null) {
+        if (!edgeSet().contains(wire) || getEdgeSource(wire) == null
+                                      || getEdgeTarget(wire) == null) {
             return false;
         }
 
-        final Component sourceComponent = getEdgeSource(edge);
-        final Component targetComponent = getEdgeTarget(edge);
+        final Component sourceComponent = getEdgeSource(wire);
+        final Component targetComponent = getEdgeTarget(wire);
 
-        if (targetComponent.getInputWire(targetInputNumber) != null) {
-            return false;
-        }
-        // FIXME: Register with gate: setWire!
-        final Wire w = circuit.addEdge(
-            sourceComponent.getOutputGate(sourceOutputNumber),
-            targetComponent.getInputGate(targetInputNumber)
-        );
+//        if (targetComponent.getInputWire(targetInputNumber) != null) {
+//            return false;
+//        }
+        
+        sourceComponent.setOutputWire(sourceOutputNumber, wire);
+        targetComponent.setInputWire(targetInputNumber, wire);
 
-        wireMap.put(edge, w);
+        Component.GateInput targetGateInput =
+            targetComponent.getGateInput(targetInputNumber);
+        
+        int targetGateInputNumber = targetGateInput.getInputNumber();
+        
+        Gate sourceGate = sourceComponent.getOutputGate(sourceOutputNumber);
+        Gate targetGate = targetGateInput.getGate();
+        
+        final Wire w = circuit.addEdge(sourceGate, targetGate);
+        
+        // Register gate...
+        targetGate.setWire(w, targetGateInputNumber);
+        
+        wireMap.put(wire, w);
         return true;
     }
 
@@ -210,7 +211,9 @@ public class ComponentGraph extends
      * null if the circuit data structure is inconsistent.
      */
     public final Circuit getCircuit() {
-        if (!isValid()) return null;
+        if (!isValid()) {
+            throw new IllegalStateException("Circuit is not valid.");
+        }
 
         return (Circuit) circuit.clone();
     }

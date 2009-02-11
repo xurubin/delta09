@@ -4,81 +4,120 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.delta.utils.BidirectionalIntegerMap;
+
 abstract public class Component {
-    private int inputCount;
-    private int outputCount;
+    private BidirectionalIntegerMap<ComponentWire> inputMap;
+    private BidirectionalIntegerMap<ComponentWire> outputMap;
 
-    private ArrayList<ComponentWire> inputList;
+    private ArrayList<GateInput> internalInputList;
+    private ArrayList<Gate> internalOutputList;
 
-    // FIXME: Get rid of protected fields.
-    // FIXME: inputMap should be a map from Integer to GateInputSelector.
-    protected Map<Integer, Gate> inputMap;
-    protected ArrayList<Gate> outputList;
-    protected Circuit circuit = new Circuit();
+    private Circuit circuit = new Circuit();
 
     public Component(int inputCount, int outputCount) {
-        this.inputCount = inputCount;
-        this.outputCount = outputCount;
-        inputList = new ArrayList<ComponentWire>(inputCount);
-        inputMap = new HashMap<Integer, Gate>(inputCount);
-        outputList = new ArrayList<Gate>(outputCount);
-
-        // Initialise arrays.
+        inputMap = new BidirectionalIntegerMap<ComponentWire>(inputCount);
+        outputMap = new BidirectionalIntegerMap<ComponentWire>(outputCount);
+        
+        internalInputList = new ArrayList<GateInput>(inputCount);
+        internalOutputList = new ArrayList<Gate>(outputCount);
+        
+        // Initialise ArrayLists
         for (int i = 0; i < inputCount; ++i) {
-            inputList.add(null);
+            internalInputList.add(null);
         }
         for (int i = 0; i < outputCount; ++i) {
-            outputList.add(null);
+            internalOutputList.add(null);
         }
     }
 
-    public boolean setInputWire(ComponentWire wire, int inputNumber) {
-        if (inputNumber >= inputCount)
-            throw new IllegalArgumentException("Input number out of bounds.");
-
-        inputList.set(inputNumber, wire);
-        return true;
+    public void setInputWire(int inputNumber, ComponentWire wire) {
+        inputMap.set(inputNumber, wire);
+    }
+    
+    public void setOutputWire(int outputNumber, ComponentWire wire) {
+        outputMap.set(outputNumber, wire);
     }
 
     public ComponentWire getInputWire(int inputNumber) {
-        if (inputNumber >= inputCount)
-            throw new IllegalArgumentException("Input number out of bounds.");
-
-        return inputList.get(inputNumber);
+        return inputMap.getEntry(inputNumber);
+    }
+    
+    public ComponentWire getOutputWire(int outputNumber) {
+        return outputMap.getEntry(outputNumber);
     }
 
-    final Circuit getCircuit() {
+    protected final Circuit getCircuit() {
         return circuit;
     }
 
     public int getInputCount() {
-        return inputCount;
+        return inputMap.getSize();
     }
 
     public int getOutputCount() {
-        return outputCount;
+        return outputMap.getSize();
     }
 
-    public Gate getOutputGate(int outputNumber) {
-        if (outputNumber >= outputCount)
-            throw new IllegalArgumentException("Input number out of bounds.");
-        
-        return outputList.get(outputNumber);
+    protected Gate getOutputGate(int outputNumber) {
+        return internalOutputList.get(outputNumber);
     }
     
-    public Gate getInputGate(int inputNumber) {
-        if (inputNumber >= inputCount)
-            throw new IllegalArgumentException("Input number out of bounds.");
+    protected void setOutputGate(int outputNumber, Gate gate) {
+        if (outputNumber >= getOutputCount())
+            throw new IllegalArgumentException("Output number out of bounds.");
+        if (!circuit.containsVertex(gate)) {
+            throw new IllegalArgumentException(
+                "Gate is not part of the circuit"
+            );
+        }
         
-        return inputMap.get(inputNumber);
+        internalOutputList.set(outputNumber, gate);
     }
     
-    class GateInputSelector {
+    protected Gate getInputGate(int inputNumber) {
+        if (inputNumber >= getInputCount())
+            throw new IllegalArgumentException("Input number out of bounds.");
+        return internalInputList.get(inputNumber).getGate();
+    }
+    
+    protected GateInput getGateInput(int inputNumber) {
+        if (inputNumber >= getInputCount())
+            throw new IllegalArgumentException("Input number out of bounds.");
+        
+        return internalInputList.get(inputNumber);
+    }
+    
+    protected GateInput getGateInputSelector(ComponentWire wire) {
+        Integer inputNumber = inputMap.getIndex(wire);
+
+        return internalInputList.get(inputNumber);
+    }
+    
+    protected void setInputGate(int inputNumber, Gate gate,
+            int gateInputNumber) {
+        if (inputNumber >= getInputCount()) {
+            throw new IllegalArgumentException("Input number out of bounds.");
+        }
+        if (!circuit.containsVertex(gate)) {
+            throw new IllegalArgumentException("Gate is part of the circuit.");
+        }
+        if (gateInputNumber < 0 || gateInputNumber >= gate.getInputCount()) {
+            throw new IllegalArgumentException(
+                "Input number of gate is out of bounds."
+            );
+        }
+        
+        GateInput gateInput = new GateInput(gate, gateInputNumber);
+        internalInputList.set(inputNumber, gateInput);
+    }
+    
+    protected class GateInput {
 
         private final Gate gate;
         private final int inputNumber;
         
-        public GateInputSelector(final Gate gate, final int inputNumber) {
+        public GateInput(final Gate gate, final int inputNumber) {
             this.gate = gate;
             this.inputNumber = inputNumber;
         }
@@ -93,7 +132,5 @@ abstract public class Component {
     }
     
     abstract public String getVerilogMethod();
-    
-    abstract public ComponentWire getOutputWire(int outputNumber);
 
 }

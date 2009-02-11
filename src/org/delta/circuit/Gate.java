@@ -3,46 +3,31 @@ package org.delta.circuit;
 import java.util.ArrayList;
 
 import org.delta.logic.Formula;
+import org.delta.utils.BidirectionalIntegerMap;
 
 abstract public class Gate {
-    /**
-     * Number of inputs (i.e. wires) to the gate.
-     */
-    private int inputCount;
-    private ArrayList<Wire> inputList;
+    private BidirectionalIntegerMap<Wire> inputMap;
 
     public Gate(int inputCount) {
-        this.inputCount = inputCount;
-        inputList = new ArrayList<Wire>(inputCount);
-
-        // Initialise array.
-        for (int i = 0; i < inputCount; ++i)
-            inputList.add(null);
+        inputMap = new BidirectionalIntegerMap<Wire>(inputCount);
     }
 
     abstract public Formula getFormula();
 
-    public boolean setWire(Wire wire, int inputNumber) {
-        if (inputNumber >= inputCount) return false;
-
-        inputList.set(inputNumber, wire);
-        return true;
+    public void setWire(Wire wire, int inputNumber) {
+        inputMap.set(inputNumber, wire);
     }
     
-    public boolean removeWire(Wire wire) {
-        int index = inputList.indexOf(wire);
-        if (index != -1) {
-            setWire(null, index);
-        }
-        return false;
+    public int removeWire(Wire wire) {
+        return inputMap.remove(wire);
     }
 
     public Wire getWire(int inputNumber) {
-        return inputList.get(inputNumber);
+        return inputMap.getEntry(inputNumber);
     }
 
     public int getInputCount() {
-        return inputCount;
+        return inputMap.getSize();
     }
     
 }

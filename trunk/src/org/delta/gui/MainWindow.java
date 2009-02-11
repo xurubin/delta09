@@ -4,14 +4,20 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Locale;
 //import java.util.*;
 import org.delta.gui.diagram.*;
+import org.delta.gui.i18n.Translator;
 
 public class MainWindow extends javax.swing.JFrame {
 	
 	/**
 	 * 
 	 */
+	
+	//Create translator object
+	public Translator translator = new Translator();
+	
 	private static final long serialVersionUID = 1L;
 	protected CircuitPanel circuit_panel;
 	protected ComponentPanel component_panel;
@@ -98,46 +104,48 @@ public class MainWindow extends javax.swing.JFrame {
 		left_panel.setResizeWeight (1.0);
 		cp.add (left_panel, BorderLayout.WEST);
 		
+		
+		
 //		Create ImageIcons to use in Actions
 //		TODO: Add small versions of the icons for use in the menus.
-		ImageIcon new_icon     = new ImageIcon ( "src/org/delta/gui/icons/new.png",     "New"      );
-		ImageIcon open_icon    = new ImageIcon ( "src/org/delta/gui/icons/open.png",    "Load"     );
-		ImageIcon save_icon    = new ImageIcon ( "src/org/delta/gui/icons/save.png",    "Save"     );
-		ImageIcon undo_icon    = new ImageIcon ( "src/org/delta/gui/icons/undo.png",    "Undo"     );
-		ImageIcon redo_icon    = new ImageIcon ( "src/org/delta/gui/icons/redo.png",    "Redo"     );
-		ImageIcon run_icon     = new ImageIcon ( "src/org/delta/gui/icons/run.png",     "Run"      );
-		ImageIcon export_icon  = new ImageIcon ( "src/org/delta/gui/icons/export.png",  "Export"   );
-		ImageIcon zoomin_icon  = new ImageIcon ( "src/org/delta/gui/icons/zoomin.png",  "Zoom In"  );
-		ImageIcon zoomout_icon = new ImageIcon ( "src/org/delta/gui/icons/zoomout.png", "Zoom Out" );
-		ImageIcon cut_icon     = new ImageIcon ( "src/org/delta/gui/icons/cut.png",     "Cut"      );
-		ImageIcon copy_icon    = new ImageIcon ( "src/org/delta/gui/icons/copy.png",    "Copy"     );
-		ImageIcon paste_icon   = new ImageIcon ( "src/org/delta/gui/icons/paste.png",   "Paste"    );
+		ImageIcon new_icon     = new ImageIcon ( "src/org/delta/gui/icons/new.png",     translator.getString("NEW")      );
+		ImageIcon open_icon    = new ImageIcon ( "src/org/delta/gui/icons/open.png",    translator.getString("OPEN")     );
+		ImageIcon save_icon    = new ImageIcon ( "src/org/delta/gui/icons/save.png",    translator.getString("SAVE")     );
+		ImageIcon undo_icon    = new ImageIcon ( "src/org/delta/gui/icons/undo.png",    translator.getString("UNDO")     );
+		ImageIcon redo_icon    = new ImageIcon ( "src/org/delta/gui/icons/redo.png",    translator.getString("REDO")     );
+		ImageIcon run_icon     = new ImageIcon ( "src/org/delta/gui/icons/run.png",     translator.getString("RUN")      );
+		ImageIcon export_icon  = new ImageIcon ( "src/org/delta/gui/icons/export.png",  translator.getString("EXPORT")   );
+		ImageIcon zoomin_icon  = new ImageIcon ( "src/org/delta/gui/icons/zoomin.png",  translator.getString("ZOOM_IN") );
+		ImageIcon zoomout_icon = new ImageIcon ( "src/org/delta/gui/icons/zoomout.png", translator.getString("ZOOM_OUT") );
+		ImageIcon cut_icon     = new ImageIcon ( "src/org/delta/gui/icons/cut.png",     translator.getString("CUT")      );
+		ImageIcon copy_icon    = new ImageIcon ( "src/org/delta/gui/icons/copy.png",    translator.getString("COPY")     );
+		ImageIcon paste_icon   = new ImageIcon ( "src/org/delta/gui/icons/paste.png",   translator.getString("PASTE")    );
 		
 //		Create Actions to add to menus and the toolbar
 //		TODO: Use text keys for the Action labels so we can have different language packs.
-		Action new_action		= new NewAction		( "New",		new_icon	);
-		Action open_action		= new OpenAction	( "Open",		open_icon	);
-		Action save_action		= new SaveAction	( "Save",		save_icon	);
-		undo_action				= new UndoAction	( "Undo",		undo_icon	);
-		redo_action				= new RedoAction	( "Redo",		redo_icon	);
-		Action run_action		= new RunAction		( "Run",		run_icon	);
-		Action export_action	= new ExportAction	( "Export",		export_icon	);
-		Action zoomin_action	= new ZoomAction	( "Zoom In",	zoomin_icon	, 2.0);
-		Action zoomout_action	= new ZoomAction	( "Zoom Out",	zoomout_icon, 0.5);
-		Action cut_action		= new CutAction		( "Cut",		cut_icon	);
-		Action copy_action		= new CopyAction	( "Copy",		copy_icon	);
-		Action paste_action		= new PasteAction	( "Paste",		paste_icon	);
+		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon	);
+		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon	);
+		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon	);
+		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon	);
+		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon	);
+		Action run_action		= new RunAction		( translator.getString("RUN"),		run_icon	);
+		Action export_action	= new ExportAction	( translator.getString("EXPORT"),		export_icon	);
+		Action zoomin_action	= new ZoomAction	( translator.getString("ZOOM_IN"),	zoomin_icon	, 2.0);
+		Action zoomout_action	= new ZoomAction	( translator.getString("ZOOM_OUT"),	zoomout_icon, 0.5);
+		Action cut_action		= new CutAction		( translator.getString("CUT"),		cut_icon	);
+		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon	);
+		Action paste_action		= new PasteAction	( translator.getString("PASTE"),		paste_icon	);
 		
 //		Initialise stage of Actions
 		undo_action.setEnabled(false);
 		redo_action.setEnabled(false);
 		
 //		Create File menu
-		JMenu file_menu = new JMenu ("File");
+		JMenu file_menu = new JMenu (translator.getString("FILE"));
 		file_menu.add (new_action);
 		file_menu.add (open_action);
 		file_menu.add (save_action);
-		JMenuItem exit_menu_item = new JMenuItem ("Exit");
+		JMenuItem exit_menu_item = new JMenuItem (translator.getString("EXIT"));
 		exit_menu_item.addActionListener ( new ActionListener() {
 			public void actionPerformed (ActionEvent evt) {
 				quitApplication();
@@ -145,7 +153,7 @@ public class MainWindow extends javax.swing.JFrame {
 		} );
 		
 //		Create Edit menu
-		JMenu edit_menu = new JMenu ("Edit");
+		JMenu edit_menu = new JMenu (translator.getString("EDIT"));
 		edit_menu.add (undo_action);
 		edit_menu.add (redo_action);
 		edit_menu.add (cut_action);
@@ -153,15 +161,15 @@ public class MainWindow extends javax.swing.JFrame {
 		edit_menu.add (paste_action);
 		
 //		Create View menu
-		JMenu view_menu = new JMenu ("View");
+		JMenu view_menu = new JMenu (translator.getString("VIEW"));
 		view_menu.add (zoomin_action);
 		view_menu.add (zoomout_action);
 		
 //		Create Help menu
-		JMenu help_menu = new JMenu("Help");
-		JMenuItem contents_menu_item = new JMenuItem ("Contents");
+		JMenu help_menu = new JMenu(translator.getString("HELP"));
+		JMenuItem contents_menu_item = new JMenuItem (translator.getString("CONTENTS"));
 		help_menu.add (contents_menu_item);
-		JMenuItem about_menu_item    = new JMenuItem ("About");
+		JMenuItem about_menu_item    = new JMenuItem (translator.getString("ABOUT"));
 		help_menu.add (about_menu_item);
 		
 //		Create menu bar for the window and add the menus
@@ -215,6 +223,10 @@ public class MainWindow extends javax.swing.JFrame {
 		if (mw == null)
 			mw = new MainWindow();
 		return mw;
+	}
+	
+	public void setLanguage(String s) {
+		translator = new Translator(new Locale(s));
 	}
 	
 	public static void main ( String args[] )

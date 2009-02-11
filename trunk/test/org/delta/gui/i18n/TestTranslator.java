@@ -1,11 +1,13 @@
 package org.delta.gui.i18n;
 
 
+import java.util.Locale;
+
 import org.delta.gui.MainWindow;
 
 public class TestTranslator {
 	public static void main(String args[]) {
-		MainWindow mw = new MainWindow("fr");
+		MainWindow mw = new MainWindow(new Locale("de"));
 		mw.setVisible(true);
 	}
 }

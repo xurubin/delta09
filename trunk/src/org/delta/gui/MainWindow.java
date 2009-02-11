@@ -28,12 +28,12 @@ public class MainWindow extends javax.swing.JFrame {
 	private static MainWindow mw;
 	
 	public MainWindow() {
-		this("en");
+		this(Locale.getDefault());
 	}
 	
-	public MainWindow(String language) {
+	public MainWindow(Locale language) {
 		super ("Delta Circuit Simulation");
-		Translator translator = new Translator(new Locale(language));
+		Translator translator = new Translator(language);
 		Container cp = getContentPane();
 		
 		mw = this;

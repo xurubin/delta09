@@ -29,7 +29,7 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 	  }
 	
 	protected Transferable createTransferable(JComponent comp) {
-		DefaultGraphCell component = new AndGate();
+		DefaultGraphCell component = new AndGate(new Point(200,200));
 		Object[] cell = {(Object)component};
 		JGraph graph = MainWindow.get().circuit_panel.getGraph();
 		Map attributes = GraphConstants.createAttributes(cell,graph.getGraphLayoutCache());

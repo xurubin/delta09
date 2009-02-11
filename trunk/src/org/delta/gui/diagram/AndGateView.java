@@ -13,11 +13,14 @@ public class AndGateView extends VertexView
 	private static final long serialVersionUID = 1L;
 	//private static VertexRenderer renderer = new VertexRenderer();
      
-     /*public AndGateView()
+     public AndGateView()
      {
            super();
-           GraphConstants.setIcon(this.getAttributes(),new ImageIcon("../../images/and.png"));
-     }*/
+           String iconPath = "org/delta/gui/diagram/images/and.png";
+           URL iconUrl = AndGateView.class.getClassLoader().getResource(iconPath);
+           GraphConstants.setIcon(this.getAttributes(),new ImageIcon(iconUrl));
+           GraphConstants.setAutoSize(this.getAttributes(),true);
+     }
      
      public AndGateView(Object arg0)
      {

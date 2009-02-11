@@ -3,7 +3,7 @@ package org.delta.circuit;
 import java.util.ArrayList;
 
 import org.delta.logic.Formula;
-import org.delta.utils.BidirectionalIntegerMap;
+import org.delta.util.BidirectionalIntegerMap;
 
 abstract public class Gate {
     private BidirectionalIntegerMap<Wire> inputMap;

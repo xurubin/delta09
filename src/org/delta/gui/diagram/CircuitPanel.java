@@ -1,14 +1,17 @@
 package org.delta.gui.diagram;
 
 import org.delta.gui.MainWindow;
-import org.delta.gui.DeltaGraphTransferHandler;
-import org.delta.gui.DeltaGraphModel;
+import org.delta.gui.diagram.DeltaMarqueeHandler;
+
 import org.jgraph.*;
 import org.jgraph.graph.*;
+
 import java.awt.BorderLayout;
 import java.awt.Point;
+
 import javax.swing.*;
 import javax.swing.event.*;
+
 //import org.jgrapht.*;
 //import org.jgrapht.graph.*;
 //import org.jgrapht.ext.*;
@@ -74,6 +77,9 @@ public class CircuitPanel extends JPanel {
 		// Change TransferHandler to implement custom dropping
 		DeltaGraphTransferHandler handler = new DeltaGraphTransferHandler();
 		graph.setTransferHandler(handler);
+		
+		// Change MarqueeHandler to implement custom edges and popup menus
+		graph.setMarqueeHandler(new DeltaMarqueeHandler(graph));
 		
 		// Add graph to the panel
 		this.setLayout(new BorderLayout());

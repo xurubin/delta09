@@ -1,4 +1,4 @@
-package org.delta.gui;
+package org.delta.gui.diagram;
 
 import java.awt.Point;
 import java.awt.datatransfer.Transferable;

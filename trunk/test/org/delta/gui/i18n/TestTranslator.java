@@ -5,8 +5,7 @@ import org.delta.gui.MainWindow;
 
 public class TestTranslator {
 	public static void main(String args[]) {
-		MainWindow mw = MainWindow.get();
-		mw.setLanguage("en_GB");
+		MainWindow mw = new MainWindow("fr");
 		mw.setVisible(true);
 	}
 }

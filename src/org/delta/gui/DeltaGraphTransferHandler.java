@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.JComponent;
@@ -263,5 +264,30 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			exception.printStackTrace();
 		}
 		return false;
+	}
+	
+	/**
+	 * Overwritten version of the method from GraphTransferHandler that calls
+	 * the cloneCells method from DeltaGraphModel in order to perform a deep
+	 * clone of the cells (i.e. including children).
+	 */
+	protected void handleExternalDrop(JGraph graph, Object[] cells, Map nested,
+			ConnectionSet cs, ParentMap pm, double dx, double dy) {
+
+		// Removes all connections for which the port is neither
+		// passed in the parent map nor already in the model.
+		Iterator it = cs.connections();
+		while (it.hasNext()) {
+			ConnectionSet.Connection conn = (ConnectionSet.Connection) it
+					.next();
+			if (!pm.getChangedNodes().contains(conn.getPort())
+					&& !graph.getModel().contains(conn.getPort())) {
+				it.remove();
+			}
+		}
+		DeltaGraphModel model = (DeltaGraphModel) graph.getModel();
+		Map clones = model.cloneCells(graph.getModel(), cells);
+		graph.getGraphLayoutCache().insertClones(cells, clones, nested, cs, pm,
+				dx, dy);
 	}
 }

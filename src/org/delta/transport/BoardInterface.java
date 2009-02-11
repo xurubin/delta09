@@ -9,7 +9,6 @@ import com.jopdesign.io.HostDatagramLayer;
  */
 public class BoardInterface {
 	
-	private volatile int lights = 0;
 	private HostDatagramLayer hostLayer;
 	private SerialListener serialListener;
 	private static BoardInterface boardInterface;
@@ -21,7 +20,7 @@ public class BoardInterface {
 	 */
 	protected BoardInterface() {
 		//start listener
-		HostDatagramLayer hostLayer  = new HostDatagramLayer();
+		hostLayer  = new HostDatagramLayer();
 		serialListener = new SerialListener(hostLayer);
 		serialListener.start();
 		
@@ -33,7 +32,9 @@ public class BoardInterface {
 	 * @see #BoardInterface()
 	 */
 	public static BoardInterface getInstance() {
-		if(boardInterface == null) boardInterface =  new BoardInterface();
+		if(boardInterface == null) {
+			boardInterface =  new BoardInterface();
+		}
 		return boardInterface;
 	}
 	
@@ -43,12 +44,9 @@ public class BoardInterface {
 	 * @param b	the value to set that LED to.
 	 * @return 1 if successful. 
 	 */
-	public int sendLEDEvent(int i, boolean b) {
+	public void sendLEDEvent(int i, boolean b) {
 		//compare state change event to lights packed int.
-		int status = (b ? 1 : 0) << (31 - i);
-		status |= lights;
-		//send LED state packet. 
-		return hostLayer.sendLEDStates(status);
+		serialListener.setLights(i,b);
 	}
 	
 	/**
@@ -58,6 +56,6 @@ public class BoardInterface {
 	 */
 	public boolean getSwitchStatus(int i) {
 		int switches = serialListener.getSwitches();
-		return (switches >> (31 - i)) == 1;
+		return (((switches >> i) & 0x1) == 1);
 	}
 }

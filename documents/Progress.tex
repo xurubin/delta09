@@ -69,7 +69,7 @@ A serious problem with the \emph{JOP} processor's implementation of the standard
 The processor does not have any built-in support for either \emph{Reflection} or \emph{Serialization}, meaning that since our project was designed on the assumption that 
 these library classes were implemented, the whole structure of the simulation accept has had to have been changed. The decision was made to instead perform
 most of the simulation on the PC and then use the serial link to communicate LED and switch changes with the DE2 board. This change still leads to effectively
-the same application, one where one designs a circuit on the PC and then interacts with it using the LEDs and switches present on the board. To enable the user to still be able to program the board and then disconnect it, we are provided an ``export to Verilog" feature, that will produce an Altera project file ready for loading onto the board. 
+the same application, one where one designs a circuit on the PC and then interacts with it using the LEDs and switches present on the board. To enable the user to still be able to program the board and then disconnect it, we are providing an ``export to Verilog" feature, that will produce an Altera project file ready for loading onto the board. 
 \section{Current acheivements}
 We have currently acheived a significant amount, however we are slightly behind schedule in beginning the testing phase of the project. 
 
@@ -157,7 +157,7 @@ SVG images).
 \section{Testing Strategy}
 Testing has already been completed on the USB connection between the board and the PC. Bugs have been fixed that were caused by a clash between our encoding for transmitting switch status and communication control bytes used by the underlying layer. 
 
-We are going to use JUnit for the modular testing, and EasyMock for testing the GUI. Systems testing will be mainly via user interaction and systematic exploration of all features provided by the interface. 
+We are going to use JUnit for the modular testing, and EasyMock for testing the GUI and some of the other classes that are used directly. Systems testing will be mainly via user interaction and systematic exploration of all features provided by the interface. 
 
 It is planned to test the Simulator extensively to ensure that it provides consistent results and correctly simulates sizeable circuits. We will verify the correct simulation using JUnit to make comparisons to the expected behaviour calculated by hand. 
 

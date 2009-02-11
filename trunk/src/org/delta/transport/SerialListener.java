@@ -9,7 +9,8 @@ import com.jopdesign.io.HostDatagramLayer;
  */
 
 class SerialListener extends Thread {
-   private volatile int switches = 0;
+   private int switches = 0;
+   private int lights = 0;
    private HostDatagramLayer hostLayer;
 
    /**
@@ -28,6 +29,15 @@ class SerialListener extends Thread {
 	   return switches;
    }
    
+   public void setLights(int p, boolean b) {
+	   if(b) {
+		   lights |= (1 << p);
+	   }
+	   else {
+		   lights &= (lights - (1 << p));
+	   }
+   }
+   
 
    /**
     * runs the SerialListener thread. 
@@ -36,8 +46,12 @@ class SerialListener extends Thread {
     */
    public void run() {
 	   while(true) {
+		   //set lights
+		   hostLayer.sendLEDStates(lights);
+		   
+		   //read switches
 		   int status = hostLayer.readSwitchStates();
-		   if((status ^ switches) != 0) switches = status;
+		   if(status != -1) switches = status; 
 	   }
       }
 }

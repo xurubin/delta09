@@ -2,6 +2,9 @@ package org.delta.gui;
 import java.awt.event.*;
 import javax.swing.*;
 
+import org.delta.circuit.ComponentGraph;
+import org.delta.verilog.VerilogConverter;
+
 public class ExportAction extends AbstractAction
 {
 	/**
@@ -17,5 +20,15 @@ public class ExportAction extends AbstractAction
 	public void actionPerformed(ActionEvent e)
 	{
 		// Export the circuit to a Verilog file
+		JFileChooser chooser = new JFileChooser(); 
+		chooser.setDialogTitle("Select Folder");
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		if (chooser.showSaveDialog(chooser) == JFileChooser.APPROVE_OPTION) { 
+			/*
+			 * TODO: Get ComponentGraph object from MainWindow. 
+			 */
+			ComponentGraph cg = null;
+			VerilogConverter.saveVerilogProject(chooser.getSelectedFile(), cg);
+		}
 	}
 }

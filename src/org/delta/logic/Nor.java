@@ -13,7 +13,12 @@ public class Nor extends Formula {
 
     @Override
     public State evaluate() {
-        return (new Not(new Or(arg0, arg1))).evaluate();
+        switch (arg0.evaluate()) {
+        case S1: return State.S0;
+        case SX: return (arg1.evaluate() == State.S1)? State.S0 : State.SX;
+        case S0:
+        default: return (new Not(arg1)).evaluate();
+        }
     }
 
 }

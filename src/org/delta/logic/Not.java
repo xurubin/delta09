@@ -13,6 +13,7 @@ public class Not extends Formula {
        switch (arg0.evaluate()) {
        case S0: return State.S1;
        case S1: return State.S0;
+       case SX:
        default: return State.SX;
        }
     }

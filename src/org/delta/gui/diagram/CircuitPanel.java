@@ -81,10 +81,19 @@ public class CircuitPanel extends JPanel {
 		// Change MarqueeHandler to implement custom edges and popup menus
 		graph.setMarqueeHandler(new DeltaMarqueeHandler(graph));
 		
+		// Add key bindings using separate method for clarity
+		this.createKeyBindings();
+		
 		// Add graph to the panel
 		this.setLayout(new BorderLayout());
 		this.add(new JScrollPane(graph));
 		this.setVisible(true);
+	}
+	
+	private void createKeyBindings() {
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DELETE"),
+				"remove_action");
+		this.getActionMap().put("remove_action", MainWindow.get().getRemoveAction());
 	}
 	
 	public JGraph getGraph() {
@@ -94,4 +103,5 @@ public class CircuitPanel extends JPanel {
 	public GraphUndoManager getGraphUndoManager() {
 		return this.undoManager;
 	}
+	
 }

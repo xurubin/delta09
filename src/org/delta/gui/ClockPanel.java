@@ -2,11 +2,13 @@ package org.delta.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
 
 public class ClockPanel extends javax.swing.JPanel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ImageLoader il;
 	private Image clock_image;
 	private JSpinner spinner;

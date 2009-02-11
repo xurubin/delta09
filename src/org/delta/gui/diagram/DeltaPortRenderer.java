@@ -9,19 +9,13 @@ import javax.swing.*;
 
 import java.io.Serializable;
 
-//public class DeltaPortRenderer extends PortRenderer {
-	/**
-	 * 
-	 */
-	
-public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Serializable
-{	
+public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Serializable {	
 	// INSERTED
 	private static final long serialVersionUID = 1L;
+	/** Cache the current port color for drwaing. */
 	transient protected Color color;
+	// END OF INSERT
 	
-	/** Cache the current graph for drawing */
-	// protected transient JGraph graph;
 	/** Cache the current EdgeView for drawing. */
 	protected transient PortView view;
 	
@@ -43,6 +37,8 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	 * Configure and return the renderer based on the passed in components. The
 	 * value is typically set from messaging the graph with
 	 * <code>convertValueToString</code>.
+	 * <br><br>
+	 * NOTE: Adapted for Project Delta - now caches copy of the color as well.
 	 * 
 	 * @param graph
 	 *            the graph that that defines the rendering context.
@@ -102,6 +98,10 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	 * Paint the renderer. Overrides superclass paint to add specific painting.
 	 * Note: The preview flag is interpreted as "highlight" in this context.
 	 * (This is used to highlight the port if the mouse is over it.)
+	 * <br><br>
+	 * NOTE: Adapted for Project Delta - custom painting of ports.
+	 * 
+	 * @param g - Graphics context to paint the port onto.
 	 */
 	public void paint(Graphics g) {
 		// INSERTED
@@ -116,31 +116,7 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 		} else {
 			g.fillOval(0, 0, d.width, d.height);
 		}
-		/*boolean offset = (GraphConstants.getOffset(view.getAllAttributes()) != null);
-		g.setColor(getForeground());
-		if (!offset)
-			g.fillRect(1, 1, d.width - 2, d.height - 2);
-		else if (!preview)
-			g.drawRect(1, 1, d.width - 3, d.height - 3);*/
 		// END OF INSERT
-		
-		/*Dimension d = getSize();
-		if (xorEnabled) {
-			g.setColor(graphBackground);
-			g.setXORMode(graphBackground);
-		}
-		super.paint(g);
-		if (preview) {
-			g.fill3DRect(0, 0, d.width, d.height, true);
-		} else {
-			g.fillRect(0, 0, d.width, d.height);
-		}
-		boolean offset = (GraphConstants.getOffset(view.getAllAttributes()) != null);
-		g.setColor(getForeground());
-		if (!offset)
-			g.fillRect(1, 1, d.width - 2, d.height - 2);
-		else if (!preview)
-			g.drawRect(1, 1, d.width - 3, d.height - 3);*/
 	}
 	
 	/**
@@ -245,43 +221,5 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	public void firePropertyChange(String propertyName, boolean oldValue,
 			boolean newValue) {
 	}
-
-}
-	/*
-
-	public Component getRendererComponent(JGraph graph, CellView view,
-			boolean sel, boolean focus, boolean preview) {
-		// Check type
-		if (view instanceof PortView && graph != null) {
-			graphBackground = graph.getBackground();
-			this.view = (PortView) view;
-			this.color = DeltaInputPortView.color;
-			this.hasFocus = focus;
-			this.selected = sel;
-			this.preview = preview;
-			this.xorEnabled = graph.isXorEnabled();
-			return this;
-		}
-		return null;
-	}
 	
-	public void paint(Graphics g) {
-		Dimension d = new Dimension(20,20);
-		if (xorEnabled) {
-			g.setColor(color);
-			g.setXORMode(color);
-		}
-		super.paint(g);
-		if (preview) {
-			g.fill3DRect(0, 0, d.width, d.height, true);
-		} else {
-			g.fillOval(0, 0, d.width, d.height);
-		}
-		boolean offset = (GraphConstants.getOffset(view.getAllAttributes()) != null);
-		g.setColor(color);
-		if (!offset)
-			g.fillRect(1, 1, d.width - 2, d.height - 2);
-		else if (!preview)
-			g.drawRect(1, 1, d.width - 3, d.height - 3);
-	}
-}*/
+}

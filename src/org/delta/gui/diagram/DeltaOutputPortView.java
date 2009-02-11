@@ -51,7 +51,6 @@ public class DeltaOutputPortView extends PortView
  			y = loc.getY();
  		}
  		Rectangle2D bounds = new Rectangle2D.Double(x-5,y-5,10,10);
- 		//bounds.setFrame(bounds.getX()-10,bounds.getY()-10,20,20);
  		return bounds;
  	}
 }

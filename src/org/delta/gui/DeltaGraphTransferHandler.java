@@ -88,7 +88,8 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 
 					// Get more Transfer Data
 					Rectangle2D bounds = gt.getBounds();
-					Map nested = gt.getAttributeMap();
+					Map<Object,Map> nested = redirectGetAttributeMap(gt);
+					
 					ConnectionSet cs = gt.getConnectionSet();
 					ParentMap pm = gt.getParentMap();
 
@@ -161,7 +162,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 								// all cells are already in the model
 								// no information is lost by doing this.)
 								double gs2 = 2 * graph.getGridSize();
-								nested = new Hashtable();
+								nested = new Hashtable<Object,Map>();
 								Map emptyMap = new Hashtable();
 								for (int i = 0; i < cells.length; i++) {
 
@@ -264,6 +265,16 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			exception.printStackTrace();
 		}
 		return false;
+	}
+	
+	/**
+	 * Private method used by importData to suppress unchecked type warnings caused
+	 * by legacy non-generics code in the JGraph library.
+	 * @param gt GraphTransferable object representing the graph being imported
+	 * @return AttributeMap of gt
+	 */
+	@SuppressWarnings("unchecked") private Map<Object,Map> redirectGetAttributeMap(GraphTransferable gt) {
+		return gt.getAttributeMap();
 	}
 	
 	/**

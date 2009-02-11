@@ -16,6 +16,7 @@ public class And extends Formula {
         switch (arg0.evaluate()) {
         case S1: return arg1.evaluate();
         case SX: return (arg1.evaluate() == State.S0)? State.S0 : State.SX ;
+        case S0:
         default: return State.S0;
         }
     }

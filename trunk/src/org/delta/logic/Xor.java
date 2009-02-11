@@ -15,8 +15,9 @@ public class Xor extends Formula {
     public State evaluate() {
         switch (arg0.evaluate()) {
         case S0: return arg1.evaluate();
-        case S1: return (new Not(arg1)).evaluate();
-        default: return State.SX;
+        case SX: return State.SX;
+        case S1:
+        default: return (new Not(arg1)).evaluate();
         }
     }
 

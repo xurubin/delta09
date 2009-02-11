@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.delta.gui;
+package org.delta.gui.diagram;
 
 import java.util.Hashtable;
 import java.util.Iterator;

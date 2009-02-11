@@ -77,7 +77,7 @@ public class MainWindow extends javax.swing.JFrame {
 		sp.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
 		sp.setPreferredSize ( new Dimension (640, 480) );
 		
-		component_panel = new ComponentPanel();
+		component_panel = new ComponentPanel(translator);
 		component_panel.setPreferredSize ( new Dimension (180, 500) );
 		// TODO: Fully implement drag and drop - this is just a test
 		ImageIcon test = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");

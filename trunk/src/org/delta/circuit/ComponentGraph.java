@@ -1,6 +1,5 @@
 package org.delta.circuit;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,6 +19,10 @@ import org.jgrapht.graph.DirectedMultigraph;
 public class ComponentGraph extends
         DirectedMultigraph<Component, ComponentWire> {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * Internal gate-level representation of the circuit which can be passed to
      * the simulator.
      * @see Circuit

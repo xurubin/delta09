@@ -71,7 +71,7 @@ public class MainWindow extends javax.swing.JFrame {
 		component_panel.setPreferredSize ( new Dimension (180, 500) );
 		// TODO: Fully implement drag and drop - this is just a test
 		ImageIcon test = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
-		JLabel label = new JLabel(test);
+		ComponentPanelLabel label = new ComponentPanelLabel(test,ComponentPanel.AND);
 		TransferHandler handler = new ComponentTransferHandler();
 		label.setTransferHandler(handler);
 		MouseListener listener = new MouseAdapter() {

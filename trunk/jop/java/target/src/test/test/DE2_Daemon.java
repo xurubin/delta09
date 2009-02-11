@@ -18,7 +18,7 @@ public class DE2_Daemon {
 			DE2Peripheral.directLEDState(d.readLEDStates());
 			d.sendSwitchStates(DE2Peripheral.directSwitchState());
 
-			DE2Peripheral.setLEDRState(17, !DE2Peripheral.getLEDRState(17)); //Flash LED17 as an indicator.
+			//DE2Peripheral.setLEDRState(17, !DE2Peripheral.getLEDRState(17)); //Flash LED17 as an indicator.
 		}
 
 	}

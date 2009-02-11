@@ -21,14 +21,14 @@ public class DeltaComponent extends DefaultGraphCell
 		super(arg0);
 	}
 	
-	public void addInputPort(Point2D offset)
+	protected void addInputPort(Point2D offset)
 	{
 		DeltaInputPort port = new DeltaInputPort();
 		GraphConstants.setOffset(port.getAttributes(),offset);
 		add(port);
 	}
 	
-	public void addOutputPort(Point2D offset)
+	protected void addOutputPort(Point2D offset)
 	{
 		DeltaOutputPort port = new DeltaOutputPort();
 		GraphConstants.setOffset(port.getAttributes(),offset);

@@ -2,6 +2,7 @@ package org.delta.gui.diagram;
 
 import org.delta.gui.MainWindow;
 import org.delta.gui.DeltaGraphTransferHandler;
+import org.delta.gui.DeltaGraphModel;
 import org.jgraph.*;
 import org.jgraph.graph.*;
 import java.awt.BorderLayout;
@@ -23,7 +24,7 @@ public class CircuitPanel extends JPanel {
 	private GraphUndoManager undoManager;
 	
 	public CircuitPanel() {
-		GraphModel model = new DefaultGraphModel();
+		GraphModel model = new DeltaGraphModel();
 		/*ListenableGraph<Component,ComponentWire> grapht =
 			new ListenableDirectedGraph<Component,ComponentWire>
 				((DirectedGraph<Component,ComponentWire>)new ComponentGraph());

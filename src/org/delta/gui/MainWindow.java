@@ -16,7 +16,6 @@ public class MainWindow extends javax.swing.JFrame {
 	 */
 	
 	//Create translator object
-	public Translator translator = new Translator();
 	
 	private static final long serialVersionUID = 1L;
 	protected CircuitPanel circuit_panel;
@@ -28,12 +27,17 @@ public class MainWindow extends javax.swing.JFrame {
 	
 	private static MainWindow mw;
 	
-	public MainWindow()
-	{
+	public MainWindow() {
+		this("en");
+	}
+	
+	public MainWindow(String language) {
 		super ("Delta Circuit Simulation");
+		Translator translator = new Translator(new Locale(language));
 		Container cp = getContentPane();
 		
 		mw = this;
+		
 				addWindowListener ( new WindowAdapter() {
 			public void windowClosing (WindowEvent evt) {
 				quitApplication();
@@ -223,10 +227,6 @@ public class MainWindow extends javax.swing.JFrame {
 		if (mw == null)
 			mw = new MainWindow();
 		return mw;
-	}
-	
-	public void setLanguage(String s) {
-		translator = new Translator(new Locale(s));
 	}
 	
 	public static void main ( String args[] )

@@ -154,6 +154,7 @@ public class MainWindow extends javax.swing.JFrame {
 		JMenu edit_menu = new JMenu (translator.getString("EDIT"));
 		edit_menu.add (undo_action);
 		edit_menu.add (redo_action);
+		edit_menu.addSeparator();
 		edit_menu.add (cut_action);
 		edit_menu.add (copy_action);
 		edit_menu.add (paste_action);
@@ -187,16 +188,20 @@ public class MainWindow extends javax.swing.JFrame {
 		toolbar.add ( new_action		);
 		toolbar.add ( open_action		);
 		toolbar.add ( save_action		);
-		toolbar.add ( undo_action		);
-		toolbar.add ( redo_action		);
-		toolbar.add ( run_action		);
-		toolbar.add ( export_action		);
-		toolbar.add ( zoom_in_action	);
-		toolbar.add ( zoom_out_action	);
+		toolbar.addSeparator();
 		toolbar.add ( cut_action		);
 		toolbar.add ( copy_action		);
 		toolbar.add ( paste_action		);
 		toolbar.add ( delete_action		);
+		toolbar.addSeparator();
+		toolbar.add ( undo_action		);
+		toolbar.add ( redo_action		);
+		toolbar.addSeparator();
+		toolbar.add ( zoom_in_action	);
+		toolbar.add ( zoom_out_action	);
+		toolbar.addSeparator();
+		toolbar.add ( run_action		);
+		toolbar.add ( export_action		);
 		add (toolbar, BorderLayout.NORTH);
 		
 		// Pack components into the MainWindow
@@ -225,7 +230,12 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 	public static void main(String args[]) {
-		mw = get();
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		get();
 		mw.setVisible(true);
 	}
 }

@@ -13,9 +13,10 @@ public class RedoAction extends AbstractAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public RedoAction(String text,ImageIcon icon)
+	public RedoAction(String text, ImageIcon icon, String accelerator)
 	{
 		super(text,icon);
+		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
 	}
 	
 	public void actionPerformed(ActionEvent e)

@@ -66,6 +66,7 @@ public class MainWindow extends javax.swing.JFrame {
 		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon,		"ctrl C"	);
 		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon,		"ctrl V"	);
 		Action delete_action	= new DeleteAction	( translator.getString("DELETE"),	delete_icon,	"DELETE"	);
+		Action help_action		= new HelpAction(translator.getString("CONTENTS"), "F1");
 		
 		// Initialise stage of Actions
 		undo_action.setEnabled(false);
@@ -167,8 +168,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create Help menu
 		JMenu help_menu = new JMenu(translator.getString("HELP"));
-		JMenuItem contents_menu_item = new JMenuItem (translator.getString("CONTENTS"));
-		help_menu.add (contents_menu_item);
+		help_menu.add (help_action);
 		JMenuItem about_menu_item    = new JMenuItem (translator.getString("ABOUT"));
 		help_menu.add (about_menu_item);
 		

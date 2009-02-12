@@ -23,13 +23,11 @@ public class DeleteAction extends AbstractAction
 	 * @param text - name for the action
 	 * @param icon - icon to represent the Action
 	 */
-	public DeleteAction(String text, ImageIcon icon)
-	{
-		super(text,icon);
-	}
-	public DeleteAction(String text)
+	public DeleteAction(String text, ImageIcon icon, String accelerator)
 	{
 		super(text);
+		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
+		this.putValue(Action.LARGE_ICON_KEY, icon);
 	}
 	
 	/**

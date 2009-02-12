@@ -10,9 +10,8 @@ import org.delta.gui.MainWindow;
 
 public class TestTranslator {
 	public static void main(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		MainWindow mw = new MainWindow(new Locale("fr"));
+		//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		MainWindow mw = new MainWindow(new Locale("ar", "SA"));
 		mw.setVisible(true);
 	}
 }

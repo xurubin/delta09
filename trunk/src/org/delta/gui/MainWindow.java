@@ -29,8 +29,10 @@ public class MainWindow extends javax.swing.JFrame {
 		// Create translator object
 		Translator translator = new Translator(language);
 		Container cp = getContentPane();
+		cp.setComponentOrientation(ComponentOrientation.getOrientation(language));
 		
 		mw = this;
+		
 		
 		addWindowListener ( new WindowAdapter() {
 			public void windowClosing (WindowEvent evt) {
@@ -123,7 +125,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		JSplitPane left_panel = new JSplitPane (JSplitPane.VERTICAL_SPLIT, sb, clock_panel);
 		left_panel.setResizeWeight (1.0);
-		cp.add (left_panel, BorderLayout.WEST);
+		cp.add (left_panel, BorderLayout.LINE_START);
 		
 		// Create File menu
 		JMenu file_menu = new JMenu (translator.getString("FILE"));
@@ -160,6 +162,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create menu bar for the window and add the menus
 		JMenuBar menu_bar = new JMenuBar();
+		menu_bar.setComponentOrientation(ComponentOrientation.getOrientation(language));
 		menu_bar.add (file_menu);
 		menu_bar.add (edit_menu);
 		menu_bar.add (view_menu);
@@ -169,8 +172,9 @@ public class MainWindow extends javax.swing.JFrame {
 		// Create toolbar, add buttons to it then add it to the window
 		toolbar = new JToolBar();
 		toolbar.setFloatable (false);
-		LayoutManager manager = new FlowLayout(FlowLayout.LEFT,3,1);
+		LayoutManager manager = new FlowLayout(FlowLayout.LEADING,3,1);
 		toolbar.setLayout(manager);
+		toolbar.setComponentOrientation(getComponentOrientation());
 		toolbar.add ( new_action		);
 		toolbar.add ( open_action		);
 		toolbar.add ( save_action		);

@@ -31,7 +31,8 @@ public class MainWindow extends javax.swing.JFrame {
 		Container cp = getContentPane();
 		
 		mw = this;
-				addWindowListener ( new WindowAdapter() {
+		
+		addWindowListener ( new WindowAdapter() {
 			public void windowClosing (WindowEvent evt) {
 				quitApplication();
 			}
@@ -108,21 +109,7 @@ public class MainWindow extends javax.swing.JFrame {
 		sp.setPreferredSize ( new Dimension (640, 480) );
 		
 		component_panel = new ComponentPanel(translator);
-		component_panel.setPreferredSize ( new Dimension (180, 500) );
-		// TODO: Fully implement drag and drop - this is just a test
-		ImageIcon test = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
-		ComponentPanelLabel label = new ComponentPanelLabel(test,ComponentPanel.AND);
-		TransferHandler handler = new ComponentTransferHandler();
-		label.setTransferHandler(handler);
-		MouseListener listener = new MouseAdapter() {
-		      public void mousePressed(MouseEvent me) {
-		        JComponent comp = (JComponent) me.getSource();
-		        TransferHandler handler = comp.getTransferHandler();
-		        handler.exportAsDrag(comp, me, TransferHandler.COPY);
-		      }
-		    };
-		label.addMouseListener(listener);
-		component_panel.add(label);
+		//component_panel.setPreferredSize ( new Dimension (180, 500) );
 		
 		JScrollPane sb = new JScrollPane (component_panel);
 		sb.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
@@ -137,7 +124,6 @@ public class MainWindow extends javax.swing.JFrame {
 		JSplitPane left_panel = new JSplitPane (JSplitPane.VERTICAL_SPLIT, sb, clock_panel);
 		left_panel.setResizeWeight (1.0);
 		cp.add (left_panel, BorderLayout.WEST);
-		
 		
 		// Create File menu
 		JMenu file_menu = new JMenu (translator.getString("FILE"));

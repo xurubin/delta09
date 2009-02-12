@@ -1,5 +1,7 @@
 package org.delta.circuit.gate;
 
+import java.util.ArrayList;
+
 import org.delta.logic.State;
 
 public class DebugInputGate extends AbstractInputGate {
@@ -19,6 +21,10 @@ public class DebugInputGate extends AbstractInputGate {
             return true;
         }
         return false;
+    }
+    
+    public String getVerilogMethod(String name, String out, ArrayList<String> in) {
+    	return name + ": assign " + out + " = PLACEHOLDER;";
     }
 
 }

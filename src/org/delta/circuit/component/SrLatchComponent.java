@@ -1,8 +1,9 @@
 package org.delta.circuit.component;
 
+import java.util.ArrayList;
+
 import org.delta.circuit.Circuit;
 import org.delta.circuit.Component;
-import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.circuit.gate.NorGate;
@@ -33,9 +34,10 @@ public class SrLatchComponent extends Component {
         setOutputGate(0, nor1);
     }
 
-	@Override
-	public String getVerilogMethod() {
-		return "rslatch";
-	}
+    public String getVerilogMethod(String name, ArrayList<String> input, ArrayList<String> output) {
+		String rs_latch = "rs_latch " + name + "("+ output.get(0) + ", " + output.get(1)
+							+ ", " + input.get(0) + ", " + input.get(1) + ");";
+		return rs_latch;
+    }
 
 }

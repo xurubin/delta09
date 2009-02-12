@@ -14,9 +14,4 @@ public class DebugOutputComponent extends Component {
         
         setInputGate(0, out, 0);
     }
-
-    @Override
-    public String getVerilogMethod() {
-        return "debug";
-    }
 }

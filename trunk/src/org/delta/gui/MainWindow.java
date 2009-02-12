@@ -258,8 +258,8 @@ public class MainWindow extends javax.swing.JFrame {
 		edit_menu.add(paste_action_menu);
 		
 		JMenuItem delete_action_menu = new JMenuItem(delete_action);
-		delete_action_menu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
-			    Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		delete_action_menu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,
+			    0));
 		edit_menu.add(delete_action_menu);
 
 		// Create View menu

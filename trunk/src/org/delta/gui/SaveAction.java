@@ -9,12 +9,15 @@ public class SaveAction extends AbstractAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public SaveAction(String text, ImageIcon icon, String accelerator)
+	public SaveAction(String text, ImageIcon icon)
 	{
 		super(text,icon);
-		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
 	}
 	
+	public SaveAction(String text) {
+		super(text);
+	}
+
 	public void actionPerformed(ActionEvent e)
 	{
 		// Display save dialog and then save the circuit to file

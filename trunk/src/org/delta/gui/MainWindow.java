@@ -23,7 +23,7 @@ public class MainWindow extends javax.swing.JFrame {
 	protected JPanel status_panel;
 	protected ClockPanel clock_panel;
 	protected JToolBar toolbar;
-	protected Action undo_action, redo_action, remove_action;
+	protected Action undo_action, redo_action;
 	
 	private static MainWindow mw;
 	
@@ -46,34 +46,34 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create ImageIcons to use in Actions
 		// TODO: Add small versions of the icons for use in the menus.
-		ImageIcon new_icon     = new ImageIcon ( "src/org/delta/gui/icons/new.png",     translator.getString("NEW")      );
-		ImageIcon open_icon    = new ImageIcon ( "src/org/delta/gui/icons/open.png",    translator.getString("OPEN")     );
-		ImageIcon save_icon    = new ImageIcon ( "src/org/delta/gui/icons/save.png",    translator.getString("SAVE")     );
-		ImageIcon undo_icon    = new ImageIcon ( "src/org/delta/gui/icons/undo.png",    translator.getString("UNDO")     );
-		ImageIcon redo_icon    = new ImageIcon ( "src/org/delta/gui/icons/redo.png",    translator.getString("REDO")     );
-		ImageIcon run_icon     = new ImageIcon ( "src/org/delta/gui/icons/run.png",     translator.getString("RUN")      );
-		ImageIcon export_icon  = new ImageIcon ( "src/org/delta/gui/icons/export.png",  translator.getString("EXPORT")   );
-		ImageIcon zoomin_icon  = new ImageIcon ( "src/org/delta/gui/icons/zoomin.png",  translator.getString("ZOOM_IN")	 );
-		ImageIcon zoomout_icon = new ImageIcon ( "src/org/delta/gui/icons/zoomout.png", translator.getString("ZOOM_OUT") );
-		ImageIcon cut_icon     = new ImageIcon ( "src/org/delta/gui/icons/cut.png",     translator.getString("CUT")      );
-		ImageIcon copy_icon    = new ImageIcon ( "src/org/delta/gui/icons/copy.png",    translator.getString("COPY")     );
-		ImageIcon paste_icon   = new ImageIcon ( "src/org/delta/gui/icons/paste.png",   translator.getString("PASTE")    );
-		ImageIcon remove_icon  = new ImageIcon ( "src/org/delta/gui/icons/remove.png",	translator.getString("REMOVE")   );
+		ImageIcon new_icon		= new ImageIcon ( "src/org/delta/gui/icons/new.png",     translator.getString("NEW")      );
+		ImageIcon open_icon		= new ImageIcon ( "src/org/delta/gui/icons/open.png",    translator.getString("OPEN")     );
+		ImageIcon save_icon		= new ImageIcon ( "src/org/delta/gui/icons/save.png",    translator.getString("SAVE")     );
+		ImageIcon undo_icon		= new ImageIcon ( "src/org/delta/gui/icons/undo.png",    translator.getString("UNDO")     );
+		ImageIcon redo_icon		= new ImageIcon ( "src/org/delta/gui/icons/redo.png",    translator.getString("REDO")     );
+		ImageIcon run_icon		= new ImageIcon ( "src/org/delta/gui/icons/run.png",     translator.getString("RUN")      );
+		ImageIcon export_icon	= new ImageIcon ( "src/org/delta/gui/icons/export.png",  translator.getString("EXPORT")   );
+		ImageIcon zoom_in_icon	= new ImageIcon ( "src/org/delta/gui/icons/zoomin.png",  translator.getString("ZOOM_IN")  );
+		ImageIcon zoom_out_icon	= new ImageIcon ( "src/org/delta/gui/icons/zoomout.png", translator.getString("ZOOM_OUT") );
+		ImageIcon cut_icon     	= new ImageIcon ( "src/org/delta/gui/icons/cut.png",     translator.getString("CUT")      );
+		ImageIcon copy_icon		= new ImageIcon ( "src/org/delta/gui/icons/copy.png",    translator.getString("COPY")     );
+		ImageIcon paste_icon	= new ImageIcon ( "src/org/delta/gui/icons/paste.png",   translator.getString("PASTE")    );
+		ImageIcon delete_icon	= new ImageIcon ( "src/org/delta/gui/icons/delete.png",	 translator.getString("DELETE")   );
 		
 		// Create Actions to add to menus and the toolbar, and to be called from KeyBindings
-		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon	);
-		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon	);
-		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon	);
-		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon	);
-		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon	);
-		Action run_action		= new RunAction		( translator.getString("RUN"),		run_icon	);
-		Action export_action	= new ExportAction	( translator.getString("EXPORT"),	export_icon	);
-		Action zoomin_action	= new ZoomAction	( translator.getString("ZOOM_IN"),	zoomin_icon	, 2.0);
-		Action zoomout_action	= new ZoomAction	( translator.getString("ZOOM_OUT"),	zoomout_icon, 0.5);
-		Action cut_action		= new CutAction		( translator.getString("CUT"),		cut_icon	);
-		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon	);
-		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon	);
-		remove_action			= new RemoveAction	( translator.getString("REMOVE"),	remove_icon	);
+		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N"	);
+		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O"	);
+		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S"	);
+		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon,		"ctrl Z"	);
+		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon,		"ctrl Y"	);
+		Action run_action		= new RunAction		( translator.getString("RUN"),		run_icon,		"ctrl R"	);
+		Action export_action	= new ExportAction	( translator.getString("EXPORT"),	export_icon,	"ctrl E"	);
+		Action zoom_in_action	= new ZoomAction	( translator.getString("ZOOM_IN"),	zoom_in_icon,	"ctrl EQUALS" , 2.0);
+		Action zoom_out_action	= new ZoomAction	( translator.getString("ZOOM_OUT"),	zoom_out_icon,	"ctrl MINUS"  , 0.5);
+		Action cut_action		= new CutAction		( translator.getString("CUT"),		cut_icon,		"ctrl X"	);
+		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon,		"ctrl C"	);
+		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon,		"ctrl V"	);
+		Action delete_action	= new DeleteAction	( translator.getString("DELETE"),	delete_icon,	"DELETE"	);
 		
 		// Initialise stage of Actions
 		undo_action.setEnabled(false);
@@ -165,11 +165,12 @@ public class MainWindow extends javax.swing.JFrame {
 		edit_menu.add (cut_action);
 		edit_menu.add (copy_action);
 		edit_menu.add (paste_action);
+		edit_menu.add(delete_action);
 		
 //		Create View menu
 		JMenu view_menu = new JMenu (translator.getString("VIEW"));
-		view_menu.add (zoomin_action);
-		view_menu.add (zoomout_action);
+		view_menu.add (zoom_in_action);
+		view_menu.add (zoom_out_action);
 		
 //		Create Help menu
 		JMenu help_menu = new JMenu(translator.getString("HELP"));
@@ -190,21 +191,22 @@ public class MainWindow extends javax.swing.JFrame {
 		toolbar = new JToolBar();
 		toolbar.setFloatable (false);        
 		toolbar.setPreferredSize ( new Dimension (450, 50) );
-		toolbar.add ( new_action	 );
-		toolbar.add ( open_action	 );
-		toolbar.add ( save_action	 );
-		toolbar.add ( undo_action	 );
-		toolbar.add ( redo_action	 );
-		toolbar.add ( run_action	 );
-		toolbar.add ( export_action	 );
-		toolbar.add ( zoomin_action	 );
-		toolbar.add ( zoomout_action );
-		toolbar.add ( cut_action	 );
-		toolbar.add ( copy_action	 );
-		toolbar.add ( paste_action	 );
+		toolbar.add ( new_action		);
+		toolbar.add ( open_action		);
+		toolbar.add ( save_action		);
+		toolbar.add ( undo_action		);
+		toolbar.add ( redo_action		);
+		toolbar.add ( run_action		);
+		toolbar.add ( export_action		);
+		toolbar.add ( zoom_in_action	);
+		toolbar.add ( zoom_out_action	);
+		toolbar.add ( cut_action		);
+		toolbar.add ( copy_action		);
+		toolbar.add ( paste_action		);
+		toolbar.add ( delete_action		);
 		add (toolbar, BorderLayout.NORTH);
 		
-//		Pack components into the MainWindow
+		// Pack components into the MainWindow
 		pack();
 
 	}
@@ -214,19 +216,12 @@ public class MainWindow extends javax.swing.JFrame {
 		System.exit (0);
 	}
 	
-	public Action getUndoAction()
-	{
+	public Action getUndoAction() {
 		return undo_action;
 	}
 	
-	public Action getRedoAction()
-	{
+	public Action getRedoAction() {
 		return redo_action;
-	}
-	
-	public Action getRemoveAction()
-	{
-		return remove_action;
 	}
 	
 	public static MainWindow get()

@@ -12,10 +12,11 @@ public class CopyAction extends AbstractAction
 	private static final long serialVersionUID = 1L;
 	private Action action;
 
-	public CopyAction(String text,ImageIcon icon)
+	public CopyAction(String text, ImageIcon icon, String accelerator)
 	{
 		super(text,icon);
 		this.action = javax.swing.TransferHandler.getCopyAction();
+		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
 	}
 	
 	public void actionPerformed(ActionEvent e)

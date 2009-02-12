@@ -11,10 +11,11 @@ public class ZoomAction extends AbstractAction
 	private static final long serialVersionUID = 1L;
 	private double scaleFactor;
 	
-	public ZoomAction(String text,ImageIcon icon,double factor)
+	public ZoomAction(String text, ImageIcon icon, String accelerator, double factor)
 	{
 		super(text,icon);
 		scaleFactor = factor;
+		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
 	}
 	
 	public void actionPerformed(ActionEvent e)

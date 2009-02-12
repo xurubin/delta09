@@ -9,10 +9,12 @@ public class OpenAction extends AbstractAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public OpenAction(String text, ImageIcon icon, String accelerator)
+	public OpenAction(String text, ImageIcon icon)
 	{
 		super(text,icon);
-		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
+	}
+	public OpenAction(String text) {
+		super(text);
 	}
 	
 	public void actionPerformed(ActionEvent e)

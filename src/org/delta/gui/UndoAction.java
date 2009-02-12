@@ -12,12 +12,15 @@ public class UndoAction extends AbstractAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public UndoAction(String text, ImageIcon icon, String accelerator)
+	public UndoAction(String text, ImageIcon icon)
 	{
 		super(text,icon);
-		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
 	}
 	
+	public UndoAction(String text) {
+		super(text);
+	}
+
 	public void actionPerformed(ActionEvent e)
 	{
 		JGraph graph = MainWindow.get().circuit_panel.getGraph();
@@ -35,8 +38,12 @@ public class UndoAction extends AbstractAction
 		finally
 		{
 			// Update the undo/redo actions
-			MainWindow.get().undo_action.setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
-			MainWindow.get().redo_action.setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
+			boolean canUndo = undoManager.canUndo(graph.getGraphLayoutCache());
+			MainWindow.get().undo_action.setEnabled(canUndo);
+			MainWindow.get().undo_toolbar_action.setEnabled(canUndo);
+			boolean canRedo = undoManager.canRedo(graph.getGraphLayoutCache());
+			MainWindow.get().redo_action.setEnabled(canRedo);
+			MainWindow.get().redo_toolbar_action.setEnabled(canRedo);
 		}
 	}
 }

@@ -59,8 +59,13 @@ public class CircuitPanel extends JPanel {
 			// Override superclass method so we can update undo/redo buttons
 			public void undoableEditHappened(UndoableEditEvent e) {
 				super.undoableEditHappened(e);
-				MainWindow.get().getUndoAction().setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
-				MainWindow.get().getRedoAction().setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
+				for(Action a : MainWindow.get().getUndoActions()) {
+					a.setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
+				}
+				for(Action a : MainWindow.get().getRedoActions()) {
+					a.setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
+				}
+			
 			}
 		};
 		graph.getModel().addUndoableEditListener(undoManager);

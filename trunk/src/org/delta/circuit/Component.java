@@ -1,19 +1,18 @@
 package org.delta.circuit;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.delta.util.BidirectionalIntegerMap;
+import org.delta.verilog.VerilogConverter;
 
 abstract public class Component {
-    private BidirectionalIntegerMap<ComponentWire> inputMap;
+    protected BidirectionalIntegerMap<ComponentWire> inputMap;
     private BidirectionalIntegerMap<ComponentWire> outputMap;
 
     private ArrayList<GateInput> internalInputList;
     private ArrayList<Gate> internalOutputList;
 
-    private Circuit circuit = new Circuit();
+    protected Circuit circuit = new Circuit();
 
     public Component(int inputCount, int outputCount) {
         inputMap = new BidirectionalIntegerMap<ComponentWire>(inputCount);
@@ -47,7 +46,7 @@ abstract public class Component {
         return outputMap.getEntry(outputNumber);
     }
 
-    protected final Circuit getCircuit() {
+    public final Circuit getCircuit() {
         return circuit;
     }
 
@@ -131,6 +130,8 @@ abstract public class Component {
         }
     }
     
-    abstract public String getVerilogMethod();
+    public String getVerilogMethod(String name, ArrayList<String> inputWires, ArrayList<String> outputWires) {
+    	return VerilogConverter.convertToVerilog(name, getCircuit(), inputWires, outputWires);
+    }
 
 }

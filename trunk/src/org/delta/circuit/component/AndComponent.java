@@ -1,7 +1,10 @@
 package org.delta.circuit.component;
 
+import java.util.ArrayList;
+
 import org.delta.circuit.Component;
 import org.delta.circuit.ComponentWire;
+import org.delta.circuit.Gate;
 import org.delta.circuit.gate.AndGate;
 
 public class AndComponent extends Component {
@@ -18,8 +21,8 @@ public class AndComponent extends Component {
         outputList.add(andGate);
     }
 
-	public String getVerilogMethod() {
-		return "and";
-	}
+    public String getVerilogMethod(String name, String out, ArrayList<String> in) {
+    	return Gate.constructDefaultVerilogMethod("and", name, out, in);
+    }
 
 }

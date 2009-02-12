@@ -295,7 +295,7 @@ public class MainWindow extends javax.swing.JFrame {
 		toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 		toolbar.setRollover(true);
-		LayoutManager l = new FlowLayout(FlowLayout.CENTER, 5, 1);
+		LayoutManager l = new FlowLayout(FlowLayout.LEFT, 3, 1);
 		toolbar.setLayout(l);
 		// toolbar.setPreferredSize ( new Dimension (450, 40) );
 		toolbar.add(new_toolbar_action);

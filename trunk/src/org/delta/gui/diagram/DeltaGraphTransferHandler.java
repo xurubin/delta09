@@ -25,25 +25,42 @@ import org.jgraph.graph.GraphTransferHandler;
 import org.jgraph.graph.GraphTransferable;
 import org.jgraph.graph.ParentMap;
 
+/**
+ * This is a subclass of GraphTransferHandler from the JGraph library that has been
+ * specially adapted for our application. Specifically the
+ * {@link #importData(JComponent, Transferable) importData()} and
+ * {@link #handleExternalDrop(JGraph, Object[], Map, ConnectionSet, ParentMap, double, double)
+ * handleExternalDrop()} methods have been overwritten to provide customised dropping
+ * functionality, both from the {@link org.delta.gui.ComponentPanel ComponentPanel} and
+ * from the clipboard.
+ * @author Christopher Wilson
+ * */
 public class DeltaGraphTransferHandler extends GraphTransferHandler {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
-	/* importData is almost exactly the same as in GraphTransferHandler,
-	 * but the insertion point calulation altered so the mouse click
-	 * is now treated as the centre of the new component, rather than the
-	 * top left (non-Javadoc)
-	 * @see org.jgraph.graph.GraphTransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
+	/**
+	 * This overwritten version is very similar to the original. The main change
+	 * is that for dropping components the insertion point is calculated so that
+	 * the mouse release event is treated as the centre of the new component, rather
+	 * than the top left corner.
+	 * <br><br>
+	 * It should also be noted that in our application the field AlwaysReceiveAsCopyAction
+	 * is set to true, hence both drops from the ComponentPanel and from the clipboard
+	 * are treated in the same way. This simplifies the use of the clipboard, but does
+	 * require some changes in the HandleExternalDrop method as well.
+	 * 
+	 * @param comp - the JGraph we are importing to.
+	 * @param t - the transferable object we are importing.
+	 * @return boolean value signalling success or failure of the drop.
+	 * @see org.jgraph.graph.GraphTransferHandler#importData(javax.swing.JComponent,
+	 * 			java.awt.datatransfer.Transferable)
 	 */
-	
 	// NOTE: 1. We abuse return value to signal removal to the sender.
 	// 2. We always clone cells when transferred between two models
 	// This is because they contain parts of the model's data.
 	// 3. Transfer is passed to importDataImpl for unsupported
-	// dataflavors (becaue method may return false, see 1.)
+	// dataflavors (because method may return false, see 1.)
 	public boolean importData(JComponent comp, Transferable t) {
 		try {
 			if (comp instanceof JGraph) {
@@ -207,11 +224,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 											// If parent processed then childs
 											// are already located
 										} else if (parent == null
-												|| !nested
-														.keySet()
-														.contains(
-																model
-																		.getParent(cells[i]))) {
+												|| !nested.keySet().contains(model.getParent(cells[i]))) {
 											CellView view = graph
 													.getGraphLayoutCache()
 													.getMapping(cells[i], false);
@@ -270,17 +283,29 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	/**
 	 * Private method used by importData to suppress unchecked type warnings caused
 	 * by legacy non-generics code in the JGraph library.
-	 * @param gt GraphTransferable object representing the graph being imported
-	 * @return AttributeMap of gt
+	 * @param gt GraphTransferable object representing the graph being imported.
+	 * @return AttributeMap of gt.
 	 */
 	@SuppressWarnings("unchecked") private Map<Object,Map> redirectGetAttributeMap(GraphTransferable gt) {
 		return gt.getAttributeMap();
 	}
 	
 	/**
-	 * Overwritten version of the method from GraphTransferHandler that calls
-	 * the cloneCells method from DeltaGraphModel in order to perform a deep
-	 * clone of the cells (i.e. including children).
+	 * Overwritten version of the method from GraphTransferHandler. If the drop
+	 * is genuinely external it uses the static cloneCells method from DeltaGraphModel
+	 * in order to perform a deep clone of the cells (i.e. including ports).
+	 * <br>
+	 * If the drop is from the clipboard then it performs a shallow copy of the
+	 * cells, as the passed parent map will contain copies of the ports.
+	 * 
+	 * @param graph - the JGraph we are dropping into.
+	 * @param cells - an array of cells to insert.
+	 * @param nested - nested AttributeMap containing attributes of the cells to insert.
+	 * @param cs - ConnectionSet of the cells being dropped.
+	 * @param pm - ParentMap of the cells being dropped.
+	 * @param dx - x co-ordinate used to position the dropped cells.
+	 * @param dy - y co-ordinate used to position the dropped cells.
+	 * @see 
 	 */
 	protected void handleExternalDrop(JGraph graph, Object[] cells, Map nested,
 			ConnectionSet cs, ParentMap pm, double dx, double dy) {
@@ -296,9 +321,18 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				it.remove();
 			}
 		}
+		
+		// Create Map of cloned cells
+		Map clones = null;
 		DeltaGraphModel model = (DeltaGraphModel) graph.getModel();
-		Map clones = model.cloneCells(graph.getModel(), cells);
-		graph.getGraphLayoutCache().insertClones(cells, clones, nested, cs, pm,
-				dx, dy);
+		// If dragged from ComponentPanel, pm will be null so perform a deep copy (including ports)
+		if (pm == null)
+			clones = model.cloneCells(graph.getModel(), cells);
+		// Else is from clipboard so pm will not be null, and we need only do a shallow copy
+		else
+			clones = model.cloneCells(cells);
+		
+		// Insert cloned cells
+		graph.getGraphLayoutCache().insertClones(cells, clones, nested, cs, pm, dx, dy);
 	}
 }

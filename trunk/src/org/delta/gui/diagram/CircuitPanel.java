@@ -59,13 +59,8 @@ public class CircuitPanel extends JPanel {
 			// Override superclass method so we can update undo/redo buttons
 			public void undoableEditHappened(UndoableEditEvent e) {
 				super.undoableEditHappened(e);
-				for(Action a : MainWindow.get().getUndoActions()) {
-					a.setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
-				}
-				for(Action a : MainWindow.get().getRedoActions()) {
-					a.setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
-				}
-			
+				MainWindow.get().getUndoAction().setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
+				MainWindow.get().getRedoAction().setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
 			}
 		};
 		graph.getModel().addUndoableEditListener(undoManager);
@@ -81,6 +76,7 @@ public class CircuitPanel extends JPanel {
 		
 		// Change TransferHandler to implement custom dropping
 		DeltaGraphTransferHandler handler = new DeltaGraphTransferHandler();
+		handler.setAlwaysReceiveAsCopyAction(true);
 		graph.setTransferHandler(handler);
 		
 		// Change MarqueeHandler to implement custom edges and popup menus

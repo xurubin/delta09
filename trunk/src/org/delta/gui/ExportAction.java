@@ -12,15 +12,13 @@ public class ExportAction extends AbstractAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ExportAction(String text, ImageIcon icon)
+	public ExportAction(String text, ImageIcon icon, String accelerator)
 	{
-		super(text,icon);
+		super(text);
+		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
+		this.putValue(Action.LARGE_ICON_KEY, icon);
 	}
 	
-	public ExportAction(String text) {
-		super(text);
-	}
-
 	public void actionPerformed(ActionEvent e)
 	{
 		// Export the circuit to a Verilog file

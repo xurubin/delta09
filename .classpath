@@ -12,5 +12,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/i18n.jar"/>
+	<classpathentry kind="lib" path="lib/jh.jar" sourcepath="/home/rad55/delta09/lib-src/src.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

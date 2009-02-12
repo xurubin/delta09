@@ -1,7 +1,11 @@
 package org.delta.gui;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
+import javax.swing.*;
 
 import org.delta.gui.i18n.Translator;
 
@@ -107,18 +111,35 @@ public class ComponentPanel extends javax.swing.JPanel
 		
 		cats = new ArrayList <Category> (2);
 		
-		Category nandandand = new Category ( translator.getString("NANDAND"), 2 );
+		TransferHandler handler = new ComponentTransferHandler();
+		MouseListener listener = new MouseAdapter() {
+		      public void mousePressed(MouseEvent me) {
+		        JComponent comp = (JComponent) me.getSource();
+		        TransferHandler handler = comp.getTransferHandler();
+		        handler.exportAsDrag(comp, me, TransferHandler.COPY);
+		      }
+		    };
+		ImageIcon test = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
+		ComponentPanelLabel and_gate = new ComponentPanelLabel(test,ComponentPanel.AND);
+		and_gate.setTransferHandler(handler);
+		and_gate.addMouseListener(listener);
+		ImageIcon test2 = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
+		ComponentPanelLabel or_gate = new ComponentPanelLabel(test2,ComponentPanel.OR);
+		or_gate.setTransferHandler(handler);
+		or_gate.addMouseListener(listener);
+		
+		GridLayout layout = new GridLayout (10, 4);
+		setLayout(layout);
+		add (and_gate);
+		add (or_gate);
+		
+		/*Category nandandand = new Category ( translator.getString("NANDAND"), 2 );
 		Category norandor   = new Category ( translator.getString("NOROR"),   2 );
-//		Category yourface   = new Category ( "YOUR FACE", 1);
 
 		nandandand.add ("nand.png", translator.getString("NANDGATE"), "and.png", translator.getString("ANDGATE"));
-	//	nandandand.add ("new.png", "Huh?");
 
 		norandor.add ("nor.png", translator.getString("NORGATE"));
-		norandor.add ("or.png", translator.getString("ORGATE"));
-		
-//		yourface.add ("open.png", "Like?");
-//		yourface.add ("paste.png", "Your face", "copy.png", "COPEH!!!11");
+		norandor.add ("or.png", translator.getString("ORGATE"));*/
 	}
 
 	public void paintComponent (Graphics g)

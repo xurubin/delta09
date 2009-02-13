@@ -11,7 +11,7 @@ public class OrGateView extends VertexView
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//private static VertexRenderer renderer = new VertexRenderer();
+	private static DeltaComponentRenderer renderer = new DeltaComponentRenderer();
      
      /*public AndGateView()
      {
@@ -28,12 +28,12 @@ public class OrGateView extends VertexView
            GraphConstants.setAutoSize(this.getAttributes(),true);
      }
      
-     /*public CellViewRenderer getRenderer()
+     public CellViewRenderer getRenderer()
      {
            return renderer;
      }
      
-     public Point2D getPerimeterPoint(EdgeView edge,Point2D source,Point2D p)
+     /*public Point2D getPerimeterPoint(EdgeView edge,Point2D source,Point2D p)
      {
          // No special implementation of this required as all edges
     	 // will terminate at ports.

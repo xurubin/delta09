@@ -15,7 +15,11 @@ public class DE2_Daemon {
 		JoPDatagramLayer d = new JoPDatagramLayer(); //No polling thread
 		RtThread.startMission();
 		while (true) {
-			DE2Peripheral.directLEDState(d.readLEDStates());
+			d.readLEDHEXStates();
+			DE2Peripheral.directLEDState(d.getLEDStates());
+			DE2Peripheral.directHEX1State(d.getHEX1States());
+			DE2Peripheral.directHEX2State(d.getHEX2States());
+
 			d.sendSwitchStates(DE2Peripheral.directSwitchState());
 
 			//DE2Peripheral.setLEDRState(17, !DE2Peripheral.getLEDRState(17)); //Flash LED17 as an indicator.

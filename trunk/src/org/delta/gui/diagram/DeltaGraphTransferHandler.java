@@ -26,6 +26,7 @@ import org.jgraph.graph.GraphTransferable;
 import org.jgraph.graph.ParentMap;
 
 /**
+ * @author Christopher Wilson
  * This is a subclass of GraphTransferHandler from the JGraph library that has been
  * specially adapted for our application. Specifically the
  * {@link #importData(JComponent, Transferable) importData()} and
@@ -33,8 +34,7 @@ import org.jgraph.graph.ParentMap;
  * handleExternalDrop()} methods have been overwritten to provide customised dropping
  * functionality, both from the {@link org.delta.gui.ComponentPanel ComponentPanel} and
  * from the clipboard.
- * @author Christopher Wilson
- * */
+ */
 public class DeltaGraphTransferHandler extends GraphTransferHandler {
 
 	private static final long serialVersionUID = 1L;

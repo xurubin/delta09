@@ -8,11 +8,10 @@ import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultGraphModel;
 
 /**
+ * @author Christopher Wilson
  * DeleteAction is used to centralise the execution of the "remove" command.
  * The action performed is to delete the current selection on the circuit diagram.
  * In order to avoid dangling edges connected to the selection are removed as well.
- * @author Christopher Wilson
- *
  */
 public class DeleteAction extends AbstractAction
 {

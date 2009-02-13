@@ -149,18 +149,33 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 				return states;
 	}
 	
-	public int sendLEDStates(int States){
+	public int sendLEDHEXStates(int LEDStates, long HEXStates){
 			int byteCount = 1;
+			int States;
 
 			usbBuf[byteCount++]= (DATAGRAM_HEADER); 
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); 
 			usbBuf[byteCount++]= 0x21; //LED Packet Signature.
 			usbBuf[byteCount++]= 0x43; 
 			usbBuf[byteCount++]= 0x65; 
 			usbBuf[byteCount++]= 0x78; 
+
+			States = LEDStates; //LED states
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); 
+
+			States = (int)(HEXStates & 0xFFFFFFF); //Lowest 28 bits for HEX7654
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); 
+
+			States = (int)((HEXStates >>> 28) & 0xFFFFFFF); //[55..28]bits for HEX3210
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); 
 			while (byteCount < PACKET_LEN+2) usbBuf[byteCount++] = 1; //Paddings
 			usbBuf[byteCount++]= DATAGRAM_END; //Termination
 

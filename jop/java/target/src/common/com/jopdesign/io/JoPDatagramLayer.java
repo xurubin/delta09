@@ -13,6 +13,9 @@ import com.jopdesign.sys.Const;
 public class JoPDatagramLayer extends BaseDatagramLayer {
 	protected SerialPort sp;
 	private int LEDStates = 0;
+	private int HEX1States = 0;
+	private int HEX2States = 0;
+
 	private final int PACKET_LEN = 56;
 	public JoPDatagramLayer(){
 		sp = IOFactory.getFactory().getSerialPort();
@@ -78,46 +81,74 @@ public class JoPDatagramLayer extends BaseDatagramLayer {
 		return data_len;
 	}
 /////////////////////////////////////////////////////////////////////
-	public int readLEDStates(){
-DE2Peripheral.setHEX1Display(1,true);
+	public void readLEDHEXStates(){
+//DE2Peripheral.setHEX1Display(1,true);
 		while( sp.read()!= DATAGRAM_END);
-DE2Peripheral.setHEX1Display(2,true);
+//DE2Peripheral.setHEX1Display(2,true);
 		int H = Native.rdMem(Const.IO_UART_SR);
-		int L = Native.rdMem(Const.IO_UART_SR+1);
-DE2Peripheral.setHEX2Display(H>>16,true);
+		if (H != 0x21436578)
+			return;
+
+//DE2Peripheral.setHEX2Display(H>>16,true);
 	
 		int states = 0;
+		H = Native.rdMem(Const.IO_UART_SR+1);
 		states =  ((byte)(((H>>>24) & 0xFF) - 4));
 		states |= ((byte)(((H>>>16) & 0xFF) - 4))<<7;
 		states |= ((byte)(((H>>>8 ) & 0xFF) - 4))<<14;
 		states |= ((byte)(((H    ) & 0xFF) - 4))<<21;
-		if (L == 0x21436578)
-			LEDStates = states;
-DE2Peripheral.setHEX1Display(3,true);
+		LEDStates = states;
+
+		H = Native.rdMem(Const.IO_UART_SR+2);
+		states =  ((byte)(((H>>>24) & 0xFF) - 4));
+		states |= ((byte)(((H>>>16) & 0xFF) - 4))<<7;
+		states |= ((byte)(((H>>>8 ) & 0xFF) - 4))<<14;
+		states |= ((byte)(((H    ) & 0xFF) - 4))<<21;
+		HEX1States = states;
+
+		H = Native.rdMem(Const.IO_UART_SR+3);
+		states =  ((byte)(((H>>>24) & 0xFF) - 4));
+		states |= ((byte)(((H>>>16) & 0xFF) - 4))<<7;
+		states |= ((byte)(((H>>>8 ) & 0xFF) - 4))<<14;
+		states |= ((byte)(((H    ) & 0xFF) - 4))<<21;
+		HEX2States = states;
+
+//DE2Peripheral.setHEX1Display(3,true);
+	}
+	
+	public int getLEDStates(){
 		return LEDStates;
+	}
+
+	public int getHEX1States(){
+		return HEX1States;
+	}
+
+	public int getHEX2States(){
+		return HEX2States;
 	}
 	
 	public int sendSwitchStates(int states){ 
 		int i = 0;
 		byte d = 0;
-DE2Peripheral.setHEX1Display(4,true);
+//DE2Peripheral.setHEX1Display(4,true);
 		while(!sp.txEmpty());
-DE2Peripheral.setHEX1Display(5,true);
+//DE2Peripheral.setHEX1Display(5,true);
 		sp.write(0x00);
 		for(i=0;i<4;i++){
-DE2Peripheral.setHEX1Display(6,true);
+//DE2Peripheral.setHEX1Display(6,true);
 			while(!sp.txEmpty());
-DE2Peripheral.setHEX1Display(7,true);
+//DE2Peripheral.setHEX1Display(7,true);
 				sp.write((byte)(0x80|(states&0x7F))); 
 				states >>= 7;
 		}
-DE2Peripheral.setHEX1Display(8,true);
+//DE2Peripheral.setHEX1Display(8,true);
 		while(!sp.txEmpty());
-DE2Peripheral.setHEX1Display(9,true);
+//DE2Peripheral.setHEX1Display(9,true);
 		sp.write(0x00);
-DE2Peripheral.setHEX1Display(10,true);
+//DE2Peripheral.setHEX1Display(10,true);
 		while(!sp.txEmpty());
-DE2Peripheral.setHEX1Display(11,true);
+//DE2Peripheral.setHEX1Display(11,true);
 		return 0;
 	}
 	

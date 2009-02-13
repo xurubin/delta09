@@ -66,19 +66,17 @@ while(true){
 
 
 	public static void main(String[] args) {
-		int i = 0;
+		int i = 0, j = 0;
 		int LED =0, L;
 		HostDatagramLayer u = new HostDatagramLayer();
-		long t;
+		long t1,t2,t3;
+		t3 = System.currentTimeMillis();
 		while (true) { 
 			i++;
-			t = System.currentTimeMillis();
-			u.sendLEDStates((i&0xF)<<22 | LED);
+			u.sendLEDHEXStates((i&0xF)<<22 | LED, i+((long)i<<28));
 			L = u.readSwitchStates();
-			if (L != -1) LED = L;
-			t = System.currentTimeMillis() - t;
-			if (t != 0)
-			System.out.printf(" %3.1f ",1000.0/t);
+			if (L != -1) { LED = L; j++;}
+			System.out.printf("FPS: %3.2f ",(double)j*1000.0/(double)(System.currentTimeMillis()-t3));
 			System.out.print('\r');
 		}
 	}

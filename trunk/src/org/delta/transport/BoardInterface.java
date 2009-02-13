@@ -44,6 +44,9 @@ public class BoardInterface {
 	 * @param b	the value to set that LED to.
 	 * @return 1 if successful. 
 	 */
+	/*
+	 * TODO: add support for HEX display. 
+	 */
 	public void sendLEDEvent(int i, boolean b) {
 		//compare state change event to lights packed int.
 		serialListener.setLights(i,b);

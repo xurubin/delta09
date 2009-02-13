@@ -2,8 +2,6 @@ package org.delta.gui.i18n;
 
 
 import java.util.Locale;
-
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.delta.gui.MainWindow;

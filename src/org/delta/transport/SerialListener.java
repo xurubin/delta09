@@ -34,7 +34,7 @@ class SerialListener extends Thread {
 		   lights |= (1 << p);
 	   }
 	   else {
-		   lights &= (lights - (1 << p));
+		   lights &= ~(1 << p);
 	   }
    }
    
@@ -47,7 +47,10 @@ class SerialListener extends Thread {
    public void run() {
 	   while(true) {
 		   //set lights
-		   hostLayer.sendLEDStates(lights);
+		   /*
+		    * TODO: add hex support. 
+		    */
+		   hostLayer.sendLEDHEXStates(lights, 0L);
 		   
 		   //read switches
 		   int status = hostLayer.readSwitchStates();

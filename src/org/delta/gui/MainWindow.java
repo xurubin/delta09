@@ -174,7 +174,7 @@ public class MainWindow extends javax.swing.JFrame {
 		toolbar.setFloatable (false);
 		LayoutManager manager = new FlowLayout(FlowLayout.LEADING,3,1);
 		toolbar.setLayout(manager);
-		toolbar.setComponentOrientation(getComponentOrientation());
+		toolbar.setComponentOrientation(ComponentOrientation.getOrientation(language));
 		toolbar.add ( new_action		);
 		toolbar.add ( open_action		);
 		toolbar.add ( save_action		);

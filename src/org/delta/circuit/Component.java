@@ -6,7 +6,7 @@ import org.delta.util.BidirectionalIntegerMap;
 import org.delta.verilog.VerilogConverter;
 
 abstract public class Component {
-    protected BidirectionalIntegerMap<ComponentWire> inputMap;
+    private BidirectionalIntegerMap<ComponentWire> inputMap;
     private BidirectionalIntegerMap<ComponentWire> outputMap;
 
     private ArrayList<GateInput> internalInputList;

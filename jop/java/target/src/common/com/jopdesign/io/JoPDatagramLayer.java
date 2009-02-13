@@ -90,7 +90,7 @@ public class JoPDatagramLayer extends BaseDatagramLayer {
 			return;
 
 //DE2Peripheral.setHEX2Display(H>>16,true);
-	
+/*	
 		int states = 0;
 		H = Native.rdMem(Const.IO_UART_SR+1);
 		states =  ((byte)(((H>>>24) & 0xFF) - 4));
@@ -112,7 +112,31 @@ public class JoPDatagramLayer extends BaseDatagramLayer {
 		states |= ((byte)(((H>>>8 ) & 0xFF) - 4))<<14;
 		states |= ((byte)(((H    ) & 0xFF) - 4))<<21;
 		HEX2States = states;
+*/
+		int states,i;
+		H = Native.rdMem(Const.IO_UART_SR+1)-0x04040404;
+		states = 0;
+		for (i=0;i<4;i++) {
+			states = (states<<7)|(H & 0xFF);
+			H >>>= 8;
+		}
+		LEDStates = states;
 
+		H = Native.rdMem(Const.IO_UART_SR+2)-0x04040404;
+		states = 0;
+		for (i=0;i<4;i++) {
+			states = (states<<7)|(H & 0xFF);
+			H >>>= 8;
+		}
+		HEX1States = states;
+
+		H = Native.rdMem(Const.IO_UART_SR+3)-0x04040404;
+		states = 0;
+		for (i=0;i<4;i++) {
+			states = (states<<7)|(H & 0xFF);
+			H >>>= 8;
+		}
+		HEX2States = states;
 //DE2Peripheral.setHEX1Display(3,true);
 	}
 	
@@ -132,15 +156,15 @@ public class JoPDatagramLayer extends BaseDatagramLayer {
 		int i = 0;
 		byte d = 0;
 //DE2Peripheral.setHEX1Display(4,true);
-		while(!sp.txEmpty());
+		//while(!sp.txEmpty());
 //DE2Peripheral.setHEX1Display(5,true);
-		sp.write(0x00);
+		//sp.write(0x00);
 		for(i=0;i<4;i++){
 //DE2Peripheral.setHEX1Display(6,true);
 			while(!sp.txEmpty());
 //DE2Peripheral.setHEX1Display(7,true);
-				sp.write((byte)(0x80|(states&0x7F))); 
-				states >>= 7;
+			sp.write((byte)(0x80|(states&0x7F))); 
+			states >>>= 7;
 		}
 //DE2Peripheral.setHEX1Display(8,true);
 		while(!sp.txEmpty());

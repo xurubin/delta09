@@ -11,20 +11,28 @@ public class DeltaOutputPortView extends PortView
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Color normalColor = new Color(99,108,137);
+	private static final Color highlightColor = new Color(166,72,190);
 	private static DeltaPortRenderer renderer = new DeltaPortRenderer();
      
      public DeltaOutputPortView()
      {
            super();
-           GraphConstants.setForeground(this.getAttributes(),new Color(99,108,137));
+           GraphConstants.setForeground(this.getAttributes(), normalColor);
+           GraphConstants.setBackground(this.getAttributes(), highlightColor);
      }
      
      public DeltaOutputPortView(Object arg0)
      {
            super(arg0);
-           GraphConstants.setForeground(this.getAttributes(),new Color(99,108,137));
+           GraphConstants.setForeground(this.getAttributes(), normalColor);
+           GraphConstants.setBackground(this.getAttributes(), highlightColor);
      }
      
+     /**
+      * This method is overwritten so we can use our custom DeltaPortRenderer.
+      * @return reference to the port renderer
+      */
      public CellViewRenderer getRenderer()
      {
            return renderer;
@@ -37,11 +45,10 @@ public class DeltaOutputPortView extends PortView
     	 return super.getPerimeterPoint(edge,source,p);
      }
      
-     public CellHandle getHandle(GraphContext c)
-     {
-    	 return null;
-     }
-     
+     /**
+      * Returns the bounds of the port as a rectangle.
+      * @return the bounds of the port
+      */
      public Rectangle2D getBounds() {
  		Point2D loc = getLocation();
  		double x = 0;

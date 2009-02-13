@@ -1,6 +1,7 @@
 package org.delta.gui.diagram;
 
 import org.jgraph.graph.*;
+
 import java.awt.geom.*;
 import java.awt.Color;
 
@@ -10,20 +11,28 @@ public class DeltaInputPortView extends PortView
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final Color normalColor = new Color(204,0,0);
+	private static final Color highlightColor = new Color(228,0,0);
 	private static DeltaPortRenderer renderer = new DeltaPortRenderer();
      
      public DeltaInputPortView()
      {
            super();
-           GraphConstants.setForeground(this.getAttributes(),new Color(204,0,0));
+           GraphConstants.setForeground(this.getAttributes(), normalColor);
+           GraphConstants.setBackground(this.getAttributes(), highlightColor);
      }
      
      public DeltaInputPortView(Object arg0)
      {
            super(arg0);
-           GraphConstants.setForeground(this.getAttributes(),new Color(204,0,0));
+           GraphConstants.setForeground(this.getAttributes(), normalColor);
+           GraphConstants.setBackground(this.getAttributes(), highlightColor);
      }
      
+     /**
+      * This method is overwritten so we can use our custom DeltaPortRenderer.
+      * @return reference to the port renderer
+      */
      public CellViewRenderer getRenderer()
      {
            return renderer;
@@ -36,11 +45,10 @@ public class DeltaInputPortView extends PortView
     	 return super.getPerimeterPoint(edge,source,p);
      }
      
-     public CellHandle getHandle(GraphContext c)
-     {
-    	 return null;
-     }
-     
+     /**
+      * Returns the bounds of the port as a rectangle.
+      * @return the bounds of the port
+      */
      public Rectangle2D getBounds() {
 		Point2D loc = getLocation();
 		double x = 0;

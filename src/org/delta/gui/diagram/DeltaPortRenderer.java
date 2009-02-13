@@ -10,11 +10,11 @@ import javax.swing.*;
 import java.io.Serializable;
 
 public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Serializable {	
-	// INSERTED
+	
 	private static final long serialVersionUID = 1L;
+	
 	/** Cache the current port color for drwaing. */
-	transient protected Color color;
-	// END OF INSERT
+	protected transient Color color;
 	
 	/** Cache the current EdgeView for drawing. */
 	protected transient PortView view;
@@ -23,7 +23,7 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	protected Color graphBackground = Color.white;
 	
 	/** Cached hasFocus and selected value. */
-	transient protected boolean hasFocus, selected, preview, xorEnabled;
+	protected transient boolean hasFocus, selected, preview, xorEnabled;
 	
 	/**
 	 * Constructs a renderer that may be used to render ports.
@@ -58,9 +58,6 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 		if (view instanceof PortView && graph != null) {
 			graphBackground = graph.getBackground();
 			this.view = (PortView) view;
-			// INSERTED
-			this.color = Color.red;
-			// END OF INSERT
 			this.hasFocus = focus;
 			this.selected = sel;
 			this.preview = preview;
@@ -82,6 +79,7 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	protected void installAttributes(CellView view) {
 		AttributeMap map = view.getAllAttributes();
 		setForeground(GraphConstants.getForeground(map));
+		setBackground(GraphConstants.getBackground(map));
 	}
 	
 	/**
@@ -104,19 +102,16 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	 * @param g - Graphics context to paint the port onto.
 	 */
 	public void paint(Graphics g) {
-		// INSERTED
-		Dimension d = new Dimension(10,10);
+		Dimension size = getSize();
 		if (xorEnabled) {
 			g.setColor(getForeground());
 			g.setXORMode(graphBackground);
 		}
 		super.paint(g);
 		if (preview) {
-			g.fillOval(0, 0, d.width+2, d.height+2);
-		} else {
-			g.fillOval(0, 0, d.width, d.height);
+			g.setColor(getBackground());
 		}
-		// END OF INSERT
+		g.fillOval(0, 0, (int)size.getWidth(), (int)size.getHeight());
 	}
 	
 	/**

@@ -158,7 +158,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		JLabel clock_label = new JLabel(clock_icon);
 		
-		clock_panel.setLayout ( new GridLayout (1, 2) );
+		clock_panel.setLayout ( new GridLayout (0,2) );
 		
 		JSpinner spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
 		

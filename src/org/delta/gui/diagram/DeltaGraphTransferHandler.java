@@ -26,7 +26,7 @@ import org.jgraph.graph.GraphTransferable;
 import org.jgraph.graph.ParentMap;
 
 /**
- * @author Christopher Wilson
+ * @author Group Delta 2009
  * This is a subclass of GraphTransferHandler from the JGraph library that has been
  * specially adapted for our application. Specifically the
  * {@link #importData(JComponent, Transferable) importData()} and
@@ -61,6 +61,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	// This is because they contain parts of the model's data.
 	// 3. Transfer is passed to importDataImpl for unsupported
 	// dataflavors (because method may return false, see 1.)
+	@Override
 	public boolean importData(JComponent comp, Transferable t) {
 		try {
 			if (comp instanceof JGraph) {
@@ -307,6 +308,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	 * @param dy - y co-ordinate used to position the dropped cells.
 	 * @see 
 	 */
+	@Override
 	protected void handleExternalDrop(JGraph graph, Object[] cells, Map nested,
 			ConnectionSet cs, ParentMap pm, double dx, double dy) {
 

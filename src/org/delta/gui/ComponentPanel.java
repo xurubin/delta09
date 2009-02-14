@@ -112,10 +112,10 @@ public class ComponentPanel extends JPanel
 		
 		cats = new ArrayList <Category> (2);
 		
-		JXCollapsiblePane pane1 = new JXCollapsiblePane();
-		pane1.setBorder (new javax.swing.border.LineBorder (Color.BLACK));
-		JXCollapsiblePane pane2 = new JXCollapsiblePane();
-		//pane2.setBorder (new javax.swing.border.LineBorder (Color.BLACK));
+		JXCollapsiblePane p1 = new JXCollapsiblePane();
+		Container pane1 = p1.getContentPane();
+		JXCollapsiblePane p2 = new JXCollapsiblePane();
+		Container pane2 = p2.getContentPane();
 		
 		TransferHandler handler = new ComponentTransferHandler();
 		MouseListener listener = new MouseAdapter() {
@@ -125,51 +125,55 @@ public class ComponentPanel extends JPanel
 		        handler.exportAsDrag(comp, me, TransferHandler.COPY);
 		      }
 		    };
-		ImageIcon test = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
-		ComponentPanelLabel and_gate = new ComponentPanelLabel(test,ComponentPanel.AND);
-		ComponentPanelLabel and_gate2 = new ComponentPanelLabel(test,ComponentPanel.AND);
+		ImageIcon and_icon = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
+		ComponentPanelLabel and_gate = new ComponentPanelLabel(and_icon,ComponentPanel.AND);
 		and_gate.setTransferHandler(handler);
 		and_gate.addMouseListener(listener);
-		and_gate2.setTransferHandler(handler);
-		and_gate2.addMouseListener(listener);
-		ImageIcon test2 = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
-		ComponentPanelLabel or_gate = new ComponentPanelLabel(test2,ComponentPanel.OR);
-		ComponentPanelLabel or_gate2 = new ComponentPanelLabel(test2,ComponentPanel.OR);
+		ImageIcon or_icon = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
+		ComponentPanelLabel or_gate = new ComponentPanelLabel(or_icon,ComponentPanel.OR);
 		or_gate.setTransferHandler(handler);
 		or_gate.addMouseListener(listener);
-		or_gate2.setTransferHandler(handler);
-		or_gate2.addMouseListener(listener);
 		
-		pane1.setPreferredSize(new Dimension (175, 250));
-		pane2.setPreferredSize(new Dimension (175, 350));
+		p1.setPreferredSize(new Dimension (175, 240));
+		p2.setPreferredSize(new Dimension (175, 360));
 		
-		pane1.getContentPane().setLayout(new GridLayout(0,2));
-		pane1.getContentPane().add (and_gate);
-		pane1.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane1.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane1.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane1.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane1.getContentPane().add (or_gate);
-		pane1.getContentPane().add (and_gate2);
+		pane1.setLayout(new GridLayout(0,2));
+		pane1.add (or_gate);
+		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
 		
-		pane2.getContentPane().setLayout(new GridLayout(0,2));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
-		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.setLayout(new GridLayout(0,2));
+		pane2.add (and_gate);
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
 		
-		setLayout (new GridLayout(0, 1));
+		setLayout (new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		add (pane1);
-		add (pane2);
+		JLabel label1 = new JLabel ("Or Gates", JLabel.LEFT);
+//		label1.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
+		label1.setHorizontalTextPosition (JLabel.LEFT);
+		
+//		p1.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
+//		p2.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
+		
+		add (label1);
+		add (p1);
+		add (new JLabel ("And Gates", JLabel.LEFT));
+		add (p2);
 		
 		/*Category nandandand = new Category ( translator.getString("NANDAND"), 2 );
 		Category norandor   = new Category ( translator.getString("NOROR"),   2 );

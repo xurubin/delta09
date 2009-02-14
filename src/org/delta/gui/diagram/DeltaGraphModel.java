@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.delta.circuit.Component;
 import org.delta.circuit.ComponentWire;
 import org.jgraph.graph.DefaultGraphCell;
+import org.jgraph.graph.Edge;
 import org.jgraph.graph.Port;
 import org.jgraph.graph.GraphModel;
 import org.jgrapht.ext.JGraphModelAdapter;
@@ -106,6 +107,49 @@ public class DeltaGraphModel extends JGraphModelAdapter<Component,ComponentWire>
 			return clone;
 		}
 		return cellObj;
+	}
+	
+	/**
+	 * Override to implement our constraints on electronic circuits. In this case
+	 * we need only check that if the source is an input port, and if so whether
+	 * it already has edges attached.
+	 * @param edge - edge to check if port is a valid source for.
+	 * @param port - port to check validity of.
+	 * @return true if source is valid, false otherwise.
+	 */
+	@Override
+	public boolean acceptsSource(Object edge, Object port) {
+		// If source is an input port, check it has no other edges attached.
+		if (port instanceof DeltaInputPort) {
+			DeltaInputPort inputPort = (DeltaInputPort)port;
+			return (!(inputPort.edges().hasNext()));
+		}
+		return true;
+	}
+	
+	/**
+	 * Override to implement our constraints on electronic circuits. Here we
+	 * must check that the target is not null (no dangling edges), that it
+	 * is not the same as the source (no loops), and that if the target is
+	 * an input port, it has no other edges attached.
+	 * @param edge - edge to check if port is a valid target for.
+	 * @param port - port to check validity of.
+	 * @return true if target is valid, false otherwise.
+	 */
+	@Override
+	public boolean acceptsTarget(Object edge, Object port) {
+		// Check target is not null - we do not allow dangling edges.
+		if (port == null)
+			return false;
+		// Check target is not same as source - i.e. not a loop
+		if (((Edge) edge).getSource() == port)
+			return false;
+		// If target is an input port, check it has no other edges attached.
+		if (port instanceof DeltaInputPort) {
+			DeltaInputPort inputPort = (DeltaInputPort)port;
+			return (!(inputPort.edges().hasNext()));
+		}
+		return true;
 	}
 	
 }

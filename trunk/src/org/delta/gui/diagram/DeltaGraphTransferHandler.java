@@ -106,7 +106,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 
 					// Get more Transfer Data
 					Rectangle2D bounds = gt.getBounds();
-					Map<Object,Map> nested = redirectGetAttributeMap(gt);
+					Map<Object,Map<Object,Object>> nested = redirectGetAttributeMap(gt);
 					
 					ConnectionSet cs = gt.getConnectionSet();
 					ParentMap pm = gt.getParentMap();
@@ -180,8 +180,8 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 								// all cells are already in the model
 								// no information is lost by doing this.)
 								double gs2 = 2 * graph.getGridSize();
-								nested = new Hashtable<Object,Map>();
-								Map emptyMap = new Hashtable();
+								nested = new Hashtable<Object,Map<Object,Object>>();
+								Map<Object,Object> emptyMap = new Hashtable<Object,Object>();
 								for (int i = 0; i < cells.length; i++) {
 
 									// This also gives us the chance to
@@ -207,7 +207,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 										if (tmp != null)
 											tmp = (Rectangle2D) tmp.clone();
 
-										Hashtable attrs = new Hashtable();
+										Hashtable<Object,Object> attrs = new Hashtable<Object,Object>();
 										Object parent = model
 												.getParent(cells[i]);
 										if (tmp == null) {
@@ -287,7 +287,8 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	 * @param gt GraphTransferable object representing the graph being imported.
 	 * @return AttributeMap of gt.
 	 */
-	@SuppressWarnings("unchecked") private Map<Object,Map> redirectGetAttributeMap(GraphTransferable gt) {
+	@SuppressWarnings("unchecked")
+	private Map<Object,Map<Object,Object>> redirectGetAttributeMap(GraphTransferable gt) {
 		return gt.getAttributeMap();
 	}
 	
@@ -325,7 +326,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		}
 		
 		// Create Map of cloned cells
-		Map clones = null;
+		Map<Object,Object> clones = null;
 		DeltaGraphModel model = (DeltaGraphModel) graph.getModel();
 		// If dragged from ComponentPanel, pm will be null so perform a deep copy (including ports)
 		if (pm == null)

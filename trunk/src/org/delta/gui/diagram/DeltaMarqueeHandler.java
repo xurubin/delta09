@@ -125,19 +125,19 @@ public class DeltaMarqueeHandler extends BasicMarqueeHandler {
 	
 	// Connect the First Port and the Current Port in the Graph or Repaint
 	public void mouseReleased(MouseEvent e) {
-		// If Valid Event, Current and First Port
+		// If Valid Event, Current and First Port, then check proposed Edge is valid
 		if (e != null && port != null && firstPort != null && firstPort != port) {
-			// Then Establish Connection
 			DeltaEdge edge = new DeltaEdge();
+			// If valid edge, add it to the graph
 			if (graph.getModel().acceptsSource(edge, firstPort.getCell())
 					&& graph.getModel().acceptsTarget(edge, port.getCell())) {
-				// Create a Map thath holds the attributes for the edge
-				//edge.getAttributes().applyMap(createEdgeAttributes());
-				// Insert the Edge and its Attributes
 				graph.getGraphLayoutCache().insertEdge(edge, firstPort.getCell(), port.getCell());
 			}
+			// If not then repaint
+			else
+				graph.repaint();
 			e.consume();
-			// Else Repaint the Graph
+		// Else Repaint the Graph
 		} else
 			graph.repaint();
 		// Reset Global Vars

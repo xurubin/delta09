@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.util.Locale;
 import org.delta.gui.diagram.*;
 import org.delta.gui.i18n.Translator;
+import org.jdesktop.swingx.*;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -14,17 +15,19 @@ public class MainWindow extends javax.swing.JFrame {
 	protected CircuitPanel circuit_panel;
 	protected ComponentPanel component_panel;
 	protected JPanel status_panel;
-	protected ClockPanel clock_panel;
+	protected JPanel/*ClockPanel*/ clock_panel;
 	protected JToolBar toolbar;
 	protected Action undo_action, redo_action;
 	
 	private static MainWindow mw;
 
-	public MainWindow() {
+	public MainWindow()
+	{
 		this(Locale.getDefault());
 	}
 	
-	public MainWindow(Locale language) {
+	public MainWindow(Locale language)
+	{
 		super ("Delta Circuit Simulation");
 		// Create translator object
 		Translator translator = new Translator(language);
@@ -32,7 +35,6 @@ public class MainWindow extends javax.swing.JFrame {
 		cp.setComponentOrientation(ComponentOrientation.getOrientation(language));
 		
 		mw = this;
-		
 		
 		addWindowListener ( new WindowAdapter() {
 			public void windowClosing (WindowEvent evt) {
@@ -113,15 +115,55 @@ public class MainWindow extends javax.swing.JFrame {
 		component_panel = new ComponentPanel(translator);
 		//component_panel.setPreferredSize ( new Dimension (180, 500) );
 		
+		/********************************************
+		
+		JXCollapsiblePane cpn = new JXCollapsiblePane();
+		 // JXCollapsiblePane can be used like any other container
+		 cpn.setLayout(new BorderLayout());
+		 // the Controls panel with a textfield to filter the tree
+		 JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+		 controls.add(new JLabel("Search:"));
+		 controls.add(new JTextField(10));
+		 controls.add(new JButton("Refresh"));
+		 controls.setBorder(new javax.swing.border.LineBorder (Color.BLACK));
+		 cpn.add("Center", controls);
+//		 JXFrame frame = new JXFrame();
+//		 frame.setLayout(new BorderLayout());
+		 // Put the "Controls" first
+//		 frame.add("North", cpn);
+		 // Then the tree - we assume the Controls would somehow filter the tree
+//		 JScrollPane scroll = new JScrollPane(new JTree());
+//		 frame.add("Center", scroll);
+		 // Show/hide the "Controls"
+//		 JButton toggle = new JButton(cpn.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));
+//		 toggle.setText("Show/Hide Search Panel");
+//		 frame.add("South", toggle);
+//		 frame.pack();
+//		 frame.setVisible(true);
+		 
+		 ********************************************/
+		
 		JScrollPane sb = new JScrollPane (component_panel);
 		sb.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
 		sb.setPreferredSize ( new Dimension (200, 480) );
 		sb.setMinimumSize (new Dimension (200, 800) );
 		
-		clock_panel = new ClockPanel();
+		
+		clock_panel = new JPanel()/*ClockPanel()*/;
 		clock_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 		clock_panel.setPreferredSize ( new Dimension (200, 100) );
 		clock_panel.setMinimumSize   ( new Dimension (200, 100) );
+		
+		ImageIcon clock_icon = new ImageIcon ("src/org/delta/gui/diagram/images/clock.png");
+		
+		JLabel clock_label = new JLabel(clock_icon);
+		
+		clock_panel.setLayout ( new GridLayout (1, 2) );
+		
+		JSpinner spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
+		
+		clock_panel.add (clock_label);
+		clock_panel.add (spinner);
 		
 		JSplitPane left_panel = new JSplitPane (JSplitPane.VERTICAL_SPLIT, sb, clock_panel);
 		left_panel.setResizeWeight (1.0);
@@ -129,10 +171,12 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create File menu
 		JMenu file_menu = new JMenu (translator.getString("FILE"));
+		
 		file_menu.add (new_action);
 		file_menu.add (open_action);
 		file_menu.add (save_action);
 		JMenuItem exit_menu_item = new JMenuItem (translator.getString("EXIT"));
+		file_menu.add(exit_menu_item);
 		exit_menu_item.addActionListener ( new ActionListener() {
 			public void actionPerformed (ActionEvent evt) {
 				quitApplication();

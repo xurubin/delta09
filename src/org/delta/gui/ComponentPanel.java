@@ -6,10 +6,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.*;
 import javax.swing.*;
+import org.jdesktop.swingx.*;
 
 import org.delta.gui.i18n.Translator;
 
-public class ComponentPanel extends javax.swing.JPanel
+public class ComponentPanel extends JPanel
 {
 	static final long serialVersionUID = 1;
 	
@@ -111,6 +112,11 @@ public class ComponentPanel extends javax.swing.JPanel
 		
 		cats = new ArrayList <Category> (2);
 		
+		JXCollapsiblePane pane1 = new JXCollapsiblePane();
+		pane1.setBorder (new javax.swing.border.LineBorder (Color.BLACK));
+		JXCollapsiblePane pane2 = new JXCollapsiblePane();
+		//pane2.setBorder (new javax.swing.border.LineBorder (Color.BLACK));
+		
 		TransferHandler handler = new ComponentTransferHandler();
 		MouseListener listener = new MouseAdapter() {
 		      public void mousePressed(MouseEvent me) {
@@ -121,17 +127,49 @@ public class ComponentPanel extends javax.swing.JPanel
 		    };
 		ImageIcon test = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ComponentPanelLabel and_gate = new ComponentPanelLabel(test,ComponentPanel.AND);
+		ComponentPanelLabel and_gate2 = new ComponentPanelLabel(test,ComponentPanel.AND);
 		and_gate.setTransferHandler(handler);
 		and_gate.addMouseListener(listener);
+		and_gate2.setTransferHandler(handler);
+		and_gate2.addMouseListener(listener);
 		ImageIcon test2 = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
 		ComponentPanelLabel or_gate = new ComponentPanelLabel(test2,ComponentPanel.OR);
+		ComponentPanelLabel or_gate2 = new ComponentPanelLabel(test2,ComponentPanel.OR);
 		or_gate.setTransferHandler(handler);
 		or_gate.addMouseListener(listener);
+		or_gate2.setTransferHandler(handler);
+		or_gate2.addMouseListener(listener);
 		
-		GridLayout layout = new GridLayout (10, 4);
-		setLayout(layout);
-		add (and_gate);
-		add (or_gate);
+		pane1.setPreferredSize(new Dimension (175, 250));
+		pane2.setPreferredSize(new Dimension (175, 350));
+		
+		pane1.getContentPane().setLayout(new GridLayout(0,2));
+		pane1.getContentPane().add (and_gate);
+		pane1.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane1.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane1.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane1.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane1.getContentPane().add (or_gate);
+		pane1.getContentPane().add (and_gate2);
+		
+		pane2.getContentPane().setLayout(new GridLayout(0,2));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		pane2.getContentPane().add (new ComponentPanelLabel(test,ComponentPanel.AND));
+		
+		setLayout (new GridLayout(0, 1));
+		
+		add (pane1);
+		add (pane2);
 		
 		/*Category nandandand = new Category ( translator.getString("NANDAND"), 2 );
 		Category norandor   = new Category ( translator.getString("NOROR"),   2 );

@@ -7,7 +7,6 @@ import java.awt.event.*;
 import java.util.Locale;
 import org.delta.gui.diagram.*;
 import org.delta.gui.i18n.Translator;
-import org.jdesktop.swingx.*;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -113,7 +112,7 @@ public class MainWindow extends javax.swing.JFrame {
 		sp.setPreferredSize ( new Dimension (640, 480) );
 		
 		component_panel = new ComponentPanel(translator);
-		//component_panel.setPreferredSize ( new Dimension (180, 500) );
+		component_panel.setMinimumSize ( new Dimension (175, 0) );
 		
 		/********************************************
 		
@@ -146,7 +145,8 @@ public class MainWindow extends javax.swing.JFrame {
 		JScrollPane sb = new JScrollPane (component_panel);
 		sb.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
 		sb.setPreferredSize ( new Dimension (200, 480) );
-		sb.setMinimumSize (new Dimension (200, 800) );
+		//sb.setMinimumSize (new Dimension (200, 800) );
+		sb.setMinimumSize ( new Dimension (175, 0) );
 		
 		
 		clock_panel = new JPanel()/*ClockPanel()*/;

@@ -12,11 +12,9 @@ import java.awt.Point;
 import javax.swing.*;
 import javax.swing.event.*;
 
-//import org.jgrapht.*;
-//import org.jgrapht.graph.*;
-//import org.jgrapht.ext.*;
-//import org.delta.circuit.*;
-//import org.delta.circuit.component.*;
+import org.jgrapht.*;
+import org.jgrapht.graph.*;
+import org.delta.circuit.*;
 
 public class CircuitPanel extends JPanel {
 	/**
@@ -27,20 +25,17 @@ public class CircuitPanel extends JPanel {
 	private GraphUndoManager undoManager;
 	
 	public CircuitPanel() {
-		GraphModel model = new DeltaGraphModel();
-		/*ListenableGraph<Component,ComponentWire> grapht =
+		// Create the underlying simulation graph
+		ListenableGraph<Component,ComponentWire> grapht =
 			new ListenableDirectedGraph<Component,ComponentWire>
-				((DirectedGraph<Component,ComponentWire>)new ComponentGraph());
-		JGraphModelAdapter<Component,ComponentWire> model = new JGraphModelAdapter<Component,ComponentWire>(grapht);*/
+				(/*(DirectedGraph<Component,ComponentWire>)*/new ComponentGraph());
+		// Create a new model for the display graph using the simulation graph
+		DeltaGraphModel model = new DeltaGraphModel(grapht);
 		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory());
 		graph = new JGraph(model, view);
 		
-		//DebugComponent component = new DebugComponent();
-		//DefaultGraphCell fred = model.getVertexCell(component);
-		DefaultGraphCell[] cells = new DefaultGraphCell[3];
-		//cells[0] = fred;
-		
 		// Create test cells
+		DefaultGraphCell[] cells = new DefaultGraphCell[3];
 		cells[0] = new AndGate(new Point(100,100));
 		cells[1] = new OrGate(new Point(300,300));
 		

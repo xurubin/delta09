@@ -10,7 +10,7 @@ import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.VertexRenderer;
 
 /**
- * @author Christopher Wilson
+ * @author Group Delta 2009
  * This subclass implements custom painting of the selection border, most
  * of the painting is still done by the parent class.
  */

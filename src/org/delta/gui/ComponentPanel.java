@@ -1,9 +1,7 @@
 package org.delta.gui;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import org.jdesktop.swingx.*;
@@ -20,6 +18,13 @@ public class ComponentPanel extends JPanel
 	public static final int OR = 3;
 	public static final int NOR = 4;
 	// TODO: Set up remaining component keys
+	
+	private JXCollapsiblePane p1;
+	private JXCollapsiblePane p2;
+	
+	private Box.Filler box;
+	private JButton button, button2;
+	private JLabel label1, label2;
 	
 	private ImageLoader il;
 	
@@ -112,9 +117,9 @@ public class ComponentPanel extends JPanel
 		
 		cats = new ArrayList <Category> (2);
 		
-		JXCollapsiblePane p1 = new JXCollapsiblePane();
+		/*JXCollapsiblePane*/ p1 = new JXCollapsiblePane();
 		Container pane1 = p1.getContentPane();
-		JXCollapsiblePane p2 = new JXCollapsiblePane();
+		/*JXCollapsiblePane*/ p2 = new JXCollapsiblePane();
 		Container pane2 = p2.getContentPane();
 		
 		TransferHandler handler = new ComponentTransferHandler();
@@ -134,8 +139,8 @@ public class ComponentPanel extends JPanel
 		or_gate.setTransferHandler(handler);
 		or_gate.addMouseListener(listener);
 		
-		p1.setPreferredSize(new Dimension (175, 240));
-		p2.setPreferredSize(new Dimension (175, 360));
+		pane1.setPreferredSize(new Dimension (175, 240));
+		pane2.setPreferredSize(new Dimension (175, 360));
 		
 		pane1.setLayout(new GridLayout(0,2));
 		pane1.add (or_gate);
@@ -163,17 +168,84 @@ public class ComponentPanel extends JPanel
 		
 		setLayout (new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		JLabel label1 = new JLabel ("Or Gates", JLabel.LEFT);
+		label1 = new JLabel ("Or Gates", JLabel.LEFT);
 //		label1.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 		label1.setHorizontalTextPosition (JLabel.LEFT);
+		label2 = new JLabel ("And Gates", JLabel.LEFT);
+//		label1.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
+		label2.setHorizontalTextPosition (JLabel.LEFT);
 		
 //		p1.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 //		p2.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 		
+		button = new JButton ( p1.getActionMap().get (JXCollapsiblePane.TOGGLE_ACTION) );
+		button2 = new JButton ( p2.getActionMap().get (JXCollapsiblePane.TOGGLE_ACTION) );
+		
+		button.addActionListener ( new ActionListener() {
+			public void actionPerformed (ActionEvent evt) {
+				System.out.println("p1: " + p1.getHeight());
+				System.out.println("p2: " + p2.getHeight());
+				//box.setPreferredSize(getSize());
+			}
+		} );
+		button2.addActionListener ( new ActionListener() {
+			public void actionPerformed (ActionEvent evt) {
+				System.out.println("p1: " + p1.getHeight());
+				System.out.println("p2: " + p2.getHeight());
+				//box.setPreferredSize(new Dimension (175, getHeight() - p1.getHeight() - p2.getHeight()));
+			}
+		} );
+		
+		p1.addComponentListener(new ComponentAdapter() {
+			public void componentResized (ComponentEvent e) {
+				int x = getParent().getHeight() - p1.getPreferredSize().height - p2.getPreferredSize().height
+						- button.getHeight() - button2.getHeight() - label1.getHeight() - label2.getHeight();
+				box.setPreferredSize ( new Dimension (175, x > 0 ? x : 0) );
+				System.out.println(box.getHeight());
+			}
+		} );
+		
+		p2.addComponentListener(new ComponentAdapter() {
+			public void componentResized (ComponentEvent e) {
+				int x = getParent().getHeight() - p1.getPreferredSize().height - p2.getPreferredSize().height
+						- button.getHeight() - button2.getHeight() - label1.getHeight() - label2.getHeight();
+				box.setPreferredSize ( new Dimension (175, x > 0 ? x : 0) );
+				System.out.println(box.getHeight());
+			}
+		} );
+		
+//		addComponentListener(new ComponentAdapter() {
+//			public void componentResized (ComponentEvent e) {
+//				int x = getParent().getHeight() - p1.getHeight() - p2.getHeight()
+//						- button.getHeight() - button2.getHeight() - label1.getHeight()/* - label2.getHeight()*/;
+//				box.setPreferredSize ( new Dimension (175, x > 0 ? x : 0) );
+//				System.out.println(box.getHeight());
+//			}
+//		} );
+		
+		p1.setAnimated(false);
+		p2.setAnimated(false);
+		
+		box = new Box.Filler(new Dimension(175,0),getSize(),new Dimension(175,0));
+		
+		add (button);
 		add (label1);
 		add (p1);
-		add (new JLabel ("And Gates", JLabel.LEFT));
+		add (button2);
+		add (label2);
 		add (p2);
+		add (box);
+		/*add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));
+		add (new JLabel (and_icon));add (new JLabel (and_icon));*/
 		
 		/*Category nandandand = new Category ( translator.getString("NANDAND"), 2 );
 		Category norandor   = new Category ( translator.getString("NOROR"),   2 );

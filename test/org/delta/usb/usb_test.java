@@ -71,12 +71,12 @@ while(true){
 		HostDatagramLayer u = new HostDatagramLayer();
 		long t1,t2,t3;
 		t3 = System.currentTimeMillis();
-		while (true) { 
-			i++;
-			u.sendLEDHEXStates((i&0xF)<<22 | LED, i+((long)i<<28));
+		while (true) {
+			i = (int)(System.currentTimeMillis());
+			u.sendLEDHEXStates((i&0xF)<<22 | LED, j+((long)j<<28));
 			L = u.readSwitchStates();
-			if (L != -1) { LED = L; j++;}
-			System.out.printf("FPS: %3.2f ",(double)j*1000.0/(double)(System.currentTimeMillis()-t3));
+			if (L != -1) { LED = L;j++;}
+			System.out.printf("FPS: %4.2f ",(double)j*1000.0/(double)(System.currentTimeMillis()-t3));
 			System.out.print('\r');
 		}
 	}

@@ -58,8 +58,8 @@ public class MainWindow extends javax.swing.JFrame {
 		ImageIcon stop_icon		= new ImageIcon ( "src/org/delta/gui/icons/stop.png",	 translator.getString("STOP")   );
 		
 		// Create Actions to add to menus and the toolbar, and to be called from KeyBindings
-		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N"	);
-		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O"	);
+		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N"	, translator.getString("TOOLTIP_NEW"), translator.getMnemonic("MNEMONIC_NEW"));
+		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O"	,translator.getString("TOOLTIP_OPEN"));
 		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S"	);
 		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon,		"ctrl Z"	);
 		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon,		"ctrl Y"	);
@@ -173,7 +173,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create File menu
 		JMenu file_menu = new JMenu (translator.getString("FILE"));
-		
+		file_menu.setMnemonic(translator.getMnemonic("MNEMONIC_FILE"));
 		file_menu.add (new_action);
 		file_menu.add (open_action);
 		file_menu.add (save_action);
@@ -187,6 +187,8 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create Edit menu
 		JMenu edit_menu = new JMenu (translator.getString("EDIT"));
+		edit_menu.setMnemonic(translator.getMnemonic("MNEMONIC_EDIT"));
+		edit_menu.setDisplayedMnemonicIndex(0);
 		edit_menu.add (undo_action);
 		edit_menu.add (redo_action);
 		edit_menu.addSeparator();
@@ -197,11 +199,13 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create View menu
 		JMenu view_menu = new JMenu (translator.getString("VIEW"));
+		view_menu.setMnemonic(translator.getMnemonic("MNEMONIC_VIEW"));
 		view_menu.add (zoom_in_action);
 		view_menu.add (zoom_out_action);
 		
 		// Create Help menu
 		JMenu help_menu = new JMenu(translator.getString("HELP"));
+		help_menu.setMnemonic(translator.getMnemonic("MNEMONIC_HELP"));
 		help_menu.add (help_action);
 		JMenuItem about_menu_item    = new JMenuItem (translator.getString("ABOUT"));
 		help_menu.add (about_menu_item);

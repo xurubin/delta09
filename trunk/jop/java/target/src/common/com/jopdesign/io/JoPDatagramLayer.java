@@ -154,7 +154,7 @@ public class JoPDatagramLayer extends BaseDatagramLayer {
 	
 	public int sendSwitchStates(int states){ 
 		int i = 0;
-		byte d = 0;
+		byte d = 0, c = 0;
 //DE2Peripheral.setHEX1Display(4,true);
 		//while(!sp.txEmpty());
 //DE2Peripheral.setHEX1Display(5,true);
@@ -163,13 +163,16 @@ public class JoPDatagramLayer extends BaseDatagramLayer {
 //DE2Peripheral.setHEX1Display(6,true);
 			while(!sp.txEmpty());
 //DE2Peripheral.setHEX1Display(7,true);
-			sp.write((byte)(0x80|(states&0x7F))); 
+			d = (byte)(states&0x7F);
+			sp.write((byte)( 0x80|d)); 
 			states >>>= 7;
+			c += d;
+			//sp.write((byte)0x00); 
 		}
 //DE2Peripheral.setHEX1Display(8,true);
 		while(!sp.txEmpty());
 //DE2Peripheral.setHEX1Display(9,true);
-		sp.write(0x00);
+		sp.write((byte)( 0x80|c));
 //DE2Peripheral.setHEX1Display(10,true);
 		while(!sp.txEmpty());
 //DE2Peripheral.setHEX1Display(11,true);

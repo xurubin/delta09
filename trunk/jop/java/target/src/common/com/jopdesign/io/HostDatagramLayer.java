@@ -121,6 +121,55 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 	public int readSwitchStates(){
+		final int burst_len = 25;
+		int i, j;
+		int c = 0;
+		byte d;
+		byte data[] = new byte[burst_len];
+		usbBuf[0] = (byte) (0xC0 | burst_len);
+		for(i=0;i<burst_len;i++) usbBuf[i+1] = 0;
+		try {
+			usb.write(usbBuf, 0, burst_len+1);
+			if (burst_len != usb.read(usbBuf, 0, burst_len)) return -1;
+			
+			i = burst_len;
+			while (i > 0) {
+				i--;
+				d = usbBuf[i];
+				if (d == 0) continue;
+				j = 0;
+				while ((d&0x80) == 0) {j++; d <<=1;}
+				if (j == 0) //Data in a single byte
+					data[c++] = (byte) (d & 0x7F);
+				else {//Data go across byte boundary
+					data[c++] = (byte) ((  d | (((usbBuf[i-1]&0xFF)>>>(8-j))&0xFF)  ) & 0x7F);
+					i--;
+				}
+			}
+				//System.out.println();
+			if (c == 5 && (data[0] == ((data[1]+data[2]+data[3]+data[4])&0x7F))) //Checksum & length
+				return   data[4] | 
+					   ( data[3]<<7 ) |
+					   ( data[2]<<14 ) |
+					   ( data[1]<<21 );
+			else {
+				if (c != 5) return -1;
+/*
+					for(i=0;i<burst_len;i++)
+						System.out.printf("%02x ", (byte)usbBuf[i]);
+					System.out.println();
+					for(i=0;i<c;i++)
+						System.out.printf("%02x", (byte)data[c-i-1]);
+					System.out.println();
+*/
+				return -1;
+			}
+		}catch(Exception e){
+			return -1;
+		}
+	}
+/*
+	public int readSwitchStates(){
 			//System.out.printf("%02x",data);
 			int count = 0;
 			int states = -1;
@@ -148,7 +197,8 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 			else
 				return states;
 	}
-	
+*/
+
 	public int sendLEDHEXStates(int LEDStates, long HEXStates){
 			int byteCount = 1;
 			int States;

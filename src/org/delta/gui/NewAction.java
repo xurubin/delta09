@@ -14,11 +14,13 @@ public class NewAction extends AbstractAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public NewAction(String text, ImageIcon icon, String accelerator)
+	public NewAction(String text, ImageIcon icon, String accelerator, String tooltip, Integer mnemonic)
 	{
 		super(text);
 		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
 		this.putValue(Action.LARGE_ICON_KEY, icon);
+		this.putValue(Action.SHORT_DESCRIPTION, tooltip);
+		this.putValue(Action.MNEMONIC_KEY, mnemonic);
 	}
 	
 	public void actionPerformed(ActionEvent e)

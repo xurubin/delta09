@@ -11,7 +11,7 @@ public class TestTranslator {
 		//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		//MainWindow mw = new MainWindow(new Locale("ja", "JP"));
 		//MainWindow mw = new MainWindow(new Locale("zh", "CN"));
-		MainWindow mw = new MainWindow(new Locale("ar", "SA"));
+		MainWindow mw = new MainWindow(new Locale("fr", "FR"));
 		mw.setVisible(true);
 	}
 }

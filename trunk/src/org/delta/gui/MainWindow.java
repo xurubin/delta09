@@ -58,9 +58,9 @@ public class MainWindow extends javax.swing.JFrame {
 		ImageIcon stop_icon		= new ImageIcon ( "src/org/delta/gui/icons/stop.png",	 translator.getString("STOP")   );
 		
 		// Create Actions to add to menus and the toolbar, and to be called from KeyBindings
-		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N"	, translator.getString("TOOLTIP_NEW"), translator.getMnemonic("MNEMONIC_NEW"));
-		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O"	,translator.getString("TOOLTIP_OPEN"));
-		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S"	);
+		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N", translator.getMnemonic("MNEMONIC_NEW"));
+		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O", translator.getMnemonic("MNEMONIC_OPEN"));
+		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S", translator.getMnemonic("MNEMONIC_SAVE"));
 		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon,		"ctrl Z"	);
 		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon,		"ctrl Y"	);
 		Action run_action		= new RunAction		( translator.getString("RUN"),		run_icon,		"ctrl R"	);
@@ -225,7 +225,7 @@ public class MainWindow extends javax.swing.JFrame {
 		LayoutManager manager = new FlowLayout(FlowLayout.LEADING,3,1);
 		toolbar.setLayout(manager);
 		toolbar.setComponentOrientation(ComponentOrientation.getOrientation(language));
-		toolbar.add ( new_action		);
+		toolbar.add ( new_action	);
 		toolbar.add ( open_action		);
 		toolbar.add ( save_action		);
 		toolbar.addSeparator();

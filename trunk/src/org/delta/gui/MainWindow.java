@@ -55,6 +55,7 @@ public class MainWindow extends javax.swing.JFrame {
 		ImageIcon copy_icon		= new ImageIcon ( "src/org/delta/gui/icons/copy.png",    translator.getString("COPY")     );
 		ImageIcon paste_icon	= new ImageIcon ( "src/org/delta/gui/icons/paste.png",   translator.getString("PASTE")    );
 		ImageIcon delete_icon	= new ImageIcon ( "src/org/delta/gui/icons/delete.png",	 translator.getString("DELETE")   );
+		ImageIcon stop_icon		= new ImageIcon ( "src/org/delta/gui/icons/stop.png",	 translator.getString("STOP")   );
 		
 		// Create Actions to add to menus and the toolbar, and to be called from KeyBindings
 		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N"	);
@@ -70,6 +71,7 @@ public class MainWindow extends javax.swing.JFrame {
 		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon,		"ctrl C"	);
 		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon,		"ctrl V"	);
 		Action delete_action	= new DeleteAction	( translator.getString("DELETE"),	delete_icon,	"DELETE"	);
+		Action stop_action		= new StopAction	( translator.getString("STOP"),	stop_icon,	"ctrl T"	);
 		Action help_action		= new HelpAction(translator.getString("CONTENTS"), "F1");
 		
 		// Initialise stage of Actions
@@ -235,6 +237,7 @@ public class MainWindow extends javax.swing.JFrame {
 		toolbar.add ( zoom_out_action	);
 		toolbar.addSeparator();
 		toolbar.add ( run_action		);
+		toolbar.add ( stop_action		);
 		toolbar.add ( export_action		);
 		add (toolbar, BorderLayout.NORTH);
 		

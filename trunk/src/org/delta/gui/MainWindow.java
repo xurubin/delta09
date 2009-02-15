@@ -151,16 +151,16 @@ public class MainWindow extends javax.swing.JFrame {
 		sb.setMinimumSize ( new Dimension (175, 0) );
 		
 		
-		clock_panel = new JPanel()/*ClockPanel()*/;
+		clock_panel = new JPanel();
 		clock_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
-		clock_panel.setPreferredSize ( new Dimension (200, 100) );
-		clock_panel.setMinimumSize   ( new Dimension (200, 100) );
+		//clock_panel.setPreferredSize ( new Dimension (200, 100) );
+		//clock_panel.setMinimumSize   ( new Dimension (200, 100) );
 		
 		ImageIcon clock_icon = new ImageIcon ("src/org/delta/gui/diagram/images/clock.png");
 		
 		JLabel clock_label = new JLabel(clock_icon);
 		
-		clock_panel.setLayout ( new GridLayout (0,2) );
+		clock_panel.setLayout ( new FlowLayout (FlowLayout.CENTER, 10, 10) );
 		
 		JSpinner spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
 		

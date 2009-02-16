@@ -1,18 +1,19 @@
 package org.delta.transport;
 
+
 public class TestTransport {
-	public static void main(String args[]) {
+	public static void main(String args[]) throws InterruptedException {
 		BoardInterface b = BoardInterface.getInstance();
+		boolean bool = true;
+		int i = 0;
 		while(true) {
-			for(int i = 0; i <= 17; i++) {
-				b.sendLEDEvent(i, b.getSwitchStatus(i));
+			b.sendLEDEvent(i, bool);
+			bool = !bool;
+			if(i++ > 16) {
+				i = 0;
+				bool = !bool;
 			}
-			try {
-				Thread.sleep(1L);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
+			//Thread.sleep(2L);
 		}
 	}
 }

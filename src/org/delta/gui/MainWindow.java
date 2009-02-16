@@ -55,12 +55,12 @@ public class MainWindow extends javax.swing.JFrame {
 		ImageIcon copy_icon		= new ImageIcon ( "src/org/delta/gui/icons/copy.png",    translator.getString("COPY")     );
 		ImageIcon paste_icon	= new ImageIcon ( "src/org/delta/gui/icons/paste.png",   translator.getString("PASTE")    );
 		ImageIcon delete_icon	= new ImageIcon ( "src/org/delta/gui/icons/delete.png",	 translator.getString("DELETE")   );
-		ImageIcon stop_icon		= new ImageIcon ( "src/org/delta/gui/icons/stop.png",	 translator.getString("STOP")   );
+		ImageIcon stop_icon		= new ImageIcon ( "src/org/delta/gui/icons/stop.png",	 "STOP"/*translator.getString("STOP")*/   );
 		
 		// Create Actions to add to menus and the toolbar, and to be called from KeyBindings
-		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N", translator.getMnemonic("MNEMONIC_NEW"));
-		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O", translator.getMnemonic("MNEMONIC_OPEN"));
-		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S", translator.getMnemonic("MNEMONIC_SAVE"));
+		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N", 0/*translator.getMnemonic("MNEMONIC_NEW")*/);
+		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O", 0/*translator.getMnemonic("MNEMONIC_OPEN")*/);
+		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S", 0/*translator.getMnemonic("MNEMONIC_SAVE")*/);
 		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon,		"ctrl Z"	);
 		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon,		"ctrl Y"	);
 		Action run_action		= new RunAction		( translator.getString("RUN"),		run_icon,		"ctrl R"	);
@@ -71,7 +71,7 @@ public class MainWindow extends javax.swing.JFrame {
 		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon,		"ctrl C"	);
 		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon,		"ctrl V"	);
 		Action delete_action	= new DeleteAction	( translator.getString("DELETE"),	delete_icon,	"DELETE"	);
-		Action stop_action		= new StopAction	( translator.getString("STOP"),	stop_icon,	"ctrl T"	);
+		Action stop_action		= new StopAction	( "STOP"/*translator.getString("STOP")*/,	stop_icon,	"ctrl T"	);
 		Action help_action		= new HelpAction(translator.getString("CONTENTS"), "F1");
 		
 		// Initialise stage of Actions
@@ -115,6 +115,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		component_panel = new ComponentPanel(translator);
 		component_panel.setMinimumSize ( new Dimension (175, 0) );
+		//component_panel.setMaximumSize ( new Dimension (175, 800));
 		
 		/********************************************
 		
@@ -153,14 +154,14 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		clock_panel = new JPanel();
 		clock_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
-		//clock_panel.setPreferredSize ( new Dimension (200, 100) );
-		//clock_panel.setMinimumSize   ( new Dimension (200, 100) );
+//		clock_panel.setPreferredSize ( new Dimension (200, 100) );
+//		clock_panel.setMinimumSize   ( new Dimension (200, 100) );
 		
 		ImageIcon clock_icon = new ImageIcon ("src/org/delta/gui/diagram/images/clock.png");
 		
 		JLabel clock_label = new JLabel(clock_icon);
 		
-		clock_panel.setLayout ( new FlowLayout (FlowLayout.CENTER, 10, 10) );
+		clock_panel.setLayout ( new FlowLayout (FlowLayout.CENTER, 30, 10) );
 		
 		JSpinner spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
 		
@@ -173,7 +174,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create File menu
 		JMenu file_menu = new JMenu (translator.getString("FILE"));
-		file_menu.setMnemonic(translator.getMnemonic("MNEMONIC_FILE"));
+		//file_menu.setMnemonic(translator.getMnemonic("MNEMONIC_FILE"));
 		file_menu.add (new_action);
 		file_menu.add (open_action);
 		file_menu.add (save_action);
@@ -187,7 +188,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create Edit menu
 		JMenu edit_menu = new JMenu (translator.getString("EDIT"));
-		edit_menu.setMnemonic(translator.getMnemonic("MNEMONIC_EDIT"));
+		//edit_menu.setMnemonic(translator.getMnemonic("MNEMONIC_EDIT"));
 		edit_menu.setDisplayedMnemonicIndex(0);
 		edit_menu.add (undo_action);
 		edit_menu.add (redo_action);
@@ -199,13 +200,13 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		// Create View menu
 		JMenu view_menu = new JMenu (translator.getString("VIEW"));
-		view_menu.setMnemonic(translator.getMnemonic("MNEMONIC_VIEW"));
+		//view_menu.setMnemonic(translator.getMnemonic("MNEMONIC_VIEW"));
 		view_menu.add (zoom_in_action);
 		view_menu.add (zoom_out_action);
 		
 		// Create Help menu
 		JMenu help_menu = new JMenu(translator.getString("HELP"));
-		help_menu.setMnemonic(translator.getMnemonic("MNEMONIC_HELP"));
+		//help_menu.setMnemonic(translator.getMnemonic("MNEMONIC_HELP"));
 		help_menu.add (help_action);
 		JMenuItem about_menu_item    = new JMenuItem (translator.getString("ABOUT"));
 		help_menu.add (about_menu_item);

@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import org.jdesktop.swingx.*;
 
 import org.delta.gui.i18n.Translator;
 
@@ -19,12 +18,13 @@ public class ComponentPanel extends JPanel
 	public static final int NOR = 4;
 	// TODO: Set up remaining component keys
 	
-	private JXCollapsiblePane p1;
-	private JXCollapsiblePane p2;
+	private JPanel p1;
+	private JPanel p2;
 	
 	private Box.Filler box;
-	private JButton button, button2;
 	private JLabel label1, label2;
+	
+	private ImageIcon collapsed_icon, collapsible_icon;
 	
 	private ImageLoader il;
 	
@@ -117,10 +117,8 @@ public class ComponentPanel extends JPanel
 		
 		cats = new ArrayList <Category> (2);
 		
-		/*JXCollapsiblePane*/ p1 = new JXCollapsiblePane();
-		Container pane1 = p1.getContentPane();
-		/*JXCollapsiblePane*/ p2 = new JXCollapsiblePane();
-		Container pane2 = p2.getContentPane();
+		p1 = new JPanel();
+		p2 = new JPanel();
 		
 		TransferHandler handler = new ComponentTransferHandler();
 		MouseListener listener = new MouseAdapter() {
@@ -139,113 +137,90 @@ public class ComponentPanel extends JPanel
 		or_gate.setTransferHandler(handler);
 		or_gate.addMouseListener(listener);
 		
-		pane1.setPreferredSize(new Dimension (175, 240));
-		pane2.setPreferredSize(new Dimension (175, 360));
+		p1.setPreferredSize(new Dimension (175, 240));
+		p2.setPreferredSize(new Dimension (175, 360));
 		
-		pane1.setLayout(new GridLayout(0,2));
-		pane1.add (or_gate);
-		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
-		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
-		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
-		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
-		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
-		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
-		pane1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		p1.setLayout(new GridLayout(0,2));
+		p1.add (or_gate);
+		p1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		p1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		p1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		p1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		p1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		p1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
+		p1.add (new ComponentPanelLabel(or_icon,ComponentPanel.OR));
 		
-		pane2.setLayout(new GridLayout(0,2));
-		pane2.add (and_gate);
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
-		pane2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.setLayout(new GridLayout(0,2));
+		p2.add (and_gate);
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
+		p2.add (new ComponentPanelLabel(and_icon,ComponentPanel.AND));
 		
 		setLayout (new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		label1 = new JLabel ("Or Gates", JLabel.LEFT);
+		collapsed_icon   = new ImageIcon ("src/org/delta/gui/icons/collapsed.png");
+		collapsible_icon = new ImageIcon ("src/org/delta/gui/icons/collapsible.png");
+		
+		label1 = new JLabel ("Or Gates", collapsible_icon, JLabel.LEFT);
 //		label1.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 		label1.setHorizontalTextPosition (JLabel.LEFT);
-		label2 = new JLabel ("And Gates", JLabel.LEFT);
+		label2 = new JLabel ("And Gates", collapsible_icon, JLabel.LEFT);
 //		label1.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 		label2.setHorizontalTextPosition (JLabel.LEFT);
 		
 //		p1.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 //		p2.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 		
-		button = new JButton ( p1.getActionMap().get (JXCollapsiblePane.TOGGLE_ACTION) );
-		button2 = new JButton ( p2.getActionMap().get (JXCollapsiblePane.TOGGLE_ACTION) );
-		
-		button.addActionListener ( new ActionListener() {
-			public void actionPerformed (ActionEvent evt) {
-				System.out.println("p1: " + p1.getHeight());
-				System.out.println("p2: " + p2.getHeight());
-				//box.setPreferredSize(getSize());
-			}
-		} );
-		button2.addActionListener ( new ActionListener() {
-			public void actionPerformed (ActionEvent evt) {
-				System.out.println("p1: " + p1.getHeight());
-				System.out.println("p2: " + p2.getHeight());
-				//box.setPreferredSize(new Dimension (175, getHeight() - p1.getHeight() - p2.getHeight()));
+		label1.addMouseListener (new MouseAdapter() {
+			private boolean visible = true;
+			public void mouseClicked (MouseEvent e) {
+				p1.setVisible (!visible);
+				resizePanel();
+				visible = !visible;
+				label1.setIcon(visible ? collapsible_icon : collapsed_icon);
+				p1.repaint();
 			}
 		} );
 		
-		p1.addComponentListener(new ComponentAdapter() {
+		label2.addMouseListener (new MouseAdapter() {
+			private boolean visible = true;
+			public void mouseClicked (MouseEvent e) {
+				p2.setVisible (!visible);
+				resizePanel();
+				visible = !visible;
+				label2.setIcon(visible ? collapsible_icon : collapsed_icon);
+				p2.repaint();
+			}
+		} );
+		
+/*		p1.addComponentListener(new ComponentAdapter() {
 			public void componentResized (ComponentEvent e) {
-				int x = getParent().getHeight() - p1.getPreferredSize().height - p2.getPreferredSize().height
-						- button.getHeight() - button2.getHeight() - label1.getHeight() - label2.getHeight();
-				box.setPreferredSize ( new Dimension (175, x > 0 ? x : 0) );
-				System.out.println(box.getHeight());
+				resizePanel();
 			}
 		} );
 		
 		p2.addComponentListener(new ComponentAdapter() {
 			public void componentResized (ComponentEvent e) {
-				int x = getParent().getHeight() - p1.getPreferredSize().height - p2.getPreferredSize().height
-						- button.getHeight() - button2.getHeight() - label1.getHeight() - label2.getHeight();
-				box.setPreferredSize ( new Dimension (175, x > 0 ? x : 0) );
-				System.out.println(box.getHeight());
+				resizePanel();
 			}
-		} );
-		
-//		addComponentListener(new ComponentAdapter() {
-//			public void componentResized (ComponentEvent e) {
-//				int x = getParent().getHeight() - p1.getHeight() - p2.getHeight()
-//						- button.getHeight() - button2.getHeight() - label1.getHeight()/* - label2.getHeight()*/;
-//				box.setPreferredSize ( new Dimension (175, x > 0 ? x : 0) );
-//				System.out.println(box.getHeight());
-//			}
-//		} );
-		
-		p1.setAnimated(false);
-		p2.setAnimated(false);
+		} );*/
 		
 		box = new Box.Filler(new Dimension(175,0),getSize(),new Dimension(175,0));
 		
-		add (button);
 		add (label1);
 		add (p1);
-		add (button2);
 		add (label2);
 		add (p2);
 		add (box);
-		/*add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));
-		add (new JLabel (and_icon));add (new JLabel (and_icon));*/
+		
 		
 		/*Category nandandand = new Category ( translator.getString("NANDAND"), 2 );
 		Category norandor   = new Category ( translator.getString("NOROR"),   2 );
@@ -254,6 +229,15 @@ public class ComponentPanel extends JPanel
 
 		norandor.add ("nor.png", translator.getString("NORGATE"));
 		norandor.add ("or.png", translator.getString("ORGATE"));*/
+	}
+	
+	private void resizePanel()
+	{
+		int x = getParent().getHeight() - p1.getPreferredSize().height * (p1.isVisible()?1:0)
+			- p2.getPreferredSize().height * (p2.isVisible()?1:0)
+			- label1.getHeight() - label2.getHeight();
+		box.setPreferredSize ( new Dimension (175, x > 0 ? x : 0) );
+		//System.out.println(box.getHeight());
 	}
 
 	public void paintComponent (Graphics g)

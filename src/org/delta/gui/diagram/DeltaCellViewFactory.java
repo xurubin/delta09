@@ -36,7 +36,7 @@ public class DeltaCellViewFactory extends DefaultCellViewFactory {
 	 * Constructs an EdgeView view for the specified object.
 	 */
 	protected EdgeView createEdgeView(Object cell) {
-		return new EdgeView(cell);
+		return new DeltaEdgeView(cell);
 	}
 
 	/**

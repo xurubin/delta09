@@ -1,11 +1,9 @@
-/**
- * 
- */
 package org.delta.gui.diagram;
 
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -147,7 +145,8 @@ public class DeltaGraphModel extends JGraphModelAdapter<Component,ComponentWire>
 		// If target is an input port, check it has no other edges attached.
 		if (port instanceof DeltaInputPort) {
 			DeltaInputPort inputPort = (DeltaInputPort)port;
-			return (!(inputPort.edges().hasNext()));
+			Set<Edge> portEdges = inputPort.getEdges();
+			return ((portEdges.contains(edge))||(portEdges.isEmpty()));
 		}
 		return true;
 	}

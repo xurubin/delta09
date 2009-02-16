@@ -9,18 +9,20 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 	private final int MAX_USBBUF = 64;
 	private byte usbBuf[] = new byte[MAX_USBBUF];
 	private JFTD2XX usb;
-	
+	private boolean linkOK;
 	public HostDatagramLayer(){
 		try {
 			usb  = new JFTD2XX(0);
 			close();
 			open();
+			linkOK = true;
 			//usb.setLatencyTimer(2);
 		} catch (Exception e){
-			System.exit(1);
+			linkOK = false;
 		}
 	}
 	
+	public boolean isLinkOK(){return linkOK;}
 	public void close() {
 		try {
 			usb.closeConnection();

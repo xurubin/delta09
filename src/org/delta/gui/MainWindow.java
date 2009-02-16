@@ -16,7 +16,7 @@ public class MainWindow extends javax.swing.JFrame {
 	protected JPanel status_panel;
 	protected JPanel clock_panel;
 	protected JToolBar toolbar;
-	protected Action undo_action, redo_action;
+	protected Action undo_action, redo_action, stop_action, run_action;
 	
 	private static MainWindow mw;
 
@@ -63,7 +63,7 @@ public class MainWindow extends javax.swing.JFrame {
 		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S", translator.getMnemonic("MNEMONIC_SAVE"));
 		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon,		"ctrl Z"	);
 		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon,		"ctrl Y"	);
-		Action run_action		= new RunAction		( translator.getString("RUN"),		run_icon,		"ctrl R"	);
+		run_action		= new RunAction		( translator.getString("RUN"),		run_icon,		"ctrl R"	);
 		Action export_action	= new ExportAction	( translator.getString("EXPORT"),	export_icon,	"ctrl E"	);
 		Action zoom_in_action	= new ZoomAction	( translator.getString("ZOOM_IN"),	zoom_in_icon,	"ctrl EQUALS" , 2.0);
 		Action zoom_out_action	= new ZoomAction	( translator.getString("ZOOM_OUT"),	zoom_out_icon,	"ctrl MINUS"  , 0.5);
@@ -71,12 +71,13 @@ public class MainWindow extends javax.swing.JFrame {
 		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon,		"ctrl C"	);
 		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon,		"ctrl V"	);
 		Action delete_action	= new DeleteAction	( translator.getString("DELETE"),	delete_icon,	"DELETE"	);
-		Action stop_action		= new StopAction	( translator.getString("STOP"),	stop_icon,	"ctrl T"	);
+		stop_action		= new StopAction	( translator.getString("STOP"),	stop_icon,	"ctrl T"	);
 		Action help_action		= new HelpAction(translator.getString("CONTENTS"), "F1");
 		
 		// Initialise stage of Actions
 		undo_action.setEnabled(false);
 		redo_action.setEnabled(false);
+		stop_action.setEnabled(false);
 		
 		//addKeyListener(this);
 		

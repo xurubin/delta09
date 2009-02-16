@@ -19,5 +19,7 @@ public class StopAction extends AbstractAction
 	public void actionPerformed(ActionEvent e)
 	{
 		// Stop simulation
+		MainWindow.get().stop_action.setEnabled(false);
+		MainWindow.get().run_action.setEnabled(true);
 	}
 }

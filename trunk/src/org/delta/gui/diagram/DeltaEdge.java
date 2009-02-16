@@ -27,26 +27,10 @@ public class DeltaEdge extends DefaultEdge
 		this.setUserObject(new ComponentWire());
 		
 		GraphConstants.setLineStyle(this.getAttributes(), GraphConstants.STYLE_ORTHOGONAL);
-		GraphConstants.setRouting(this.getAttributes(), GraphConstants.ROUTING_SIMPLE);
+		//GraphConstants.setRouting(this.getAttributes(), GraphConstants.ROUTING_SIMPLE);
+		GraphConstants.setRemoveAttributes(this.getAttributes(), new Object[] {GraphConstants.ROUTING});
 		GraphConstants.setLineWidth(this.getAttributes(), 2);
-	}
-	
-	/**
-	 * Overridden to also set the source of its userObject (the simulation graph wire).
-	 */
-	@Override
-	public void setSource(Object port) {
-		source = port;
-		//ComponentWire simulationWire = (ComponentWire) userObject;
-		//simulationWire.
-	}
-
-	/**
-	 * Overridden to also set the target of its userObject (the simulation graph wire).
-	 */
-	@Override
-	public void setTarget(Object port) {
-		target = port;
+		GraphConstants.setMoveable(this.getAttributes(), true);
 	}
 	
 	/**

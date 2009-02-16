@@ -11,6 +11,7 @@ import com.jopdesign.io.HostDatagramLayer;
 class SerialListener extends Thread {
    private int switches = 0;
    private int lights = 0;
+   private long hexs = 0L;
    private HostDatagramLayer hostLayer;
 
    /**
@@ -38,6 +39,12 @@ class SerialListener extends Thread {
 	   }
    }
    
+	public void setHEXs(int hexID, int segmentID,  boolean b) {
+		if (b)
+			hexs |= (1L << (7*hexID+segmentID));
+		else
+			hexs &= ~(1L << (7*hexID+segmentID));
+	}
 
    /**
     * runs the SerialListener thread. 
@@ -47,10 +54,8 @@ class SerialListener extends Thread {
    public void run() {
 	   while(true) {
 		   //set lights
-		   /*
-		    * TODO: add hex support. 
-		    */
-		   hostLayer.sendLEDHEXStates(lights, 0L);
+
+		   hostLayer.sendLEDHEXStates(lights, hexs);
 		   
 		   //read switches
 		   int status = hostLayer.readSwitchStates();

@@ -15,8 +15,8 @@ import java.util.Random;
 
 import junit.framework.Assert;
 /**
- * @author Rubin
- *
+ * @author Delta 09 
+ * 
  */
 public class HostDatagramLayerTest {
 
@@ -58,7 +58,8 @@ public class HostDatagramLayerTest {
 	 */
 	@Test
 	public void testDataTransmission() {
-		Assert.assertTrue("Cannot find USB_Blaster cable.", datagram.isLinkOK());
+		Assert.assertTrue("Cannot find USB_Blaster cable. Is another program holding the device?",
+				datagram.isLinkOK());
 		final int MAX_RETRY = 3;
 		final int DATASET   = 100;
 		Random rnd = new Random(System.currentTimeMillis());
@@ -73,10 +74,10 @@ public class HostDatagramLayerTest {
 				datagram.sendLEDHEXStates(d1, ((long)d2<<28) | (long)d3);
 				int r = datagram.readSwitchStates();
 				if (r == -1) continue;
-				assertEquals("Bad data from USB", (d1^d2^d3)&((1<<28)-1), r);
+				assertEquals("Bad data from USB. Is DE2 running with DE2_UnitTest?", (d1^d2^d3)&((1<<28)-1), r);
 				break;
 			}
-			Assert.assertTrue("Too many retries for USB", tries<MAX_RETRY);			
+			Assert.assertTrue("Too many retries for USB. Is DE2 running with DE2_UnitTest?", tries<MAX_RETRY);			
 		}
 	}
 

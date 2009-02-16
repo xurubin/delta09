@@ -217,14 +217,14 @@ public class HostDatagramLayer extends BaseDatagramLayer{
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); 
 
-			States = (int)(HEXStates & 0xFFFFFFF); //Lowest 28 bits for HEX7654
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			States = (int)(HEXStates & 0xFFFFFFF); //Lowest 28 bits
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;//HEX1 i.e. HEX3210
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); 
 
-			States = (int)((HEXStates >>> 28) & 0xFFFFFFF); //[55..28]bits for HEX3210
-			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
+			States = (int)((HEXStates >>> 28) & 0xFFFFFFF); //[55..28]bits
+			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;//HEX2 i.e. HEX7654
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); States >>>= 7;
 			usbBuf[byteCount++]= ((byte)((States&0x7F)+4)); 

@@ -168,6 +168,7 @@ public class ComponentGraph extends
         return removeAllEdges(Arrays.asList(wireArray));
     }
 
+    // FIXME: Unregister already registered wires.
     public boolean registerEdge(final ComponentWire wire,
             final int sourceOutputNumber, final int targetInputNumber) {
         if (!edgeSet().contains(wire) || getEdgeSource(wire) == null

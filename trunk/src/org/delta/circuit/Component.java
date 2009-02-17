@@ -12,7 +12,7 @@ abstract public class Component {
     private ArrayList<GateInput> internalInputList;
     private ArrayList<Gate> internalOutputList;
 
-    protected Circuit circuit = new Circuit();
+    private Circuit circuit = new Circuit();
 
     public Component(int inputCount, int outputCount) {
         inputMap = new BidirectionalIntegerMap<ComponentWire>(inputCount);

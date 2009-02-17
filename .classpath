@@ -15,6 +15,5 @@
 	<classpathentry kind="lib" path="lib/i18n.jar"/>
 	<classpathentry kind="lib" path="lib/jh.jar" sourcepath="lib-src/src.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-0.9.5.jar"/>
-	<classpathentry kind="lib" path="lib/JFTD2XX.dll"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

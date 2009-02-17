@@ -6,7 +6,8 @@ import org.delta.circuit.Circuit;
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
-import org.delta.circuit.gate.NorGate;
+import org.delta.circuit.gate.GateFactory;
+import org.delta.logic.Nor;
 
 public class SrLatchComponent extends Component {
 
@@ -15,8 +16,8 @@ public class SrLatchComponent extends Component {
         
         final Circuit circuit = getCircuit();
         
-        final Gate nor0 = new NorGate();
-        final Gate nor1 = new NorGate();
+        final Gate nor0 = GateFactory.createGate(Nor.class, 2);
+        final Gate nor1 = GateFactory.createGate(Nor.class, 2);
         
         circuit.addVertex(nor0);
         circuit.addVertex(nor1);

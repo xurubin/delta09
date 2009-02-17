@@ -2,21 +2,24 @@ package org.delta.circuit.component;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
+import org.delta.circuit.gate.GateFactory;
+import org.delta.logic.BinaryFunction;
 
 public class GateComponentFactory {
+    
+    private GateComponentFactory() {}
 
-    public static Component createComponent(final Class<Gate> gateClass)
-            throws InstantiationException, IllegalAccessException {
-        final Gate gate = gateClass.newInstance();
+    public static Component createComponent(final Gate gate) {
 
         return new Component(gate.getInputCount(), 1) {
             {
-                circuit.addVertex(gate);
+                getCircuit().addVertex(gate);
 
-                for (int i = 0; i < gate.getInputCount(); i++) {
-                    inputMap.put(i, gate);
+                for (int i = 0; i < gate.getInputCount(); ++i) {
+                    setInputGate(i, gate, i);
                 }
-                outputList.set(0, gate);
+
+                setOutputGate(0, gate);
             }
         };
     }

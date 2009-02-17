@@ -7,7 +7,6 @@ import java.awt.event.*;
 import java.util.Locale;
 import org.delta.gui.diagram.*;
 import org.delta.gui.i18n.Translator;
-import org.jdesktop.swingx.JXCollapsiblePane;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -119,6 +118,7 @@ public class MainWindow extends javax.swing.JFrame {
 		component_panel.setMinimumSize ( new Dimension (175, 0) );
 		//component_panel.setMaximumSize ( new Dimension (175, 800));
 		
+		/********************************************
 		
 		JXCollapsiblePane cpn = new JXCollapsiblePane();
 		 // JXCollapsiblePane can be used like any other container
@@ -144,6 +144,8 @@ public class MainWindow extends javax.swing.JFrame {
 //		 frame.pack();
 //		 frame.setVisible(true);
 		 
+		 ********************************************/
+		
 		JScrollPane sb = new JScrollPane (component_panel);
 		sb.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
 		sb.setPreferredSize ( new Dimension (200, 480) );

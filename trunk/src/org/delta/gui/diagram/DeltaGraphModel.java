@@ -9,18 +9,18 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.ComponentWire;
+import org.delta.circuit.ListenableComponentGraph;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.Edge;
 import org.jgraph.graph.Port;
 import org.jgraph.graph.GraphModel;
-import org.jgrapht.ext.JGraphModelAdapter;
-import org.jgrapht.ListenableGraph;
+import org.delta.circuit.ComponentGraphAdapter;
 
 /**
  * @author Group Delta 2009
  * 
  */
-public class DeltaGraphModel extends JGraphModelAdapter<Component,ComponentWire> {
+public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWire> {
 
 	/**
 	 * 
@@ -32,7 +32,7 @@ public class DeltaGraphModel extends JGraphModelAdapter<Component,ComponentWire>
 	 * This allows the JGraphModelAdapter to be created properly.
 	 * @param grapht - grapht graph to connect with this model.
 	 */
-	public DeltaGraphModel(ListenableGraph<Component,ComponentWire> grapht) {
+	public DeltaGraphModel(ListenableComponentGraph grapht) {
 		super(grapht);
 	}
 	

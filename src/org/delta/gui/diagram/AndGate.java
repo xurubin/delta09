@@ -12,8 +12,8 @@ import org.delta.circuit.gate.GateFactory;
 import org.delta.logic.And;
 
 /**
- * @author Group Delta 2009
  * Class to represent the "model" of an AndGate in the circuit diagram.
+ * @author Group Delta 2009
  */
 public class AndGate extends DeltaComponent {
 	/** Needed for correct serialization. */
@@ -35,9 +35,9 @@ public class AndGate extends DeltaComponent {
 		
 		this.replaceUserObject();
 		
-		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 4));
-		this.addInputPort(new Point(0,3*GraphConstants.PERMILLE / 4));
-		this.addOutputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2));
+		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 4),0);
+		this.addInputPort(new Point(0,3*GraphConstants.PERMILLE / 4),1);
+		this.addOutputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2),0);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);

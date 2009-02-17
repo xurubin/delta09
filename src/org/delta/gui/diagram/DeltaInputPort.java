@@ -2,16 +2,34 @@ package org.delta.gui.diagram;
 
 import org.jgraph.graph.DefaultPort;
 
-public class DeltaInputPort extends DefaultPort
-{
-	/**
-	 * 
-	 */
+/**
+ * Subclass of DefaultPort that represents inputs to a component.
+ * @author Group Delta 2009
+ */
+public class DeltaInputPort extends DefaultPort {
+	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
-
-	public DeltaInputPort()
-	{
+	
+	/**
+	 * Number of port with respect to the component it is attached to.
+	 * Used for translation to the simulation graph.
+	 */
+	private int portNumber;
+	
+	/**
+	 * Create a DeltaInputPort with the given portNumber.
+	 * @param number - the number of this port with respect to its component.
+	 */
+	public DeltaInputPort(int number) {
 		super();
-		
+		portNumber = number;
+	}
+	
+	/**
+	 * Accessor method for portNumber.
+	 * @return The number of this port with respect to it's component.
+	 */
+	public int getPortNumber() {
+		return portNumber;
 	}
 }

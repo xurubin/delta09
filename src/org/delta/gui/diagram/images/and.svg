@@ -4,29 +4,29 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    version="1.0"
-   width="122"
-   height="80"
+   width="52"
+   height="53.785713"
    id="svg2">
   <defs
      id="defs4" />
   <g
-     transform="translate(-19,-5)"
+     transform="translate(-58.999999,-111.00503)"
      id="layer1">
-    <path
-       d="M 121,45 C 135,45 139,45 139,45"
-       id="path3059"
-       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       d="M 43,25 L 21,25"
-       id="path3061"
-       style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       d="M 45,65 L 21,65"
-       id="path3944"
-       style="fill:none;stroke:#000000;stroke-width:3.99999976;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       d="M 41,5 L 41,7.8571428 L 41,82.142858 L 41,85 L 43.857142,85 L 81.95238,85 C 104.4882,85 121.95238,66.99991 121.95238,45 C 121.95238,23.00009 104.4882,5.0000004 81.95238,5 C 81.95238,5 81.95238,5 43.857142,5 L 41,5 z M 46.714286,10.714286 C 62.668528,10.714286 72.836736,10.714286 77.190476,10.714286 C 79.571428,10.714286 80.761904,10.714286 81.357142,10.714286 C 81.654762,10.714286 81.818454,10.714286 81.892858,10.714286 C 81.930058,10.714286 81.943086,10.714286 81.95238,10.714286 C 101.47371,10.714286 115.28571,25.994196 115.28571,45 C 115.28571,64.005804 100.52132,79.285714 81,79.285714 L 46.714286,79.285714 L 46.714286,10.714286 z"
-       id="path2884"
-       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans" />
+    <rect
+       width="49.302834"
+       height="50.782883"
+       ry="10.492289"
+       x="60.552315"
+       y="112.25175"
+       id="rect2383"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.0673002;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:22.60000038;stroke-dasharray:none;stroke-opacity:1" />
   </g>
+  <path
+     d="M 8.6586849,8.556818 L 45.330762,24.244318 C 45.330762,24.244318 3.3616067,12.937094 26.790989,26.892857"
+     id="path2392"
+     style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <path
+     d="M 38.403814,39.98275 C 38.405603,45.300435 33.707522,49.612142 27.911525,49.612142 C 22.115529,49.612142 17.417448,45.300435 17.419237,39.98275 C 17.417448,34.665065 22.115529,30.353358 27.911525,30.353358 C 33.707522,30.353358 38.405603,34.665065 38.403814,39.98275 L 38.403814,39.98275 z"
+     id="path2394"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:22.60000038;stroke-dasharray:none;stroke-opacity:1" />
 </svg>

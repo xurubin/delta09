@@ -4,7 +4,11 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 import org.jgraph.graph.GraphConstants;
-import org.delta.circuit.component.SrLatchComponent;
+import org.delta.circuit.Component;
+import org.delta.circuit.Gate;
+import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.gate.GateFactory;
+import org.delta.logic.Or;
 
 /**
  * @author Group Delta 2009
@@ -28,10 +32,7 @@ public class OrGate extends DeltaComponent {
 	public OrGate(Point position) {
 		super();
 		
-		// Set userObject so component is reflected in the simulation graph
-		// FIXME: Use correct component as userObject 
-		SrLatchComponent component = new SrLatchComponent();
-		this.setUserObject(component);
+        this.replaceUserObject();
 		
 		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 4));
 		this.addInputPort(new Point(0,3*GraphConstants.PERMILLE / 4));
@@ -47,7 +48,8 @@ public class OrGate extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-		// FIXME: Use correct component as userObject
-		this.setUserObject(new SrLatchComponent());
+	    Gate or = GateFactory.createGate(Or.class, 2);
+        Component component = GateComponentFactory.createComponent(or);
+        this.setUserObject(component);
 	}
 }

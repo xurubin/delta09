@@ -45,7 +45,7 @@ public class ComponentPanel extends JPanel
 			{
 				name = n;
 				icon = i;
-				label = new ComponentPanelLabel (icon, l);
+				label = new ComponentPanelLabel (icon, n, l);
 				label.setTransferHandler(handler);
 				label.addMouseListener(listener);
 			}
@@ -56,7 +56,7 @@ public class ComponentPanel extends JPanel
 			label = new JLabel (s, collapsed_icon, JLabel.LEFT);
 			label.setPreferredSize ( new Dimension (175, label.getPreferredSize().height) );
 			label.setHorizontalTextPosition (JLabel.RIGHT);
-			label.setVerticalAlignment(JLabel.CENTER);
+			label.setVerticalAlignment (JLabel.CENTER);
 			
 			lpanel = new JPanel();
 			lpanel.add (label);
@@ -126,18 +126,18 @@ public class ComponentPanel extends JPanel
 		ImageIcon and_icon = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
 		
-		and_cat.add (and_icon, "And Gate", ComponentPanel.AND);
-		and_cat.add (and_icon, "And Gate", ComponentPanel.AND);
-		and_cat.add (and_icon, "And Gate", ComponentPanel.AND);
-		and_cat.add (and_icon, "And Gate", ComponentPanel.AND);
-		and_cat.add (and_icon, "And Gate", ComponentPanel.AND);
-		or_cat.add  (or_icon,  "Or Gate",  ComponentPanel.OR);
-		or_cat.add  (or_icon,  "Or Gate",  ComponentPanel.OR);
-		or_cat.add  (or_icon,  "Or Gate",  ComponentPanel.OR);
-		or_cat.add  (or_icon,  "Or Gate",  ComponentPanel.OR);
-		or_cat.add  (or_icon,  "Or Gate",  ComponentPanel.OR);
-		or_cat.add  (or_icon,  "Or Gate",  ComponentPanel.OR);
-		or_cat.add  (or_icon,  "Or Gate",  ComponentPanel.OR);
+		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
+		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
+		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
+		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
+		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
+		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
+		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
+		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
+		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
+		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
+		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
+		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
 		
 		for (Category c : cats)
 		{

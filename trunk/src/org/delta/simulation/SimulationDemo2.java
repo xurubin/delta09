@@ -20,8 +20,8 @@ public class SimulationDemo2 {
         ComponentGraph c = new ComponentGraph();
         
         Component srlatch = new SrLatchComponent();
-        Component in0 = new DebugInputComponent(State.S0);
-        Component in1 = new DebugInputComponent(State.S1);
+        Component in0 = new DebugInputComponent(State.S1);
+        Component in1 = new DebugInputComponent(State.S0);
         Component out = new DebugOutputComponent();
         
         c.addVertex(srlatch);

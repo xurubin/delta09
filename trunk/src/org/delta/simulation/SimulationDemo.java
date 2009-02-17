@@ -1,13 +1,15 @@
 package org.delta.simulation;
 
 import org.delta.circuit.Circuit;
+import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.circuit.gate.DebugInputGate;
 import org.delta.circuit.gate.DebugOutputGate;
+import org.delta.circuit.gate.GateFactory;
 import org.delta.circuit.gate.HighGate;
 import org.delta.circuit.gate.InverterGate;
 import org.delta.circuit.gate.LowGate;
-import org.delta.circuit.gate.NorGate;
+import org.delta.logic.Nor;
 import org.delta.logic.State;
 
 public class SimulationDemo {
@@ -23,8 +25,8 @@ public class SimulationDemo {
         SimulationScheduler sched = new SimulationScheduler(sim);
         sched.setSimulationFrequency(200L);
 
-        NorGate n1 = new NorGate();
-        NorGate n2 = new NorGate();
+        Gate n1 = GateFactory.createGate(Nor.class, 2);
+        Gate n2 = GateFactory.createGate(Nor.class, 2);
         HighGate h1 = new HighGate();
         LowGate l1 = new LowGate();
         DebugOutputGate d1 = new DebugOutputGate();
@@ -54,7 +56,7 @@ public class SimulationDemo {
 
         InverterGate inv1 = new InverterGate();
         InverterGate inv2 = new InverterGate();
-        NorGate nor1 = new NorGate();
+        Gate nor1 = GateFactory.createGate(Nor.class, 2);
         DebugInputGate din1 = new DebugInputGate();
         DebugOutputGate dout1 = new DebugOutputGate();
 

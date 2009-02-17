@@ -26,9 +26,8 @@ public class CircuitPanel extends JPanel {
 	
 	public CircuitPanel() {
 		// Create the underlying simulation graph
-		ListenableGraph<Component,ComponentWire> grapht =
-			new ListenableDirectedGraph<Component,ComponentWire>
-				(/*(DirectedGraph<Component,ComponentWire>)*/new ComponentGraph());
+		ListenableComponentGraph grapht =
+			new ListenableComponentGraph(new ComponentGraph());
 		// Create a new model for the display graph using the simulation graph
 		DeltaGraphModel model = new DeltaGraphModel(grapht);
 		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory());

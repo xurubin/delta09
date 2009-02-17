@@ -113,7 +113,7 @@ import org.jgrapht.event.*;
  * todo and fixme marks in the code indicate where the possible improvements
  * could be made to realize that.
  */
-public class JGraphModelAdapter<V, E>
+public class ComponentGraphAdapter<V, E>
     extends DefaultGraphModel
 {
     //~ Static fields/initializers ---------------------------------------------
@@ -191,7 +191,7 @@ public class JGraphModelAdapter<V, E>
      * @param jGraphTGraph the JGraphT graph for which JGraph model adapter to
      * be created. <code>null</code> is NOT permitted.
      */
-    public JGraphModelAdapter(Graph<V, E> jGraphTGraph)
+    public ComponentGraphAdapter(Graph<V, E> jGraphTGraph)
     {
         this(
             jGraphTGraph,
@@ -209,7 +209,7 @@ public class JGraphModelAdapter<V, E>
      * @param defaultEdgeAttributes a default map of JGraph attributes to format
      * edges. <code>null</code> is NOT permitted.
      */
-    public JGraphModelAdapter(
+    public ComponentGraphAdapter(
         Graph<V, E> jGraphTGraph,
         AttributeMap defaultVertexAttributes,
         AttributeMap defaultEdgeAttributes)
@@ -235,7 +235,7 @@ public class JGraphModelAdapter<V, E>
      *
      * @throws IllegalArgumentException
      */
-    public JGraphModelAdapter(
+    public ComponentGraphAdapter(
         Graph<V, E> jGraphTGraph,
         AttributeMap defaultVertexAttributes,
         AttributeMap defaultEdgeAttributes,
@@ -534,29 +534,30 @@ public class JGraphModelAdapter<V, E>
     }
     
     private void registerEdge(org.jgraph.graph.Edge jEdge, E jtEdge) {
-        if (jtGraph.graph instanceof ComponentGraph
-                && jEdge instanceof DeltaEdge
-                && jtEdge instanceof ComponentWire) {
-            Object jSourcePort = jEdge.getSource();
-            Object jTargetPort = jEdge.getTarget();
-            
-            ComponentGraph cg = (ComponentGraph) jtGraph.graph;
-            ComponentWire wire = (ComponentWire) jtEdge;
-            
-            if (jSourcePort != null && jTargetPort != null) {
-                if (jSourcePort instanceof DeltaInputPort
-                    && jTargetPort instanceof DeltaOutputPort) {
-                    int in = ((DeltaInputPort) jSourcePort).getPortNumber();
-                    int out = ((DeltaOutputPort) jTargetPort).getPortNumber();
-                    
-                    cg.registerEdge(wire, out, in);
-                } else if (jSourcePort instanceof DeltaOutputPort
-                        && jTargetPort instanceof DeltaInputPort) {
-                    int in = ((DeltaInputPort) jTargetPort).getPortNumber();
-                    int out = ((DeltaOutputPort) jSourcePort).getPortNumber();
-                    
-                    cg.registerEdge(wire, out, in);
-                }
+        if (!(jtGraph.graph instanceof ListenableComponentGraph)) return;
+        if (!(jEdge instanceof DeltaEdge)) return;
+        if (!(jtEdge instanceof ComponentWire)) return;
+
+        Object jSourcePort = jEdge.getSource();
+        Object jTargetPort = jEdge.getTarget();
+        
+        final ComponentGraph cg =
+            ((ListenableComponentGraph) jtGraph.graph).getComponentGraph();
+        final ComponentWire wire = (ComponentWire) jtEdge;
+        
+        if (jSourcePort != null && jTargetPort != null) {
+            if (jSourcePort instanceof DeltaInputPort
+                && jTargetPort instanceof DeltaOutputPort) {
+                int in = ((DeltaInputPort) jSourcePort).getPortNumber();
+                int out = ((DeltaOutputPort) jTargetPort).getPortNumber();
+                
+                cg.registerEdge(wire, out, in);
+            } else if (jSourcePort instanceof DeltaOutputPort
+                    && jTargetPort instanceof DeltaInputPort) {
+                int in = ((DeltaInputPort) jTargetPort).getPortNumber();
+                int out = ((DeltaOutputPort) jSourcePort).getPortNumber();
+                
+                cg.registerEdge(wire, out, in);
             }
         }
     }
@@ -862,7 +863,7 @@ public class JGraphModelAdapter<V, E>
         private static final long serialVersionUID = 3690194343461861173L;
 
         /**
-         * @see JGraphModelAdapter.CellFactory#createEdgeCell(Object)
+         * @see ComponentGraphAdapter.CellFactory#createEdgeCell(Object)
          */
         public DefaultEdge createEdgeCell(EE jGraphTEdge)
         {
@@ -870,7 +871,7 @@ public class JGraphModelAdapter<V, E>
         }
 
         /**
-         * @see JGraphModelAdapter.CellFactory#createVertexCell(Object)
+         * @see ComponentGraphAdapter.CellFactory#createVertexCell(Object)
          */
         public DefaultGraphCell createVertexCell(VV jGraphTVertex)
         {

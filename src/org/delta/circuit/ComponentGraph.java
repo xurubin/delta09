@@ -194,12 +194,22 @@ public class ComponentGraph extends
         Gate sourceGate = sourceComponent.getOutputGate(sourceOutputNumber);
         Gate targetGate = targetGateInput.getGate();
         
-        final Wire w = circuit.addEdge(sourceGate, targetGate);
+        // Remove old wire.
+        final Wire oldWire = wireMap.get(wire);
+        if (oldWire != null) {
+            if (!circuit.removeEdge(oldWire))
+                throw new IllegalStateException("Inconsistent state.");
+        }
+        
+        
+        final Wire newWire = circuit.addEdge(sourceGate, targetGate);
+        
+        if (newWire == null) return false;
         
         // Register gate...
-        targetGate.setWire(w, targetGateInputNumber);
+        targetGate.setWire(newWire, targetGateInputNumber);
         
-        wireMap.put(wire, w);
+        wireMap.put(wire, newWire);
         return true;
     }
 

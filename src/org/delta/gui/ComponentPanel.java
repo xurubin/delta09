@@ -45,7 +45,7 @@ public class ComponentPanel extends JPanel
 			{
 				name = n;
 				icon = i;
-				label = new ComponentPanelLabel (icon, n, l);
+				label = new ComponentPanelLabel (icon, name, l);
 				label.setTransferHandler(handler);
 				label.addMouseListener(listener);
 			}
@@ -120,8 +120,8 @@ public class ComponentPanel extends JPanel
 		
 		cats = new ArrayList <Category> (2);
 		
-		Category and_cat = new Category ("And gates", 1);
-		Category or_cat  = new Category ("Or gates",  1);
+		Category and_cat = new Category ("And gates", 5);
+		Category or_cat  = new Category ("Or gates",  7);
 		
 		ImageIcon and_icon = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.delta.circuit.Component.GateInput;
+import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.gate.ClockGate;
 import org.jgrapht.graph.DirectedMultigraph;
 
 /**
@@ -33,6 +36,8 @@ public class ComponentGraph extends
      * 
      */
     private Map<ComponentWire, Wire> wireMap;
+    private ClockGate mainClockGate;
+    private Component mainClockComponent;
 
     /**
      * 
@@ -40,7 +45,14 @@ public class ComponentGraph extends
     public ComponentGraph() {
         super(ComponentWire.class);
 
+        // Initialise collections.
         wireMap = new HashMap<ComponentWire, Wire>();
+        
+        // Add clock to circuit.
+        mainClockGate = new ClockGate();
+        mainClockComponent =
+            GateComponentFactory.createComponent(mainClockGate);
+        addVertex(mainClockComponent);
     }
 
     /**
@@ -67,6 +79,17 @@ public class ComponentGraph extends
         for (Wire w: c.edgeSet()) {
             circuit.addEdge(c.getEdgeSource(w), c.getEdgeTarget(w), w);
         }
+        
+        if (component instanceof ClockedComponent) {
+            ClockedComponent cc = (ClockedComponent) component;
+            List<Component.GateInput> list = cc.getClockInputList();
+            for (GateInput gi: list) {
+                Gate gate = gi.getGate();
+                Wire wire = circuit.addEdge(mainClockGate, gate);
+                gate.setWire(wire, gi.getInputNumber());
+            }
+        }
+        
         return true;
     }
 
@@ -229,7 +252,9 @@ public class ComponentGraph extends
             throw new IllegalStateException("Circuit is not valid.");
         }
 
-        return (Circuit) circuit.clone();
+        Circuit clone = (Circuit) circuit.clone();
+        
+        return clone;
     }
 
     /**
@@ -273,5 +298,9 @@ public class ComponentGraph extends
             return false;
         }
         return true;
+    }
+    
+    public void setClockFrequency(int frequency) {
+        mainClockGate.setClockFrequency(frequency);
     }
 }

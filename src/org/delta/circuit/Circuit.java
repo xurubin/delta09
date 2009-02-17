@@ -94,6 +94,8 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
     
     @Override
     public boolean removeEdge(final Wire wire) {
+        if (wire == null) return false;
+
         final Gate targetGate = getEdgeTarget(wire);
         
         if (super.removeEdge(wire)) {

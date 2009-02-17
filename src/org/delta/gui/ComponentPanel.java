@@ -18,11 +18,7 @@ public class ComponentPanel extends JPanel
 	public static final int NOR = 4;
 	// TODO: Set up remaining component keys
 	
-	private JPanel p1;
-	private JPanel p2;
-	
 	private Box.Filler box;
-	private JLabel label1, label2;
 	
 	private ImageIcon collapsed_icon, collapsible_icon;
 	
@@ -35,6 +31,7 @@ public class ComponentPanel extends JPanel
 	private class Category
 	{
 		JLabel label;
+		JPanel lpanel;
 		JPanel panel;
 		ArrayList <ListedComponent> comps;
 		
@@ -57,10 +54,17 @@ public class ComponentPanel extends JPanel
 		Category (String s, int i)
 		{
 			label = new JLabel (s, collapsed_icon, JLabel.LEFT);
+			label.setPreferredSize ( new Dimension (175, label.getPreferredSize().height) );
 			label.setHorizontalTextPosition (JLabel.RIGHT);
+			label.setVerticalAlignment(JLabel.CENTER);
+			
+			lpanel = new JPanel();
+			lpanel.add (label);
+			
 			panel = new JPanel();
 			panel.setLayout (component_layout);
 			panel.setVisible (false);
+			
 			comps = new ArrayList <ListedComponent> (i);
 			ComponentPanel.this.cats.add (this);
 			
@@ -100,7 +104,7 @@ public class ComponentPanel extends JPanel
 		
 		handler  = new ComponentTransferHandler();
 		listener = new MouseAdapter() {
-			public void mousePressed(MouseEvent me) {
+			public void mousePressed (MouseEvent me) {
 				JComponent comp = (JComponent) me.getSource();
 				TransferHandler handler = comp.getTransferHandler();
 				handler.exportAsDrag (comp, me, TransferHandler.COPY);
@@ -116,8 +120,8 @@ public class ComponentPanel extends JPanel
 		
 		cats = new ArrayList <Category> (2);
 		
-		Category and_cat = new Category ( "And gates", 1);
-		Category or_cat  = new Category ( "Or gates",  1);
+		Category and_cat = new Category ("And gates", 1);
+		Category or_cat  = new Category ("Or gates",  1);
 		
 		ImageIcon and_icon = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
@@ -137,7 +141,7 @@ public class ComponentPanel extends JPanel
 		
 		for (Category c : cats)
 		{
-			add (c.label);
+			add (c.lpanel);
 			add (c.panel);
 		}
 		
@@ -149,7 +153,7 @@ public class ComponentPanel extends JPanel
 		int h = getParent().getHeight();
 		
 		for (Category c : cats)
-			h -= c.panel.getPreferredSize().height * (c.panel.isVisible() ? 1 : 0) + c.label.getHeight();
+			h -= c.panel.getPreferredSize().height * (c.panel.isVisible() ? 1 : 0) + c.lpanel.getPreferredSize().height;
 		
 		box.setPreferredSize ( new Dimension (175, h > 0 ? h : 0) );
 		if (box.getPreferredSize().height > 0)

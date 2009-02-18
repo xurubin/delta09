@@ -1,7 +1,10 @@
 package org.delta.gui.diagram;
 
+import java.net.URI;
 import java.net.URL;
 import org.jgraph.graph.*;
+
+import com.kitfox.svg.app.beans.SVGIcon;
 //import java.awt.geom.*;
 import javax.swing.ImageIcon;
 
@@ -21,11 +24,18 @@ public class OrGateView extends VertexView
      
      public OrGateView(Object arg0)
      {
-           super(arg0);
-           String iconPath = "org/delta/gui/diagram/images/or.png";
-           URL iconUrl = OrGateView.class.getClassLoader().getResource(iconPath);
-           GraphConstants.setIcon(this.getAttributes(),new ImageIcon(iconUrl));
-           GraphConstants.setAutoSize(this.getAttributes(),true);
+         super(arg0);
+         String iconPath = "org/delta/gui/diagram/images/or.svg";
+         SVGIcon icon = new SVGIcon();
+
+         try {
+      	   URI svgURI = new URI(OrGateView.class.getClassLoader().getResource(iconPath).toString());
+      	   icon.setSvgURI(svgURI);
+             icon.setScaleToFit(true);
+         }catch(Exception e){}
+
+         GraphConstants.setIcon(this.getAttributes(),icon);
+         GraphConstants.setAutoSize(this.getAttributes(),true);
      }
      
      public CellViewRenderer getRenderer()

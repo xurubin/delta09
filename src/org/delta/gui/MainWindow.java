@@ -42,7 +42,7 @@ public class MainWindow extends javax.swing.JFrame {
 	protected JPanel clock_panel;
 	protected JToolBar toolbar;
 	protected Action undo_action, redo_action, stop_action, run_action;
-	protected Properties configFile;
+	protected static Properties configFile;
 	
 	private static MainWindow mw;
 
@@ -295,7 +295,7 @@ public class MainWindow extends javax.swing.JFrame {
 	}
 
 	public static void main(String args[]) {
-		Properties configFile = new Properties();
+		configFile = new Properties();
 		Locale locale;
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

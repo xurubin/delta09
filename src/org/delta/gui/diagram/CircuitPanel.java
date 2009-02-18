@@ -12,8 +12,6 @@ import java.awt.Point;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import org.jgrapht.*;
-import org.jgrapht.graph.*;
 import org.delta.circuit.*;
 
 public class CircuitPanel extends JPanel {
@@ -31,7 +29,7 @@ public class CircuitPanel extends JPanel {
 		// Create a new model for the display graph using the simulation graph
 		DeltaGraphModel model = new DeltaGraphModel(grapht);
 		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory());
-		graph = new JGraph(model, view);
+		graph = new DeltaGraph(model, view);
 		
 		// Create test cells
 		DefaultGraphCell[] cells = new DefaultGraphCell[3];

@@ -83,18 +83,19 @@ public class MainWindow extends javax.swing.JFrame {
 		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N", translator.getMnemonic("MNEMONIC_NEW"));
 		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O", translator.getMnemonic("MNEMONIC_OPEN"));
 		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S", translator.getMnemonic("MNEMONIC_SAVE"));
-		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon,		"ctrl Z"	);
-		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon,		"ctrl Y"	);
+		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon,		"ctrl Z", translator.getMnemonic("MNEMONIC_UNDO"));
+		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon,		"ctrl Y", translator.getMnemonic("MNEMONIC_REDO"));
 		run_action		= new RunAction		( translator.getString("RUN"),		run_icon,		"ctrl R"	);
 		Action export_action	= new ExportAction	( translator.getString("EXPORT"),	export_icon,	"ctrl E"	);
-		Action zoom_in_action	= new ZoomAction	( translator.getString("ZOOM_IN"),	zoom_in_icon,	"ctrl EQUALS" , 2.0);
-		Action zoom_out_action	= new ZoomAction	( translator.getString("ZOOM_OUT"),	zoom_out_icon,	"ctrl MINUS"  , 0.5);
-		Action cut_action		= new CutAction		( translator.getString("CUT"),		cut_icon,		"ctrl X"	);
-		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon,		"ctrl C"	);
-		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon,		"ctrl V"	);
-		Action delete_action	= new DeleteAction	( translator.getString("DELETE"),	delete_icon,	"DELETE"	);
+		Action zoom_in_action	= new ZoomAction	( translator.getString("ZOOM_IN"),	zoom_in_icon,	"ctrl EQUALS" , 2.0, translator.getMnemonic("MNEMONIC_ZOOM_IN"));
+		Action zoom_out_action	= new ZoomAction	( translator.getString("ZOOM_OUT"),	zoom_out_icon,	"ctrl MINUS"  , 0.5, translator.getMnemonic("MNEMONIC_ZOOM_OUT"));
+		Action cut_action		= new CutAction		( translator.getString("CUT"),		cut_icon,		"ctrl X", translator.getMnemonic("MNEMONIC_CUT"));
+		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon,		"ctrl C",translator.getMnemonic("MNEMONIC_COPY"));
+		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon,		"ctrl V",translator.getMnemonic("MNEMONIC_PASTE"));
+		Action delete_action	= new DeleteAction	( translator.getString("DELETE"),	delete_icon,	"DELETE",translator.getMnemonic("MNEMONIC_DELETE"));
 		stop_action		= new StopAction	( translator.getString("STOP"),	stop_icon,	"ctrl T"	);
-		Action help_action		= new HelpAction(translator.getString("CONTENTS"), "F1");
+		Action help_action		= new HelpAction(translator.getString("CONTENTS"), "F1", translator.getMnemonic("MNEMONIC_CONTENTS"));
+		Action about_action		= new AboutAction(translator.getString("ABOUT"), "", translator.getMnemonic("MNEMONIC_ABOUT"));
 		
 		// Initialise stage of Actions
 		undo_action.setEnabled(false);
@@ -202,6 +203,7 @@ public class MainWindow extends javax.swing.JFrame {
 		file_menu.add (open_action);
 		file_menu.add (save_action);
 		JMenuItem exit_menu_item = new JMenuItem (translator.getString("EXIT"));
+		exit_menu_item.setMnemonic(translator.getMnemonic("MNEMONIC_EXIT"));
 		file_menu.add(exit_menu_item);
 		exit_menu_item.addActionListener ( new ActionListener() {
 			public void actionPerformed (ActionEvent evt) {
@@ -212,7 +214,6 @@ public class MainWindow extends javax.swing.JFrame {
 		// Create Edit menu
 		JMenu edit_menu = new JMenu (translator.getString("EDIT"));
 		edit_menu.setMnemonic(translator.getMnemonic("MNEMONIC_EDIT"));
-		edit_menu.setDisplayedMnemonicIndex(0);
 		edit_menu.add (undo_action);
 		edit_menu.add (redo_action);
 		edit_menu.addSeparator();
@@ -231,8 +232,7 @@ public class MainWindow extends javax.swing.JFrame {
 		JMenu help_menu = new JMenu(translator.getString("HELP"));
 		help_menu.setMnemonic(translator.getMnemonic("MNEMONIC_HELP"));
 		help_menu.add (help_action);
-		JMenuItem about_menu_item    = new JMenuItem (translator.getString("ABOUT"));
-		help_menu.add (about_menu_item);
+		help_menu.add (about_action);
 		
 		// Create menu bar for the window and add the menus
 		JMenuBar menu_bar = new JMenuBar();

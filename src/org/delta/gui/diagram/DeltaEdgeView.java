@@ -175,17 +175,17 @@ public class DeltaEdgeView extends EdgeView {
 		invalidate();
 		
 		// Realign outermost "real points" (i.e. not ports) if ports have moved
-		pointsCached = (cachedStartPoint != null) && (cachedEndPoint != null);
+		//pointsCached = (cachedStartPoint != null) && (cachedEndPoint != null);
 		//Point2D currentStartPoint = this.getPoint(0);
 		//Point2D currentEndPoint = this.getPoint(this.getPointCount()-1);
-		if (pointsCached && !cachedStartPoint.equals(this.getPoint(0))) {
+		/*if (pointsCached && !cachedStartPoint.equals(this.getPoint(0))) {
 			this.realignPointsAround(0,false,false);
 		}
 		if (pointsCached && !cachedEndPoint.equals(this.getPoint(this.getPointCount()-1))) {
 			this.realignPointsAround(this.getPointCount()-1,false,false);
 		}
 		cachedStartPoint = (Point2D)this.getPoint(0).clone();
-		cachedEndPoint = (Point2D)this.getPoint(this.getPointCount()-1).clone();
+		cachedEndPoint = (Point2D)this.getPoint(this.getPointCount()-1).clone();*/
 	}
 	
 	/**
@@ -291,12 +291,14 @@ public class DeltaEdgeView extends EdgeView {
 		Point2D.Double source = (Point2D.Double)sourceView.getLocation();
 		Point2D.Double target = (Point2D.Double)targetView.getLocation();
 		// Construct new point halfway between them
-		double diffX = target.getX() - source.getX();
-		double newX = source.getX() + diffX/2;
-		double diffY = target.getY() - source.getY();
-		double newY = source.getY() + diffY/2;
-		Point2D.Double midPoint = new Point2D.Double(newX,newY);
-		return midPoint;
+		if ((source != null) && (target != null)) {
+			double diffX = target.getX() - source.getX();
+			double newX = source.getX() + diffX/2;
+			double diffY = target.getY() - source.getY();
+			double newY = source.getY() + diffY/2;
+			return new Point2D.Double(newX,newY);
+		}
+		return null;
 	}
 	
 	/**

@@ -43,10 +43,8 @@ public class DeltaCellViewFactory extends DefaultCellViewFactory {
 	 * @return a new VertexView.
 	 */
 	protected VertexView createVertexView(Object cell) {
-		if (cell instanceof AndGate)
-			return new AndGateView(cell);
-		else if (cell instanceof OrGate)
-			return new OrGateView(cell);
+		if (cell instanceof DeltaComponent)
+			return new DeltaComponentView(cell);
 		return new VertexView(cell);
 	}
 

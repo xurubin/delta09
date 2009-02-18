@@ -104,31 +104,27 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		//addKeyListener(this);
 		
-/*		addComponentListener ( new ComponentAdapter() {
-			public void ComponentResized (ComponentEvent evt) {
-			/// /*
-			
-				 int width = getWidth();
-           int height = getHeight();
-         //we check if either the width
-         //or the height are below minimum
-         boolean resize = false;
-           if (width < 400) {
-                resize = true;
-                width = 400;
-         }
-           if (height < 300) {
-                resize = true;
-                height = 300;
-           }
-         if (resize) {
-               setSize(width, height);
-         }
+		addComponentListener ( new java.awt.event.ComponentAdapter() {
+			public void componentResized (java.awt.event.ComponentEvent evt) {
+				int width  = getWidth();
+				int height = getHeight();
+				boolean resize = false;
+				
+				if (width < 400)
+				{
+					resize = true;
+					width = 400;
+				}
+				if (height < 300)
+				{
+					resize = true;
+					height = 300;
+				}
+				if (resize)
+					setSize(width, height);
 			}
-			
-			/// *//*
 		} );
-	*/	
+		
 		circuit_panel = new CircuitPanel();
 		circuit_panel.setPreferredSize ( new Dimension (620, 460) );
 		
@@ -139,35 +135,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		component_panel = new ComponentPanel(translator);
 		component_panel.setMinimumSize ( new Dimension (175, 0) );
-		//component_panel.setMaximumSize ( new Dimension (175, 800));
-		
-		/********************************************
-		
-		JXCollapsiblePane cpn = new JXCollapsiblePane();
-		 // JXCollapsiblePane can be used like any other container
-		 cpn.setLayout(new BorderLayout());
-		 // the Controls panel with a textfield to filter the tree
-		 JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
-		 controls.add(new JLabel("Search:"));
-		 controls.add(new JTextField(10));
-		 controls.add(new JButton("Refresh"));
-		 controls.setBorder(new javax.swing.border.LineBorder (Color.BLACK));
-		 cpn.add("Center", controls);
-//		 JXFrame frame = new JXFrame();
-//		 frame.setLayout(new BorderLayout());
-		 // Put the "Controls" first
-//		 frame.add("North", cpn);
-		 // Then the tree - we assume the Controls would somehow filter the tree
-//		 JScrollPane scroll = new JScrollPane(new JTree());
-//		 frame.add("Center", scroll);
-		 // Show/hide the "Controls"
-//		 JButton toggle = new JButton(cpn.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION));
-//		 toggle.setText("Show/Hide Search Panel");
-//		 frame.add("South", toggle);
-//		 frame.pack();
-//		 frame.setVisible(true);
-		 
-		 ********************************************/
+		//component_panel.setMaximumSize ( new Dimension (175, 800))
 		
 		JScrollPane sb = new JScrollPane (component_panel);
 		sb.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
@@ -183,7 +151,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		ImageIcon clock_icon = new ImageIcon ("src/org/delta/gui/diagram/images/clock.png");
 		
-		JLabel clock_label = new JLabel(clock_icon);
+		ClockLabel clock_label = new ClockLabel (clock_icon);
 		
 		clock_panel.setLayout ( new FlowLayout (FlowLayout.CENTER, 30, 10) );
 		

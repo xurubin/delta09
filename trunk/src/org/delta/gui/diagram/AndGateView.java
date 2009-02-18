@@ -1,10 +1,11 @@
 package org.delta.gui.diagram;
 
 import java.net.URL;
+import java.net.URI;
 import org.jgraph.graph.*;
 //import java.awt.geom.*;
 import javax.swing.ImageIcon;
-
+import com.kitfox.svg.app.beans.SVGIcon;
 public class AndGateView extends VertexView
 {
      /**
@@ -16,18 +17,32 @@ public class AndGateView extends VertexView
      public AndGateView()
      {
            super();
-           String iconPath = "org/delta/gui/diagram/images/and.png";
-           URL iconUrl = AndGateView.class.getClassLoader().getResource(iconPath);
-           GraphConstants.setIcon(this.getAttributes(),new ImageIcon(iconUrl));
+           String iconPath = "org/delta/gui/diagram/images/and.svg";
+           SVGIcon icon = new SVGIcon();
+
+           try {
+        	   URI svgURI = new URI(AndGateView.class.getClassLoader().getResource(iconPath).toString());
+        	   icon.setSvgURI(svgURI);
+               icon.setScaleToFit(true);
+           }catch(Exception e){}
+
+           GraphConstants.setIcon(this.getAttributes(),icon);
            GraphConstants.setAutoSize(this.getAttributes(),true);
      }
      
      public AndGateView(Object arg0)
      {
            super(arg0);
-           String iconPath = "org/delta/gui/diagram/images/and.png";
-           URL iconUrl = AndGateView.class.getClassLoader().getResource(iconPath);
-           GraphConstants.setIcon(this.getAttributes(),new ImageIcon(iconUrl));
+           String iconPath = "org/delta/gui/diagram/images/and.svg";
+           SVGIcon icon = new SVGIcon();
+
+           try {
+        	   URI svgURI = new URI(AndGateView.class.getClassLoader().getResource(iconPath).toString());
+        	   icon.setSvgURI(svgURI);
+               icon.setScaleToFit(true);
+           }catch(Exception e){}
+
+           GraphConstants.setIcon(this.getAttributes(),icon);
            GraphConstants.setAutoSize(this.getAttributes(),true);
      }
      

@@ -7,7 +7,6 @@ import org.jgraph.*;
 import org.jgraph.graph.*;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -15,9 +14,7 @@ import javax.swing.event.*;
 import org.delta.circuit.*;
 
 public class CircuitPanel extends JPanel {
-	/**
-	 * 
-	 */
+	/** Needed for correct serialization. */ 
 	private static final long serialVersionUID = 1L;
 	private JGraph graph;
 	private GraphUndoManager undoManager;
@@ -31,22 +28,8 @@ public class CircuitPanel extends JPanel {
 		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory(), true);
 		graph = new DeltaGraph(model, view);
 		
-		// Set the first cell to be invisible (it is the clock component)
+		// Set the "first" cell to be invisible (it is the clock component)
 		view.setVisible(model.getRootAt(0), false);
-		
-		// Create test cells
-		DefaultGraphCell[] cells = new DefaultGraphCell[3];
-		cells[0] = new AndGate(new Point(100,100));
-		cells[1] = new OrGate(new Point(300,300));
-		
-		// Create test edge
-		DeltaEdge edge = new DeltaEdge();
-		edge.setSource(cells[0].getChildAt(2));
-		edge.setTarget(cells[1].getChildAt(0));
-		cells[2] = edge;
-		
-		// Insert cells into graph
-		graph.getGraphLayoutCache().insert(cells);
 		
 		// Create undo manager and add to graph
 		undoManager = new GraphUndoManager() {

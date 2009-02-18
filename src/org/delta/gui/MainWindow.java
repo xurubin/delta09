@@ -1,11 +1,36 @@
 package org.delta.gui;
 
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.Locale;
-import org.delta.gui.diagram.*;
+import java.util.Properties;
+
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
+
+import org.delta.gui.diagram.CircuitPanel;
 import org.delta.gui.i18n.Translator;
 
 public class MainWindow extends javax.swing.JFrame {
@@ -17,13 +42,10 @@ public class MainWindow extends javax.swing.JFrame {
 	protected JPanel clock_panel;
 	protected JToolBar toolbar;
 	protected Action undo_action, redo_action, stop_action, run_action;
+	protected Properties configFile;
 	
 	private static MainWindow mw;
 
-	public MainWindow()
-	{
-		this(Locale.getDefault());
-	}
 	
 	public MainWindow(Locale language)
 	{
@@ -268,17 +290,24 @@ public class MainWindow extends javax.swing.JFrame {
 	public static MainWindow get()
 	{
 		if (mw == null)
-			mw = new MainWindow();
+			mw = new MainWindow(Locale.getDefault());
 		return mw;
 	}
 
 	public static void main(String args[]) {
+		Properties configFile = new Properties();
+		Locale locale;
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
+			Reader fileHandle = new FileReader("src/org/delta/gui/Settings.properties");
+			configFile.load(fileHandle);
+			locale = new Locale((String) configFile.get("LANGUAGE"));
+			System.err.println(configFile.get("LANGUAGE"));
+		} catch (Exception e) {	
+			locale = Locale.getDefault();
 			e.printStackTrace();
 		}
-		get();
+		mw = new MainWindow(locale);
 		mw.setVisible(true);
 	}
 }

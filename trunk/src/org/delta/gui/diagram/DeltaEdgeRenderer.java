@@ -6,29 +6,33 @@ import java.awt.geom.Point2D;
 
 import org.jgraph.graph.EdgeRenderer;
 import org.jgraph.graph.EdgeView;
-import org.jgraph.graph.GraphConstants;
-import org.jgraph.util.Bezier;
-import org.jgraph.util.Spline2D;
 
 /**
+ * Extension of EdgeRenderer that overrides createShape so that the path
+ * drawn along the Edge follows right angles from one control point to
+ * another.
  * @author Group Delta 2009
- *
  */
 public class DeltaEdgeRenderer extends EdgeRenderer {
-
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
 	
-	/** Constants to make line drawing code clearer. */
+	/** Constant to make line drawing code clearer. */
 	private static final int HORIZ = 0;
+	
+	/** Constant to make line drawing code clearer. */
 	private static final int VERT = 1;
 	
 	/**
 	 * Returns the shape that represents the current edge in the context of the
 	 * current graph. This method sets the global beginShape, lineShape and
 	 * endShape variables as a side-effect.
-	 * 
-	 * NOTE: Altered by Group Delta to implement moveable orthogonal lines.
+	 * <br><br>
+	 * Note: Altered by Group Delta to implement moveable orthogonal lines.
+	 * Between each pair of control points a right-angled line is drawn, with
+	 * the orientation depending upon whether the control point is an odd or
+	 * even number from the start of the edge. The result is that each control
+	 * point appears to control one horizontal or vertical "segment" of the wire.
 	 */
 	protected Shape createShape() {
 		int n = view.getPointCount();
@@ -74,15 +78,8 @@ public class DeltaEdgeRenderer extends EdgeRenderer {
 				}
 				view.sharedPath.lineTo(newX,newY);
 				view.sharedPath.lineTo(p[i+1].getX(),p[i+1].getY());
-				//view.sharedPath.lineTo((float) pe.getX(), (float) pe.getY());
 			}
 			// END OF GROUP DELTA CODE
-			/*else {
-				for (int i = 1; i < n - 1; i++)
-					view.sharedPath.lineTo((float) p[i].getX(), (float) p[i]
-							.getY());
-				view.sharedPath.lineTo((float) pe.getX(), (float) pe.getY());
-			}*/
 			view.sharedPath.moveTo((float) pe.getX(), (float) pe.getY());
 			if (view.endShape == null && view.beginShape == null) {
 				// With no end decorations the line shape is the same as the
@@ -99,4 +96,5 @@ public class DeltaEdgeRenderer extends EdgeRenderer {
 		}
 		return null;
 	}
+	
 }

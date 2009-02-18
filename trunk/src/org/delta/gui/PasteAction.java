@@ -12,12 +12,13 @@ public class PasteAction extends AbstractAction
 	private static final long serialVersionUID = 1L;
 	private Action action;
 
-	public PasteAction(String text, ImageIcon icon, String accelerator)
+	public PasteAction(String text, ImageIcon icon, String accelerator, int mnemonic)
 	{
 		super(text);
 		this.action = javax.swing.TransferHandler.getPasteAction();
 		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
 		this.putValue(Action.LARGE_ICON_KEY, icon);
+		this.putValue(Action.MNEMONIC_KEY, mnemonic);
 	}
 	
 	public void actionPerformed(ActionEvent e)

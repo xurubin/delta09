@@ -17,10 +17,11 @@ public class HelpAction extends AbstractAction
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public HelpAction(String text, String accelerator)
+	public HelpAction(String text, String accelerator, int mnemonic)
 	{
 		super(text);
 		this.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(accelerator));
+		this.putValue(Action.MNEMONIC_KEY, mnemonic);
 	}
 	
 	public void actionPerformed(ActionEvent e)

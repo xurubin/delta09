@@ -28,8 +28,11 @@ public class CircuitPanel extends JPanel {
 			new ListenableComponentGraph(new ComponentGraph());
 		// Create a new model for the display graph using the simulation graph
 		DeltaGraphModel model = new DeltaGraphModel(grapht);
-		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory());
+		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory(), true);
 		graph = new DeltaGraph(model, view);
+		
+		// Set the first cell to be invisible (it is the clock component)
+		view.setVisible(model.getRootAt(0), false);
 		
 		// Create test cells
 		DefaultGraphCell[] cells = new DefaultGraphCell[3];

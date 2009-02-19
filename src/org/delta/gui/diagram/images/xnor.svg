@@ -1,16 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
-   width="156.14"
-   height="80"
-   id="svg2">
+   width="98.012146"
+   height="50"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="xnor.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata13">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="722"
+     inkscape:window-width="676"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="3.4648393"
+     inkscape:cx="126.99002"
+     inkscape:cy="40"
+     inkscape:window-x="-5"
+     inkscape:window-y="0"
+     inkscape:current-layer="svg2" />
   <defs
-     id="defs4" />
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 40 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="156.14 : 40 : 1"
+       inkscape:persp3d-origin="78.07 : 26.666667 : 1"
+       id="perspective15" />
+  </defs>
   <g
-     transform="translate(-13,-5)"
+     transform="matrix(0.6261199,0,0,0.6261199,-8.1392106,-3.1337272)"
      id="layer1">
     <path
        d="M 144.00855,44.933439 C 170.74602,44.933439 167.40383,44.933439 167.40383,44.933439"
@@ -37,7 +84,7 @@
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <path
-       d="M 79,25 A 4,4 0 1 1 71,25 A 4,4 0 1 1 79,25 z"
+       d="M 79,25 C 79,27.209139 77.209139,29 75,29 C 72.790861,29 71,27.209139 71,25 C 71,22.790861 72.790861,21 75,21 C 77.209139,21 79,22.790861 79,25 z"
        transform="matrix(2.0053096,0,0,1.9964223,-13.07403,-4.9771178)"
        id="path3551"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-linejoin:miter;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />

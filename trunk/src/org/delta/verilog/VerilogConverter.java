@@ -41,6 +41,8 @@ public class VerilogConverter {
 	 * @param circuit
 	 * @param inputWires
 	 * @param outputWires
+	 * @param inputGates
+	 * @param outputGates
 	 * @return
 	 */
 	public static String convertToVerilog(String name, Circuit circuit,

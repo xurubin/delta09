@@ -1,10 +1,10 @@
 package org.delta.gui.diagram;
 
-import org.jgraph.graph.CellViewRenderer;
-import org.jgraph.graph.VertexView;
 import java.net.URI;
 
+import org.jgraph.graph.CellViewRenderer;
 import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.VertexView;
 
 import com.kitfox.svg.app.beans.SVGIcon;
 
@@ -61,6 +61,7 @@ public class DeltaComponentView extends VertexView {
 		try {
 			URI svgURI = new URI(DeltaComponentView.class.getClassLoader().getResource(iconPath).toString());
 			icon.setSvgURI(svgURI);
+			//icon.setPreferredSize(new Dimension(2*icon.getPreferredSize().width/3, 2*icon.getPreferredSize().height/3));
 			icon.setScaleToFit(true);
 			icon.setAntiAlias(true);
 		} catch(Exception e) {}

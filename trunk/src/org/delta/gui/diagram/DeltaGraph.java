@@ -13,20 +13,18 @@ import org.jgraph.graph.GraphModel;
  */
 public class DeltaGraph extends JGraph {
 
-	/**
-	 * 
-	 */
+	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * @see org.jgraph.JGraph#JGraph()
 	 */
 	public DeltaGraph() {
 		super();
 	}
 
 	/**
-	 * @see org.jgraph.JGraph#JGraph()
+	 * @see org.jgraph.JGraph#JGraph(GraphModel)
 	 */
 	public DeltaGraph(GraphModel model) {
 		super(model);

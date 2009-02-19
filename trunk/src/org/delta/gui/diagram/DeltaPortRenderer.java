@@ -103,14 +103,11 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	 */
 	public void paint(Graphics g) {
 		Dimension size = getSize();
-		if (xorEnabled) {
-			g.setColor(getForeground());
-			g.setXORMode(graphBackground);
-		}
 		super.paint(g);
-		if (preview) {
+		if (preview)
 			g.setColor(getBackground());
-		}
+		else
+			g.setColor(getForeground());
 		g.fillOval(0, 0, (int)size.getWidth(), (int)size.getHeight());
 	}
 	

@@ -36,6 +36,8 @@ public class DeltaComponentView extends VertexView {
 	private static final String XOR_ICON = "xor.svg";
 	/** File name of icon for XnorGate. */
 	private static final String XNOR_ICON = "xnor.svg";
+	/** File name of icon for NotGate. */
+	private static final String NOT_ICON = "not.svg";
 	/** File name of icon for Ledr. */
 	private static final String LEDR_ICON = "ledr.svg";
 	/** File name of icon for Ledg. */
@@ -71,6 +73,8 @@ public class DeltaComponentView extends VertexView {
 			this.setIcon(XOR_ICON);
 		else if (cell instanceof XnorGate)
 			this.setIcon(XNOR_ICON);
+		else if (cell instanceof NotGate)
+			this.setIcon(NOT_ICON);
 		else if (cell instanceof Ledr)
 			this.setIcon(LEDR_ICON);
 		else if (cell instanceof Ledg)

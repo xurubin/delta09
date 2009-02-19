@@ -18,6 +18,10 @@ public class ComponentPanel extends JPanel
 	public static final int NOR = 4;
 	public static final int XOR = 5;
 	public static final int NXOR = 6;
+	public static final int LEDR = 7;
+	public static final int LEDG = 8;
+	public static final int HIGH = 9;
+	public static final int LOW = 10;
 	// TODO: Set up remaining component keys
 	
 	private Box.Filler box;

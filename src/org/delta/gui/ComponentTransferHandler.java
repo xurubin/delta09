@@ -21,9 +21,7 @@ import org.delta.gui.diagram.*;
 
 public class ComponentTransferHandler extends GraphTransferHandler {
 	
-	/**
-	 * 
-	 */
+	/** Needed for correct serialization. */ 
 	private static final long serialVersionUID = 1L;
 	
 	public int getSourceActions(JComponent comp) {
@@ -39,9 +37,16 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 		switch (componentKey) {
 		//case 0: unused
 		case 1: cells[0] = new AndGate(new Point(0,0)); break;
-		//case 2: cells[0] = new AndGate(new Point(0,0)); break;
+		case 2: cells[0] = new NandGate(new Point(0,0)); break;
 		case 3: cells[0] = new OrGate(new Point(0,0)); break;
-		//case 4: cells[0] = new AndGate(new Point(0,0)); break;
+		case 4: cells[0] = new NorGate(new Point(0,0)); break;
+		case 5: cells[0] = new XorGate(new Point(0,0)); break;
+		case 6: cells[0] = new XnorGate(new Point(0,0)); break;
+		case 7: cells[0] = new Ledr(new Point(0,0)); break;
+		case 8: cells[0] = new Ledg(new Point(0,0)); break;
+		case 9: cells[0] = new HighInput(new Point(0,0)); break;
+		case 10: cells[0] = new LowInput(new Point(0,0)); break;
+		//case 11: cells[0] = new Gate(new Point(0,0)); break;
 		}
 		
 		// Create a new graph containing only the new component

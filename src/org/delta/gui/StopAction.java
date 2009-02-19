@@ -21,5 +21,7 @@ public class StopAction extends AbstractAction
 		// Stop simulation
 		MainWindow.get().stop_action.setEnabled(false);
 		MainWindow.get().run_action.setEnabled(true);
+		
+		MainWindow.get().clock_updater.stopClock();
 	}
 }

@@ -18,7 +18,6 @@ import java.util.Properties;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -151,14 +150,18 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		ImageIcon clock_icon = new ImageIcon ("src/org/delta/gui/diagram/images/clock.png");
 		
-		ClockLabel clock_label = new ClockLabel (clock_icon);
+		JSpinner spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
+		
+		ClockLabel clock_label = new ClockLabel (clock_icon, spinner);
 		
 		clock_panel.setLayout ( new FlowLayout (FlowLayout.CENTER, 30, 10) );
 		
-		JSpinner spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
-		
 		clock_panel.add (clock_label);
 		clock_panel.add (spinner);
+		
+		ClockUpdater clock_updater = new ClockUpdater (clock_label);
+		clock_updater.setPriority (Thread.MIN_PRIORITY);
+		clock_updater.start();
 		
 		JSplitPane left_panel = new JSplitPane (JSplitPane.VERTICAL_SPLIT, sb, clock_panel);
 		left_panel.setResizeWeight (1.0);

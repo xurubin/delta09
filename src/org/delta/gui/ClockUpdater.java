@@ -17,13 +17,10 @@ public class ClockUpdater extends Thread
 	{
 		while (paused == false)
 		{
-			synchronized (this)
-			{
-				long t = System.currentTimeMillis();
-				clock_label.updateHands (timer - t);
-				clock_label.repaint();
-				timer = t;
-			}
+			long t = System.currentTimeMillis();
+			clock_label.updateHands (timer - t);
+			clock_label.repaint();
+			timer = t;
 			try
 			{
 				Thread.sleep (20);

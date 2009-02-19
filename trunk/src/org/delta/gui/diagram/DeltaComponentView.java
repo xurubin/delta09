@@ -36,6 +36,14 @@ public class DeltaComponentView extends VertexView {
 	private static final String XOR_ICON = "xor.svg";
 	/** File name of icon for XnorGate. */
 	private static final String XNOR_ICON = "xnor.svg";
+	/** File name of icon for Ledr. */
+	private static final String LEDR_ICON = "ledr.svg";
+	/** File name of icon for Ledg. */
+	private static final String LEDG_ICON = "ledg.svg";
+	/** File name of icon for HighInput. */
+	private static final String HIGH_ICON = "high.svg";
+	/** File name of icon for LowInput. */
+	private static final String LOW_ICON = "low.svg";
 	// TODO: Add file names for all the other component icons.
 	
 	/**
@@ -63,6 +71,14 @@ public class DeltaComponentView extends VertexView {
 			this.setIcon(XOR_ICON);
 		else if (cell instanceof XnorGate)
 			this.setIcon(XNOR_ICON);
+		else if (cell instanceof Ledr)
+			this.setIcon(LEDR_ICON);
+		else if (cell instanceof Ledg)
+			this.setIcon(LEDG_ICON);
+		else if (cell instanceof HighInput)
+			this.setIcon(HIGH_ICON);
+		else if (cell instanceof LowInput)
+			this.setIcon(LOW_ICON);
 		// TODO: Add if statements to set icons for all the other types of component.
 	}
 	

@@ -27,6 +27,7 @@ public class CircuitPanel extends JPanel {
 		DeltaGraphModel model = new DeltaGraphModel(grapht);
 		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory(), true);
 		graph = new DeltaGraph(model, view);
+		graph.setXorEnabled(false);
 		
 		// Set the "first" cell to be invisible (it is the clock component)
 		view.setVisible(model.getRootAt(0), false);

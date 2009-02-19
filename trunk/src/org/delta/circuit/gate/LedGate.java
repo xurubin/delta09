@@ -1,13 +1,16 @@
 package org.delta.circuit.gate;
 
+import java.util.ArrayList;
+
 import org.delta.logic.Formula;
 import org.delta.logic.LedConstant;
 
 public class LedGate extends AbstractOutputGate {
     private int ledNumber;
     
-    public LedGate(int ledNumber) {
+    public LedGate(int l) {
         super(1);
+    	this.ledNumber = l;
     }
     
     public int getLedNumber() {
@@ -20,6 +23,10 @@ public class LedGate extends AbstractOutputGate {
         led.setLedNumber(ledNumber);
         
         return led;
+    }
+    
+    public String getVerilogMethod(String name, String out, ArrayList<String> in) {
+    	return "assign LEDR[" + this.getLedNumber() + "] = " + in.get(0) + ";";
     }
 
 }

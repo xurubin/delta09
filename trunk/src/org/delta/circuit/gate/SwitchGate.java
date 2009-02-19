@@ -1,5 +1,7 @@
 package org.delta.circuit.gate;
 
+import java.util.ArrayList;
+
 import org.delta.logic.State;
 import org.delta.transport.BoardInterface;
 
@@ -25,6 +27,10 @@ public class SwitchGate extends AbstractInputGate {
             return true;
         }
         return false;
+    }
+    
+    public String getVerilogMethod(String name, String out, ArrayList<String> in) {
+    	return "assign SW[" + this.switchNumber + "] = " + out + ";";
     }
 
 }

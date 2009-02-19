@@ -58,7 +58,7 @@ abstract public class Component {
         return outputMap.getSize();
     }
 
-    protected Gate getOutputGate(int outputNumber) {
+    public Gate getOutputGate(int outputNumber) {
         return internalOutputList.get(outputNumber);
     }
     
@@ -74,7 +74,7 @@ abstract public class Component {
         internalOutputList.set(outputNumber, gate);
     }
     
-    protected Gate getInputGate(int inputNumber) {
+    public Gate getInputGate(int inputNumber) {
         if (inputNumber >= getInputCount())
             throw new IllegalArgumentException("Input number out of bounds.");
         return internalInputList.get(inputNumber).getGate();
@@ -130,8 +130,8 @@ abstract public class Component {
         }
     }
     
-    public String getVerilogMethod(String name, ArrayList<String> inputWires, ArrayList<String> outputWires) {
-    	return VerilogConverter.convertToVerilog(name, getCircuit(), inputWires, outputWires);
+    public String getVerilogMethod(String name, ArrayList<String> inputWires, ArrayList<String> outputWires, ArrayList<Gate> inputGates, ArrayList<Gate> outputGates) {
+    	return VerilogConverter.convertToVerilog(name, this.getCircuit(), inputWires, outputWires, inputGates, outputGates);
     }
 
 }

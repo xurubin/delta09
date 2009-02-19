@@ -35,7 +35,7 @@ public class SrLatchComponent extends Component {
         setOutputGate(0, nor1);
     }
 
-    public String getVerilogMethod(String name, ArrayList<String> input, ArrayList<String> output) {
+    public String getVerilogMethod(String name, ArrayList<String> input, ArrayList<String> output, ArrayList<Gate> inputGates, ArrayList<Gate> outputGates) {
 		String rs_latch = "rs_latch " + name + "("+ output.get(0) + ", " + output.get(1)
 							+ ", " + input.get(0) + ", " + input.get(1) + ");";
 		return rs_latch;

@@ -1,10 +1,5 @@
 package org.delta.verilog;
 
-import org.delta.circuit.*;
-import org.delta.circuit.component.DebugInputComponent;
-import org.delta.circuit.component.DebugOutputComponent;
-import org.delta.logic.State;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,8 +10,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.HashMap;
+import java.util.Set;
+
+import org.delta.circuit.Circuit;
+import org.delta.circuit.Component;
+import org.delta.circuit.ComponentGraph;
+import org.delta.circuit.ComponentWire;
+import org.delta.circuit.Gate;
+import org.delta.circuit.Wire;
+import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.component.SrLatchComponent;
+import org.delta.circuit.gate.LedGate;
+import org.delta.circuit.gate.SwitchGate;
 
 /**
  * Converts our data structure into Verilog.
@@ -38,7 +44,7 @@ public class VerilogConverter {
 	 * @return
 	 */
 	public static String convertToVerilog(String name, Circuit circuit,
-			ArrayList<String> inputWires, ArrayList<String> outputWires) {
+			ArrayList<String> inputWires, ArrayList<String> outputWires, ArrayList<Gate> inputGates, ArrayList<Gate> outputGates) {
 		Set<Wire> wires = circuit.edgeSet();
 		Set<Gate> gates = circuit.vertexSet();
 		
@@ -60,18 +66,25 @@ public class VerilogConverter {
 			}
 			
 			String output = "";
+			int gateIndex;
 			
-			if(circuit.outgoingEdgesOf(g).size() == 0) {
-				output = null;
+			if(circuit.outgoingEdgesOf(g).size() != 0) {
+				output += wireNames.get(circuit.outgoingEdgesOf(g).iterator().next());
 			}
-			else {
-				output = wireNames.get(circuit.outgoingEdgesOf(g).iterator().next());
+			else if((gateIndex = outputGates.indexOf(g)) != -1) {
+				//i.e. we are an output gate from this circuit
+				output += outputWires.get(gateIndex);
+			}
+			
+			if(circuit.incomingEdgesOf(g).size() == 0) {
+				if((gateIndex = inputGates.indexOf(g)) != -1) {
+					//i.e. we are an input gate from this circuit
+					inputs.add(inputWires.get(gateIndex));
+				}
 			}
 			
 			verilog += g.getVerilogMethod(name + "_g" + gCounter++, output, inputs);
-			verilog += "\n";
 		}
-		
 		return verilog;
 	}
 
@@ -102,21 +115,24 @@ public class VerilogConverter {
 		String componentDecl = "";
 		int cCounter = 0;
 		for (Component c : components) {
-
 			ArrayList<String> output = new ArrayList<String>();
+			ArrayList<Gate> outputGates = new ArrayList<Gate>();
 			ArrayList<String> input = new ArrayList<String>();
-
+			ArrayList<Gate> inputGates = new ArrayList<Gate>();
+			
 			/*
 			 * Get outputs and inputs (in order)
 			 */
 			for (int i = 0; i < c.getOutputCount(); i++) {
 				output.add(wireNames.get(c.getOutputWire(i)));
+				outputGates.add(c.getOutputGate(i));
 			}
 			for (int i = 0; i < c.getInputCount(); i++) {
 				input.add(wireNames.get(c.getInputWire(i)));
+				inputGates.add(c.getInputGate(i));
 			}
 
-			componentDecl = c.getVerilogMethod("component_" + cCounter++, input, output);
+			componentDecl += c.getVerilogMethod("component_" + cCounter++, input, output, inputGates, outputGates);
 			componentDecl += "\n";
 
 		}
@@ -237,12 +253,22 @@ public class VerilogConverter {
 		// some simple demo code.
 		ComponentGraph c = new ComponentGraph();
 		
-		DebugInputComponent dig = new DebugInputComponent(State.S1);
-		DebugOutputComponent dog = new DebugOutputComponent();
+		SrLatchComponent sr = new SrLatchComponent();
+		Component switchOne = GateComponentFactory.createComponent(new SwitchGate(1));
+		Component switchTwo = GateComponentFactory.createComponent(new SwitchGate(2));
+		Component ledOne = GateComponentFactory.createComponent(new LedGate(1));
+		Component ledTwo = GateComponentFactory.createComponent(new LedGate(2));
 		
-		c.addVertex(dig);
-		c.addVertex(dog);
-		c.addEdge(dig, dog);
+		c.addVertex(switchOne);
+		c.addVertex(switchTwo);
+		c.addVertex(sr);
+		c.addVertex(ledOne);
+		c.addVertex(ledTwo);
+		
+		c.addEdge(switchOne, sr);
+		c.addEdge(switchTwo, sr);
+		c.addEdge(sr, ledOne);
+		c.addEdge(sr, ledTwo);
 		
 		System.out.println(VerilogConverter.convertToVerilog(c));
 		

@@ -1,5 +1,7 @@
 package org.delta.circuit.gate;
 
+import java.util.ArrayList;
+
 import org.delta.logic.Constant;
 import org.delta.logic.Formula;
 import org.delta.logic.Not;
@@ -49,6 +51,10 @@ public class ClockGate extends AbstractInputGate {
             return true;
         }
         return false;
-    }    
+    }
+    
+    public String getVerilogMethod(String name, String out, ArrayList<String> in) {
+    	return "CLOCK";
+    }
 
 }

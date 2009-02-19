@@ -2,8 +2,6 @@ package org.delta.circuit.component;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
-import org.delta.circuit.gate.GateFactory;
-import org.delta.logic.BinaryFunction;
 
 public class GateComponentFactory {
     

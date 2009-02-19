@@ -62,6 +62,7 @@ public class DeltaComponentView extends VertexView {
 			URI svgURI = new URI(DeltaComponentView.class.getClassLoader().getResource(iconPath).toString());
 			icon.setSvgURI(svgURI);
 			icon.setScaleToFit(true);
+			icon.setAntiAlias(true);
 		} catch(Exception e) {}
 		
 		// Modify the view's attributes to use this icon

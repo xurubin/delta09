@@ -9,7 +9,7 @@ import org.jgraph.graph.VertexView;
 import com.kitfox.svg.app.beans.SVGIcon;
 
 /**
- * Single lass for all circuit diagram component views. The only difference between
+ * Single class for all circuit diagram component views. The only difference between
  * the different views is the icon used to represent them, so this the icon for
  * each view is set based on the cell it is referencing.
  * @author Group Delta 2009
@@ -26,8 +26,16 @@ public class DeltaComponentView extends VertexView {
 	
 	/** File name of icon for AndGate. */
 	private static final String AND_ICON = "and.svg";
+	/** File name of icon for NandGate. */
+	private static final String NAND_ICON = "nand.svg";
 	/** File name of icon for OrGate. */
 	private static final String OR_ICON = "or.svg";
+	/** File name of icon for NorGate. */
+	private static final String NOR_ICON = "nor.svg";
+	/** File name of icon for XorGate. */
+	private static final String XOR_ICON = "xor.svg";
+	/** File name of icon for XnorGate. */
+	private static final String XNOR_ICON = "xnor.svg";
 	// TODO: Add file names for all the other component icons.
 	
 	/**
@@ -45,8 +53,16 @@ public class DeltaComponentView extends VertexView {
 		super(cell);
 		if (cell instanceof AndGate)
 			this.setIcon(AND_ICON);
+		else if (cell instanceof NandGate)
+			this.setIcon(NAND_ICON);
 		else if (cell instanceof OrGate)
 			this.setIcon(OR_ICON);
+		else if (cell instanceof NorGate)
+			this.setIcon(NOR_ICON);
+		else if (cell instanceof XorGate)
+			this.setIcon(XOR_ICON);
+		else if (cell instanceof XnorGate)
+			this.setIcon(XNOR_ICON);
 		// TODO: Add if statements to set icons for all the other types of component.
 	}
 	
@@ -61,7 +77,6 @@ public class DeltaComponentView extends VertexView {
 		try {
 			URI svgURI = new URI(DeltaComponentView.class.getClassLoader().getResource(iconPath).toString());
 			icon.setSvgURI(svgURI);
-			//icon.setPreferredSize(new Dimension(2*icon.getPreferredSize().width/3, 2*icon.getPreferredSize().height/3));
 			icon.setScaleToFit(true);
 			icon.setAntiAlias(true);
 		} catch(Exception e) {}
@@ -75,6 +90,7 @@ public class DeltaComponentView extends VertexView {
 	 * Get the renderer for all DeltaComponentViews.
 	 * @return the renderer.
 	 */
+	@Override
 	public CellViewRenderer getRenderer() {
 		return renderer;
 	}

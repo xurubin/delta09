@@ -4,35 +4,36 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 import org.jgraph.graph.GraphConstants;
+
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
 import org.delta.circuit.component.GateComponentFactory;
 import org.delta.circuit.gate.GateFactory;
-import org.delta.logic.Or;
+import org.delta.logic.Nor;
 
 /**
- * Class to represent the "model" of an OrGate in the circuit diagram.
+ * Class to represent the "model" of a NorGate in the circuit diagram.
  * @author Group Delta 2009
  */
-public class OrGate extends DeltaComponent {
+public class NorGate extends DeltaComponent {
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
-	 * Creates a new OrGate at a default position.
+	 * Creates a new NorGate at a default position.
 	 */
-	public OrGate() {
+	public NorGate() {
 		this(new Point(100,100));
 	}
 	
 	/**
-	 * Creates a new OrGate at the given position on the screen.
+	 * Creates a new NorGate at the given position on the screen.
 	 * @param position - where to insert the new component.
 	 */
-	public OrGate(Point position) {
+	public NorGate(Point position) {
 		super();
 		
-        this.replaceUserObject();
+		this.replaceUserObject();
 		
 		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 4),0);
 		this.addInputPort(new Point(0,3*GraphConstants.PERMILLE / 4),1);
@@ -48,8 +49,8 @@ public class OrGate extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-	    Gate gate = GateFactory.createGate(Or.class, 2);
+	    Gate gate = GateFactory.createGate(Nor.class, 2);
         Component component = GateComponentFactory.createComponent(gate);
-        this.setUserObject(component);
+		this.setUserObject(component);
 	}
 }

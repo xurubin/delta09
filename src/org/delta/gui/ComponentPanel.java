@@ -16,6 +16,8 @@ public class ComponentPanel extends JPanel
 	public static final int NAND = 2;
 	public static final int OR = 3;
 	public static final int NOR = 4;
+	public static final int XOR = 5;
+	public static final int NXOR = 6;
 	// TODO: Set up remaining component keys
 	
 	private Box.Filler box;

@@ -90,6 +90,7 @@ public class RunAction extends AbstractAction {
 		SimulationScheduler ss = new SimulationScheduler(s);
 		ss.start();
 		*/
-		
+		MainWindow.get().clock_updater = new ClockUpdater (MainWindow.get().clock_label);
+		MainWindow.get().clock_updater.startClock();
 	}
 }

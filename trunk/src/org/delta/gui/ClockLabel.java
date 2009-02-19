@@ -46,7 +46,7 @@ public class ClockLabel extends JLabel
 		g.drawLine (x1, y1 - 1, x2, y2 - 1);
 	}
 	
-	public void updateHands (long l)
+	public synchronized void updateHands (long l)
 	{
 		int i = ( (Integer) spinner.getValue() ).intValue();
 		

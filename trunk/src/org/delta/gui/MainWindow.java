@@ -37,6 +37,8 @@ public class MainWindow extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
 	protected CircuitPanel circuit_panel;
 	protected ComponentPanel component_panel;
+	protected ClockUpdater clock_updater;
+	protected ClockLabel clock_label;
 	protected JPanel status_panel;
 	protected JPanel clock_panel;
 	protected JToolBar toolbar;
@@ -152,16 +154,12 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		JSpinner spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
 		
-		ClockLabel clock_label = new ClockLabel (clock_icon, spinner);
+		clock_label = new ClockLabel (clock_icon, spinner);
 		
 		clock_panel.setLayout ( new FlowLayout (FlowLayout.CENTER, 30, 10) );
 		
 		clock_panel.add (clock_label);
 		clock_panel.add (spinner);
-		
-		ClockUpdater clock_updater = new ClockUpdater (clock_label);
-		clock_updater.setPriority (Thread.MIN_PRIORITY);
-		clock_updater.start();
 		
 		JSplitPane left_panel = new JSplitPane (JSplitPane.VERTICAL_SPLIT, sb, clock_panel);
 		left_panel.setResizeWeight (1.0);

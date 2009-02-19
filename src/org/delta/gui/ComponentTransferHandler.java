@@ -42,11 +42,11 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 		case 4: cells[0] = new NorGate(new Point(0,0)); break;
 		case 5: cells[0] = new XorGate(new Point(0,0)); break;
 		case 6: cells[0] = new XnorGate(new Point(0,0)); break;
-		case 7: cells[0] = new Ledr(new Point(0,0)); break;
-		case 8: cells[0] = new Ledg(new Point(0,0)); break;
-		case 9: cells[0] = new HighInput(new Point(0,0)); break;
-		case 10: cells[0] = new LowInput(new Point(0,0)); break;
-		//case 11: cells[0] = new Gate(new Point(0,0)); break;
+		case 7: cells[0] = new NotGate(new Point(0,0)); break;
+		case 8: cells[0] = new Ledr(new Point(0,0)); break;
+		case 9: cells[0] = new Ledg(new Point(0,0)); break;
+		case 10: cells[0] = new HighInput(new Point(0,0)); break;
+		case 11: cells[0] = new LowInput(new Point(0,0)); break;
 		}
 		
 		// Create a new graph containing only the new component

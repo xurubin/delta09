@@ -20,7 +20,7 @@ public class AndGate extends DeltaComponent {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new OrGate at a default position.
+	 * Creates a new AndGate at a default position.
 	 */
 	public AndGate() {
 		this(new Point(100,100));
@@ -49,8 +49,8 @@ public class AndGate extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-	    Gate and = GateFactory.createGate(And.class, 2);
-        Component component = GateComponentFactory.createComponent(and);
+	    Gate gate = GateFactory.createGate(And.class, 2);
+        Component component = GateComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}
 }

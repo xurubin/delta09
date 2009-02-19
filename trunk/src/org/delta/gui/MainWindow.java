@@ -125,7 +125,7 @@ public class MainWindow extends javax.swing.JFrame {
 		} );
 		
 		circuit_panel = new CircuitPanel();
-		circuit_panel.setPreferredSize ( new Dimension (620, 460) );
+		//circuit_panel.setPreferredSize ( new Dimension (620, 460) );
 		
 		JScrollPane sp = new JScrollPane (circuit_panel);
 		cp.add (sp, BorderLayout.CENTER);

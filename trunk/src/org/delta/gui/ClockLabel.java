@@ -15,8 +15,8 @@ public class ClockLabel extends JLabel
 	{
 		super (img);
 		
-		theta = -Math.PI / 2;
-		phi   = theta;
+		theta = -Math.PI / 2;	// minute hand angle
+		phi   = theta;			// hour hand angle
 		
 		spinner = sp;
 	}

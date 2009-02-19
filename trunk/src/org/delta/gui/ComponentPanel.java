@@ -20,13 +20,15 @@ public class ComponentPanel extends JPanel
 	
 	private Box.Filler box;
 	
-	private ImageIcon collapsed_icon, collapsible_icon;
+	private ImageIcon collapsed_icon [], collapsible_icon [];
 	
 	private ArrayList <Category> cats;
 	
 	private TransferHandler handler;
 	private MouseListener listener;
 	private GridLayout component_layout;
+	
+	private Font font;
 
 	private class Category
 	{
@@ -53,7 +55,9 @@ public class ComponentPanel extends JPanel
 		
 		Category (String s, int i)
 		{
-			label = new JLabel (s, collapsed_icon, JLabel.LEFT);
+			label = new JLabel (s, collapsed_icon[0], JLabel.LEFT);
+			label.setFont (font);
+			label.setIconTextGap (10);
 			label.setPreferredSize ( new Dimension (175, label.getPreferredSize().height) );
 			label.setHorizontalTextPosition (JLabel.RIGHT);
 			label.setVerticalAlignment (JLabel.CENTER);
@@ -72,8 +76,18 @@ public class ComponentPanel extends JPanel
 				public void mouseClicked (MouseEvent e) {
 					panel.setVisible ( !panel.isVisible() );
 					resizePanel();
-					label.setIcon (panel.isVisible() ? collapsible_icon : collapsed_icon);
+					label.setIcon (panel.isVisible() ? collapsible_icon [1] : collapsed_icon [1]);
 					panel.repaint();
+				}
+				
+				public void mouseEntered (MouseEvent e)
+				{
+					label.setIcon (panel.isVisible() ? collapsible_icon [1] : collapsed_icon [1]);
+				}
+				
+				public void mouseExited (MouseEvent e)
+				{
+					label.setIcon (panel.isVisible() ? collapsible_icon [0] : collapsed_icon [0]);
 				}
 			} );
 		}
@@ -111,8 +125,15 @@ public class ComponentPanel extends JPanel
 			}
 		};
 		
-		collapsed_icon   = new ImageIcon ("src/org/delta/gui/icons/collapsed.png");
-		collapsible_icon = new ImageIcon ("src/org/delta/gui/icons/collapsible.png");
+		font = new Font (getFont().getName(), getFont().getStyle(), getFont().getSize() + 4);
+		
+		collapsed_icon   = new ImageIcon [2];
+		collapsible_icon = new ImageIcon [2];
+		
+		collapsed_icon   [0] = new ImageIcon ("src/org/delta/gui/icons/collapsed.png");
+		collapsed_icon   [1] = new ImageIcon ("src/org/delta/gui/icons/collapsed2.png");
+		collapsible_icon [0] = new ImageIcon ("src/org/delta/gui/icons/collapsible.png");
+		collapsible_icon [1] = new ImageIcon ("src/org/delta/gui/icons/collapsible2.png");
 		
 		setLayout ( new BoxLayout (this, BoxLayout.Y_AXIS) );
 		

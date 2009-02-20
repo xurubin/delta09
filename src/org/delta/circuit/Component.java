@@ -160,8 +160,8 @@ abstract public class Component implements Serializable {
     }
     
     public String getVerilogMethod(String name,
-            Map<ComponentWire,String> inputWires,
-    		Map<ComponentWire,String> outputWires) {
+            HashMap<ComponentWire,String> inputWires,
+    		HashMap<ComponentWire,String> outputWires) {
     	return VerilogConverter.convertToVerilog(name, this, inputWires,
     	        outputWires);
     }

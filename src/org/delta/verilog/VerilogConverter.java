@@ -21,8 +21,9 @@ import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.circuit.component.GateComponentFactory;
-import org.delta.circuit.gate.ClockGate;
 import org.delta.circuit.gate.GateFactory;
+import org.delta.circuit.gate.HighGate;
+import org.delta.circuit.gate.InverterGate;
 import org.delta.circuit.gate.LedGate;
 import org.delta.circuit.gate.SwitchGate;
 import org.delta.logic.And;
@@ -314,24 +315,28 @@ public class VerilogConverter {
 		ComponentGraph c = new ComponentGraph();
 		
 		Component andGate = GateComponentFactory.createComponent(GateFactory.createGate(And.class, 2));
-		Component orGate = GateComponentFactory.createComponent(GateFactory.createGate(Or.class, 3));
+		Component orGate = GateComponentFactory.createComponent(GateFactory.createGate(Or.class, 4));
+		Component notGate = GateComponentFactory.createComponent(new InverterGate());
 
 		Component switchOne = GateComponentFactory.createComponent(new SwitchGate(1));
-		Component switchTwo = GateComponentFactory.createComponent(new SwitchGate(2));
+		Component highGate = GateComponentFactory.createComponent(new HighGate());
 		Component ledOne = GateComponentFactory.createComponent(new LedGate(1));
 		
 		c.addVertex(switchOne);
-		c.addVertex(switchTwo);
+		c.addVertex(highGate);
 		c.addVertex(andGate);
 		c.addVertex(orGate);
 		c.addVertex(ledOne);
+		c.addVertex(notGate);
 		
 		ComponentWire w1 = c.addEdge(switchOne, andGate);
-		ComponentWire w2 = c.addEdge(switchTwo, andGate);
+		ComponentWire w2 = c.addEdge(highGate, andGate);
 		ComponentWire w3 = c.addEdge(andGate, orGate);
 		ComponentWire w4 = c.addEdge(switchOne, orGate);
-		ComponentWire w5 = c.addEdge(switchTwo, orGate);
+		ComponentWire w5 = c.addEdge(highGate, orGate);
 		ComponentWire w6 = c.addEdge(orGate, ledOne);
+		ComponentWire w7 = c.addEdge(orGate, notGate);
+		ComponentWire w8 = c.addEdge(notGate, orGate);
 		
 		c.registerEdge(w1, 0, 0);
         c.registerEdge(w2, 0, 1);
@@ -339,6 +344,8 @@ public class VerilogConverter {
 		c.registerEdge(w4, 0, 1);
         c.registerEdge(w5, 0, 2);
         c.registerEdge(w6, 0, 0);
+        c.registerEdge(w7, 0, 0);
+        c.registerEdge(w8, 0, 3);
         
         
 		System.out.println(VerilogConverter.convertToVerilog(c));

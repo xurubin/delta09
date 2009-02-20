@@ -1,5 +1,7 @@
 package org.delta.circuit.gate;
 
+import java.util.ArrayList;
+
 import org.delta.circuit.Gate;
 import org.delta.logic.Constant;
 import org.delta.logic.Formula;
@@ -14,6 +16,11 @@ public class InverterGate extends Gate {
     @Override
     public Formula getFormula() {
         return new Not(new Constant(getWire(0)));
+    }
+    
+    public String getVerilogMethod(String name, ArrayList<String> out,
+            ArrayList<String> in) {
+    	return Gate.constructDefaultVerilogMethod("not", name, out, in);
     }
 
 }

@@ -2,6 +2,7 @@ package org.delta.circuit.gate;
 
 import java.util.ArrayList;
 
+import org.delta.circuit.Gate;
 import org.delta.logic.Constant;
 import org.delta.logic.Formula;
 import org.delta.logic.Not;
@@ -54,7 +55,15 @@ public class ClockGate extends AbstractInputGate {
     }
     
     public String getVerilogMethod(String name, ArrayList<String> out, ArrayList<String> in) {
-    	return "CLOCK";
+    	if(out.size() == 0) return "// no clock needed in this circuit.";
+    	//calculate clock_multiplier
+    	
+    	String method = "get_clock g(CLOCK_50, 100000000, " + 2*clockFrequency + "," + out.get(0) + ");";
+    	String mainOutput = out.remove(0);
+    	for(String s : out) {
+    		method += "\nassign " + s + " = " + mainOutput + ";";
+    	}
+    	return method;
     }
 
 }

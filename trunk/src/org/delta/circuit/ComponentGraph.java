@@ -106,14 +106,14 @@ public class ComponentGraph extends
     @Override
     public final boolean removeAllEdges(final Collection
             <? extends ComponentWire> wireCollection) {
-        if (super.removeAllEdges(wireCollection)) {
-            for (ComponentWire wire: wireCollection) {
-                circuit.removeAllEdges(wireMap.get(wire));
-                wireMap.remove(wire);
-            }
-            return true;
+        boolean hasChanged = false;
+
+        for (ComponentWire wire: wireCollection) {
+            boolean result = removeEdge(wire);
+            if (result) hasChanged = true;
         }
-        return false;
+
+        return hasChanged;
     }
 
     /**
@@ -144,30 +144,20 @@ public class ComponentGraph extends
     @Override
     public final boolean removeAllVertices(final Collection<? extends Component>
             componentCollection) {
-        // Never remove the main clock.
-        if (componentCollection.contains(mainClockComponent)) {
-            componentCollection.remove(mainClockComponent);
-        }
-
-        final List<ComponentWire> wireSet = new LinkedList<ComponentWire>();
+        boolean hasChanged = false;
+        
         for (Component component: componentCollection) {
-            wireSet.addAll(edgesOf(component));
+            boolean result = removeVertex(component);
+            if (result) hasChanged = true;
         }
         
-        if (super.removeAllVertices(componentCollection)) {
-            for (ComponentWire wire: wireSet) {
-                circuit.removeAllEdges(wireMap.get(wire));
-                wireMap.remove(wire);
-            }
-            return true;
-        }
-        return false;
+        return hasChanged;
     }
 
     @Override
     public ComponentWire removeEdge(final Component source,
             final Component target) {
-        final ComponentWire wire = super.getEdge(source, target);
+        final ComponentWire wire = getEdge(source, target);
         removeEdge(wire);
         return wire;
     }
@@ -184,13 +174,16 @@ public class ComponentGraph extends
 
     @Override
     public boolean removeVertex(final Component component) {
+        // Never remove the clock.
+        if (component == mainClockComponent) return false;
+        
         final Set<ComponentWire> connectedWires = edgesOf(component);
         if (super.removeVertex(component)) {
             final Set<Gate> gateSet = component.getCircuit().vertexSet();
             circuit.removeAllVertices(gateSet);
             
             for (ComponentWire wire: connectedWires) {
-                wireMap.remove(wire);
+                if (wireMap.containsKey(wire)) wireMap.remove(wire);
             }
             return true;
         }
@@ -210,10 +203,14 @@ public class ComponentGraph extends
      * @param targetInputNumber - number of the input port of the target
      * component.
      */
-    public void registerEdge(final ComponentWire wire,
-            final int sourceOutputNumber, final int targetInputNumber) {
-        if (!edgeSet().contains(wire) || getEdgeSource(wire) == null
-                                      || getEdgeTarget(wire) == null) {
+    public void registerEdge(
+            final ComponentWire wire,
+            final int sourceOutputNumber,
+            final int targetInputNumber) {
+        if (!edgeSet().contains(wire)) {
+            return;
+        }
+        if (getEdgeSource(wire) == null || getEdgeTarget(wire) == null) {
             return;
         }
 
@@ -227,7 +224,7 @@ public class ComponentGraph extends
             targetComponent.getGateInputPorts(targetInputNumber);
 
         // Remove old wire.
-        if (wireMap.containsKey(wire)) {
+        if (wireMap.containsKey(wire) && !wireMap.get(wire).isEmpty()) {
             Set<Wire> oldWireSet = wireMap.get(wire);
 
             if (!circuit.removeAllEdges(oldWireSet))

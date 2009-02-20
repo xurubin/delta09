@@ -1,5 +1,6 @@
 package org.delta.circuit;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,71 +36,35 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
     @Override
     public boolean removeAllEdges(final Collection<? extends Wire>
             wireCollection) {
-        final Map<Wire, Gate> wireToGateMap =
-            new HashMap<Wire, Gate>();
+        if (wireCollection == null) return false;
+
+        boolean hasChanged = false;        
         for (Wire wire: wireCollection) {
-            if (!containsEdge(wire)) continue;
-            wireToGateMap.put(wire, getEdgeTarget(wire));
+            boolean result = removeEdge(wire);
+            if (result) hasChanged = true;
         }
-        
-        if (super.removeAllEdges(wireCollection)) {
-            for (Entry<Wire, Gate> entry: wireToGateMap.entrySet()) {
-                final Gate gate = entry.getValue();
-                final Wire wire = entry.getKey();
-                if (gate.isConnectedTo(wire)) gate.removeWire(wire);
-            }
-            return true;
-        }
-        return false;
+
+        return hasChanged;
     }
     
     @Override
     public Set<Wire> removeAllEdges(final Gate source, final Gate target) {
-        final Map<Wire, Gate> wireToGateMap =
-            new HashMap<Wire, Gate>();
-        for (Wire wire: getAllEdges(source, target)) {
-            wireToGateMap.put(wire, getEdgeTarget(wire));
-        }
+        final Set<Wire> wireSet = getAllEdges(source, target);
+        removeAllEdges(wireSet);
         
-        final Set<Wire> wireSet = super.removeAllEdges(source, target);
-        
-        if (wireSet != null) {
-            for (Entry<Wire, Gate> entry: wireToGateMap.entrySet()) {
-                final Gate gate = entry.getValue();
-                final Wire wire = entry.getKey();
-                if (gate.isConnectedTo(wire)) gate.removeWire(wire);
-            }
-        }
         return wireSet;
     }
     
     @Override
     protected boolean removeAllEdges(final Wire[] wireArray) {
-        final Map<Wire, Gate> wireToGateMap =
-            new HashMap<Wire, Gate>(wireArray.length);
-        for (Wire wire: wireArray) {
-            if (!containsEdge(wire)) continue;
-            wireToGateMap.put(wire, getEdgeTarget(wire));
-        }
-        
-        if (super.removeAllEdges(wireArray)) {
-            for (Entry<Wire, Gate> entry: wireToGateMap.entrySet()) {
-                final Gate gate = entry.getValue();
-                final Wire wire = entry.getKey();
-                if (gate.isConnectedTo(wire)) gate.removeWire(wire);
-            }
-            return true;
-        }
-        return false;
+        return removeAllEdges(Arrays.asList(wireArray));
     }
     
     @Override
     public Wire removeEdge(final Gate source, final Gate target) {
-        final Wire wire = super.removeEdge(source, target);
-        
-        if (wire != null) {
-            if (target.isConnectedTo(wire))  target.removeWire(wire);
-        }
+        final Wire wire = getEdge(source, target);
+        removeEdge(wire);
+
         return wire;
         
     }

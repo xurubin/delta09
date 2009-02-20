@@ -36,11 +36,16 @@ public class GateFactory {
         ArrayList<BinaryFunction> functionArray =
             new ArrayList<BinaryFunction>(functionCount);
         
-        for (int i = functionCount - 1; i >= 0 ; --i) {
+        // Initialise function array.
+        for (int i = 0; i < functionCount; ++i) {
             BinaryFunction f = (BinaryFunction) (functionClass.newInstance());
             functionArray.add(f);
-            if (i != functionCount - 1)
-                f.setArg0(functionArray.get(i+1));
+        }
+        
+        // Set function arguments.
+        for (int i = 0; i < functionCount - 1 ; ++i) {
+            BinaryFunction next = functionArray.get(i+1);
+            functionArray.get(i).setArg0(next);
         }
         
         return newBinaryFunction(functionArray);

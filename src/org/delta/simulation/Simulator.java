@@ -21,21 +21,6 @@ import org.delta.logic.State;
  */
 public final class Simulator extends TimerTask {
     /**
-     * The clock frequency of the simulated circuit given as a multiple of the
-     * simulation frequency.
-     * @see SimulationScheduler#simulationFrequency
-     * @see Simulator#setClockFrequency(int)
-     */
-    // TODO: Default value.
-    private int clockFrequency;
-    /**
-     * Counts up to the value of the clock frequency. When reached, the circuit
-     * clock is updated .
-     * @see Simulator#updateInputGates()
-     * @see Simulator#clockFrequency
-     */
-    private int clockCounter;
-    /**
      * Keeps a queue of lists of gates whose output has to be re-calculated.
      * Each list of gates corresponds to one time step in the discrete time
      * simulation.

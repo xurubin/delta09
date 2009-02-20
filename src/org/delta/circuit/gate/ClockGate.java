@@ -45,8 +45,8 @@ public class ClockGate extends AbstractInputGate {
         if (clockFrequency == 0) return false;
 
         clockCounter = (clockCounter + 1) % clockFrequency;
-        if (clockCounter == 0) {
-            Formula output = new Constant(getState());
+        if (clockCounter == 1) {
+            Formula output = new Not(new Constant(getState()));
             setState(output.evaluate());
             return true;
         }

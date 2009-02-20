@@ -17,9 +17,6 @@ abstract public class Component implements Serializable {
 	private BidirectionalIntegerMap<ComponentWire> inputMap;
     private BidirectionalIntegerMap<ComponentWire> outputMap;
 
-    /* FIXME: Input wire can connect to more than one gate. Need a collection of
-     * GateInputs.
-     */
     private ArrayList<Set<GateInputPort>> internalInputList;
     private ArrayList<Gate> internalOutputList;
 
@@ -61,7 +58,7 @@ abstract public class Component implements Serializable {
         return circuit;
     }
     
-    void setCircuit(Circuit circuit) {
+    protected void setCircuit(Circuit circuit) {
         this.circuit = circuit;
     }
 
@@ -102,14 +99,14 @@ abstract public class Component implements Serializable {
         return inputGateList;
     }
     
-    Set<GateInputPort> getGateInputPorts(int inputNumber) {
+    public Set<GateInputPort> getGateInputPorts(int inputNumber) {
         if (inputNumber >= getInputCount())
             throw new IllegalArgumentException("Input number out of bounds.");
         
         return internalInputList.get(inputNumber);
     }
     
-    Set<GateInputPort> getGateInputPorts(ComponentWire wire) {
+    public Set<GateInputPort> getGateInputPorts(ComponentWire wire) {
         Integer inputNumber = inputMap.getIndex(wire);
 
         return internalInputList.get(inputNumber);
@@ -121,7 +118,8 @@ abstract public class Component implements Serializable {
             throw new IllegalArgumentException("Input number out of bounds.");
         }
         if (!circuit.containsVertex(gate)) {
-            throw new IllegalArgumentException("Gate is part of the circuit.");
+            throw new IllegalArgumentException(
+                    "Gate is not part of the circuit.");
         }
         if (gateInputNumber < 0 || gateInputNumber >= gate.getInputCount()) {
             throw new IllegalArgumentException(
@@ -133,7 +131,7 @@ abstract public class Component implements Serializable {
         internalInputList.get(inputNumber).add(gateInputPort);
     }
     
-    class GateInputPort {
+    public class GateInputPort {
 
         private final Gate gate;
         private final int inputNumber;

@@ -53,7 +53,7 @@ public class ClockGate extends AbstractInputGate {
         return false;
     }
     
-    public String getVerilogMethod(String name, String out, ArrayList<String> in) {
+    public String getVerilogMethod(String name, ArrayList<String> out, ArrayList<String> in) {
     	return "CLOCK";
     }
 

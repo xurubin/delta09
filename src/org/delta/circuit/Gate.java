@@ -43,11 +43,12 @@ abstract public class Gate implements Serializable {
     
     public static String constructDefaultVerilogMethod(String type, String name,
             String out, ArrayList<String> in) {
-    	String method = type + " #(1,1)" + name + "(" + out + ", ";
+    	String method = type + " #(1,1) " + name + "(" + out + ", ";
     	for(String s : in) {
     		method += s + ", ";
     	}
-    	method.substring(0, method.length() - 2);
+    	
+    	method = method.substring(0, method.length() - 2) + ");";
     	return method;
     }
     

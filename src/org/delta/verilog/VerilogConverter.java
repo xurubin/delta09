@@ -21,9 +21,10 @@ import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.circuit.component.GateComponentFactory;
-import org.delta.circuit.component.SrLatchComponent;
+import org.delta.circuit.gate.GateFactory;
 import org.delta.circuit.gate.LedGate;
 import org.delta.circuit.gate.SwitchGate;
+import org.delta.logic.And;
 
 /**
  * Converts our data structure into Verilog.
@@ -260,27 +261,24 @@ public class VerilogConverter {
 		// some simple demo code.
 		ComponentGraph c = new ComponentGraph();
 		
-		SrLatchComponent sr = new SrLatchComponent();
+		Component andGate = GateComponentFactory.createComponent(GateFactory.createGate(And.class, 2));
+
 		Component switchOne = GateComponentFactory.createComponent(new SwitchGate(1));
 		Component switchTwo = GateComponentFactory.createComponent(new SwitchGate(2));
 		Component ledOne = GateComponentFactory.createComponent(new LedGate(1));
-		Component ledTwo = GateComponentFactory.createComponent(new LedGate(2));
 		
 		c.addVertex(switchOne);
 		c.addVertex(switchTwo);
-		c.addVertex(sr);
+		c.addVertex(andGate);
 		c.addVertex(ledOne);
-		c.addVertex(ledTwo);
 		
-		ComponentWire w1 = c.addEdge(switchOne, sr);
-		ComponentWire w2 = c.addEdge(switchTwo, sr);
-		ComponentWire w3 = c.addEdge(sr, ledOne);
-		ComponentWire w4 = c.addEdge(sr, ledTwo);
+		ComponentWire w1 = c.addEdge(switchOne, andGate);
+		ComponentWire w2 = c.addEdge(switchTwo, andGate);
+		ComponentWire w3 = c.addEdge(andGate, ledOne);
 		
 		c.registerEdge(w1, 0, 0);
         c.registerEdge(w2, 0, 1);
         c.registerEdge(w3, 0, 0);
-        c.registerEdge(w4, 1, 0);
         
 		
 		System.out.println(VerilogConverter.convertToVerilog(c));

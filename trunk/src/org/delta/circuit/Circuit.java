@@ -47,7 +47,7 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
             for (Entry<Wire, Gate> entry: wireToGateMap.entrySet()) {
                 final Gate gate = entry.getValue();
                 final Wire wire = entry.getKey();
-                gate.removeWire(wire);
+                if (gate.isConnectedTo(wire)) gate.removeWire(wire);
             }
             return true;
         }
@@ -68,7 +68,7 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
             for (Entry<Wire, Gate> entry: wireToGateMap.entrySet()) {
                 final Gate gate = entry.getValue();
                 final Wire wire = entry.getKey();
-                gate.removeWire(wire);
+                if (gate.isConnectedTo(wire)) gate.removeWire(wire);
             }
         }
         return wireSet;
@@ -87,7 +87,7 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
             for (Entry<Wire, Gate> entry: wireToGateMap.entrySet()) {
                 final Gate gate = entry.getValue();
                 final Wire wire = entry.getKey();
-                gate.removeWire(wire);
+                if (gate.isConnectedTo(wire)) gate.removeWire(wire);
             }
             return true;
         }
@@ -99,7 +99,7 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
         final Wire wire = super.removeEdge(source, target);
         
         if (wire != null) {
-            target.removeWire(wire);
+            if (target.isConnectedTo(wire))  target.removeWire(wire);
         }
         return wire;
         
@@ -112,7 +112,7 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
         final Gate targetGate = getEdgeTarget(wire);
         
         if (super.removeEdge(wire)) {
-            targetGate.removeWire(wire);
+            if (targetGate.isConnectedTo(wire)) targetGate.removeWire(wire);
             return true;
         }
         return false;

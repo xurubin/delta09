@@ -36,6 +36,10 @@ public class BidirectionalIntegerMap<Entry> {
         return indexToEntryList.get(index);
     }
     
+    public boolean containsEntry(Entry entry) {
+        return entryToIndexMap.containsKey(entry);
+    }
+    
     public int getIndex(Entry entry) {
         if (entry == null) {
             throw new NullPointerException("The entry must be non-null.");

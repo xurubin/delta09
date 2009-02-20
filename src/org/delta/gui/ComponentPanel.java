@@ -11,6 +11,8 @@ public class ComponentPanel extends JPanel
 {
 	static final long serialVersionUID = 1;
 	
+	public static final int WIDTH = 175;
+	
 	public static final int NONE = 0;
 	public static final int AND = 1;
 	public static final int NAND = 2;
@@ -65,7 +67,7 @@ public class ComponentPanel extends JPanel
 			label = new JLabel (s, collapsed_icon[0], JLabel.LEFT);
 			label.setFont (font);
 			label.setIconTextGap (10);
-			label.setPreferredSize ( new Dimension (175, label.getPreferredSize().height) );
+			label.setPreferredSize ( new Dimension (WIDTH, label.getPreferredSize().height) );
 			label.setHorizontalTextPosition (JLabel.RIGHT);
 			label.setVerticalAlignment (JLabel.CENTER);
 			
@@ -144,7 +146,7 @@ public class ComponentPanel extends JPanel
 		
 		setLayout ( new BoxLayout (this, BoxLayout.Y_AXIS) );
 		
-		box = new Box.Filler ( new Dimension (175,0), getSize(), new Dimension(175,0) );
+		box = new Box.Filler ( new Dimension (WIDTH, 0), getSize(), new Dimension (WIDTH, 0) );
 		
 		cats = new ArrayList <Category> (3);
 		
@@ -170,19 +172,19 @@ public class ComponentPanel extends JPanel
 		ImageIcon high_icon = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
 		ImageIcon low_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/low.png");
 		
-		gates_cat.add (and_icon,  translator.getString("ANDGATE") , ComponentPanel.AND);
-		gates_cat.add (or_icon,   translator.getString("ORGATE"),   ComponentPanel.OR);
-		gates_cat.add (nand_icon, translator.getString("NANDGATE"), ComponentPanel.NAND);
-		gates_cat.add (nor_icon,  translator.getString("NORGATE"),  ComponentPanel.NOR);
-		gates_cat.add (xor_icon,  translator.getString("XORGATE"),  ComponentPanel.XOR);
-		gates_cat.add (xnor_icon, translator.getString("XNORGATE"), ComponentPanel.XNOR);
-		gates_cat.add (not_icon,  translator.getString("NOTGATE"),  ComponentPanel.NOT);
+		gates_cat.add (and_icon,  translator.getString("ANDGATE") , AND);
+		gates_cat.add (or_icon,   translator.getString("ORGATE"),   OR);
+		gates_cat.add (nand_icon, translator.getString("NANDGATE"), NAND);
+		gates_cat.add (nor_icon,  translator.getString("NORGATE"),  NOR);
+		gates_cat.add (xor_icon,  translator.getString("XORGATE"),  XOR);
+		gates_cat.add (xnor_icon, translator.getString("XNORGATE"), XNOR);
+		gates_cat.add (not_icon,  translator.getString("NOTGATE"),  NOT);
 		
-		leds_cat.add (ledg_icon, translator.getString("LEDG"), ComponentPanel.LEDG);
-		leds_cat.add (ledr_icon, translator.getString("LEDR"), ComponentPanel.LEDR);
+		leds_cat.add (ledg_icon, translator.getString("LEDG"), LEDG);
+		leds_cat.add (ledr_icon, translator.getString("LEDR"), LEDR);
 		
-		fixed_cat.add (high_icon, translator.getString("HIGH"), ComponentPanel.HIGH);
-		fixed_cat.add (low_icon,  translator.getString("LOW"),  ComponentPanel.LOW);
+		fixed_cat.add (high_icon, translator.getString("HIGH"), HIGH);
+		fixed_cat.add (low_icon,  translator.getString("LOW"),  LOW);
 		
 		for (Category c : cats)
 		{
@@ -200,14 +202,11 @@ public class ComponentPanel extends JPanel
 		for (Category c : cats)
 			h -= c.panel.getPreferredSize().height * (c.panel.isVisible() ? 1 : 0) + c.lpanel.getPreferredSize().height;
 		
-		box.setPreferredSize ( new Dimension (175, h > 0 ? h : 0) );
+		box.setPreferredSize ( new Dimension (WIDTH, h > 0 ? h : 0) );
 		if (box.getPreferredSize().height > 0)
 			setSize ( getParent().getSize() );
 		if ( box.getPreferredSize() != getSize() )
 			box.setSize ( getPreferredSize() );
-		
-		//System.out.println ( getSize().height + ", " + box.getPreferredSize().height + ", "
-		//				     + box.getSize().height + ", " + getParent().getHeight() );
 	}
 	
 }

@@ -23,6 +23,10 @@ abstract public class Gate implements Serializable {
     public int removeWire(Wire wire) {
         return inputMap.remove(wire);
     }
+    
+    public boolean isConnectedTo(Wire wire) {
+        return inputMap.containsEntry(wire);
+    }
 
     public Wire getWire(int inputNumber) {
         return inputMap.getEntry(inputNumber);

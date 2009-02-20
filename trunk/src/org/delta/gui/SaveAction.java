@@ -34,13 +34,13 @@ public class SaveAction extends AbstractAction
 				fileOut = new FileOutputStream ( chooser.getSelectedFile() );
 				outr    = new ObjectOutputStream (fileOut);
 				
-				class SObject implements Serializable{
+				/*class SObject implements Serializable{
 	        		private static final long serialVersionUID = 1L;
 	        		private String name = "NAME";
-	        	}
+	        	}*/
 	        	
 	        	System.out.println ("Writing Circuit...");
-	            outr.writeObject ( new SObject() );//MainWindow.get().circuit_panel.getGraph() );
+	            outr.writeObject ( MainWindow.get().circuit_panel.getGraph() );
 	        }
 			catch (FileNotFoundException ex)
 			{

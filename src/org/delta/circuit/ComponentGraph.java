@@ -220,7 +220,7 @@ public class ComponentGraph extends
         final Component sourceComponent = getEdgeSource(wire);
         final Component targetComponent = getEdgeTarget(wire);
         
-        sourceComponent.setOutputWire(sourceOutputNumber, wire);
+        sourceComponent.addOutputWire(sourceOutputNumber, wire);
         targetComponent.setInputWire(targetInputNumber, wire);
 
         Set<Component.GateInputPort> targets =

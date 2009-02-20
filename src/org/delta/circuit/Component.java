@@ -15,7 +15,7 @@ abstract public class Component implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private BidirectionalIntegerMap<ComponentWire> inputMap;
-    private BidirectionalIntegerMap<ComponentWire> outputMap;
+    private BidirectionalIntegerMap<Set<ComponentWire>> outputMap;
 
     private ArrayList<Set<GateInputPort>> internalInputList;
     private ArrayList<Gate> internalOutputList;
@@ -24,7 +24,7 @@ abstract public class Component implements Serializable {
 
     public Component(int inputCount, int outputCount) {
         inputMap = new BidirectionalIntegerMap<ComponentWire>(inputCount);
-        outputMap = new BidirectionalIntegerMap<ComponentWire>(outputCount);
+        outputMap = new BidirectionalIntegerMap<Set<ComponentWire>>(outputCount);
         
         internalInputList = new ArrayList<Set<GateInputPort>>(inputCount);
         internalOutputList = new ArrayList<Gate>(outputCount);
@@ -42,15 +42,15 @@ abstract public class Component implements Serializable {
         inputMap.set(inputNumber, wire);
     }
     
-    public void setOutputWire(int outputNumber, ComponentWire wire) {
-        outputMap.set(outputNumber, wire);
+    public void addOutputWire(int outputNumber, ComponentWire wire) {
+        outputMap.getEntry(outputNumber).add(wire);
     }
 
     public ComponentWire getInputWire(int inputNumber) {
         return inputMap.getEntry(inputNumber);
     }
     
-    public ComponentWire getOutputWire(int outputNumber) {
+    public Set<ComponentWire> getOutputWires(int outputNumber) {
         return outputMap.getEntry(outputNumber);
     }
     

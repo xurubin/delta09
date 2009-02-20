@@ -137,7 +137,7 @@ abstract public class Component implements Serializable {
         internalInputList.get(inputNumber).add(gateInputPort);
     }
     
-    public class GateInputPort {
+    public class GateInputPort implements Serializable {
 
         private final Gate gate;
         private final int inputNumber;

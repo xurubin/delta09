@@ -2,6 +2,8 @@ package org.delta.circuit.component;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
+import org.delta.circuit.gate.GateFactory;
+import org.delta.logic.BinaryFunction;
 
 public class GateComponentFactory {
     
@@ -14,7 +16,7 @@ public class GateComponentFactory {
                 getCircuit().addVertex(gate);
 
                 for (int i = 0; i < gate.getInputCount(); ++i) {
-                    setInputGate(i, gate, i);
+                    addInputGate(i, gate, i);
                 }
 
                 setOutputGate(0, gate);

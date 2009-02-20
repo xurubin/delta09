@@ -28,14 +28,14 @@ public class SrLatchComponent extends Component {
         nor0.setWire(nor1ToNor0, 1);
         nor1.setWire(nor0ToNor1, 0);
         
-        setInputGate(0, nor0, 0);
-        setInputGate(1, nor1, 1);
+        addInputGate(0, nor0, 0);
+        addInputGate(1, nor1, 1);
 
         setOutputGate(0, nor0);
         setOutputGate(0, nor1);
     }
 
-    public String getVerilogMethod(String name, ArrayList<String> input, ArrayList<String> output, ArrayList<Gate> inputGates, ArrayList<Gate> outputGates) {
+    public String getVerilogMethod(String name, ArrayList<String> input, ArrayList<String> output) {
 		String rs_latch = "rs_latch " + name + "("+ output.get(0) + ", " + output.get(1)
 							+ ", " + input.get(0) + ", " + input.get(1) + ");";
 		return rs_latch;

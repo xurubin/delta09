@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.delta.circuit.Component.GateInput;
+import org.delta.circuit.Component.GateInputPort;
 import org.delta.circuit.component.GateComponentFactory;
 import org.delta.circuit.gate.ClockGate;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -82,8 +82,8 @@ public class ComponentGraph extends
         
         if (component instanceof ClockedComponent) {
             ClockedComponent cc = (ClockedComponent) component;
-            List<Component.GateInput> list = cc.getClockInputList();
-            for (GateInput gi: list) {
+            List<Component.GateInputPort> list = cc.getClockInputList();
+            for (GateInputPort gi: list) {
                 Gate gate = gi.getGate();
                 Wire wire = circuit.addEdge(mainClockGate, gate);
                 gate.setWire(wire, gi.getInputNumber());
@@ -138,6 +138,11 @@ public class ComponentGraph extends
     @Override
     public boolean removeAllVertices(final Collection<? extends Component>
             componentCollection) {
+        // Never remove the main clock.
+        if (componentCollection.contains(mainClockComponent)) {
+            componentCollection.remove(mainClockComponent);
+        }
+
         final List<ComponentWire> wireSet = new LinkedList<ComponentWire>();
         for (Component component: componentCollection) {
             wireSet.addAll(edgesOf(component));
@@ -192,11 +197,11 @@ public class ComponentGraph extends
     }
 
     // FIXME: Unregister already registered wires.
-    public boolean registerEdge(final ComponentWire wire,
+    public void registerEdge(final ComponentWire wire,
             final int sourceOutputNumber, final int targetInputNumber) {
         if (!edgeSet().contains(wire) || getEdgeSource(wire) == null
                                       || getEdgeTarget(wire) == null) {
-            return false;
+            return;
         }
 
         final Component sourceComponent = getEdgeSource(wire);
@@ -209,31 +214,29 @@ public class ComponentGraph extends
         sourceComponent.setOutputWire(sourceOutputNumber, wire);
         targetComponent.setInputWire(targetInputNumber, wire);
 
-        Component.GateInput targetGateInput =
-            targetComponent.getGateInput(targetInputNumber);
-        
-        int targetGateInputNumber = targetGateInput.getInputNumber();
-        
-        Gate sourceGate = sourceComponent.getOutputGate(sourceOutputNumber);
-        Gate targetGate = targetGateInput.getGate();
-        
-        // Remove old wire.
-        final Wire oldWire = wireMap.get(wire);
-        if (oldWire != null) {
-            if (!circuit.removeEdge(oldWire))
-                throw new IllegalStateException("Inconsistent state.");
+        Set<Component.GateInputPort> targets =
+            targetComponent.getGateInputPorts(targetInputNumber);
+
+        for (GateInputPort targetGateInputPort: targets) {
+            int targetGateInputNumber = targetGateInputPort.getInputNumber();
+            
+            Gate sourceGate = sourceComponent.getOutputGate(sourceOutputNumber);
+            Gate targetGate = targetGateInputPort.getGate();
+            
+            // Remove old wire.
+            Wire oldWire = wireMap.get(wire);
+            if (oldWire != null) {
+                if (!circuit.removeEdge(oldWire))
+                    throw new IllegalStateException("Inconsistent state.");
+            }
+    
+            Wire newWire = circuit.addEdge(sourceGate, targetGate);
+            if (newWire == null) continue;
+            
+            // Register gate...
+            targetGate.setWire(newWire, targetGateInputNumber);        
+            wireMap.put(wire, newWire);
         }
-        
-        
-        final Wire newWire = circuit.addEdge(sourceGate, targetGate);
-        
-        if (newWire == null) return false;
-        
-        // Register gate...
-        targetGate.setWire(newWire, targetGateInputNumber);
-        
-        wireMap.put(wire, newWire);
-        return true;
     }
 
     /**

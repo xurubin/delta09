@@ -1123,9 +1123,13 @@ public class ComponentGraphAdapter<V, E>
     /**
      * A wrapper around a JGraphT graph that ensures a few atomic operations.
      */
-    private class ShieldedGraph
+    private class ShieldedGraph implements Serializable
     {
-        private final Graph<V, E> graph;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private final Graph<V, E> graph;
 
         ShieldedGraph(Graph<V, E> graph)
         {

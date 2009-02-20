@@ -83,8 +83,7 @@ public class RunAction extends AbstractAction {
 		MainWindow.get().run_action.setEnabled(false);
 		
 		
-		//ComponentGraph cg = (ComponentGraph) MainWindow.get().circuit_panel.getGraph();
-		ComponentGraph cg = null;
+		ComponentGraph cg = MainWindow.get().circuit_panel.getComponentGraph();
 		
 		Simulator s = new Simulator();
 		s.setCircuit(cg.getCircuit());

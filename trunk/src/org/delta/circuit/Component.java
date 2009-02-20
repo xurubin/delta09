@@ -53,6 +53,7 @@ abstract public class Component implements Serializable {
     public ComponentWire getOutputWire(int outputNumber) {
         return outputMap.getEntry(outputNumber);
     }
+    
 
     public final Circuit getCircuit() {
         return circuit;
@@ -72,6 +73,11 @@ abstract public class Component implements Serializable {
 
     public Gate getOutputGate(int outputNumber) {
         return internalOutputList.get(outputNumber);
+    }
+   
+    
+    public ArrayList<Gate> getOutputGates() {
+    	return internalOutputList;
     }
     
     protected void setOutputGate(int outputNumber, Gate gate) {
@@ -151,10 +157,9 @@ abstract public class Component implements Serializable {
     }
     
     public String getVerilogMethod(String name, ArrayList<String> inputWires,
-            ArrayList<String> outputWires, ArrayList<Gate> inputGates,
-            ArrayList<Gate> outputGates) {
-    	return VerilogConverter.convertToVerilog(name, getCircuit(), inputWires,
-    	        outputWires, inputGates, outputGates);
+            ArrayList<String> outputWires) {
+    	return VerilogConverter.convertToVerilog(name, this, inputWires,
+    	        outputWires);
     }
 
 }

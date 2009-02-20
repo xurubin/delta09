@@ -39,7 +39,7 @@ public class GateFactory {
             BinaryFunction f = (BinaryFunction) (functionClass.newInstance());
             functionArray.add(f);
             if (i != inputCount - 1)
-                f.setArg1(functionArray.get(i+1));
+                f.setArg1(functionArray.get(i));
         }
         
         return newBinaryFunction(functionArray);
@@ -64,9 +64,9 @@ public class GateFactory {
                 return functionArray.get(0);
             }
             @Override
-            public String getVerilogMethod(String name, String out,
+            public String getVerilogMethod(String name, ArrayList<String> out,
                     ArrayList<String> in) {
-            	return Gate.constructDefaultVerilogMethod(functionArray.get(0).getClass().getSimpleName(), name, out, in);
+            	return Gate.constructDefaultVerilogMethod(functionArray.get(0).getClass().getSimpleName().toLowerCase(), name, out, in);
             }
             
         };
@@ -83,7 +83,7 @@ public class GateFactory {
             }
             
             @Override
-            public String getVerilogMethod(String name, String out,
+            public String getVerilogMethod(String name, ArrayList<String> out,
                     ArrayList<String> in) {
             	return Gate.constructDefaultVerilogMethod(function.getClass().getSimpleName().toLowerCase(), name, out, in);
             }

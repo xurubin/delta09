@@ -29,8 +29,13 @@ public class SwitchGate extends AbstractInputGate {
         return false;
     }
     
-    public String getVerilogMethod(String name, String out, ArrayList<String> in) {
-    	return "assign SW[" + this.switchNumber + "] = " + out + ";";
+    public String getVerilogMethod(String name, ArrayList<String> out, ArrayList<String> in) {
+    	String result = "";
+    	for(String s : out) {
+    		result += "assign SW[" + this.switchNumber + "] = " + s + ";\n";
+    	}
+    	return result.substring(0, result.length() - 1);
+    	
     }
 
 }

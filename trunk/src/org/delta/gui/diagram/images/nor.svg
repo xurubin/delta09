@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:ns="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="93.287834"
+   height="50"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docname="nor.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:docbase="/home/cw397/.eclipse/delta09/src/org/delta/gui/diagram/images">
+  <metadata
+     id="metadata13">
+    <rdf:RDF>
+      <ns:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </ns:Work>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="722"
+     inkscape:window-width="872"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="true"
+     inkscape:zoom="7.9377917"
+     inkscape:cx="48.130882"
+     inkscape:cy="25"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:current-layer="svg2" />
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 40 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="156.14 : 40 : 1"
+       inkscape:persp3d-origin="78.07 : 26.666667 : 1"
+       id="perspective15" />
+  </defs>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:2.50555801;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     id="path3059"
+     d="M 77.303097,24.999994 C 94.043959,24.999994 91.951348,24.999994 91.951348,24.999994" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:2.50555754;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     id="path3061"
+     d="M 17.298633,12.499997 L 1.2527788,12.499997" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:2.5055573;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     id="path3944"
+     d="M 17.672864,37.499991 L 1.5284674,37.499991" />
+  <path
+     d="M 9.2018198,-1.9873369e-15 L 11.712948,3.0468742 C 11.712948,3.0468742 18.814733,11.796933 18.814733,24.999994 C 18.814733,38.203054 11.712948,46.953113 11.712948,46.953113 L 9.2018198,49.999988 L 13.164694,49.999988 L 30.742593,49.999988 C 33.766087,49.999989 40.397504,50.03063 47.849655,46.992176 C 55.301807,43.953722 63.590081,37.813096 70.057447,25.898431 L 68.409519,24.999994 L 70.057447,24.101556 C 57.121227,0.26948744 36.714777,-1.9873369e-15 30.742593,-1.9873369e-15 L 13.164694,-1.9873369e-15 L 9.2018198,-1.9873369e-15 z M 16.578259,3.7499991 L 30.742593,3.7499991 C 36.623873,3.7499991 53.702907,3.5872403 65.859154,24.999994 C 59.874148,35.536335 52.64901,40.854877 46.123254,43.515614 C 39.3926,46.259894 33.766086,46.24999 30.742593,46.249989 L 16.617496,46.249989 C 18.969906,42.364447 22.581426,34.938304 22.581426,24.999994 C 22.581426,15.033304 18.929578,7.6247669 16.578259,3.7499991 z "
+     id="path4973"
+     style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <path
+     style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.75833654;stroke-linejoin:miter;marker:none;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     id="path3551"
+     d="M 78.14014,24.999994 C 78.14014,27.761417 75.891599,29.999993 73.117883,29.999993 C 70.344167,29.999993 68.095626,27.761417 68.095626,24.999994 C 68.095626,22.238571 70.344167,19.999995 73.117883,19.999995 C 75.891599,19.999995 78.14014,22.238571 78.14014,24.999994 z " />
+</svg>

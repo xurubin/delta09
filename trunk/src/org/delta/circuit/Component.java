@@ -2,6 +2,7 @@ package org.delta.circuit;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -157,8 +158,8 @@ abstract public class Component implements Serializable {
         }
     }
     
-    public String getVerilogMethod(String name, ArrayList<String> inputWires,
-            ArrayList<String> outputWires) {
+    public String getVerilogMethod(String name, HashMap<ComponentWire,String> inputWires,
+    		HashMap<ComponentWire,String> outputWires) {
     	return VerilogConverter.convertToVerilog(name, this, inputWires,
     	        outputWires);
     }

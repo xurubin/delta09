@@ -1,9 +1,11 @@
 package org.delta.circuit.component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.delta.circuit.Circuit;
 import org.delta.circuit.Component;
+import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.circuit.gate.GateFactory;
@@ -41,7 +43,7 @@ public class SrLatchComponent extends Component {
     }
 
     public String getVerilogMethod(String name, ArrayList<String> inputWires,
-            ArrayList<String> outputWires, ArrayList<Gate> inputGates,
+    		HashMap<ComponentWire,String> outputWires, HashMap<ComponentWire,String> inputGates,
             ArrayList<Gate> outputGates) {
 		String rs_latch = "rs_latch " + name + "("+ outputWires.get(0) + ", " + outputWires.get(1)
 							+ ", " + inputWires.get(0) + ", " + inputWires.get(1) + ");";

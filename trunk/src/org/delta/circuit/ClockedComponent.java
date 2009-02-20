@@ -1,5 +1,6 @@
 package org.delta.circuit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -8,9 +9,11 @@ public class ClockedComponent extends Component {
 
     public ClockedComponent(int inputCount, int outputCount) {
         super(inputCount, outputCount);
+        
+        clockInputList = new ArrayList<GateInputPort>();
     }
     
-    void addClockInput(Gate gate, int inputNumber) {
+    protected void addClockInput(Gate gate, int inputNumber) {
         clockInputList.add(new GateInputPort(gate, inputNumber));
     }
     

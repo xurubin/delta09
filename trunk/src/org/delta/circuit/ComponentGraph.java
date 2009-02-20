@@ -3,6 +3,7 @@ package org.delta.circuit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +23,11 @@ import org.jgrapht.graph.DirectedMultigraph;
 public class ComponentGraph extends
         DirectedMultigraph<Component, ComponentWire> {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
+     * 
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * Internal gate-level representation of the circuit which can be passed to
      * the simulator.
      * @see Circuit
@@ -35,7 +37,7 @@ public class ComponentGraph extends
     /**
      * 
      */
-    private Map<ComponentWire, Wire> wireMap;
+    private Map<ComponentWire, Set<Wire>> wireMap;
     private ClockGate mainClockGate;
     private Component mainClockComponent;
 
@@ -46,7 +48,7 @@ public class ComponentGraph extends
         super(ComponentWire.class);
 
         // Initialise collections.
-        wireMap = new HashMap<ComponentWire, Wire>();
+        wireMap = new HashMap<ComponentWire, Set<Wire>>();
         
         // Add clock to circuit.
         mainClockGate = new ClockGate();
@@ -81,11 +83,11 @@ public class ComponentGraph extends
         }
         
         if (component instanceof ClockedComponent) {
-            ClockedComponent cc = (ClockedComponent) component;
-            List<Component.GateInputPort> list = cc.getClockInputList();
+            final ClockedComponent cc = (ClockedComponent) component;
+            final List<Component.GateInputPort> list = cc.getClockInputList();
             for (GateInputPort gi: list) {
-                Gate gate = gi.getGate();
-                Wire wire = circuit.addEdge(mainClockGate, gate);
+                final Gate gate = gi.getGate();
+                final Wire wire = circuit.addEdge(mainClockGate, gate);
                 gate.setWire(wire, gi.getInputNumber());
             }
         }
@@ -106,7 +108,7 @@ public class ComponentGraph extends
             <? extends ComponentWire> wireCollection) {
         if (super.removeAllEdges(wireCollection)) {
             for (ComponentWire wire: wireCollection) {
-                circuit.removeEdge(wireMap.get(wire));
+                circuit.removeAllEdges(wireMap.get(wire));
                 wireMap.remove(wire);
             }
             return true;
@@ -118,6 +120,9 @@ public class ComponentGraph extends
      * Removes all wires between two components.
      * @see ComponentGraph#removeEdge(ComponentWire)
      * @see DirectedMultigraph#removeAllEdges(Object, Object)
+     * @param source -
+     * @param target -
+     * @return
      */
     @Override
     public Set<ComponentWire> removeAllEdges(final Component source,
@@ -132,11 +137,12 @@ public class ComponentGraph extends
      * Removes several components at once.
      * @see ComponentGraph#removeVertex(Component)
      * @see DirectedMultigraph#removeAllVertices(Collection)
-     * @param vertexCollection
-     * @return
+     * @param componentCollection - Collections of vertices to be removed.
+     * @return true if data structure has changed (i.e. at least one vertex has
+     * been deleted), false otherwise.
      */
     @Override
-    public boolean removeAllVertices(final Collection<? extends Component>
+    public final boolean removeAllVertices(final Collection<? extends Component>
             componentCollection) {
         // Never remove the main clock.
         if (componentCollection.contains(mainClockComponent)) {
@@ -150,7 +156,7 @@ public class ComponentGraph extends
         
         if (super.removeAllVertices(componentCollection)) {
             for (ComponentWire wire: wireSet) {
-                circuit.removeEdge(wireMap.get(wire));
+                circuit.removeAllEdges(wireMap.get(wire));
                 wireMap.remove(wire);
             }
             return true;
@@ -169,7 +175,7 @@ public class ComponentGraph extends
     @Override
     public boolean removeEdge(final ComponentWire wire) {
         if (super.removeEdge(wire)) {
-            circuit.removeEdge(wireMap.get(wire));
+            circuit.removeAllEdges(wireMap.get(wire));
             wireMap.remove(wire);
             return true;
         }
@@ -196,7 +202,14 @@ public class ComponentGraph extends
         return removeAllEdges(Arrays.asList(wireArray));
     }
 
-    // FIXME: Unregister already registered wires.
+    /**
+     * Register a wire with the component input/output it connects to.
+     * @param wire - the wire to register. It must be an edge of this graph.
+     * @param sourceOutputNumber - number of the output port of the source
+     * component.
+     * @param targetInputNumber - number of the input port of the target
+     * component.
+     */
     public void registerEdge(final ComponentWire wire,
             final int sourceOutputNumber, final int targetInputNumber) {
         if (!edgeSet().contains(wire) || getEdgeSource(wire) == null
@@ -206,10 +219,6 @@ public class ComponentGraph extends
 
         final Component sourceComponent = getEdgeSource(wire);
         final Component targetComponent = getEdgeTarget(wire);
-
-//        if (targetComponent.getInputWire(targetInputNumber) != null) {
-//            return false;
-//        }
         
         sourceComponent.setOutputWire(sourceOutputNumber, wire);
         targetComponent.setInputWire(targetInputNumber, wire);
@@ -217,26 +226,29 @@ public class ComponentGraph extends
         Set<Component.GateInputPort> targets =
             targetComponent.getGateInputPorts(targetInputNumber);
 
+        // Remove old wire.
+        if (wireMap.containsKey(wire)) {
+            Set<Wire> oldWireSet = wireMap.get(wire);
+
+            if (!circuit.removeAllEdges(oldWireSet))
+                throw new IllegalStateException("Inconsistent state.");
+        }
+        
+        Set<Wire> newWireSet = new HashSet<Wire>();
         for (GateInputPort targetGateInputPort: targets) {
             int targetGateInputNumber = targetGateInputPort.getInputNumber();
             
             Gate sourceGate = sourceComponent.getOutputGate(sourceOutputNumber);
             Gate targetGate = targetGateInputPort.getGate();
-            
-            // Remove old wire.
-            Wire oldWire = wireMap.get(wire);
-            if (oldWire != null) {
-                if (!circuit.removeEdge(oldWire))
-                    throw new IllegalStateException("Inconsistent state.");
-            }
     
             Wire newWire = circuit.addEdge(sourceGate, targetGate);
             if (newWire == null) continue;
             
             // Register gate...
-            targetGate.setWire(newWire, targetGateInputNumber);        
-            wireMap.put(wire, newWire);
+            targetGate.setWire(newWire, targetGateInputNumber);
+            newWireSet.add(newWire);
         }
+        wireMap.put(wire, newWireSet);
     }
 
     /**

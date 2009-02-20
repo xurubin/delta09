@@ -105,5 +105,4 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
         }
         return false;
     }
-    
 }

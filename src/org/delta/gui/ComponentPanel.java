@@ -17,7 +17,7 @@ public class ComponentPanel extends JPanel
 	public static final int OR = 3;
 	public static final int NOR = 4;
 	public static final int XOR = 5;
-	public static final int NXOR = 6;
+	public static final int XNOR = 6;
 	public static final int NOT = 7;
 	public static final int LEDR = 8;
 	public static final int LEDG = 9;
@@ -148,24 +148,30 @@ public class ComponentPanel extends JPanel
 		
 		cats = new ArrayList <Category> (2);
 		
-		Category and_cat = new Category ("And gates", 5);
-		Category or_cat  = new Category ("Or gates",  7);
+		Category gates_cat = new Category ("Logic gates", 7);
+		Category leds_cat  = new Category ("LEDs",  2);
 		
-		ImageIcon and_icon = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
-		ImageIcon or_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
+		ImageIcon and_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
+		ImageIcon or_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
+		ImageIcon nand_icon = new ImageIcon ("src/org/delta/gui/diagram/images/nand.png");
+		ImageIcon nor_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/nor.png");
+		ImageIcon xor_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/xor.png");
+		ImageIcon xnor_icon = new ImageIcon ("src/org/delta/gui/diagram/images/xnor.png");
+		ImageIcon not_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/not.png");
 		
-		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
-		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
-		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
-		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
-		and_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
-		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
-		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
-		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
-		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
-		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
-		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
-		or_cat.add  (or_icon,  translator.getString("ORGATE"),  ComponentPanel.OR);
+		ImageIcon ledg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledg.png");
+		ImageIcon ledr_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledr.png");
+		
+		gates_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
+		gates_cat.add (or_icon, translator.getString("ORGATE"), ComponentPanel.OR);
+		gates_cat.add (nand_icon, translator.getString("NANDGATE"), ComponentPanel.NAND);
+		gates_cat.add (nor_icon, translator.getString("NORGATE"), ComponentPanel.NOR);
+		gates_cat.add (xor_icon, translator.getString("XORGATE"), ComponentPanel.XOR);
+		gates_cat.add (xnor_icon, translator.getString("XNORGATE"), ComponentPanel.XNOR);
+		gates_cat.add (not_icon, "NOT gate", ComponentPanel.NOT);
+		
+		leds_cat.add (ledg_icon, "Green LED", ComponentPanel.LEDG);
+		leds_cat.add (ledr_icon, "Red LED", ComponentPanel.LEDR);
 		
 		for (Category c : cats)
 		{

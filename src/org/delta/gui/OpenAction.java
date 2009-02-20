@@ -1,6 +1,9 @@
 package org.delta.gui;
+
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
+import org.jgraph.*;
 
 public class OpenAction extends AbstractAction
 {
@@ -20,5 +23,36 @@ public class OpenAction extends AbstractAction
 	public void actionPerformed(ActionEvent e)
 	{
 		// Display open file dialog then load this as the circuit
+		
+		JFileChooser chooser = new JFileChooser();
+		if (chooser.showOpenDialog ( MainWindow.get() ) == JFileChooser.APPROVE_OPTION)
+		{
+			
+			try
+			{
+				FileInputStream fis   = new FileInputStream ( chooser.getSelectedFile() );
+				ObjectInputStream ois = new ObjectInputStream (fis);
+				
+				try
+				{
+					JGraph graph = (JGraph) ois.readObject();
+					MainWindow.get().circuit_panel.setGraph (graph);
+				}
+				catch (ClassNotFoundException ex)
+				{
+					System.out.println(ex);
+				}
+				
+				ois.close();
+			}
+			catch (FileNotFoundException ex)
+			{
+				System.out.println(ex);
+			}
+			catch (IOException ex)
+			{
+				System.out.println(ex);
+			}
+		}
 	}
 }

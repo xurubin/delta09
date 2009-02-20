@@ -35,7 +35,6 @@ public class SwitchGate extends AbstractInputGate {
     		result += "assign SW[" + this.switchNumber + "] = " + s + ";\n";
     	}
     	return result.substring(0, result.length() - 1);
-    	
     }
 
 }

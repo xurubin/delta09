@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.delta.circuit.gate.ClockGate;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
 /**

@@ -21,6 +21,7 @@ import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.gate.ClockGate;
 import org.delta.circuit.gate.GateFactory;
 import org.delta.circuit.gate.LedGate;
 import org.delta.circuit.gate.SwitchGate;
@@ -80,6 +81,9 @@ public class VerilogConverter {
 		}
 		
 		//get list of output gates
+		/*
+		 * TODO: fix this! This is incorrect
+		 */
 		for(int i = 0; i < component.getOutputCount(); i++) {			
 			Gate outputGate  = component.getOutputGate(i);
 			List<Integer> current = gateOutputNumberMap.get(outputGate);
@@ -120,19 +124,17 @@ public class VerilogConverter {
 				for(Wire w : circuit.outgoingEdgesOf(g)) {
 					output.add(wireNames.get(w));
 				}
-				output.add(wireNames.get(circuit.outgoingEdgesOf(g).iterator().next()));
 			}
 			/*
 			 * TODO: Add nth output
 			 */
-			else  {
+			else {
 				//i.e. we are an output gate from this circuit
 				List<Integer> listOfConnections = gateOutputNumberMap.get(g);
-				if(listOfConnections != null) {
+				if(listOfConnections != null && listOfConnections.size() != 0 && !outputWires.isEmpty()) {
 					for(Integer w : listOfConnections) {
 						output.add(outputWires.get(listOfConnections.get(w)));
 					}
-
 				}
 			}
 			
@@ -170,25 +172,22 @@ public class VerilogConverter {
 		int cCounter = 0;
 		for (Component c : components) {
 			ArrayList<String> output = new ArrayList<String>();
-			ArrayList<Gate> outputGates = new ArrayList<Gate>();
 			ArrayList<String> input = new ArrayList<String>();
-			ArrayList<Gate> inputGates = new ArrayList<Gate>();
 			
 			/*
 			 * Get outputs and inputs (in order)
 			 */
-			for (int i = 0; i < c.getOutputCount(); i++) {
-				output.add(wireNames.get(c.getOutputWire(i)));
-				outputGates.add(c.getOutputGate(i));
+			if(circuit.outDegreeOf(c) > 0) {
+				for (int i = 0; i < c.getOutputCount(); i++) {
+					for(ComponentWire w : c.getOutputWires(i)) {
+						output.add(wireNames.get(w));
+					}
+				}
 			}
 			for (int i = 0; i < c.getInputCount(); i++) {
 				input.add(wireNames.get(c.getInputWire(i)));
-				List<Gate> gateInputs = c.getInputGates(i);
-				for(Gate g : gateInputs) {
-					inputGates.add(g);
-				}
 			}
-
+			System.out.println(output);
 			componentDecl += c.getVerilogMethod("component_" + cCounter++, input, output);
 			componentDecl += "\n";
 
@@ -337,8 +336,9 @@ public class VerilogConverter {
         c.registerEdge(w5, 0, 2);
         c.registerEdge(w6, 0, 0);
         
-		
+        
 		System.out.println(VerilogConverter.convertToVerilog(c));
+
 		
 	}
 }

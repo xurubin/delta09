@@ -157,7 +157,7 @@ public class ComponentGraphAdapter<V, E>
     final Set<Object> jtElementsBeingAdded = new HashSet<Object>();
     final Set<Object> jtElementsBeingRemoved = new HashSet<Object>();
     private final CellFactory<V, E> cellFactory;
-
+    
     /**
      * Maps JGraph edges to JGraphT edges
      */
@@ -182,6 +182,15 @@ public class ComponentGraphAdapter<V, E>
      */
     private final Map<V, GraphCell> vertexToCell = new HashMap<V, GraphCell>();
     private final ShieldedGraph jtGraph;
+    
+    /**
+	 * Accessor method for the ComponentGraph this adapter maintains, which constantly
+	 * mirrors the circuit diagram. Used so the circuit can be retrieved for simulation.
+	 * @return the ComponentGraph maintained by this adapter.
+	 */
+    public ComponentGraph getComponentGraph() {
+    	return (ComponentGraph)jtGraph.graph;
+    }
 
     //~ Constructors -----------------------------------------------------------
 

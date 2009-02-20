@@ -71,6 +71,17 @@ public class CircuitPanel extends JPanel {
 		return this.graph;
 	}
 	
+	/**
+	 * Accessor method for the ComponentGraph created by the ComponentGraphAdapter,
+	 * which constantly mirrors the circuit diagram. Used so the circuit can be
+	 * retrieved for simulation.
+	 * @return the ComponentGraph that represents the circuit diagram.
+	 */
+	public ComponentGraph getComponentGraph() {
+		DeltaGraphModel model = (DeltaGraphModel)this.graph.getModel();
+		return model.getComponentGraph();
+	}
+	
 	public GraphUndoManager getGraphUndoManager() {
 		return this.undoManager;
 	}

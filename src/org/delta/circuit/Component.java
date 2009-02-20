@@ -35,6 +35,7 @@ abstract public class Component implements Serializable {
         }
         for (int i = 0; i < outputCount; ++i) {
             internalOutputList.add(null);
+            outputMap.set(i, new HashSet<ComponentWire>());
         }
     }
 

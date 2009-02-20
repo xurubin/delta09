@@ -54,7 +54,7 @@ public class GateFactory {
             final ArrayList<BinaryFunction> functionArray) {
         return new Gate(functionArray.size()) {
 
-            @Override
+			@Override
             public Formula getFormula() {
                 for (int i = 0; i < functionArray.size(); ++i) {
                     BinaryFunction f = functionArray.get(i);
@@ -62,6 +62,11 @@ public class GateFactory {
                 }
                 
                 return functionArray.get(0);
+            }
+            @Override
+            public String getVerilogMethod(String name, String out,
+                    ArrayList<String> in) {
+            	return Gate.constructDefaultVerilogMethod(functionArray.get(0).getClass().getName(), name, out, in);
             }
             
         };
@@ -75,6 +80,12 @@ public class GateFactory {
                 function.setArg0(new Constant(getWire(0)));
                 function.setArg1(new Constant(getWire(1)));
                 return function;
+            }
+            
+            @Override
+            public String getVerilogMethod(String name, String out,
+                    ArrayList<String> in) {
+            	return Gate.constructDefaultVerilogMethod(function.getClass().getName(), name, out, in);
             }
             
         };

@@ -1,5 +1,6 @@
 package org.delta.gui.diagram;
 
+import java.io.Serializable;
 import java.net.URI;
 
 import org.jgraph.graph.CellViewRenderer;
@@ -61,39 +62,43 @@ public class DeltaComponentView extends VertexView {
 	 */
 	public DeltaComponentView(Object cell) {
 		super(cell);
-		if (cell instanceof AndGate)
-			this.setIcon(AND_ICON);
-		else if (cell instanceof NandGate)
-			this.setIcon(NAND_ICON);
-		else if (cell instanceof OrGate)
-			this.setIcon(OR_ICON);
-		else if (cell instanceof NorGate)
-			this.setIcon(NOR_ICON);
-		else if (cell instanceof XorGate)
-			this.setIcon(XOR_ICON);
-		else if (cell instanceof XnorGate)
-			this.setIcon(XNOR_ICON);
-		else if (cell instanceof NotGate)
-			this.setIcon(NOT_ICON);
-		else if (cell instanceof Ledr)
-			this.setIcon(LEDR_ICON);
-		else if (cell instanceof Ledg)
-			this.setIcon(LEDG_ICON);
-		else if (cell instanceof HighInput)
-			this.setIcon(HIGH_ICON);
-		else if (cell instanceof LowInput)
-			this.setIcon(LOW_ICON);
-		// TODO: Add if statements to set icons for all the other types of component.
+		this.setIcon();
 	}
 	
 	/**
 	 * Set the icon used to represent this component on the diagram.
 	 * @param iconFileName - filename of image.
 	 */
-	public void setIcon(String iconFileName) {
+	public void setIcon() {
+		// Choose which icon to use
+		String iconFileName = "";
+		if (cell instanceof AndGate)
+			iconFileName = AND_ICON;
+		else if (cell instanceof NandGate)
+			iconFileName = NAND_ICON;
+		else if (cell instanceof OrGate)
+			iconFileName = OR_ICON;
+		else if (cell instanceof NorGate)
+			iconFileName = NOR_ICON;
+		else if (cell instanceof XorGate)
+			iconFileName = XOR_ICON;
+		else if (cell instanceof XnorGate)
+			iconFileName = XNOR_ICON;
+		else if (cell instanceof NotGate)
+			iconFileName = NOT_ICON;
+		else if (cell instanceof Ledr)
+			iconFileName = LEDR_ICON;
+		else if (cell instanceof Ledg)
+			iconFileName = LEDG_ICON;
+		else if (cell instanceof HighInput)
+			iconFileName = HIGH_ICON;
+		else if (cell instanceof LowInput)
+			iconFileName = LOW_ICON;
+		// TODO: Add if statements to set icons for all the other types of component.
+		
 		// Attempt to create SVG icon
 		String iconPath = ICONFOLDERPATH + iconFileName;
-		SVGIcon icon = new SVGIcon();
+		SVGIcon icon = new DeltaSVGIcon ();
 		try {
 			URI svgURI = new URI(DeltaComponentView.class.getClassLoader().getResource(iconPath).toString());
 			icon.setSvgURI(svgURI);
@@ -104,6 +109,20 @@ public class DeltaComponentView extends VertexView {
 		// Modify the view's attributes to use this icon
 		GraphConstants.setIcon(this.getAttributes(),icon);
 		GraphConstants.setAutoSize(this.getAttributes(),true);
+	}
+	
+	/**
+	 * Wrapper class for SVGIcon to implement serialization.
+	 * @author Group Delta 2009
+	 */
+	private class DeltaSVGIcon extends SVGIcon implements Serializable {
+
+		/** Needed for correct serialization. */
+		private static final long serialVersionUID = 1L;
+		
+		public DeltaSVGIcon(){
+			super();
+		}
 	}
 	
 	/**

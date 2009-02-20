@@ -11,7 +11,12 @@ import org.delta.logic.Nor;
 
 public class SrLatchComponent extends Component {
 
-    public SrLatchComponent() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public SrLatchComponent() {
         super(2, 2);
         
         final Circuit circuit = getCircuit();
@@ -32,12 +37,14 @@ public class SrLatchComponent extends Component {
         addInputGate(1, nor1, 1);
 
         setOutputGate(0, nor0);
-        setOutputGate(0, nor1);
+        setOutputGate(1, nor1);
     }
 
-    public String getVerilogMethod(String name, ArrayList<String> input, ArrayList<String> output) {
-		String rs_latch = "rs_latch " + name + "("+ output.get(0) + ", " + output.get(1)
-							+ ", " + input.get(0) + ", " + input.get(1) + ");";
+    public String getVerilogMethod(String name, ArrayList<String> inputWires,
+            ArrayList<String> outputWires, ArrayList<Gate> inputGates,
+            ArrayList<Gate> outputGates) {
+		String rs_latch = "rs_latch " + name + "("+ outputWires.get(0) + ", " + outputWires.get(1)
+							+ ", " + inputWires.get(0) + ", " + inputWires.get(1) + ");";
 		return rs_latch;
     }
 

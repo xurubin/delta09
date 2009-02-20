@@ -82,14 +82,15 @@ public class RunAction extends AbstractAction {
 		MainWindow.get().stop_action.setEnabled(true);
 		MainWindow.get().run_action.setEnabled(false);
 		
-		/*
+		
+		//ComponentGraph cg = (ComponentGraph) MainWindow.get().circuit_panel.getGraph();
 		ComponentGraph cg = null;
 		
 		Simulator s = new Simulator();
 		s.setCircuit(cg.getCircuit());
-		SimulationScheduler ss = new SimulationScheduler(s);
-		ss.start();
-		*/
+		MainWindow.get().scheduler = new SimulationScheduler(s);
+		MainWindow.get().scheduler.start();
+		
 		MainWindow.get().clock_updater = new ClockUpdater (MainWindow.get().clock_label);
 		MainWindow.get().clock_updater.startClock();
 	}

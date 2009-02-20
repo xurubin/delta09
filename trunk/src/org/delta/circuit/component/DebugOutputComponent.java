@@ -12,6 +12,6 @@ public class DebugOutputComponent extends Component {
         Gate out = new DebugOutputGate();
         getCircuit().addVertex(out);
         
-        setInputGate(0, out, 0);
+        addInputGate(0, out, 0);
     }
 }

@@ -1,15 +1,23 @@
 package org.delta.circuit;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.delta.util.BidirectionalIntegerMap;
 import org.delta.verilog.VerilogConverter;
 
-abstract public class Component {
+abstract public class Component implements Serializable {
     private BidirectionalIntegerMap<ComponentWire> inputMap;
     private BidirectionalIntegerMap<ComponentWire> outputMap;
 
-    private ArrayList<GateInput> internalInputList;
+    /* FIXME: Input wire can connect to more than one gate. Need a collection of
+     * GateInputs.
+     */
+    private ArrayList<Set<GateInputPort>> internalInputList;
     private ArrayList<Gate> internalOutputList;
 
     private Circuit circuit = new Circuit();
@@ -18,12 +26,12 @@ abstract public class Component {
         inputMap = new BidirectionalIntegerMap<ComponentWire>(inputCount);
         outputMap = new BidirectionalIntegerMap<ComponentWire>(outputCount);
         
-        internalInputList = new ArrayList<GateInput>(inputCount);
+        internalInputList = new ArrayList<Set<GateInputPort>>(inputCount);
         internalOutputList = new ArrayList<Gate>(outputCount);
         
         // Initialise ArrayLists
         for (int i = 0; i < inputCount; ++i) {
-            internalInputList.add(null);
+            internalInputList.add(new HashSet<GateInputPort>());
         }
         for (int i = 0; i < outputCount; ++i) {
             internalOutputList.add(null);
@@ -48,6 +56,10 @@ abstract public class Component {
 
     public final Circuit getCircuit() {
         return circuit;
+    }
+    
+    void setCircuit(Circuit circuit) {
+        this.circuit = circuit;
     }
 
     public int getInputCount() {
@@ -74,26 +86,33 @@ abstract public class Component {
         internalOutputList.set(outputNumber, gate);
     }
     
-    public Gate getInputGate(int inputNumber) {
+    public List<Gate> getInputGates(int inputNumber) {
         if (inputNumber >= getInputCount())
             throw new IllegalArgumentException("Input number out of bounds.");
-        return internalInputList.get(inputNumber).getGate();
+        Set<GateInputPort> gateInputPorts = internalInputList.get(inputNumber);
+        
+        List<Gate> inputGateList = new ArrayList<Gate>(gateInputPorts.size());
+        for (GateInputPort gateInputPort: gateInputPorts) {
+            inputGateList.add(gateInputPort.getGate());
+        }
+        
+        return inputGateList;
     }
     
-    protected GateInput getGateInput(int inputNumber) {
+    Set<GateInputPort> getGateInputPorts(int inputNumber) {
         if (inputNumber >= getInputCount())
             throw new IllegalArgumentException("Input number out of bounds.");
         
         return internalInputList.get(inputNumber);
     }
     
-    protected GateInput getGateInputSelector(ComponentWire wire) {
+    Set<GateInputPort> getGateInputPorts(ComponentWire wire) {
         Integer inputNumber = inputMap.getIndex(wire);
 
         return internalInputList.get(inputNumber);
     }
     
-    protected void setInputGate(int inputNumber, Gate gate,
+    protected void addInputGate(int inputNumber, Gate gate,
             int gateInputNumber) {
         if (inputNumber >= getInputCount()) {
             throw new IllegalArgumentException("Input number out of bounds.");
@@ -107,16 +126,16 @@ abstract public class Component {
             );
         }
         
-        GateInput gateInput = new GateInput(gate, gateInputNumber);
-        internalInputList.set(inputNumber, gateInput);
+        GateInputPort gateInputPort = new GateInputPort(gate, gateInputNumber);
+        internalInputList.get(inputNumber).add(gateInputPort);
     }
     
-    protected class GateInput {
+    class GateInputPort {
 
         private final Gate gate;
         private final int inputNumber;
         
-        public GateInput(final Gate gate, final int inputNumber) {
+        public GateInputPort(final Gate gate, final int inputNumber) {
             this.gate = gate;
             this.inputNumber = inputNumber;
         }
@@ -130,8 +149,11 @@ abstract public class Component {
         }
     }
     
-    public String getVerilogMethod(String name, ArrayList<String> inputWires, ArrayList<String> outputWires, ArrayList<Gate> inputGates, ArrayList<Gate> outputGates) {
-    	return VerilogConverter.convertToVerilog(name, this.getCircuit(), inputWires, outputWires, inputGates, outputGates);
+    public String getVerilogMethod(String name, ArrayList<String> inputWires,
+            ArrayList<String> outputWires, ArrayList<Gate> inputGates,
+            ArrayList<Gate> outputGates) {
+    	return VerilogConverter.convertToVerilog(name, getCircuit(), inputWires,
+    	        outputWires, inputGates, outputGates);
     }
 
 }

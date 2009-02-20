@@ -1,11 +1,12 @@
 package org.delta.circuit;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.delta.logic.Formula;
 import org.delta.util.BidirectionalIntegerMap;
 
-abstract public class Gate {
+abstract public class Gate implements Serializable {
     private BidirectionalIntegerMap<Wire> inputMap;
 
     public Gate(int inputCount) {
@@ -30,11 +31,13 @@ abstract public class Gate {
         return inputMap.getSize();
     }
     
-    public String getVerilogMethod(String name, String out, ArrayList<String> in) {
+    public String getVerilogMethod(String name, String out,
+            ArrayList<String> in) {
     	return "";
     }
     
-    public static String constructDefaultVerilogMethod(String type, String name, String out, ArrayList<String> in) {
+    public static String constructDefaultVerilogMethod(String type, String name,
+            String out, ArrayList<String> in) {
     	String method = type + " #(1,1)" + name + "(" + out + ", ";
     	for(String s : in) {
     		method += s + ", ";

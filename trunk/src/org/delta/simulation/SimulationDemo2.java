@@ -20,8 +20,8 @@ public class SimulationDemo2 {
         ComponentGraph c = new ComponentGraph();
         
         Component srlatch = new SrLatchComponent();
-        Component in0 = new DebugInputComponent(State.S1);
-        Component in1 = new DebugInputComponent(State.S0);
+        Component in0 = new DebugInputComponent(State.S0);
+        Component in1 = new DebugInputComponent(State.S1);
         Component out = new DebugOutputComponent();
         
         c.addVertex(srlatch);
@@ -33,9 +33,9 @@ public class SimulationDemo2 {
         ComponentWire win1 = c.addEdge(in1, srlatch);
         ComponentWire wsr = c.addEdge(srlatch, out);
         
-        boolean b1 = c.registerEdge(win0, 0, 0);
-        boolean b2 = c.registerEdge(win1, 0, 1);
-        boolean b3 = c.registerEdge(wsr, 0, 0);
+        c.registerEdge(win0, 0, 0);
+        c.registerEdge(win1, 0, 1);
+        c.registerEdge(wsr, 0, 0);
         
         Circuit circ = c.getCircuit();
         sim.setCircuit(circ);

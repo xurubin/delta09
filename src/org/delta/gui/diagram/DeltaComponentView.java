@@ -127,9 +127,10 @@ public class DeltaComponentView extends VertexView {
 			out.writeObject(this.getSvgURI());
 		}
 		
-		/** Custom serialization - read back the URI. */
+		/** Custom serialization - read back the URI and set the default properties. */
 		private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 			this.setSvgURI((URI)in.readObject());
+			this.setScaleToFit(true);
 			this.setAntiAlias(true);
 		}
 		

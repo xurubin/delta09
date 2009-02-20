@@ -28,6 +28,11 @@ import org.delta.circuit.gate.SwitchGate;
 import org.delta.logic.And;
 import org.delta.logic.Or;
 
+
+/*
+ * TODO: ADD HASHMAP passing of wire names! 
+ */
+
 /**
  * Converts our data structure into Verilog.
  * 
@@ -125,17 +130,20 @@ public class VerilogConverter {
 					output.add(wireNames.get(w));
 				}
 			}
-			/*
-			 * TODO: Add nth output
-			 */
 			else {
 				//i.e. we are an output gate from this circuit
-				List<Integer> listOfConnections = gateOutputNumberMap.get(g);
-				if(listOfConnections != null && listOfConnections.size() != 0 && !outputWires.isEmpty()) {
-					for(Integer w : listOfConnections) {
-						output.add(outputWires.get(listOfConnections.get(w)));
+//				List<Integer> listOfConnections = gateOutputNumberMap.get(g);
+//				if(listOfConnections != null && listOfConnections.size() != 0 && !outputWires.isEmpty()) {
+//					for(Integer w : listOfConnections) {
+//						output.add(outputWires.get(listOfConnections.get(w)));
+//					}
+//				}
+				for(int i = 0; i < component.getOutputCount(); i++) {
+					for(ComponentWire w : component.getOutputWires(i)) {
+						output.add(outputWires.get(w));
 					}
 				}
+				
 			}
 			
 			

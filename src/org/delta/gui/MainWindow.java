@@ -31,6 +31,7 @@ import javax.swing.UIManager;
 
 import org.delta.gui.diagram.CircuitPanel;
 import org.delta.gui.i18n.Translator;
+import org.delta.simulation.SimulationScheduler;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -44,6 +45,7 @@ public class MainWindow extends javax.swing.JFrame {
 	protected JToolBar toolbar;
 	protected Action undo_action, redo_action, stop_action, run_action;
 	protected static Properties configFile;
+	protected SimulationScheduler scheduler;
 	
 	private static MainWindow mw;
 

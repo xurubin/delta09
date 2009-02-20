@@ -22,6 +22,8 @@ public class StopAction extends AbstractAction
 		MainWindow.get().stop_action.setEnabled(false);
 		MainWindow.get().run_action.setEnabled(true);
 		
+		MainWindow.get().scheduler.stop();
+		
 		MainWindow.get().clock_updater.stopClock();
 	}
 }

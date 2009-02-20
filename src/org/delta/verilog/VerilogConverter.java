@@ -67,15 +67,20 @@ public class VerilogConverter {
 			int gateIndex;
 			
 			if(circuit.incomingEdgesOf(g).size() == 0) {
+				/*
+				 * TODO: Add nth input
+				 */
 				if((gateIndex = inputGates.indexOf(g)) != -1) {
 					//i.e. we are an input gate from this circuit
 					inputs.add(inputWires.get(gateIndex));
 				}
 			}
-			
-			for(int i = 0; i < g.getInputCount(); i++) {
-				inputs.add(wireNames.get(g.getWire(i)));
+			else {
+				for(int i = 0; i < g.getInputCount(); i++) {
+					inputs.add(wireNames.get(g.getWire(i)));
+				}
 			}
+			
 			
 			String output = "";
 			

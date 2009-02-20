@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.Locale;
@@ -42,6 +44,7 @@ public class MainWindow extends javax.swing.JFrame {
 	protected ClockLabel clock_label;
 	protected JPanel status_panel;
 	protected JPanel clock_panel;
+	protected JSplitPane left_panel;
 	protected JToolBar toolbar;
 	protected Action undo_action, redo_action, stop_action, run_action;
 	protected static Properties configFile;
@@ -107,8 +110,8 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		//addKeyListener(this);
 		
-		addComponentListener ( new java.awt.event.ComponentAdapter() {
-			public void componentResized (java.awt.event.ComponentEvent evt) {
+		addComponentListener ( new ComponentAdapter() {
+			public void componentResized (ComponentEvent evt) {
 				int width  = getWidth();
 				int height = getHeight();
 				boolean resize = false;
@@ -131,20 +134,25 @@ public class MainWindow extends javax.swing.JFrame {
 		circuit_panel = new CircuitPanel();
 		//circuit_panel.setPreferredSize ( new Dimension (620, 460) );
 		
-		JScrollPane sp = new JScrollPane (circuit_panel);
-		cp.add (sp, BorderLayout.CENTER);
-		sp.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
-		sp.setPreferredSize ( new Dimension (640, 480) );
+		JScrollPane circuit_scroll_pane = new JScrollPane (circuit_panel);
+		cp.add (circuit_scroll_pane, BorderLayout.CENTER);
+		circuit_scroll_pane.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
+		circuit_scroll_pane.setPreferredSize ( new Dimension (640, 480) );
 		
-		component_panel = new ComponentPanel(translator);
-		component_panel.setMinimumSize ( new Dimension (175, 0) );
+		component_panel = new ComponentPanel (translator);
+		component_panel.setMinimumSize ( new Dimension (ComponentPanel.WIDTH, 0) );
 		//component_panel.setMaximumSize ( new Dimension (175, 800))
 		
-		JScrollPane sb = new JScrollPane (component_panel);
-		sb.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
-		sb.setPreferredSize ( new Dimension (200, 480) );
+		JScrollPane component_scroll_pane = new JScrollPane (component_panel);
+		component_scroll_pane.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
+		component_scroll_pane.setPreferredSize ( new Dimension (200, 480) );
 		//sb.setMinimumSize (new Dimension (200, 800) );
-		sb.setMinimumSize ( new Dimension (175, 0) );
+		component_scroll_pane.setMinimumSize ( new Dimension (ComponentPanel.WIDTH, 0) );
+		component_scroll_pane.addComponentListener ( new ComponentAdapter() {
+			public void componentResized (ComponentEvent e) {
+				left_panel.resetToPreferredSizes();
+			}
+		} );
 		
 		
 		clock_panel = new JPanel();
@@ -163,7 +171,7 @@ public class MainWindow extends javax.swing.JFrame {
 		clock_panel.add (clock_label);
 		clock_panel.add (spinner);
 		
-		JSplitPane left_panel = new JSplitPane (JSplitPane.VERTICAL_SPLIT, sb, clock_panel);
+		left_panel = new JSplitPane (JSplitPane.VERTICAL_SPLIT, component_scroll_pane, clock_panel);
 		left_panel.setResizeWeight (1.0);
 		cp.add (left_panel, BorderLayout.LINE_START);
 		

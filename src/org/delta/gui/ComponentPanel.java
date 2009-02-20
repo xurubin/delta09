@@ -146,10 +146,12 @@ public class ComponentPanel extends JPanel
 		
 		box = new Box.Filler ( new Dimension (175,0), getSize(), new Dimension(175,0) );
 		
-		cats = new ArrayList <Category> (2);
+		cats = new ArrayList <Category> (3);
 		
 		Category gates_cat = new Category ("Logic gates", 7);
 		Category leds_cat  = new Category ("LEDs",  2);
+		//Category comp_cat  = new Category ("Complex components", 2);
+		Category fixed_cat = new Category ("Fixed inputs", 2);
 		
 		ImageIcon and_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
@@ -162,16 +164,25 @@ public class ComponentPanel extends JPanel
 		ImageIcon ledg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledg.png");
 		ImageIcon ledr_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledr.png");
 		
-		gates_cat.add (and_icon, translator.getString("ANDGATE"), ComponentPanel.AND);
-		gates_cat.add (or_icon, translator.getString("ORGATE"), ComponentPanel.OR);
-		gates_cat.add (nand_icon, translator.getString("NANDGATE"), ComponentPanel.NAND);
-		gates_cat.add (nor_icon, translator.getString("NORGATE"), ComponentPanel.NOR);
-		gates_cat.add (xor_icon, translator.getString("XORGATE"), ComponentPanel.XOR);
-		gates_cat.add (xnor_icon, translator.getString("XNORGATE"), ComponentPanel.XNOR);
-		gates_cat.add (not_icon, "NOT gate", ComponentPanel.NOT);
+		//ImageIcon rslatch_icon = new ImageIcon ("src/org/delta/gui/diagram/images/rs_latch.png");
+		//ImageIcon dflip_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/d_flip.png");
 		
-		leds_cat.add (ledg_icon, "Green LED", ComponentPanel.LEDG);
-		leds_cat.add (ledr_icon, "Red LED", ComponentPanel.LEDR);
+		ImageIcon high_icon = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
+		ImageIcon low_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/low.png");
+		
+		gates_cat.add (and_icon,  translator.getString("ANDGATE") , ComponentPanel.AND);
+		gates_cat.add (or_icon,   translator.getString("ORGATE"),   ComponentPanel.OR);
+		gates_cat.add (nand_icon, translator.getString("NANDGATE"), ComponentPanel.NAND);
+		gates_cat.add (nor_icon,  translator.getString("NORGATE"),  ComponentPanel.NOR);
+		gates_cat.add (xor_icon,  translator.getString("XORGATE"),  ComponentPanel.XOR);
+		gates_cat.add (xnor_icon, translator.getString("XNORGATE"), ComponentPanel.XNOR);
+		gates_cat.add (not_icon,  translator.getString("NOTGATE"),  ComponentPanel.NOT);
+		
+		leds_cat.add (ledg_icon, translator.getString("LEDG"), ComponentPanel.LEDG);
+		leds_cat.add (ledr_icon, translator.getString("LEDR"), ComponentPanel.LEDR);
+		
+		fixed_cat.add (high_icon, translator.getString("HIGH"), ComponentPanel.HIGH);
+		fixed_cat.add (low_icon,  translator.getString("LOW"),  ComponentPanel.LOW);
 		
 		for (Category c : cats)
 		{

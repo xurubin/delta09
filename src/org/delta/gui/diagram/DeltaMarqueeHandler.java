@@ -1,24 +1,26 @@
 package org.delta.gui.diagram;
 
 import java.awt.Color;
-//import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
-//import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import org.jgraph.JGraph;
 import org.jgraph.graph.BasicMarqueeHandler;
 import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.Port;
 import org.jgraph.graph.PortView;
-import org.jgraph.JGraph;
 
 // MarqueeHandler that Connects Vertices and Displays PopupMenus
-public class DeltaMarqueeHandler extends BasicMarqueeHandler {
+public class DeltaMarqueeHandler extends BasicMarqueeHandler implements Serializable {
 	
+	/** Needed for correct serializaiton. */
+	private static final long serialVersionUID = 1L;
+
 	// Holds a reference to the graph
 	private JGraph graph;
 	

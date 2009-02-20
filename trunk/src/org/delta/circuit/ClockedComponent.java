@@ -17,7 +17,7 @@ public class ClockedComponent extends Component {
         clockInputList.add(new GateInputPort(gate, inputNumber));
     }
     
-    List<GateInputPort> getClockInputList() {
+    public List<GateInputPort> getClockInputList() {
         return clockInputList;
     }
 

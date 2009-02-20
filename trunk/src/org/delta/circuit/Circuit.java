@@ -20,6 +20,18 @@ public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
 	public Circuit() {
         super(Wire.class);
     }
+	
+	public void addCircuit(Circuit circuit) {
+	    for (Gate gate: circuit.vertexSet()) {
+	        addVertex(gate);
+	    }
+	    for (Wire wire: circuit.edgeSet()) {
+	        Gate source = circuit.getEdgeSource(wire);
+	        Gate target = circuit.getEdgeTarget(wire);
+	        
+	        addEdge(source, target, wire);
+	    }
+	}
 
     @Override
     public boolean removeAllEdges(final Collection<? extends Wire>

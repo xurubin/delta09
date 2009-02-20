@@ -11,7 +11,11 @@ import org.delta.util.BidirectionalIntegerMap;
 import org.delta.verilog.VerilogConverter;
 
 abstract public class Component implements Serializable {
-    private BidirectionalIntegerMap<ComponentWire> inputMap;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private BidirectionalIntegerMap<ComponentWire> inputMap;
     private BidirectionalIntegerMap<ComponentWire> outputMap;
 
     /* FIXME: Input wire can connect to more than one gate. Need a collection of

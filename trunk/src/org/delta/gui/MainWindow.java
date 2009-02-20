@@ -271,7 +271,6 @@ public class MainWindow extends javax.swing.JFrame {
 			Reader fileHandle = new FileReader("src/org/delta/gui/Settings.properties");
 			configFile.load(fileHandle);
 			locale = new Locale((String) configFile.get("LANGUAGE"));
-			System.err.println(configFile.get("LANGUAGE"));
 		} catch (Exception e) {	
 			locale = Locale.getDefault();
 			e.printStackTrace();

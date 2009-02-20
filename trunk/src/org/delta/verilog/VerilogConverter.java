@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import org.delta.circuit.Circuit;
@@ -62,13 +63,20 @@ public class VerilogConverter {
 		int gCounter = 0;
 		for(Gate g : gates) {
 			ArrayList<String> inputs = new ArrayList<String>();
+			int gateIndex;
+			
+			if(circuit.incomingEdgesOf(g).size() == 0) {
+				if((gateIndex = inputGates.indexOf(g)) != -1) {
+					//i.e. we are an input gate from this circuit
+					inputs.add(inputWires.get(gateIndex));
+				}
+			}
 			
 			for(int i = 0; i < g.getInputCount(); i++) {
 				inputs.add(wireNames.get(g.getWire(i)));
 			}
 			
 			String output = "";
-			int gateIndex;
 			
 			if(circuit.outgoingEdgesOf(g).size() != 0) {
 				output += wireNames.get(circuit.outgoingEdgesOf(g).iterator().next());
@@ -78,12 +86,6 @@ public class VerilogConverter {
 				output += outputWires.get(gateIndex);
 			}
 			
-			if(circuit.incomingEdgesOf(g).size() == 0) {
-				if((gateIndex = inputGates.indexOf(g)) != -1) {
-					//i.e. we are an input gate from this circuit
-					inputs.add(inputWires.get(gateIndex));
-				}
-			}
 			
 			verilog += g.getVerilogMethod(name + "_g" + gCounter++, output, inputs);
 		}
@@ -131,7 +133,10 @@ public class VerilogConverter {
 			}
 			for (int i = 0; i < c.getInputCount(); i++) {
 				input.add(wireNames.get(c.getInputWire(i)));
-				inputGates.add(c.getInputGate(i));
+				List<Gate> gateInputs = c.getInputGates(i);
+				for(Gate g : gateInputs) {
+					inputGates.add(g);
+				}
 			}
 
 			componentDecl += c.getVerilogMethod("component_" + cCounter++, input, output, inputGates, outputGates);
@@ -267,10 +272,16 @@ public class VerilogConverter {
 		c.addVertex(ledOne);
 		c.addVertex(ledTwo);
 		
-		c.addEdge(switchOne, sr);
-		c.addEdge(switchTwo, sr);
-		c.addEdge(sr, ledOne);
-		c.addEdge(sr, ledTwo);
+		ComponentWire w1 = c.addEdge(switchOne, sr);
+		ComponentWire w2 = c.addEdge(switchTwo, sr);
+		ComponentWire w3 = c.addEdge(sr, ledOne);
+		ComponentWire w4 = c.addEdge(sr, ledTwo);
+		
+		c.registerEdge(w1, 0, 0);
+        c.registerEdge(w2, 0, 1);
+        c.registerEdge(w3, 0, 0);
+        c.registerEdge(w4, 1, 0);
+        
 		
 		System.out.println(VerilogConverter.convertToVerilog(c));
 		

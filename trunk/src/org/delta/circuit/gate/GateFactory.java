@@ -66,7 +66,7 @@ public class GateFactory {
             @Override
             public String getVerilogMethod(String name, String out,
                     ArrayList<String> in) {
-            	return Gate.constructDefaultVerilogMethod(functionArray.get(0).getClass().getName(), name, out, in);
+            	return Gate.constructDefaultVerilogMethod(functionArray.get(0).getClass().getSimpleName(), name, out, in);
             }
             
         };
@@ -85,7 +85,7 @@ public class GateFactory {
             @Override
             public String getVerilogMethod(String name, String out,
                     ArrayList<String> in) {
-            	return Gate.constructDefaultVerilogMethod(function.getClass().getName(), name, out, in);
+            	return Gate.constructDefaultVerilogMethod(function.getClass().getSimpleName().toLowerCase(), name, out, in);
             }
             
         };

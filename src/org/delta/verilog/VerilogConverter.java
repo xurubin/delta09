@@ -55,7 +55,7 @@ public class VerilogConverter {
 	 * @return
 	 */
 	public static String convertToVerilog(String name, Component component,
-			ArrayList<String> inputWires, ArrayList<String> outputWires) {
+			HashMap<ComponentWire,String> inputWires, HashMap<ComponentWire,String> outputWires) {
 		Circuit circuit = component.getCircuit();
 		Set<Wire> wires = circuit.edgeSet();
 		Set<Gate> gates = circuit.vertexSet();
@@ -105,13 +105,10 @@ public class VerilogConverter {
 			ArrayList<String> inputs = new ArrayList<String>();
 			
 			if(circuit.incomingEdgesOf(g).size() == 0) {
-				/*
-				 * TODO: Add nth input
-				 */
 				List<Integer> listOfConnections = gateInputNumberMap.get(g);
 				if(listOfConnections != null) {
 					for(Integer i : listOfConnections) {
-						inputs.add(inputWires.get(i));
+						inputs.add(inputWires.get(component.getInputWire(i)));
 					}
 				}
 				
@@ -179,8 +176,8 @@ public class VerilogConverter {
 		String componentDecl = "";
 		int cCounter = 0;
 		for (Component c : components) {
-			ArrayList<String> output = new ArrayList<String>();
-			ArrayList<String> input = new ArrayList<String>();
+			HashMap<ComponentWire,String> output = new HashMap<ComponentWire,String>();
+			HashMap<ComponentWire,String> input = new HashMap<ComponentWire,String>();
 			
 			/*
 			 * Get outputs and inputs (in order)
@@ -188,14 +185,13 @@ public class VerilogConverter {
 			if(circuit.outDegreeOf(c) > 0) {
 				for (int i = 0; i < c.getOutputCount(); i++) {
 					for(ComponentWire w : c.getOutputWires(i)) {
-						output.add(wireNames.get(w));
+						output.put(w, wireNames.get(w));
 					}
 				}
 			}
 			for (int i = 0; i < c.getInputCount(); i++) {
-				input.add(wireNames.get(c.getInputWire(i)));
+				input.put(c.getInputWire(i), wireNames.get(c.getInputWire(i)));
 			}
-			System.out.println(output);
 			componentDecl += c.getVerilogMethod("component_" + cCounter++, input, output);
 			componentDecl += "\n";
 

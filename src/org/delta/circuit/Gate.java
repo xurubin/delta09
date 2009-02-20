@@ -8,6 +8,7 @@ import org.delta.util.BidirectionalIntegerMap;
 
 abstract public class Gate implements Serializable {
     private BidirectionalIntegerMap<Wire> inputMap;
+    private static final long serialVersionUID = 1L;
 
     public Gate(int inputCount) {
         inputMap = new BidirectionalIntegerMap<Wire>(inputCount);

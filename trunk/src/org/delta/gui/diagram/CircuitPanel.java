@@ -1,17 +1,17 @@
 package org.delta.gui.diagram;
 
-import org.delta.gui.MainWindow;
-import org.delta.gui.diagram.DeltaMarqueeHandler;
-
-import org.jgraph.*;
-import org.jgraph.graph.*;
-
 import java.awt.BorderLayout;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.event.UndoableEditEvent;
 
-import org.delta.circuit.*;
+import org.delta.circuit.ComponentGraph;
+import org.delta.circuit.ListenableComponentGraph;
+import org.delta.gui.MainWindow;
+import org.jgraph.JGraph;
+import org.jgraph.graph.GraphLayoutCache;
+import org.jgraph.graph.GraphUndoManager;
 
 public class CircuitPanel extends JPanel {
 	/** Needed for correct serialization. */ 
@@ -69,6 +69,10 @@ public class CircuitPanel extends JPanel {
 	
 	public JGraph getGraph() {
 		return this.graph;
+	}
+	
+	public void setGraph(DeltaGraph newGraph) {
+		this.graph = newGraph;
 	}
 	
 	/**

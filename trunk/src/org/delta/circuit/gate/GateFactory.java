@@ -27,19 +27,20 @@ public class GateFactory {
         }
         
         try {
+        int functionCount = inputCount - 1;
         if (inputCount == 2) {
             BinaryFunction f = (BinaryFunction) (functionClass.newInstance());
             return newBinaryFunction(f);
         }
         
         ArrayList<BinaryFunction> functionArray =
-            new ArrayList<BinaryFunction>(inputCount);
+            new ArrayList<BinaryFunction>(functionCount);
         
-        for (int i = inputCount - 1; i >= 0 ; --i) {
+        for (int i = functionCount - 1; i >= 0 ; --i) {
             BinaryFunction f = (BinaryFunction) (functionClass.newInstance());
             functionArray.add(f);
-            if (i != inputCount - 1)
-                f.setArg1(functionArray.get(i));
+            if (i != functionCount - 1)
+                f.setArg0(functionArray.get(i+1));
         }
         
         return newBinaryFunction(functionArray);
@@ -52,21 +53,28 @@ public class GateFactory {
     
     private static Gate newBinaryFunction(
             final ArrayList<BinaryFunction> functionArray) {
-        return new Gate(functionArray.size()) {
+        return new Gate(functionArray.size() + 1) {
 
-			@Override
+            @Override
             public Formula getFormula() {
                 for (int i = 0; i < functionArray.size(); ++i) {
                     BinaryFunction f = functionArray.get(i);
-                    f.setArg0(new Constant(getWire(i)));
+                    f.setArg1(new Constant(getWire(i)));
+                    if (i == functionArray.size() - 1) {
+                        f.setArg0(new Constant(getWire(i+1)));
+                    }
                 }
                 
                 return functionArray.get(0);
             }
+
             @Override
             public String getVerilogMethod(String name, ArrayList<String> out,
                     ArrayList<String> in) {
-            	return Gate.constructDefaultVerilogMethod(functionArray.get(0).getClass().getSimpleName().toLowerCase(), name, out, in);
+                Class<?> formulaClass = functionArray.get(0).getClass();
+                String type = formulaClass.getSimpleName().toLowerCase();
+
+            	return Gate.constructDefaultVerilogMethod(type, name, out, in);
             }
             
         };
@@ -85,7 +93,10 @@ public class GateFactory {
             @Override
             public String getVerilogMethod(String name, ArrayList<String> out,
                     ArrayList<String> in) {
-            	return Gate.constructDefaultVerilogMethod(function.getClass().getSimpleName().toLowerCase(), name, out, in);
+                Class<?> formulaClass = function.getClass();
+                String type = formulaClass.getSimpleName().toLowerCase();
+                
+            	return Gate.constructDefaultVerilogMethod(type, name, out, in);
             }
             
         };

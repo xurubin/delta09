@@ -9,24 +9,70 @@ import javax.swing.event.UndoableEditEvent;
 import org.delta.circuit.ComponentGraph;
 import org.delta.circuit.ListenableComponentGraph;
 import org.delta.gui.MainWindow;
-import org.jgraph.JGraph;
 import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphUndoManager;
 
 public class CircuitPanel extends JPanel {
 	/** Needed for correct serialization. */ 
 	private static final long serialVersionUID = 1L;
-	private JGraph graph;
+	
+	/** Local reference to the graph currently being displayed. */
+	private DeltaGraph graph;
+	
+	/** Local reference to the undo manager for the current graph. */
 	private GraphUndoManager undoManager;
 	
+	/**
+	 * Local reference to the panel's JScrollPane, which is
+	 * what actually contains the graph.
+	 */
+	private JScrollPane scrollPane;
+	
+	/**
+	 * Create a new CircuitPanel with an empty diagram.
+	 */
 	public CircuitPanel() {
-		// Create the underlying simulation graph
+		super();
+		
+		this.setLayout(new BorderLayout());
+		scrollPane = new JScrollPane();
+		this.add(scrollPane);
+		this.setVisible(true);
+		
+		this.setGraph();
+	}
+	
+	/**
+	 * Accessor method for the diagram (i.e. the DeltaGraph).
+	 * @return the DeltaGraph representing the diagram.
+	 */
+	public DeltaGraph getGraph() {
+		return this.graph;
+	}
+	
+	/**
+	 * Creates a new blank DeltaGraph to use on the CircuitPanel.
+	 */
+	public void setGraph() {
+		// Create a new underlying simulation graph
 		ListenableComponentGraph grapht =
 			new ListenableComponentGraph(new ComponentGraph());
 		// Create a new model for the display graph using the simulation graph
 		DeltaGraphModel model = new DeltaGraphModel(grapht);
 		GraphLayoutCache view = new GraphLayoutCache(model, new DeltaCellViewFactory(), true);
 		graph = new DeltaGraph(model, view);
+		this.setGraph(graph);
+	}
+	
+	/**
+	 * Change the graph being shown on the panel to the one specified.
+	 * @param newGraph - the graph to use as the new diagram.
+	 */
+	public void setGraph(DeltaGraph newGraph) {
+		this.graph = newGraph;
+		GraphLayoutCache view = graph.getGraphLayoutCache();
+		DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
+		
 		graph.setXorEnabled(false);
 		
 		// Set the "first" cell to be invisible (it is the clock component)
@@ -62,17 +108,7 @@ public class CircuitPanel extends JPanel {
 		graph.setMarqueeHandler(new DeltaMarqueeHandler(graph));
 		
 		// Add graph to the panel
-		this.setLayout(new BorderLayout());
-		this.add(new JScrollPane(graph));
-		this.setVisible(true);
-	}
-	
-	public JGraph getGraph() {
-		return this.graph;
-	}
-	
-	public void setGraph(DeltaGraph newGraph) {
-		this.graph = newGraph;
+		scrollPane.setViewportView(graph);
 	}
 	
 	/**
@@ -86,6 +122,11 @@ public class CircuitPanel extends JPanel {
 		return model.getComponentGraph();
 	}
 	
+	/**
+	 * Accessor method for the GraphUndoManager. This is required for the
+	 * undo and redo actions.
+	 * @return the GraphUndoManager for this graph.
+	 */
 	public GraphUndoManager getGraphUndoManager() {
 		return this.undoManager;
 	}

@@ -1,5 +1,8 @@
 package org.delta.gui.diagram;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URI;
 
@@ -98,12 +101,10 @@ public class DeltaComponentView extends VertexView {
 		
 		// Attempt to create SVG icon
 		String iconPath = ICONFOLDERPATH + iconFileName;
-		SVGIcon icon = new DeltaSVGIcon ();
+		SVGIcon icon = new DeltaSVGIcon();
 		try {
 			URI svgURI = new URI(DeltaComponentView.class.getClassLoader().getResource(iconPath).toString());
 			icon.setSvgURI(svgURI);
-			icon.setScaleToFit(true);
-			icon.setAntiAlias(true);
 		} catch(Exception e) {}
 		
 		// Modify the view's attributes to use this icon
@@ -112,7 +113,8 @@ public class DeltaComponentView extends VertexView {
 	}
 	
 	/**
-	 * Wrapper class for SVGIcon to implement serialization.
+	 * Wrapper class for SVGIcon to implement custom serialization. This is necessary
+	 * because the SVGIcon class from SVGSalamander doesn't support serialization.
 	 * @author Group Delta 2009
 	 */
 	private class DeltaSVGIcon extends SVGIcon implements Serializable {
@@ -120,8 +122,24 @@ public class DeltaComponentView extends VertexView {
 		/** Needed for correct serialization. */
 		private static final long serialVersionUID = 1L;
 		
+		/** Custom serialization - only stores the URI for the icon. */
+		private void writeObject(ObjectOutputStream out) throws IOException {
+			out.writeObject(this.getSvgURI());
+		}
+		
+		/** Custom serialization - read back the URI. */
+		private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+			this.setSvgURI((URI)in.readObject());
+		}
+		
+		/**
+		 * Creates a new SVGIcon by calling its super constructor and
+		 * sets some default properties.
+		 */
 		public DeltaSVGIcon(){
 			super();
+			this.setScaleToFit(true);
+			this.setAntiAlias(true);
 		}
 	}
 	

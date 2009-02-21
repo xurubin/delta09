@@ -38,6 +38,7 @@ import org.delta.simulation.SimulationScheduler;
 public class MainWindow extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
 	protected CircuitPanel circuit_panel;
 	protected ComponentPanel component_panel;
 	protected ClockUpdater clock_updater;
@@ -46,12 +47,11 @@ public class MainWindow extends javax.swing.JFrame {
 	protected JPanel clock_panel;
 	protected JSplitPane left_panel;
 	protected JToolBar toolbar;
-	protected Action undo_action, redo_action, stop_action, run_action;
+	protected Action undo_action, redo_action, stop_action, run_action, save_action;
 	protected static Properties configFile;
 	protected SimulationScheduler scheduler;
 	
 	private static MainWindow mw;
-
 	
 	public MainWindow(Locale language)
 	{
@@ -88,10 +88,10 @@ public class MainWindow extends javax.swing.JFrame {
 		// Create Actions to add to menus and the toolbar, and to be called from KeyBindings
 		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N", translator.getMnemonic("MNEMONIC_NEW"));
 		Action open_action		= new OpenAction	( translator.getString("OPEN"),		open_icon,		"ctrl O", translator.getMnemonic("MNEMONIC_OPEN"));
-		Action save_action		= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S", translator.getMnemonic("MNEMONIC_SAVE"));
+		save_action				= new SaveAction	( translator.getString("SAVE"),		save_icon,		"ctrl S", translator.getMnemonic("MNEMONIC_SAVE"));
 		undo_action				= new UndoAction	( translator.getString("UNDO"),		undo_icon,		"ctrl Z", translator.getMnemonic("MNEMONIC_UNDO"));
 		redo_action				= new RedoAction	( translator.getString("REDO"),		redo_icon,		"ctrl Y", translator.getMnemonic("MNEMONIC_REDO"));
-		run_action		= new RunAction		( translator.getString("RUN"),		run_icon,		"ctrl R"	);
+		run_action				= new RunAction		( translator.getString("RUN"),		run_icon,		"ctrl R"	);
 		Action export_action	= new ExportAction	( translator.getString("EXPORT"),	export_icon,	"ctrl E"	);
 		Action zoom_in_action	= new ZoomAction	( translator.getString("ZOOM_IN"),	zoom_in_icon,	"ctrl EQUALS" , 2.0, translator.getMnemonic("MNEMONIC_ZOOM_IN"));
 		Action zoom_out_action	= new ZoomAction	( translator.getString("ZOOM_OUT"),	zoom_out_icon,	"ctrl MINUS"  , 0.5, translator.getMnemonic("MNEMONIC_ZOOM_OUT"));
@@ -99,17 +99,16 @@ public class MainWindow extends javax.swing.JFrame {
 		Action copy_action		= new CopyAction	( translator.getString("COPY"),		copy_icon,		"ctrl C",translator.getMnemonic("MNEMONIC_COPY"));
 		Action paste_action		= new PasteAction	( translator.getString("PASTE"),	paste_icon,		"ctrl V",translator.getMnemonic("MNEMONIC_PASTE"));
 		Action delete_action	= new DeleteAction	( translator.getString("DELETE"),	delete_icon,	"DELETE",translator.getMnemonic("MNEMONIC_DELETE"));
-		stop_action		= new StopAction	( translator.getString("STOP"),	stop_icon,	"ctrl T"	);
-		Action help_action		= new HelpAction(translator.getString("CONTENTS"), "F1", translator.getMnemonic("MNEMONIC_CONTENTS"));
-		Action about_action		= new AboutAction(translator.getString("ABOUT"), "", translator.getMnemonic("MNEMONIC_ABOUT"));
-		Action print_action		= new PrintAction(translator.getString("PRINT"), "", translator.getMnemonic("MNEMONIC_PRINT"));		
+		stop_action				= new StopAction	( translator.getString("STOP"),		stop_icon,		"ctrl T"	);
+		Action help_action		= new HelpAction	( translator.getString("CONTENTS"),		"F1",	translator.getMnemonic("MNEMONIC_CONTENTS"));
+		Action about_action		= new AboutAction	( translator.getString("ABOUT"),		"",		translator.getMnemonic("MNEMONIC_ABOUT"));
+		Action print_action		= new PrintAction	( translator.getString("PRINT"),		"",		translator.getMnemonic("MNEMONIC_PRINT"));		
 		// Initialise stage of Actions
 		undo_action.setEnabled(false);
 		redo_action.setEnabled(false);
 		stop_action.setEnabled(false);
 		
-		//addKeyListener(this);
-		
+		// Stops the window being resized too small
 		addComponentListener ( new ComponentAdapter() {
 			public void componentResized (ComponentEvent evt) {
 				int width  = getWidth();
@@ -132,7 +131,6 @@ public class MainWindow extends javax.swing.JFrame {
 		} );
 		
 		circuit_panel = new CircuitPanel();
-		//circuit_panel.setPreferredSize ( new Dimension (620, 460) );
 		
 		JScrollPane circuit_scroll_pane = new JScrollPane (circuit_panel);
 		cp.add (circuit_scroll_pane, BorderLayout.CENTER);
@@ -141,12 +139,10 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		component_panel = new ComponentPanel (translator);
 		component_panel.setMinimumSize ( new Dimension (ComponentPanel.WIDTH, 0) );
-		//component_panel.setMaximumSize ( new Dimension (175, 800))
 		
 		JScrollPane component_scroll_pane = new JScrollPane (component_panel);
 		component_scroll_pane.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
 		component_scroll_pane.setPreferredSize ( new Dimension (200, 480) );
-		//sb.setMinimumSize (new Dimension (200, 800) );
 		component_scroll_pane.setMinimumSize ( new Dimension (ComponentPanel.WIDTH, 0) );
 		component_scroll_pane.addComponentListener ( new ComponentAdapter() {
 			public void componentResized (ComponentEvent e) {
@@ -157,8 +153,6 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		clock_panel = new JPanel();
 		clock_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
-//		clock_panel.setPreferredSize ( new Dimension (200, 100) );
-//		clock_panel.setMinimumSize   ( new Dimension (200, 100) );
 		
 		ImageIcon clock_icon = new ImageIcon ("src/org/delta/gui/diagram/images/clock.png");
 		
@@ -265,6 +259,10 @@ public class MainWindow extends javax.swing.JFrame {
 	
 	public Action getRedoAction() {
 		return redo_action;
+	}
+	
+	public Action getSaveAction() {
+		return save_action;
 	}
 	
 	public static MainWindow get()

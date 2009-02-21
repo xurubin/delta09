@@ -10,6 +10,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import org.delta.gui.diagram.DeltaGraph;
 
@@ -30,37 +31,49 @@ public class OpenAction extends AbstractAction
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		// Display open file dialog then load this as the circuit
+		// Checks whether the user wants to save the current circuit (or cancel)
+		int choice = JOptionPane.showConfirmDialog (MainWindow.get(), "Save current circuit first?");
 		
-		JFileChooser chooser = new JFileChooser();
-		if (chooser.showOpenDialog ( MainWindow.get() ) == JFileChooser.APPROVE_OPTION)
+		switch (choice)
 		{
-			
-			try
-			{
-				FileInputStream fis   = new FileInputStream ( chooser.getSelectedFile() );
-				ObjectInputStream ois = new ObjectInputStream (fis);
-				
-				try
+			case JOptionPane.YES_OPTION:
+				// save circuit
+				MainWindow.get().getSaveAction().actionPerformed
+					( new ActionEvent ( e.getSource(), e.getID(), e.getActionCommand() ) );
+				// deliberately no "break;"
+			case JOptionPane.NO_OPTION:
+				// Display open file dialog then load this as the circuit
+				JFileChooser chooser = new JFileChooser();
+				if (chooser.showOpenDialog ( MainWindow.get() ) == JFileChooser.APPROVE_OPTION)
 				{
-					DeltaGraph graph = (DeltaGraph) ois.readObject();
-					MainWindow.get().circuit_panel.setGraph (graph);
+					
+					try
+					{
+						FileInputStream fis   = new FileInputStream ( chooser.getSelectedFile() );
+						ObjectInputStream ois = new ObjectInputStream (fis);
+						
+						try
+						{
+							DeltaGraph graph = (DeltaGraph) ois.readObject();
+							MainWindow.get().circuit_panel.setGraph (graph);
+						}
+						catch (ClassNotFoundException ex)
+						{
+							System.out.println(ex);
+						}
+						
+						ois.close();
+					}
+					catch (FileNotFoundException ex)
+					{
+						System.out.println(ex);
+					}
+					catch (IOException ex)
+					{
+						System.out.println(ex);
+					}
 				}
-				catch (ClassNotFoundException ex)
-				{
-					System.out.println(ex);
-				}
-				
-				ois.close();
-			}
-			catch (FileNotFoundException ex)
-			{
-				System.out.println(ex);
-			}
-			catch (IOException ex)
-			{
-				System.out.println(ex);
-			}
+			default:
 		}
 	}
 }

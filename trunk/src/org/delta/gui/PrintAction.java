@@ -55,7 +55,7 @@ public class PrintAction extends AbstractAction implements Printable {
 		g2d.translate ( pf.getImageableX(), pf.getImageableY() );
 		
 		/* Now we perform our rendering */
-		MainWindow.get().circuit_panel.printAll (g);
+		MainWindow.get().circuit_panel.printAll (g2d);
 		
 		/* tell the caller that this page is part of the printed document */
 		return PAGE_EXISTS;

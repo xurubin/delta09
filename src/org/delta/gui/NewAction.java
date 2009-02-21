@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 
@@ -25,6 +26,20 @@ public class NewAction extends AbstractAction
 	public void actionPerformed(ActionEvent e)
 	{
 		// Create a brand new circuit
-		// Should check that existing circuit has been saved first
+		// But gives the user the option of saving the current circuit (or cancelling)
+		
+		int choice = JOptionPane.showConfirmDialog (MainWindow.get(), "Save current circuit first?");
+		
+		switch (choice)
+		{
+			case JOptionPane.YES_OPTION:
+				// save circuit
+				MainWindow.get().getSaveAction().actionPerformed
+					( new ActionEvent ( e.getSource(), e.getID(), e.getActionCommand() ) );
+				// deliberately no "break;"
+			case JOptionPane.NO_OPTION:
+				MainWindow.get().circuit_panel.setGraph();
+			default:
+		}
 	}
 }

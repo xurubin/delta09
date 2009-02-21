@@ -12,23 +12,24 @@ import org.delta.logic.And;
 import org.delta.logic.Not;
 
 public class DecoderComponent extends Component {
+    private static final long serialVersionUID = 1L;
 
     public DecoderComponent(int inputCount) {
         super(inputCount, 1 << inputCount);
         
-        Circuit circuit = getCircuit();
-        List<Gate> andPlane = new ArrayList<Gate>(getOutputCount());
-        List<Gate> invertedInputs = new ArrayList<Gate>(getInputCount());
+        final Circuit circuit = getCircuit();
+        final List<Gate> andPlane = new ArrayList<Gate>(getOutputCount());
+        final List<Gate> invertedInputs = new ArrayList<Gate>(getInputCount());
         
         for (int i = 0; i < getInputCount(); ++i) {
-            Gate inv = GateFactory.createGate(Not.class);
+            final Gate inv = GateFactory.createGate(Not.class);
             invertedInputs.add(inv);
             circuit.addVertex(inv);
             addInputGate(i, inv, 0);
         }
         
         for (int i = 0; i < getOutputCount(); ++i) {
-            Gate and = GateFactory.createGate(And.class, getInputCount());
+            final Gate and = GateFactory.createGate(And.class, getInputCount());
             andPlane.add(and);
             circuit.addVertex(and);
             setOutputGate(i, and);
@@ -37,7 +38,8 @@ public class DecoderComponent extends Component {
                 if ((i & (1 << j)) != 0) {
                     addInputGate(j, and, j);
                 } else {
-                    Wire wire = circuit.addEdge(invertedInputs.get(j), and);
+                    final Wire wire =
+                        circuit.addEdge(invertedInputs.get(j), and);
                     and.setWire(wire, j);
                 }
             }

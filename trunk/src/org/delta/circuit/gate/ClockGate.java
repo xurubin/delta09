@@ -2,14 +2,18 @@ package org.delta.circuit.gate;
 
 import java.util.ArrayList;
 
-import org.delta.circuit.Gate;
 import org.delta.logic.Constant;
 import org.delta.logic.Formula;
 import org.delta.logic.Not;
 import org.delta.logic.State;
+import org.delta.simulation.SimulationScheduler;
 
 public class ClockGate extends AbstractInputGate {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * The clock frequency of the simulated circuit given as a multiple of the
      * simulation frequency.
      * @see SimulationScheduler#simulationFrequency
@@ -55,15 +59,8 @@ public class ClockGate extends AbstractInputGate {
     }
     
     public String getVerilogMethod(String name, ArrayList<String> out, ArrayList<String> in) {
-    	if(out.size() == 0) return "// no clock needed in this circuit.";
     	//calculate clock_multiplier
-    	
-    	String method = "get_clock g(CLOCK_50, 100000000, " + 2*clockFrequency + "," + out.get(0) + ");";
-    	String mainOutput = out.remove(0);
-    	for(String s : out) {
-    		method += "\nassign " + s + " = " + mainOutput + ";";
-    	}
-    	return method;
+    	return "get_clock clock1(CLOCK_50, 100000000, " + 2*clockFrequency + ", world_clock);";
     }
 
 }

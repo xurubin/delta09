@@ -5,7 +5,12 @@ import java.util.List;
 
 
 public class ClockedComponent extends Component {
-    private List<GateInputPort> clockInputList;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private List<GateInputPort> clockInputList;
 
     public ClockedComponent(int inputCount, int outputCount) {
         super(inputCount, outputCount);

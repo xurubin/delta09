@@ -9,6 +9,13 @@ module rom16(output reg result, input [3:0] address, input clk);
 	end
 endmodule
 
+module dflip(output reg q1, output reg q2, input d, input clk);
+	always @(posedge clk) begin
+		q1 <= d;
+		q2 <= ~d;
+	end
+endmodule
+
 module ram16(output reg result, input write_enable, input set, input [3:0] address, input clk);
 	reg [15:0] data;
 	always @(posedge clk) begin

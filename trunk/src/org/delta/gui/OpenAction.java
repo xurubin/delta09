@@ -37,16 +37,21 @@ public class OpenAction extends AbstractAction
 		switch (choice)
 		{
 			case JOptionPane.YES_OPTION:
+				
 				// save circuit
 				MainWindow.get().getSaveAction().actionPerformed
 					( new ActionEvent ( e.getSource(), e.getID(), e.getActionCommand() ) );
 				// deliberately no "break;"
+				
 			case JOptionPane.NO_OPTION:
+				
 				// Display open file dialog then load this as the circuit
 				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter ( new CircuitFileFilter() );
+				chooser.setAcceptAllFileFilterUsed (false);
+				
 				if (chooser.showOpenDialog ( MainWindow.get() ) == JFileChooser.APPROVE_OPTION)
 				{
-					
 					try
 					{
 						FileInputStream fis   = new FileInputStream ( chooser.getSelectedFile() );
@@ -73,6 +78,7 @@ public class OpenAction extends AbstractAction
 						System.out.println(ex);
 					}
 				}
+
 			default:
 		}
 	}

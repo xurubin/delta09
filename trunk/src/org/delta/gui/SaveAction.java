@@ -2,6 +2,8 @@ package org.delta.gui;
 
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+
 import java.io.*;
 
 public class SaveAction extends AbstractAction
@@ -24,18 +26,24 @@ public class SaveAction extends AbstractAction
 		// Display save dialog and then save the circuit to file
 		
 		JFileChooser chooser = new JFileChooser();
+	    chooser.setFileFilter ( new CircuitFileFilter() );
+	    chooser.setAcceptAllFileFilterUsed (false);
+		
 		if (chooser.showSaveDialog ( MainWindow.get() ) == JFileChooser.APPROVE_OPTION)
 		{
-			FileOutputStream fileOut = null;
-			ObjectOutputStream outr  = null;
-			
 			try
 			{
-				fileOut = new FileOutputStream ( chooser.getSelectedFile() );
-				outr    = new ObjectOutputStream (fileOut);
-	        	
-	        	System.out.println ("Writing Circuit...");
+				File f = chooser.getSelectedFile();
+				
+				File file = f.getName().toLowerCase().endsWith (".cir") ? f : new File (f.getPath() + ".cir");
+				
+				FileOutputStream fileOut = new FileOutputStream (file);
+				ObjectOutputStream outr  = new ObjectOutputStream (fileOut);
+
 	            outr.writeObject ( MainWindow.get().circuit_panel.getGraph() );
+	            
+	            outr.close();
+				fileOut.close();
 	        }
 			catch (FileNotFoundException ex)
 			{
@@ -44,20 +52,6 @@ public class SaveAction extends AbstractAction
 			catch (IOException ex)
 			{
 				System.out.println(ex);
-			}
-			finally
-			{
-				System.out.println ("Closing all output streams...\n");
-				try
-				{
-					outr.close();
-					fileOut.close();
-					System.out.println ("Closed all output streams...\n");
-				}
-				catch (IOException ex)
-				{
-					System.out.println(ex);
-				}
 			}
 	    }
 	}

@@ -1,11 +1,16 @@
 package org.delta.gui;
 
-import java.awt.event.*;
-import javax.swing.*;
-
+import java.awt.event.ActionEvent;
 import java.util.Set;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultGraphModel;
+import org.jgraph.graph.Edge;
 
 /**
  * @author Christopher Wilson
@@ -36,6 +41,7 @@ public class DeleteAction extends AbstractAction
 	 * not left with dangling edges.
 	 * @param e - event that fired the DeleteAction
 	 */
+	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e)
 	{
 		JGraph graph = MainWindow.get().circuit_panel.getGraph();
@@ -48,7 +54,7 @@ public class DeleteAction extends AbstractAction
 			components = graph.getDescendants(components);
 			
 			// Create array of all edges connected to components in the selection
-			Set edgeSet = DefaultGraphModel.getEdges(graph.getModel(), components);
+			Set<Edge> edgeSet = DefaultGraphModel.getEdges(graph.getModel(), components);
 			Object[] edgeArray = edgeSet.toArray();
 			
 			// Combine these two arrays

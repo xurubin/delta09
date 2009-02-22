@@ -25,5 +25,6 @@ public class StopAction extends AbstractAction
 		MainWindow.get().scheduler.stop();
 		
 		MainWindow.get().clock_updater.stopClock();
+		MainWindow.get().spinner.setEnabled(true);
 	}
 }

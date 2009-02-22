@@ -517,7 +517,7 @@ public class ComponentGraphAdapter<V, E>
             Object jSource = getSourceVertex(this, jEdge);
             Object jTarget = getTargetVertex(this, jEdge);
             
-            /* FIXME: Dirty hack! Directed edges must also leave an input port
+            /* FIXME: Dirty hack! Directed edges must always leave an input port
              * and have to be incident on an output port. If this is not the
              * case, swap source and target; 
              */

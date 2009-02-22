@@ -2,7 +2,7 @@ package org.delta.logic;
 
 import org.delta.circuit.Wire;
 
-public class Constant extends Formula {
+public class Constant implements Formula {
     private State state = State.SX;
 
     public Constant(State state) {

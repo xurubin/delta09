@@ -4,11 +4,11 @@ public class Xor extends BinaryFunction {
 
     @Override
     public State evaluate() {
-        switch (evaluateArg0()) {
-        case S0: return evaluateArg1();
+        switch (evaluateArgument(0)) {
+        case S0: return evaluateArgument(1);
         case SX: return State.SX;
         case S1:
-        default: return (new Not(getArg1())).evaluate();
+        default: return (new Not(getArgument(1))).evaluate();
         }
     }
 

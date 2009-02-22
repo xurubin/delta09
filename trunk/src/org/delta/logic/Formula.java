@@ -1,7 +1,7 @@
 package org.delta.logic;
 
-import java.io.Serializable;
+public interface Formula {
 
-public abstract class Formula implements Serializable {
-    abstract public State evaluate();
+    public State evaluate();
+    
 }

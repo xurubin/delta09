@@ -1,16 +1,19 @@
 package org.delta.logic;
 
-public class Not extends Formula {
-    private Formula arg0 = new Constant(State.SX);
+public class Not extends Function {
 
-    public Not(Formula arg0) {
-        if (arg0 != null)
-            this.arg0 = arg0;
+    public Not(Formula argument) {
+        this();
+        setArgument(0, argument);
+    }
+    
+    public Not() {
+        super(1);
     }
 
     @Override
     public State evaluate() {
-       switch (arg0.evaluate()) {
+       switch (evaluateArgument(0)) {
        case S0: return State.S1;
        case S1: return State.S0;
        case SX:

@@ -24,6 +24,7 @@ import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.GraphTransferHandler;
 import org.jgraph.graph.GraphTransferable;
 import org.jgraph.graph.ParentMap;
+import org.jgraph.graph.ConnectionSet.Connection;
 
 /**
  * @author Group Delta 2009
@@ -62,6 +63,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	// 3. Transfer is passed to importDataImpl for unsupported
 	// dataflavors (because method may return false, see 1.)
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean importData(JComponent comp, Transferable t) {
 		try {
 			if (comp instanceof JGraph) {
@@ -106,7 +108,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 
 					// Get more Transfer Data
 					Rectangle2D bounds = gt.getBounds();
-					Map<Object,Map<Object,Object>> nested = redirectGetAttributeMap(gt);
+					Map<Object,Map<Object,Object>> nested = gt.getAttributeMap();
 					
 					ConnectionSet cs = gt.getConnectionSet();
 					ParentMap pm = gt.getParentMap();
@@ -282,17 +284,6 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	}
 	
 	/**
-	 * Private method used by importData to suppress unchecked type warnings caused
-	 * by legacy non-generics code in the JGraph library.
-	 * @param gt GraphTransferable object representing the graph being imported.
-	 * @return AttributeMap of gt.
-	 */
-	@SuppressWarnings("unchecked")
-	private Map<Object,Map<Object,Object>> redirectGetAttributeMap(GraphTransferable gt) {
-		return gt.getAttributeMap();
-	}
-	
-	/**
 	 * Overwritten version of the method from GraphTransferHandler. If the drop
 	 * is genuinely external it uses the static cloneCells method from DeltaGraphModel
 	 * in order to perform a deep clone of the cells (i.e. including ports).
@@ -310,12 +301,13 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	 * @see 
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void handleExternalDrop(JGraph graph, Object[] cells, Map nested,
 			ConnectionSet cs, ParentMap pm, double dx, double dy) {
 
 		// Removes all connections for which the port is neither
 		// passed in the parent map nor already in the model.
-		Iterator it = cs.connections();
+		Iterator<Connection> it = cs.connections();
 		while (it.hasNext()) {
 			ConnectionSet.Connection conn = (ConnectionSet.Connection) it
 					.next();

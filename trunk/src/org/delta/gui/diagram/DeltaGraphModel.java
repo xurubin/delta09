@@ -135,6 +135,7 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 	 * @return true if target is valid, false otherwise.
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean acceptsTarget(Object edge, Object port) {
 		// Check target is not null - we do not allow dangling edges.
 		if (port == null)

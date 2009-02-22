@@ -28,6 +28,7 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 	    return TransferHandler.COPY;
 	  }
 	
+	@SuppressWarnings("unchecked")
 	protected Transferable createTransferable(JComponent comp) {
 		// Create relevant component by checking the label
 		ComponentPanelLabel draggedComponent = (ComponentPanelLabel) comp;
@@ -56,7 +57,7 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 		graph.getGraphLayoutCache().insert(cells);
 		
 		// Use this graph to find the relevant arguments for the GraphTransferable constructor
-		Map attributes = GraphConstants.createAttributes(cells, graph.getGraphLayoutCache());
+		Map<Object,Object> attributes = GraphConstants.createAttributes(cells, graph.getGraphLayoutCache());
 		Rectangle2D bounds = graph.getCellBounds(cells);
 		ConnectionSet cs = ConnectionSet.create(graph.getModel(), cells, false);
 		

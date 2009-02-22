@@ -102,7 +102,7 @@ public class MainWindow extends javax.swing.JFrame {
 		stop_action				= new StopAction	( translator.getString("STOP"),		stop_icon,		"ctrl T"	);
 		Action help_action		= new HelpAction	( translator.getString("CONTENTS"),		"F1",	translator.getMnemonic("MNEMONIC_CONTENTS"));
 		Action about_action		= new AboutAction	( translator.getString("ABOUT"),		"",		translator.getMnemonic("MNEMONIC_ABOUT"));
-		Action print_action		= new PrintAction	( translator.getString("PRINT"),		"",		translator.getMnemonic("MNEMONIC_PRINT"));		
+		Action print_action		= new PrintAction	( translator.getString("PRINT"),		"ctrl P",		translator.getMnemonic("MNEMONIC_PRINT"));		
 		// Initialise stage of Actions
 		undo_action.setEnabled(false);
 		redo_action.setEnabled(false);

@@ -39,8 +39,8 @@ public class Ledg extends DeltaComponent {
 		this.setLedGNumber(0);
 		this.replaceUserObject();
 		
-		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 2),0);
-		this.addOutputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2),0);
+		this.addInputPort(new Point(0,32*GraphConstants.PERMILLE / 50),0);
+		this.addOutputPort(new Point(GraphConstants.PERMILLE,32*GraphConstants.PERMILLE / 50),0);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);

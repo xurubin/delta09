@@ -29,7 +29,7 @@ public class DeltaEdge extends DefaultEdge {
 		GraphConstants.setRemoveAttributes(this.getAttributes(), new Object[] {GraphConstants.ROUTING});
 		
 		// Set style of line
-		GraphConstants.setLineWidth(this.getAttributes(), 2.5f);
+		GraphConstants.setLineWidth(this.getAttributes(), 2);
 	}
 	
 	/**

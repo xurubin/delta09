@@ -159,7 +159,7 @@ public class VerilogConverter {
 	 *            assumed to be valid.
 	 * @return a string containing the source to a .v verilog program.
 	 */
-	private static String convertToVerilog(ComponentGraph circuit) {
+	public static String convertToVerilog(ComponentGraph circuit) {
 		// get list of wires and gates
 		Set<ComponentWire> wires = circuit.edgeSet();
 		Set<Component> components = circuit.vertexSet();

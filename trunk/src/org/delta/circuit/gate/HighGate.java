@@ -26,6 +26,7 @@ public class HighGate extends AbstractInputGate {
     	for(String s : out) {
     		result += "assign " + s + " = 1;\n"; 
     	}
-    	return result.substring(0, result.length() - 1);
+    	if(out.size() != 0) result = result.substring(0, result.length() - 1);
+    	return result;
     }
 }

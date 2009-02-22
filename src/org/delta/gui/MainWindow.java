@@ -43,6 +43,7 @@ public class MainWindow extends javax.swing.JFrame {
 	protected ComponentPanel component_panel;
 	protected ClockUpdater clock_updater;
 	protected ClockLabel clock_label;
+	protected JSpinner spinner;
 	protected JPanel status_panel;
 	protected JPanel clock_panel;
 	protected JSplitPane left_panel;
@@ -156,7 +157,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		ImageIcon clock_icon = new ImageIcon ("src/org/delta/gui/diagram/images/clock.png");
 		
-		JSpinner spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
+		spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
 		
 		clock_label = new ClockLabel (clock_icon, spinner);
 		
@@ -263,6 +264,10 @@ public class MainWindow extends javax.swing.JFrame {
 	
 	public Action getSaveAction() {
 		return save_action;
+	}
+	
+	public long getClockSpinnerValue() {
+		return ((Integer) spinner.getValue()).longValue();
 	}
 	
 	public static MainWindow get()

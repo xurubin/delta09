@@ -88,9 +88,12 @@ public class RunAction extends AbstractAction {
 		Simulator s = new Simulator();
 		s.setCircuit(cg.getCircuit());
 		MainWindow.get().scheduler = new SimulationScheduler(s);
-		MainWindow.get().scheduler.start();
+		MainWindow.get().scheduler.setSimulationFrequency(MainWindow.get().getClockSpinnerValue());
+		System.out.println(MainWindow.get().getClockSpinnerValue());
 		
+		MainWindow.get().scheduler.start();
 		MainWindow.get().clock_updater = new ClockUpdater (MainWindow.get().clock_label);
 		MainWindow.get().clock_updater.startClock();
+		MainWindow.get().spinner.setEnabled(false);
 	}
 }

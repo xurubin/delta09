@@ -516,6 +516,21 @@ public class ComponentGraphAdapter<V, E>
             // FIXME hb 28-nov-05: waiting for jgraph to go generic
             Object jSource = getSourceVertex(this, jEdge);
             Object jTarget = getTargetVertex(this, jEdge);
+            
+            /* FIXME: Dirty hack! Directed edges must also leave an input port
+             * and have to be incident on an output port. If this is not the
+             * case, swap source and target; 
+             */
+            final Object sourcePort = jEdge.getSource();
+            final Object targetPort = jEdge.getTarget();
+            if (sourcePort != null && targetPort != null 
+                    && sourcePort instanceof DeltaInputPort
+                    && targetPort instanceof DeltaOutputPort) {
+                // Swap source and target;
+                final Object swap = jSource;
+                jSource = jTarget;
+                jTarget = swap;
+            }
 
             V jtSource = cellToVertex.get(jSource);
             V jtTarget = cellToVertex.get(jTarget);

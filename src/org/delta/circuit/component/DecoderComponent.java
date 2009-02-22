@@ -11,10 +11,13 @@ import org.delta.circuit.gate.GateFactory;
 import org.delta.logic.And;
 import org.delta.logic.Not;
 
+/**
+ * N:2^N decoder.
+ */
 public class DecoderComponent extends Component {
     private static final long serialVersionUID = 1L;
 
-    public DecoderComponent(int inputCount) {
+    public DecoderComponent(final int inputCount) {
         super(inputCount, 1 << inputCount);
         
         final Circuit circuit = getCircuit();

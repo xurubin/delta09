@@ -26,10 +26,7 @@ public class ExportAction extends AbstractAction
 		chooser.setDialogTitle("Select Folder");
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		if (chooser.showSaveDialog(chooser) == JFileChooser.APPROVE_OPTION) { 
-			/*
-			 * TODO: Get ComponentGraph object from MainWindow. 
-			 */
-			ComponentGraph cg = null;
+			ComponentGraph cg = MainWindow.get().circuit_panel.getComponentGraph();
 			VerilogConverter.saveVerilogProject(chooser.getSelectedFile(), cg);
 		}
 	}

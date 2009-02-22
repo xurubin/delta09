@@ -189,7 +189,8 @@ public class ComponentGraphAdapter<V, E>
 	 * @return the ComponentGraph maintained by this adapter.
 	 */
     public ComponentGraph getComponentGraph() {
-    	return (ComponentGraph)jtGraph.graph;
+    	ListenableComponentGraph listenableGraph = (ListenableComponentGraph)jtGraph.graph;
+    	return listenableGraph.getComponentGraph();
     }
 
     //~ Constructors -----------------------------------------------------------

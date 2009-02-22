@@ -112,7 +112,7 @@ public class CircuitPanel extends JPanel {
 	}
 	
 	/**
-	 * Accessor method for the ComponentGraph created by the ComponentGraphAdapter,
+	 * Accessor method for the ComponentGraph used by the ComponentGraphAdapter,
 	 * which constantly mirrors the circuit diagram. Used so the circuit can be
 	 * retrieved for simulation.
 	 * @return the ComponentGraph that represents the circuit diagram.

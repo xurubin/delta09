@@ -65,34 +65,26 @@ public class DFlipFlopComponent extends ClockedComponent {
 	}
 
 	@Override
-	public String getVerilogMethod(String name,
-			HashMap<ComponentWire, String> inputWires,
+	public String getVerilogMethod(String name, HashMap<ComponentWire, String> inputWires,
 			HashMap<ComponentWire, String> outputWires) {
 
-		ComponentWire[] output1 = new ComponentWire[this.getOutputWires(0)
-				.size()];
+		ComponentWire[] output1 = new ComponentWire[this.getOutputWires(0).size()];
 		this.getOutputWires(0).toArray(output1);
-		ComponentWire[] output2 = new ComponentWire[this.getOutputWires(1)
-				.size()];
+		ComponentWire[] output2 = new ComponentWire[this.getOutputWires(1).size()];
 		this.getOutputWires(1).toArray(output2);
 
-		String mainOutput1 = output1.length > 0 ? outputWires.get(output1[0])
-				: "";
-		String mainOutput2 = output2.length > 0 ? outputWires.get(output2[0])
-				: "";
+		String mainOutput1 = output1.length > 0 ? outputWires.get(output1[0]) : "";
+		String mainOutput2 = output2.length > 0 ? outputWires.get(output2[0]) : "";
 
-		String result = "dflip " + name + "(" + mainOutput1 + ", "
-				+ mainOutput2 + ", " + inputWires.get(this.getInputWire(0))
-				+ ", world_clock);";
+		String result = "dflip " + name + "(" + mainOutput1 + ", " + mainOutput2 + ", "
+				+ inputWires.get(this.getInputWire(0)) + ", world_clock);";
 
 		for (int i = 1; i < output1.length; i++) {
-			result += "\nassign " + outputWires.get(output1[i]) + " = "
-					+ mainOutput1;
+			result += "\nassign " + outputWires.get(output1[i]) + " = " + mainOutput1;
 		}
 
 		for (int i = 1; i < output2.length; i++) {
-			result += "\nassign " + outputWires.get(output2[i]) + " = "
-					+ mainOutput2;
+			result += "\nassign " + outputWires.get(output2[i]) + " = " + mainOutput2;
 		}
 
 		return result;

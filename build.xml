@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="delta" basedir="." default="compile">
+<!-- Application properties -->
+  <property name="app.name" value="delta"/>
+  <property name="app.version" value="0.1-dev"/>
+
+<!-- Directories  -->
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="test.dir" value="${basedir}/test"/>
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="build.deploy.dir" value="${build.dir}/deploy"/>
+  <property name="build.test.dir" value="${build.dir}/test"/>
+  <property name="build.test.report.dir" value="${build.dir}/report" />
+  <property name="dist.dir" value="${basedir}/dist"/>
+  <property name="lib.dir" value="${basedir}/lib"/>
+  <property name="lib-src.dir" value="${basedir}/lib-src"/>
+  <property name="lib-test.dir" value="${basedir}/lib-test"/>
+  <property name="javadoc.dir" value="${basedir}/javadoc"/>
+  <property name="documents.dir" value="${basedir}/documents"/>
+  <property name="jop.dir" value="${basedir}/jop"/>
+
+<!-- Classpath -->
+  <path id="compile.classpath">
+    <fileset dir="${lib.dir}">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="test.classpath">
+  	<pathelement location="${build.test.dir}"/>
+    <fileset dir="${lib.dir}">
+      <include name="*.jar"/>
+      <include name="*.zip"/>
+    </fileset>
+    <fileset dir="${lib-test.dir}">
+      <include name="*.jar"/>
+      <include name="*.zip"/>
+    </fileset>
+  </path>
+
+<!-- Build properties -->
+  <property name="compile.debug" value="true"/>
+
+<!-- Targets -->
+
+  <target name="clean" description="Removes all files in the build and dist directories.">
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir}"/>
+  </target>
+  	
+  <target name="prepare">
+    <mkdir dir="${javadoc.dir}"/>
+    <mkdir dir="${dist.dir}"/>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.deploy.dir}"/>
+    <mkdir dir="${build.test.dir}"/>
+    <mkdir dir="${build.test.report.dir}" />
+  </target>
+
+  <target name="compile" depends="prepare">
+    <javac srcdir="${src.dir}" destdir="${build.deploy.dir}" debug="${compile.debug}">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+<!-- Compile targets -->
+  <target name="jar" depends="compile">
+    <jar destfile="${dist.dir}/${app.name}-${app.version}.jar" basedir="${build.deploy.dir}"/>
+  </target>
+
+  <target name="compile-test" depends="prepare">
+    <javac srcdir="${src.dir}" destdir="${build.test.dir}" debug="${compile.debug}">
+      <classpath refid="test.classpath"/>
+    </javac>
+  	<javac srcdir="${test.dir}" destdir="${build.test.dir}" debug="${compile.debug}">
+  	  <classpath refid="test.classpath"/>
+  	</javac>
+  </target>
+
+<!-- Javadoc target, documentation. -->
+  <target name="javadoc" depends="compile">
+    <javadoc sourcepath="${src.dir}" destdir="${dist.dir}/docs/api" packagenames="*">
+      <classpath refid="compile.classpath"/>
+    </javadoc>
+  </target>
+
+<!-- Testing -->
+  <target name="unit-test" depends="compile-test">
+    <junit fork="yes" printsummary="withOutAndErr" failureProperty="unittest.failure">
+      <formatter type="xml"/>
+      <classpath refid="test.classpath"/>
+        <batchtest fork="yes" todir="${build.test.report.dir}">
+          <fileset dir="${test.dir}">
+            <include name="**/*Test.java"/>
+          </fileset>
+      </batchtest>
+    </junit>
+<!--    <fail message="Unit tests failed" if="unittest.failure"/> -->
+  </target>
+
+  <target name="unit-test-report" depends="unit-test">
+    <junitreport todir="${build.test.report.dir}">
+      <fileset dir="${build.test.report.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${build.test.report.dir}"/>
+    </junitreport>
+  </target>
+
+  <target name="compile-jop" />
+  <target name="dist" depends="" />
+
+</project>

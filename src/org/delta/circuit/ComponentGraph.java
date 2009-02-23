@@ -108,11 +108,17 @@ public class ComponentGraph extends
             <? extends ComponentWire> wireCollection) {
         boolean hasChanged = false;
 
+        Collection<ComponentWire> unchanged = new LinkedList<ComponentWire>();
         for (ComponentWire wire: wireCollection) {
             boolean result = removeEdge(wire);
-            if (result) hasChanged = true;
+            if (result) {
+                hasChanged = true;
+            } else {
+                unchanged.add(wire);
+            }
         }
-
+        
+        wireCollection.removeAll(unchanged);
         return hasChanged;
     }
 
@@ -164,8 +170,12 @@ public class ComponentGraph extends
 
     @Override
     public boolean removeEdge(final ComponentWire wire) {
+        Component source = getEdgeSource(wire);
+        Component target = getEdgeTarget(wire);
         if (super.removeEdge(wire)) {
             circuit.removeAllEdges(wireMap.get(wire));
+            source.removeOutputWire(wire);
+            target.removeInputWire(wire);
             wireMap.remove(wire);
             return true;
         }

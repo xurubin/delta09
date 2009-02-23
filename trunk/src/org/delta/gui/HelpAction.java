@@ -28,7 +28,7 @@ public class HelpAction extends AbstractAction
 	{
 		// Display help
 		
-		String pathToHS = "/master.hs";
+		String pathToHS = "/helpfile/master.hs";
 		URL hsURL;
 		HelpSet hs = new HelpSet();
 		try {

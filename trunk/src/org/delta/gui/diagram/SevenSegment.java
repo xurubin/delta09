@@ -39,13 +39,13 @@ public class SevenSegment extends DeltaComponent {
 		
 		this.replaceUserObject();
 
-		this.addInputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2),1);
-		this.addInputPort(new Point(GraphConstants.PERMILLE,790),6);
-		this.addInputPort(new Point(GraphConstants.PERMILLE,230),2);
-		this.addInputPort(new Point(0,180),0);
-		this.addInputPort(new Point(0,390),5);
-		this.addInputPort(new Point(0,630),4);
-		this.addInputPort(new Point(0,850),3);
+		this.addInputPort(new Point(GraphConstants.PERMILLE,430),1);
+		this.addInputPort(new Point(GraphConstants.PERMILLE,670),6);
+		this.addInputPort(new Point(GraphConstants.PERMILLE,220),2);
+		this.addInputPort(new Point(0,150),0);
+		this.addInputPort(new Point(0,350),5);
+		this.addInputPort(new Point(0,530),4);
+		this.addInputPort(new Point(0,730),3);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);

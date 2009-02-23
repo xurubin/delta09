@@ -53,6 +53,7 @@ public class DeltaComponentView extends VertexView {
 	private static final String DFLIP_ICON = "d_flip.svg";
 	private static final String SWITCH_ICON = "switch.svg";
 	private static final String SEVENSEG_ICON = "7seg.svg";
+	private static final String RSLATCH_ICON = "rs_latch.svg";
 	// TODO: Add file names for all the other component icons.
 	
 	/**
@@ -106,6 +107,8 @@ public class DeltaComponentView extends VertexView {
 			iconFileName = SWITCH_ICON;
 		else if (cell instanceof SevenSegment)
 			iconFileName = SEVENSEG_ICON;
+		else if (cell instanceof RSLatch)
+			iconFileName = RSLATCH_ICON;
 		// TODO: Add if statements to set icons for all the other types of component.
 		
 		// Attempt to create SVG icon

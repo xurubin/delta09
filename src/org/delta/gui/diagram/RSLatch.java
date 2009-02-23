@@ -4,42 +4,37 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 import org.delta.circuit.Component;
-import org.delta.circuit.Gate;
-import org.delta.circuit.component.GateComponentFactory;
-import org.delta.circuit.gate.SsdGate;
+import org.delta.circuit.component.SrLatchComponent;
 import org.jgraph.graph.GraphConstants;
 
 /**
- * Class to represent the "model" of a constant high input in the circuit diagram.
+ * Class to represent the "model" of a DFlip (D flip flop) in the circuit diagram.
  * @author Group Delta 2009
  */
-public class SevenSegment extends DeltaComponent {
+public class RSLatch extends DeltaComponent {
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new Switch at a default position.
+	 * Creates a new NotGate at a default position.
 	 */
-	public SevenSegment() {
+	public RSLatch() {
 		this(new Point(100,100));
 	}
 	
 	/**
-	 * Creates a new Switch at the given position on the screen.
+	 * Creates a new DFlip at the given position on the screen.
 	 * @param position - where to insert the new component.
 	 */
-	public SevenSegment(Point position) {
+	public RSLatch(Point position) {
 		super();
 		
 		this.replaceUserObject();
-
-		this.addInputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2),1);
-		this.addInputPort(new Point(GraphConstants.PERMILLE,790),6);
-		this.addInputPort(new Point(GraphConstants.PERMILLE,230),2);
+		
 		this.addInputPort(new Point(0,180),0);
-		this.addInputPort(new Point(0,390),5);
-		this.addInputPort(new Point(0,630),4);
-		this.addInputPort(new Point(0,850),3);
+		this.addInputPort(new Point(0, 810), 1);
+		this.addOutputPort(new Point(GraphConstants.PERMILLE,180),0);
+		this.addOutputPort(new Point(GraphConstants.PERMILLE,810),1);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);
@@ -51,11 +46,7 @@ public class SevenSegment extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-		/*
-		 * TODO: work out 7 segment
-		 */
-	    Gate gate = new SsdGate();
-        Component component = GateComponentFactory.createComponent(gate);
+        Component component = new SrLatchComponent();
 		this.setUserObject(component);
 	}
 }

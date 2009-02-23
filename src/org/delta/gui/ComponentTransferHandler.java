@@ -51,6 +51,7 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 		case 12: cells[0] = new DFlip(new Point(0,0)); break;
 		case 13: cells[0] = new Switch(new Point(0,0)); break;
 		case 14: cells[0] = new SevenSegment(new Point(0,0)); break;
+		case 15: cells[0] = new RSLatch(new Point(0,0)); break;
 		}
 		
 		// Create a new graph containing only the new component

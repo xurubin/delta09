@@ -3,6 +3,7 @@
 	<title>Delta Circuit Simulator</title>
 	<maps>
 		<mapref location="map.xml"/>
+		<homeID>Root_help_id</homeID>
 	</maps>
 	<view>
 		<name>Table of Contents</name>

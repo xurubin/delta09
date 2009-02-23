@@ -56,6 +56,8 @@ public class DeltaComponentView extends VertexView {
 	private static final String RSLATCH_ICON = "rs_latch.svg";
 	private static final String ROM_ICON = "rom.svg";
 	private static final String RAM_ICON = "ram.svg";
+	private static final String NAND3_ICON = "nand3.svg";
+	private static final String NOR3_ICON = "nor3.svg";
 	// TODO: Add file names for all the other component icons.
 	
 	/**
@@ -115,6 +117,10 @@ public class DeltaComponentView extends VertexView {
 			iconFileName = ROM_ICON;
 		else if (cell instanceof RAM)
 			iconFileName = RAM_ICON;
+		else if (cell instanceof Nand3Gate)
+			iconFileName = NAND3_ICON;
+		else if (cell instanceof Nor3Gate)
+			iconFileName = NOR3_ICON;
 		// TODO: Add if statements to set icons for all the other types of component.
 		
 		// Attempt to create SVG icon

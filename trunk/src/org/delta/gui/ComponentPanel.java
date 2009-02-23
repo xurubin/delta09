@@ -31,6 +31,8 @@ public class ComponentPanel extends JPanel
 	public static final int RSLATCH = 15;	
 	public static final int ROM = 16;	
 	public static final int RAM = 17;	
+	public static final int NAND3 = 18;
+	public static final int NOR3 = 19;
 	// TODO: Set up remaining component keys
 	
 	private Box.Filler box;
@@ -165,7 +167,9 @@ public class ComponentPanel extends JPanel
 		ImageIcon and_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
 		ImageIcon nand_icon = new ImageIcon ("src/org/delta/gui/diagram/images/nand.png");
+		ImageIcon nand3_icon = new ImageIcon ("src/org/delta/gui/diagram/images/nand3.png");
 		ImageIcon nor_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/nor.png");
+		ImageIcon nor3_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/nor3.png");
 		ImageIcon xor_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/xor.png");
 		ImageIcon xnor_icon = new ImageIcon ("src/org/delta/gui/diagram/images/xnor.png");
 		ImageIcon not_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/not.png");
@@ -187,7 +191,9 @@ public class ComponentPanel extends JPanel
 		gates_cat.add (and_icon,  translator.getString ("ANDGATE") , AND);
 		gates_cat.add (or_icon,   translator.getString ("ORGATE"),   OR);
 		gates_cat.add (nand_icon, translator.getString ("NANDGATE"), NAND);
+		gates_cat.add (nand3_icon,  translator.getString ("NANDGATE") + " (3)",  NAND3);
 		gates_cat.add (nor_icon,  translator.getString ("NORGATE"),  NOR);
+		gates_cat.add (nor_icon,  translator.getString ("NORGATE") + " (3)",  NOR3);
 		gates_cat.add (xor_icon,  translator.getString ("XORGATE"),  XOR);
 		gates_cat.add (xnor_icon, translator.getString ("XNORGATE"), XNOR);
 		gates_cat.add (not_icon,  translator.getString ("NOTGATE"),  NOT);

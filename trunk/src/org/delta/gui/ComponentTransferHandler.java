@@ -54,6 +54,8 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 		case 15: cells[0] = new RSLatch(new Point(0,0)); break;
 		case 16: cells[0] = new ROM(new Point(0,0)); break;
 		case 17: cells[0] = new RAM(new Point(0,0)); break;
+		case 18: cells[0] = new Nand3Gate(new Point(0,0)); break;
+		case 19: cells[0] = new Nor3Gate(new Point(0,0)); break;
 		}
 		
 		// Create a new graph containing only the new component

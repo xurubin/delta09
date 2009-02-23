@@ -26,6 +26,7 @@ public class ComponentPanel extends JPanel
 	public static final int HIGH = 10;
 	public static final int LOW = 11;
 	public static final int DFLIP = 12;
+	public static final int SWITCH = 13;
 	// TODO: Set up remaining component keys
 	
 	private Box.Filler box;
@@ -154,7 +155,7 @@ public class ComponentPanel extends JPanel
 		Category gates_cat = new Category ("Logic gates", 7);
 		Category leds_cat  = new Category ("LEDs",  2);
 		//Category comp_cat  = new Category ("Complex components", 2);
-		Category fixed_cat = new Category ("Fixed inputs", 2);
+		Category fixed_cat = new Category ("Inputs", 3);
 		Category clocked_cat = new Category("Clocked components", 1);
 		
 		ImageIcon and_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
@@ -173,6 +174,7 @@ public class ComponentPanel extends JPanel
 		
 		ImageIcon high_icon = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
 		ImageIcon low_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/low.png");
+		ImageIcon switch_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/switch.png");
 		
 		gates_cat.add (and_icon,  translator.getString("ANDGATE") , AND);
 		gates_cat.add (or_icon,   translator.getString("ORGATE"),   OR);
@@ -187,6 +189,7 @@ public class ComponentPanel extends JPanel
 		
 		fixed_cat.add (high_icon, translator.getString("HIGH"), HIGH);
 		fixed_cat.add (low_icon,  translator.getString("LOW"),  LOW);
+		fixed_cat.add (switch_icon,  "SWITCH",  SWITCH);
 		
 		clocked_cat.add(dflip_icon, "DFLIP", DFLIP);
 		

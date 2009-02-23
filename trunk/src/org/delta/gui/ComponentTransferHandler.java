@@ -48,6 +48,7 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 		case 9: cells[0] = new Ledg(new Point(0,0)); break;
 		case 10: cells[0] = new HighInput(new Point(0,0)); break;
 		case 11: cells[0] = new LowInput(new Point(0,0)); break;
+		case 12: cells[0] = new DFlip(new Point(0,0)); break;
 		}
 		
 		// Create a new graph containing only the new component

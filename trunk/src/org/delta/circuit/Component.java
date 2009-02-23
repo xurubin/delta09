@@ -45,8 +45,24 @@ abstract public class Component implements Serializable {
         inputMap.set(inputNumber, wire);
     }
     
+    public void removeInputWire(ComponentWire wire) {
+        if (inputMap.containsEntry(wire)) {
+            inputMap.remove(wire);
+        }
+    }
+    
     public void addOutputWire(int outputNumber, ComponentWire wire) {
         outputMap.getEntry(outputNumber).add(wire);
+    }
+    
+    public void removeOutputWire(ComponentWire wire) {
+        for (int i = 0; i < outputMap.getSize(); ++i) {
+            Set<ComponentWire> set = outputMap.getEntry(i);
+            if (set.contains(wire)) {
+                set.remove(wire);
+                return;
+            }
+        }
     }
 
     public ComponentWire getInputWire(int inputNumber) {

@@ -28,6 +28,7 @@ public class ComponentPanel extends JPanel
 	public static final int DFLIP = 12;
 	public static final int SWITCH = 13;
 	public static final int SEVENSEG = 14;
+	public static final int RSLATCH = 15;	
 	// TODO: Set up remaining component keys
 	
 	private Box.Filler box;
@@ -194,6 +195,7 @@ public class ComponentPanel extends JPanel
 		leds_cat.add (sevenseg_icon, "SEVENSEGMENT", SEVENSEG);
 		
 		clocked_cat.add (dflip_icon, translator.getString ("DFLIP"), DFLIP);
+		clocked_cat.add (rslatch_icon, "RSLATCh", RSLATCH);
 		
 		for (Category c : cats)
 		{

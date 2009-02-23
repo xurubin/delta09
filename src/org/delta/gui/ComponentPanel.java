@@ -11,7 +11,7 @@ public class ComponentPanel extends JPanel
 {
 	static final long serialVersionUID = 1;
 	
-	public static final int WIDTH = 175;
+	public static final int WIDTH = 200;
 	
 	public static final int NONE = 0;
 	public static final int AND = 1;
@@ -29,6 +29,8 @@ public class ComponentPanel extends JPanel
 	public static final int SWITCH = 13;
 	public static final int SEVENSEG = 14;
 	public static final int RSLATCH = 15;	
+	public static final int ROM = 16;	
+	public static final int RAM = 17;	
 	// TODO: Set up remaining component keys
 	
 	private Box.Filler box;
@@ -157,7 +159,8 @@ public class ComponentPanel extends JPanel
 		Category gates_cat   = new Category ("Logic gates", 7);
 		Category leds_cat    = new Category ("LEDs",  2);
 		Category input_cat   = new Category ("Inputs", 3);
-		Category clocked_cat = new Category ("Clocked components", 1);
+		Category add_cat = new Category ("Others", 1);
+		Category memory_cat  = new Category ("Memory", 2);
 		
 		ImageIcon and_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
@@ -178,6 +181,9 @@ public class ComponentPanel extends JPanel
 		ImageIcon rslatch_icon = new ImageIcon ("src/org/delta/gui/diagram/images/rs_latch.png");
 		ImageIcon dflip_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/d_flip.png");
 		
+		ImageIcon rom_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/rom.png");
+		ImageIcon ram_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/ram.png");
+		
 		gates_cat.add (and_icon,  translator.getString ("ANDGATE") , AND);
 		gates_cat.add (or_icon,   translator.getString ("ORGATE"),   OR);
 		gates_cat.add (nand_icon, translator.getString ("NANDGATE"), NAND);
@@ -194,9 +200,11 @@ public class ComponentPanel extends JPanel
 		input_cat.add (switch_icon, translator.getString ("SWITCH"), SWITCH);
 		leds_cat.add (sevenseg_icon, "SEVENSEGMENT", SEVENSEG);
 		
-		clocked_cat.add (dflip_icon, translator.getString ("DFLIP"), DFLIP);
-		clocked_cat.add (rslatch_icon, "RSLATCh", RSLATCH);
+		add_cat.add (dflip_icon, translator.getString ("DFLIP"), DFLIP);
+		add_cat.add (rslatch_icon, "RSLATCH", RSLATCH);
 		
+		memory_cat.add(rom_icon, "ROM", ROM);
+		memory_cat.add(ram_icon, "RAM", RAM);
 		for (Category c : cats)
 		{
 			add (c.lpanel);

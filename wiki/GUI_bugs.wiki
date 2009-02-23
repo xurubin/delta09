@@ -1,6 +1,6 @@
 #summary List of GUI bugs
 
-  * Outputs to outputs should be disallowed.
+  * Outputs to outputs should be disallowed. - fixed 23/2/09 (inputs-inputs disallowed as well)
   * When you connect more than one wire to a component, only the first wire can be adjusted.
   * When you connect a wire from an input to an output port on the same component, it can't be adjusted.
   * Occasionally wires stick out.

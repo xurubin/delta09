@@ -30,7 +30,10 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 	private boolean[] ledrArray = new boolean[18];
 	
 	/** Array indicating which green LEDs are currently in use. */
-	private boolean[] ledgArray = new boolean[18];
+	private boolean[] ledgArray = new boolean[9];
+	
+	/** Array indicating which 7-segment displays are currently in use. */
+	private boolean[] sevenSegmentArray = new boolean[8];
 	
 	/**
 	 * This constructor simply calls the parent constructor with the given grapht graph.
@@ -205,6 +208,14 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 			ledrArray[number] = used;
 		else if (ledType == ComponentPanel.LEDG)
 			ledgArray[number] = used;
+	}
+	
+	public boolean isSevenSegmentUsed(int number) {
+		return sevenSegmentArray[number];
+	}
+	
+	public void setSevenSegmentUsed(int number, boolean used) {
+		sevenSegmentArray[number] = used;
 	}
 	
 }

@@ -25,6 +25,6 @@ public class CutAction extends AbstractAction
 		e = new ActionEvent(MainWindow.get().circuit_panel.getGraph(),
 				e.getID(),e.getActionCommand(),e.getModifiers());
 		action.actionPerformed(e);
-		// TODO: If an LED is cut (and not pasted back), make it available for reuse.
+		// TODO: If an LED or seven segment display is cut (and not pasted back), make it available for reuse.
 	}
 }

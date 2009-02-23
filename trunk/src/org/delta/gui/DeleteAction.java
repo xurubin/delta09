@@ -12,6 +12,7 @@ import org.delta.gui.diagram.DeltaGraph;
 import org.delta.gui.diagram.DeltaGraphModel;
 import org.delta.gui.diagram.Ledg;
 import org.delta.gui.diagram.Ledr;
+import org.delta.gui.diagram.SevenSegment;
 import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.Edge;
 
@@ -56,7 +57,7 @@ public class DeleteAction extends AbstractAction
 			Object[] components = graph.getSelectionCells();
 			components = graph.getDescendants(components);
 			
-			// If any of the components are LEDs, free them up for reuse
+			// If any of the components are LEDs or seven segment displays, free them up for reuse
 			for (int i=0; i<components.length; i++) {
 				if (components[i] instanceof Ledr) {
 					Ledr ledr = (Ledr)components[i];
@@ -67,6 +68,11 @@ public class DeleteAction extends AbstractAction
 					Ledg ledg = (Ledg)components[i];
 					DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
 					model.setLedUsed(ledg.getLedNumber(), ComponentPanel.LEDG, false);
+				}
+				else if (components[i] instanceof SevenSegment) {
+					SevenSegment sevenSegment = (SevenSegment)components[i];
+					DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
+					model.setSevenSegmentUsed(sevenSegment.getSevenSegmentNumber(), false);
 				}
 			}
 			

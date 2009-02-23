@@ -1,6 +1,5 @@
 package org.delta.logic;
 
-import org.delta.circuit.Wire;
 import org.delta.transport.BoardInterface;
 
 public class SsdFunction extends Function {

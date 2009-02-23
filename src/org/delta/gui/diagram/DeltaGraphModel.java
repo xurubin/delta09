@@ -22,10 +22,14 @@ import org.delta.circuit.ComponentGraphAdapter;
  */
 public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWire> {
 
-	/**
-	 * 
-	 */
+	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
+	
+	/** Array indicating which red LEDs are currently in use. */
+	private boolean[] ledrArray = new boolean[18];
+	
+	/** Array indicating which green LEDs are currently in use. */
+	private boolean[] ledgArray = new boolean[18];
 	
 	/**
 	 * This constructor simply calls the parent constructor with the given grapht graph.
@@ -149,6 +153,9 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 	 */
 	@Override
 	public boolean acceptsSource(Object edge, Object port) {
+		// Check target is not null - we do not allow dangling edges.
+		if (port == null)
+			return false;
 		// If source is an input port, check it has no other edges attached.
 		if (port instanceof DeltaInputPort) {
 			DeltaInputPort inputPort = (DeltaInputPort)port;
@@ -182,6 +189,14 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 			return ((portEdges.contains(edge))||(portEdges.isEmpty()));
 		}
 		return true;
+	}
+	
+	public boolean isLedrUsed(int number) {
+		return ledrArray[number];
+	}
+	
+	public boolean isLedgUsed(int number) {
+		return ledgArray[number];
 	}
 	
 }

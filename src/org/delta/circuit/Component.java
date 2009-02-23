@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.delta.util.BidirectionalIntegerMap;
+import org.delta.util.Pair;
 import org.delta.verilog.VerilogConverter;
 
 abstract public class Component implements Serializable {
@@ -39,6 +40,24 @@ abstract public class Component implements Serializable {
             internalOutputList.add(null);
             outputMap.set(i, new HashSet<ComponentWire>());
         }
+    }
+    
+    protected void fromComponentGraph(ComponentGraph graph,
+            Set<ComponentPort> inputs,
+            Set<ComponentPort> outputs,
+            Set<ComponentPort> clockInputs) {
+    }
+    
+    protected void fromComponentGraph(ComponentGraph graph,
+            Set<ComponentPort> inputs,
+            Set<ComponentPort> outputs) {
+        Set<ComponentPort> clockedInputs = new HashSet<ComponentPort>();
+        for (Component component: graph.vertexSet()) {
+            if (component instanceof ClockedComponent) {
+                clockedInputs.add(new ComponentPort(component, 0));
+            }
+        }
+        fromComponentGraph(graph, inputs, outputs, clockedInputs);
     }
 
     public void setInputWire(int inputNumber, ComponentWire wire) {
@@ -118,7 +137,7 @@ abstract public class Component implements Serializable {
         
         List<Gate> inputGateList = new ArrayList<Gate>(gateInputPorts.size());
         for (GateInputPort gateInputPort: gateInputPorts) {
-            inputGateList.add(gateInputPort.getGate());
+            inputGateList.add(gateInputPort.gate);
         }
         
         return inputGateList;
@@ -156,26 +175,30 @@ abstract public class Component implements Serializable {
         internalInputList.get(inputNumber).add(gateInputPort);
     }
     
-    public class GateInputPort implements Serializable {
+    public class GateInputPort extends Pair<Gate, Integer> {
 
         /**
          * 
          */
         private static final long serialVersionUID = 1L;
-        private final Gate gate;
-        private final int inputNumber;
+        public final Gate gate;
+        public final Integer inputNumber;
         
         public GateInputPort(final Gate gate, final int inputNumber) {
-            this.gate = gate;
-            this.inputNumber = inputNumber;
+            super(gate, inputNumber);
+            this.gate = first;
+            this.inputNumber = second;
         }
-        
-        public Gate getGate() {
-            return gate;
-        }
-        
-        public int getInputNumber() {
-            return inputNumber;
+    }
+    
+    public class ComponentPort extends Pair<Component, Integer> {
+        public final Integer portNumber;
+        public final Component component;
+
+        public ComponentPort(final Component first, final Integer second) {
+            super(first, second);
+            component = this.first;
+            portNumber = this.second;
         }
     }
     

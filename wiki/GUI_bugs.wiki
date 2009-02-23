@@ -4,3 +4,4 @@
   * When you connect more than one wire to a component, only the first wire can be adjusted.
   * When you connect a wire from an input to an output port on the same component, it can't be adjusted.
   * Occasionally wires stick out.
+  * If you make a really big circuit such that it causes the UI to slow down, and then select all and delete everything, the UI is still slow. (Probably not the most essential thing to fix...)

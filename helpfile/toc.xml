@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<toc version="2.0">
+	<tocitem target="Root_help_id" text="Delta Circuit Simulator"/>
+	<tocitem target="Installation_help_id" text="1. Installation"/>
+	<tocitem target="DE2_Setup_help_id" text="2. Hardware Setup"/>
+	<tocitem target="Getting_Started_help_id" text="3. Getting Started"/>
+	<tocitem target="UI_help_id" text="4. User Interface Explained"/>
+</toc>

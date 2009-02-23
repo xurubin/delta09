@@ -152,11 +152,10 @@ public class ComponentPanel extends JPanel
 		
 		cats = new ArrayList <Category> (4);
 		
-		Category gates_cat = new Category ("Logic gates", 7);
-		Category leds_cat  = new Category ("LEDs",  2);
-		//Category comp_cat  = new Category ("Complex components", 2);
-		Category fixed_cat = new Category ("Inputs", 3);
-		Category clocked_cat = new Category("Clocked components", 1);
+		Category gates_cat   = new Category ("Logic gates", 7);
+		Category leds_cat    = new Category ("LEDs",  2);
+		Category input_cat   = new Category ("Inputs", 3);
+		Category clocked_cat = new Category ("Clocked components", 1);
 		
 		ImageIcon and_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
@@ -169,29 +168,29 @@ public class ComponentPanel extends JPanel
 		ImageIcon ledg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledg.png");
 		ImageIcon ledr_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledr.png");
 		
+		ImageIcon high_icon    = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
+		ImageIcon low_icon     = new ImageIcon ("src/org/delta/gui/diagram/images/low.png");
+		ImageIcon switch_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/switch.png");
+		
 		ImageIcon rslatch_icon = new ImageIcon ("src/org/delta/gui/diagram/images/rs_latch.png");
 		ImageIcon dflip_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/d_flip.png");
 		
-		ImageIcon high_icon = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
-		ImageIcon low_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/low.png");
-		ImageIcon switch_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/switch.png");
+		gates_cat.add (and_icon,  translator.getString ("ANDGATE") , AND);
+		gates_cat.add (or_icon,   translator.getString ("ORGATE"),   OR);
+		gates_cat.add (nand_icon, translator.getString ("NANDGATE"), NAND);
+		gates_cat.add (nor_icon,  translator.getString ("NORGATE"),  NOR);
+		gates_cat.add (xor_icon,  translator.getString ("XORGATE"),  XOR);
+		gates_cat.add (xnor_icon, translator.getString ("XNORGATE"), XNOR);
+		gates_cat.add (not_icon,  translator.getString ("NOTGATE"),  NOT);
 		
-		gates_cat.add (and_icon,  translator.getString("ANDGATE") , AND);
-		gates_cat.add (or_icon,   translator.getString("ORGATE"),   OR);
-		gates_cat.add (nand_icon, translator.getString("NANDGATE"), NAND);
-		gates_cat.add (nor_icon,  translator.getString("NORGATE"),  NOR);
-		gates_cat.add (xor_icon,  translator.getString("XORGATE"),  XOR);
-		gates_cat.add (xnor_icon, translator.getString("XNORGATE"), XNOR);
-		gates_cat.add (not_icon,  translator.getString("NOTGATE"),  NOT);
+		leds_cat.add (ledg_icon, translator.getString ("LEDG"), LEDG);
+		leds_cat.add (ledr_icon, translator.getString ("LEDR"), LEDR);
 		
-		leds_cat.add (ledg_icon, translator.getString("LEDG"), LEDG);
-		leds_cat.add (ledr_icon, translator.getString("LEDR"), LEDR);
+		input_cat.add (high_icon,   translator.getString ("HIGH"),   HIGH);
+		input_cat.add (low_icon,    translator.getString ("LOW"),    LOW);
+		input_cat.add (switch_icon, translator.getString ("SWITCH"), SWITCH);
 		
-		fixed_cat.add (high_icon, translator.getString("HIGH"), HIGH);
-		fixed_cat.add (low_icon,  translator.getString("LOW"),  LOW);
-		fixed_cat.add (switch_icon,  "SWITCH",  SWITCH);
-		
-		clocked_cat.add(dflip_icon, "DFLIP", DFLIP);
+		clocked_cat.add (dflip_icon, translator.getString ("DFLIP"), DFLIP);
 		
 		for (Category c : cats)
 		{

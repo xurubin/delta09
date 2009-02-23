@@ -42,9 +42,9 @@ public class SaveAction extends AbstractAction
 			{
 				File f = chooser.getSelectedFile();
 				
-				File file = f.getName().toLowerCase().endsWith (".cir") ? f : new File (f.getPath() + ".cir");
+				f = f.getName().toLowerCase().endsWith (".cir") ? f : new File (f.getPath() + ".cir");
 				
-				FileOutputStream fileOut = new FileOutputStream (file);
+				FileOutputStream fileOut = new FileOutputStream (f);
 				ObjectOutputStream outr  = new ObjectOutputStream (fileOut);
 
 	            outr.writeObject ( MainWindow.get().circuit_panel.getGraph() );

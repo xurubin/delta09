@@ -1,6 +1,7 @@
 package org.delta.gui;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,9 +53,13 @@ public class OpenAction extends AbstractAction
 				
 				if (chooser.showOpenDialog ( MainWindow.get() ) == JFileChooser.APPROVE_OPTION)
 				{
+					File f = chooser.getSelectedFile();
+					
+					f = f.getName().toLowerCase().endsWith (".cir") ? f : new File (f.getPath() + ".cir");
+					
 					try
 					{
-						FileInputStream fis   = new FileInputStream ( chooser.getSelectedFile() );
+						FileInputStream fis   = new FileInputStream (f);
 						ObjectInputStream ois = new ObjectInputStream (fis);
 						
 						try
@@ -71,11 +76,20 @@ public class OpenAction extends AbstractAction
 					}
 					catch (FileNotFoundException ex)
 					{
-						System.out.println(ex);
+						 JOptionPane.showMessageDialog ( null,
+								 						 "The specified circuit file\n" +
+								 						 "could not be found.",
+								 						 "File not found",
+								 						 JOptionPane.ERROR_MESSAGE );
 					}
 					catch (IOException ex)
 					{
-						System.out.println(ex);
+						JOptionPane.showMessageDialog ( null,
+		 						 						"The specified circuit\n" +
+		 						 						"could not be loaded: " +
+		 						 						ex,
+		 						 						"Error",
+		 						 						JOptionPane.ERROR_MESSAGE );
 					}
 				}
 

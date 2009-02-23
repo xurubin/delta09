@@ -142,6 +142,10 @@ abstract public class Component implements Serializable {
     
     public class GateInputPort implements Serializable {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
         private final Gate gate;
         private final int inputNumber;
         

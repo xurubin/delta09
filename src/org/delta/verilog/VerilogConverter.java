@@ -87,9 +87,6 @@ public class VerilogConverter {
 		}
 		
 		//get list of output gates
-		/*
-		 * TODO: fix this! This is incorrect
-		 */
 		for(int i = 0; i < component.getOutputCount(); i++) {			
 			Gate outputGate  = component.getOutputGate(i);
 			List<Integer> current = gateOutputNumberMap.get(outputGate);

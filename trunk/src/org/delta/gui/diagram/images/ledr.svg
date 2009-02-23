@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
+   xmlns:ns="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:cc="http://web.resource.org/cc/"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,9 +13,9 @@
    height="49.297298"
    id="svg4490"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.45.1"
    version="1.0"
-   sodipodi:docbase="C:\Documents and Settings\Omegatron\Desktop\SVG"
+   sodipodi:docbase="/home/rad55/delta09/src/org/delta/gui/diagram/images"
    sodipodi:docname="ledr.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
@@ -35,20 +36,26 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="10.020833"
-     inkscape:cx="27.342289"
-     inkscape:cy="23.467136"
+     inkscape:cx="20.715314"
+     inkscape:cy="24.754781"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g2500"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:grid-points="true"
      inkscape:window-width="1107"
      inkscape:window-height="722"
-     inkscape:window-x="-5"
+     inkscape:window-x="0"
      inkscape:window-y="0" />
   <metadata
      id="metadata4495">
     <rdf:RDF>
+      <ns:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </ns:Work>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>

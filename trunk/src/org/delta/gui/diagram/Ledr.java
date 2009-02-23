@@ -9,6 +9,7 @@ import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
 import org.delta.circuit.component.GateComponentFactory;
 import org.delta.circuit.gate.LedGate;
+import org.delta.gui.ComponentPanel;
 
 /**
  * Class to represent the "model" of a red LED in the circuit diagram.
@@ -19,7 +20,10 @@ public class Ledr extends DeltaComponent {
 	private static final long serialVersionUID = 1L;
 	
 	/** Marker for the red LED this component represents. */
-	private int ledRnumber;
+	private int ledrnumber = -1;
+	
+	/** Reference to the model this LED is a member of. */
+	private DeltaGraphModel model;
 	
 	/**
 	 * Creates a new red LED at a default position.
@@ -35,12 +39,8 @@ public class Ledr extends DeltaComponent {
 	public Ledr(Point position) {
 		super();
 		
-		// TODO: Choose LEDR number.
-		this.setLedRNumber(0);
-		this.replaceUserObject();
-		
-		this.addInputPort(new Point(0,32*GraphConstants.PERMILLE / 50),0);
-		this.addOutputPort(new Point(GraphConstants.PERMILLE,32*GraphConstants.PERMILLE / 50),0);
+		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 2),0);
+		this.addOutputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2),0);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);
@@ -52,18 +52,40 @@ public class Ledr extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-		// TODO: Find out how the red/green numbers work in the circuit code.
-	    Gate gate = new LedGate(ledRnumber);
+	    Gate gate = new LedGate(ledrnumber);
         Component component = GateComponentFactory.createComponent(gate);
 		this.setUserObject(component);
+	}
+	
+	/**
+	 * Set the reference to the model - used when inserting into the graph.
+	 * @param graphModel - the model this LED is a part of.
+	 */
+	public void setModel(DeltaGraphModel graphModel) {
+		this.model = graphModel;
+	}
+	
+	/** Accessor method for the LED's number. */
+	public int getLedNumber() {
+		return this.ledrnumber;
 	}
 	
 	/**
 	 * Sets the number of the red LED that this component represents.
 	 * @param number - the number (0-17) of the red LED on the DE2 board.
 	 */
-	public void setLedRNumber(int number) {
-		// TODO: Check this number is not already in use.
-		this.ledRnumber = number;
+	public void setLedrNumber(int number) {
+		if (ledrnumber != -1)
+			model.setLedUsed(this.ledrnumber, ComponentPanel.LEDR, false);
+		this.ledrnumber = number;
+		model.setLedUsed(this.ledrnumber, ComponentPanel.LEDR, true);
+		this.replaceUserObject();
 	}
+	
+	/** Override toString to display the Led Number. */
+	@Override
+	public String toString() {
+		return "LEDR"+Integer.toString(this.ledrnumber);
+	}
+	
 }

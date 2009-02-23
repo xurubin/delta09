@@ -15,6 +15,7 @@ import org.jgraph.graph.Edge;
 import org.jgraph.graph.Port;
 import org.jgraph.graph.GraphModel;
 import org.delta.circuit.ComponentGraphAdapter;
+import org.delta.gui.ComponentPanel;
 
 /**
  * @author Group Delta 2009
@@ -191,12 +192,19 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		return true;
 	}
 	
-	public boolean isLedrUsed(int number) {
-		return ledrArray[number];
+	public boolean isLedUsed(int number, int ledType) {
+		if (ledType == ComponentPanel.LEDR)
+			return ledrArray[number];
+		else if (ledType == ComponentPanel.LEDG)
+			return ledgArray[number];
+		else return true;
 	}
 	
-	public boolean isLedgUsed(int number) {
-		return ledgArray[number];
+	public void setLedUsed(int number, int ledType, boolean used) {
+		if (ledType == ComponentPanel.LEDR)
+			ledrArray[number] = used;
+		else if (ledType == ComponentPanel.LEDG)
+			ledgArray[number] = used;
 	}
 	
 }

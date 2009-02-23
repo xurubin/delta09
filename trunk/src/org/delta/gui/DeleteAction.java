@@ -8,7 +8,10 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import org.jgraph.JGraph;
+import org.delta.gui.diagram.DeltaGraph;
+import org.delta.gui.diagram.DeltaGraphModel;
+import org.delta.gui.diagram.Ledg;
+import org.delta.gui.diagram.Ledr;
 import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.Edge;
 
@@ -44,7 +47,7 @@ public class DeleteAction extends AbstractAction
 	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e)
 	{
-		JGraph graph = MainWindow.get().circuit_panel.getGraph();
+		DeltaGraph graph = (DeltaGraph)MainWindow.get().circuit_panel.getGraph();
 		
 		// Only need to perform action if something is selected
 		if (!graph.isSelectionEmpty()) {
@@ -52,6 +55,20 @@ public class DeleteAction extends AbstractAction
 			// Create array of all components in the selection
 			Object[] components = graph.getSelectionCells();
 			components = graph.getDescendants(components);
+			
+			// If any of the components are LEDs, free them up for reuse
+			for (int i=0; i<components.length; i++) {
+				if (components[i] instanceof Ledr) {
+					Ledr ledr = (Ledr)components[i];
+					DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
+					model.setLedUsed(ledr.getLedNumber(), ComponentPanel.LEDR, false);
+				}
+				else if (components[i] instanceof Ledg) {
+					Ledg ledg = (Ledg)components[i];
+					DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
+					model.setLedUsed(ledg.getLedNumber(), ComponentPanel.LEDG, false);
+				}
+			}
 			
 			// Create array of all edges connected to components in the selection
 			Set<Edge> edgeSet = DefaultGraphModel.getEdges(graph.getModel(), components);

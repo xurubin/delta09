@@ -6,13 +6,18 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 
+import org.delta.gui.ComponentPanel;
+import org.delta.gui.MainWindow;
 import org.jgraph.JGraph;
 import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.CellView;
@@ -37,8 +42,19 @@ import org.jgraph.graph.ConnectionSet.Connection;
  * from the clipboard.
  */
 public class DeltaGraphTransferHandler extends GraphTransferHandler {
-
+	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Reference to this handler's model. The handler only deals with one
+	 * graph model so that we can check LEDs are not being used more than once.
+	 * @param model - the graph model to use for this handler.
+	 */
+	private DeltaGraphModel model;
+	
+	public DeltaGraphTransferHandler(DeltaGraphModel graphModel) {
+		this.model = graphModel;
+	}
 	
 	/**
 	 * This overwritten version is very similar to the original. The main change
@@ -327,7 +343,88 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		else
 			clones = model.cloneCells(cells);
 		
+		// If drop contains LEDs, ask user to choose the number, and tell the LED what model it's in
+		Iterable clonedCells = clones.values();
+		for (Object clone : clonedCells) {
+			if (clone instanceof Ledr) {
+				Ledr ledr = (Ledr)clone;
+				ledr.setModel(model);
+				int ledrNumber = getUserLedNumber(ComponentPanel.LEDR);
+				if (ledrNumber == -1) {
+					JOptionPane.showMessageDialog(MainWindow.get(),
+						    "You did not choose a number for the LED, " +
+						    "so it can't be added to the circuit",
+						    "LED number not chosen",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				ledr.setLedrNumber(ledrNumber);
+			}
+			else if (clone instanceof Ledg) {
+				Ledg ledg = (Ledg)clone;
+				ledg.setModel(model);
+				int ledgNumber = getUserLedNumber(ComponentPanel.LEDG);
+				if (ledgNumber == -1) {
+					JOptionPane.showMessageDialog(MainWindow.get(),
+						    "You did not choose a number for the LED, " +
+						    "so it can't be added to the circuit",
+						    "LED number not chosen",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				ledg.setLedgNumber(ledgNumber);
+			}
+		}
+		
 		// Insert cloned cells
 		graph.getGraphLayoutCache().insertClones(cells, clones, nested, cs, pm, dx, dy);
+	}
+	
+	private int getUserLedNumber(int ledType) {
+		// Set up local variables based on ledType
+		int leds;
+		String ledPrefix = "LED";
+		String ledTypeName;
+		if (ledType == ComponentPanel.LEDR) {
+			leds = 18;
+			ledPrefix += "R";
+			ledTypeName = "red";
+		}
+		else if (ledType == ComponentPanel.LEDG) {
+			leds = 8;
+			ledPrefix += "G";
+			ledTypeName = "green";
+		}
+		else { // Shouldn't happen
+			leds = 0;
+			ledTypeName = "(unknown LED type)";
+		}
+		
+		// Create an array of unused LEDs for the dialog box
+		ArrayList<String> unusedLeds = new ArrayList<String>();
+		for (int led=0; led<leds; led++) {
+			if (!model.isLedUsed(led, ledType))
+				unusedLeds.add(ledPrefix+Integer.toString(led));
+		}
+		Object[] possibilities = unusedLeds.toArray();
+		// TODO: What to do when there are no available LEDs.
+		
+		// Show the dialog and get the users choice
+		String returnedString = (String)JOptionPane.showInputDialog(
+		                    MainWindow.get(),
+		                    "Choose which "+ledTypeName+" LED you would like to represent.",
+		                    "Choose LED number",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    new ImageIcon("org/delta/gui/diagram/images/ledr.png"),
+		                    possibilities,
+		                    possibilities[0]);
+		
+		// If no string is returned (i.e. user clicks cancel), return -1 and let caller handle it
+		if (returnedString == null)
+			return -1;
+		
+		String number = returnedString.substring(ledPrefix.length(),returnedString.length());
+		int ledNumber = Integer.valueOf(number);
+		return ledNumber;
 	}
 }

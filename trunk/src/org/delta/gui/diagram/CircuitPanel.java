@@ -100,7 +100,7 @@ public class CircuitPanel extends JPanel {
 		graph.setPortsVisible(true);
 		
 		// Change TransferHandler to implement custom dropping
-		DeltaGraphTransferHandler handler = new DeltaGraphTransferHandler();
+		DeltaGraphTransferHandler handler = new DeltaGraphTransferHandler(model);
 		handler.setAlwaysReceiveAsCopyAction(true);
 		graph.setTransferHandler(handler);
 		

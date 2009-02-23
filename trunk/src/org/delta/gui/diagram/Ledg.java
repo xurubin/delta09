@@ -3,12 +3,12 @@ package org.delta.gui.diagram;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
-import org.jgraph.graph.GraphConstants;
-
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
 import org.delta.circuit.component.GateComponentFactory;
 import org.delta.circuit.gate.LedGate;
+import org.delta.gui.ComponentPanel;
+import org.jgraph.graph.GraphConstants;
 
 /**
  * Class to represent the "model" of a red LED in the circuit diagram.
@@ -19,7 +19,10 @@ public class Ledg extends DeltaComponent {
 	private static final long serialVersionUID = 1L;
 	
 	/** Marker for the green LED this component represents. */
-	private int ledGnumber;
+	private int ledgnumber = -1;
+	
+	/** Reference to the model this LED is a member of. */
+	private DeltaGraphModel model;
 	
 	/**
 	 * Creates a new green LED at a default position.
@@ -35,12 +38,8 @@ public class Ledg extends DeltaComponent {
 	public Ledg(Point position) {
 		super();
 		
-		// TODO: Choose LEDG number.
-		this.setLedGNumber(0);
-		this.replaceUserObject();
-		
-		this.addInputPort(new Point(0,32*GraphConstants.PERMILLE / 50),0);
-		this.addOutputPort(new Point(GraphConstants.PERMILLE,32*GraphConstants.PERMILLE / 50),0);
+		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 2),0);
+		this.addOutputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2),0);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);
@@ -52,18 +51,40 @@ public class Ledg extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-		// TODO: Find out how the red/green numbers work in the circuit code.
-	    Gate gate = new LedGate(ledGnumber);
+	    Gate gate = new LedGate(ledgnumber);
         Component component = GateComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}
 	
 	/**
-	 * Sets the number of the green LED that this component represents.
-	 * @param number - the number (0-17) of the red LED on the DE2 board.
+	 * Set the reference to the model - used when inserting into the graph.
+	 * @param graphModel - the model this LED is a part of.
 	 */
-	public void setLedGNumber(int number) {
-		// TODO: Check this number is not already in use.
-		this.ledGnumber = number;
+	public void setModel(DeltaGraphModel graphModel) {
+		this.model = graphModel;
 	}
+	
+	/** Accessor method for the LED's number. */
+	public int getLedNumber() {
+		return this.ledgnumber;
+	}
+	
+	/**
+	 * Sets the number of the green LED that this component represents.
+	 * @param number - the number (0-7) of the green LED on the DE2 board.
+	 */
+	public void setLedgNumber(int number) {
+		if (ledgnumber != -1)
+			model.setLedUsed(this.ledgnumber, ComponentPanel.LEDG, false);
+		this.ledgnumber = number;
+		model.setLedUsed(this.ledgnumber, ComponentPanel.LEDG, true);
+		this.replaceUserObject();
+	}
+	
+	/** Override toString to display the Led Number. */
+	@Override
+	public String toString() {
+		return "LEDG"+Integer.toString(this.ledgnumber);
+	}
+	
 }

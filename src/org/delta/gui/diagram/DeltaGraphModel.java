@@ -108,6 +108,38 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 	}
 	
 	/**
+	 * Connects or disconnects the edge and port in this model based on
+	 * <code>remove</code>. Subclassers should override this to update
+	 * connectivity datastructures.
+	 */
+	@Override
+	protected void connect(Object edge, Object port, boolean isSource,
+			boolean insert) {
+		// Add edge to port
+		if (port instanceof Port)
+			if (insert)
+				((Port) port).addEdge(edge);
+
+			// Only removes if opposite is not
+			// connected to same port
+			else if ((isSource) ? getTarget(edge) != port
+					: getSource(edge) != port)
+				((Port) port).removeEdge(edge);
+		if (!insert)
+			port = null;
+		if (edge instanceof Edge) {
+			/*if (port instanceof DeltaInputPort)
+				((DeltaEdge)edge).setSource(port);
+			else
+				((DeltaEdge)edge).setTarget(port);*/
+			if (isSource)
+				((Edge) edge).setSource(port);
+			else
+				((Edge) edge).setTarget(port);
+		}
+	}
+	
+	/**
 	 * Override to implement our constraints on electronic circuits. In this case
 	 * we need only check that if the source is an input port, and if so whether
 	 * it already has edges attached.

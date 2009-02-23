@@ -25,12 +25,11 @@ import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.PortView;
 
 /**
+ * @author Group Delta 2009
  * View class for Edges. It allows us to use DeltaEdgeRenderer and deals with
  * adding, removing and moving of control points on the edge.
- * @author Group Delta 2009
  */
 public class DeltaEdgeView extends EdgeView {
-
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
 	
@@ -38,13 +37,13 @@ public class DeltaEdgeView extends EdgeView {
 	public static transient DeltaEdgeRenderer renderer = new DeltaEdgeRenderer();
 	
 	/** Cached coordinates of start point (i.e. source port). */
-	private transient Point2D cachedStartPoint;
+	//private transient Point2D cachedStartPoint;
 	
 	/** Cached coordinates of end point (i.e. target port). */
-	private transient Point2D cachedEndPoint;
+	//private transient Point2D cachedEndPoint;
 	
 	/** Indicates if the start and end points have been cached yet. */
-	private transient boolean pointsCached = false;
+	//private transient boolean pointsCached = false;
 	
 	/**
 	 * Constructs an empty DeltaEdgeView (calls super class's constructor).
@@ -139,6 +138,7 @@ public class DeltaEdgeView extends EdgeView {
 	 * @param cache - the graphLayoutCache with this view.
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public void update(GraphLayoutCache cache) {
 		super.update(cache);
 		// Save the reference to the points so they can be changed
@@ -189,7 +189,7 @@ public class DeltaEdgeView extends EdgeView {
 	}
 	
 	/**
-	 * Private method to realign all the points on either side of one
+	 * Protected method to realign all the points on either side of one
 	 * that has been moved, inserted or removed. The aim is that every control
 	 * point should be in the middle of the "edge" that it causes to be
 	 * rendered.
@@ -197,7 +197,7 @@ public class DeltaEdgeView extends EdgeView {
 	 * @param added - true if this point has just been added to the edge.
 	 * @param removed - true if this point has just been removed from the edge.
 	 */
-	private void realignPointsAround(int index, boolean added, boolean removed) {
+	protected void realignPointsAround(int index, boolean added, boolean removed) {
 		// Realign this point
 		Point2D.Double thisPoint = this.getRealignedPoint(index);
 		if (thisPoint != null)
@@ -304,6 +304,7 @@ public class DeltaEdgeView extends EdgeView {
 	/**
 	 * Sets the <code>sourceView</code> of the edge.
 	 */
+	@SuppressWarnings("unchecked")
 	public void setSource(CellView sourceView) {
 		sourceParentView = null;
 		source = sourceView;
@@ -322,6 +323,7 @@ public class DeltaEdgeView extends EdgeView {
 	/**
 	 * Sets the <code>targetView</code> of the edge.
 	 */
+	@SuppressWarnings("unchecked")
 	public void setTarget(CellView targetView) {
 		target = targetView;
 		targetParentView = null;
@@ -421,6 +423,7 @@ public class DeltaEdgeView extends EdgeView {
 				edge.removePoint(index);
 				edgeModified = true;
 				pointRemoved = true;
+				reloadPoints(edge);
 				mouseReleased(event);
 			
 			// Add Point
@@ -571,6 +574,7 @@ public class DeltaEdgeView extends EdgeView {
 		 * NOTE: Overwritten to use DeltaEdgeView.update not EdgeView.update.
 		 * @param e - MouseEvent that triggered this method.
 		 */
+		@SuppressWarnings("unchecked")
 		public void mouseReleased(MouseEvent e) {
 			boolean clone = e.isControlDown() && graph.isCloneable();
 			GraphModel model = graph.getModel();
@@ -578,6 +582,13 @@ public class DeltaEdgeView extends EdgeView {
 					.getCell() : null;
 			Object target = (edge.getTarget() != null) ? edge.getTarget()
 					.getCell() : null;
+			// ADDED
+			/*if (source instanceof DeltaOutputPort) {
+				Object temp = source;
+				source = target;
+				target = temp;
+			}
+			// END*/
 			if (edgeModified && model.acceptsSource(edge.getCell(), source)
 					&& model.acceptsTarget(edge.getCell(), target)) {
 				// If points have been moved or deleted, realign points

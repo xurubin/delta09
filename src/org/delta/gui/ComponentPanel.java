@@ -25,6 +25,7 @@ public class ComponentPanel extends JPanel
 	public static final int LEDG = 9;
 	public static final int HIGH = 10;
 	public static final int LOW = 11;
+	public static final int DFLIP = 12;
 	// TODO: Set up remaining component keys
 	
 	private Box.Filler box;
@@ -148,12 +149,13 @@ public class ComponentPanel extends JPanel
 		
 		box = new Box.Filler ( new Dimension (WIDTH, 0), getSize(), new Dimension (WIDTH, 0) );
 		
-		cats = new ArrayList <Category> (3);
+		cats = new ArrayList <Category> (4);
 		
 		Category gates_cat = new Category ("Logic gates", 7);
 		Category leds_cat  = new Category ("LEDs",  2);
 		//Category comp_cat  = new Category ("Complex components", 2);
 		Category fixed_cat = new Category ("Fixed inputs", 2);
+		Category clocked_cat = new Category("Clocked components", 1);
 		
 		ImageIcon and_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
@@ -166,8 +168,8 @@ public class ComponentPanel extends JPanel
 		ImageIcon ledg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledg.png");
 		ImageIcon ledr_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledr.png");
 		
-		//ImageIcon rslatch_icon = new ImageIcon ("src/org/delta/gui/diagram/images/rs_latch.png");
-		//ImageIcon dflip_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/d_flip.png");
+		ImageIcon rslatch_icon = new ImageIcon ("src/org/delta/gui/diagram/images/rs_latch.png");
+		ImageIcon dflip_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/d_flip.png");
 		
 		ImageIcon high_icon = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
 		ImageIcon low_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/low.png");
@@ -185,6 +187,8 @@ public class ComponentPanel extends JPanel
 		
 		fixed_cat.add (high_icon, translator.getString("HIGH"), HIGH);
 		fixed_cat.add (low_icon,  translator.getString("LOW"),  LOW);
+		
+		clocked_cat.add(dflip_icon, "DFLIP", DFLIP);
 		
 		for (Category c : cats)
 		{

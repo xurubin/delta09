@@ -26,8 +26,8 @@ public class DFlipFlopComponent extends ClockedComponent {
 		circuit.addCircuit(slave.getCircuit());
 
 		for (GateInputPort gateInputPort : slave.getGateInputPorts(0)) {
-			Gate gate = gateInputPort.getGate();
-			int inputNumber = gateInputPort.getInputNumber();
+			Gate gate = gateInputPort.gate;
+			int inputNumber = gateInputPort.inputNumber;
 
 			Wire wire = circuit.addEdge(master.getOutputGate(0), gate);
 			gate.setWire(wire, inputNumber);
@@ -37,8 +37,8 @@ public class DFlipFlopComponent extends ClockedComponent {
 		circuit.addVertex(inv);
 
 		for (GateInputPort gateInputPort : master.getClockInputList()) {
-			Gate gate = gateInputPort.getGate();
-			int inputNumber = gateInputPort.getInputNumber();
+			Gate gate = gateInputPort.gate;
+			int inputNumber = gateInputPort.inputNumber;
 
 			Wire wire = circuit.addEdge(inv, gate);
 			gate.setWire(wire, inputNumber);
@@ -47,15 +47,15 @@ public class DFlipFlopComponent extends ClockedComponent {
 		addClockInput(inv, 0);
 
 		for (GateInputPort gateInputPort : slave.getClockInputList()) {
-			Gate gate = gateInputPort.getGate();
-			int inputNumber = gateInputPort.getInputNumber();
+			Gate gate = gateInputPort.gate;
+			int inputNumber = gateInputPort.inputNumber;
 
 			addClockInput(gate, inputNumber);
 		}
 
 		for (GateInputPort gateInputPort : master.getGateInputPorts(0)) {
-			Gate gate = gateInputPort.getGate();
-			int gateInputNumber = gateInputPort.getInputNumber();
+			Gate gate = gateInputPort.gate;
+			int gateInputNumber = gateInputPort.inputNumber;
 
 			addInputGate(0, gate, gateInputNumber);
 		}

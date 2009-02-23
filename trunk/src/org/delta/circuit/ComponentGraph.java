@@ -12,6 +12,7 @@ import java.util.Set;
 import org.delta.circuit.Component.GateInputPort;
 import org.delta.circuit.component.GateComponentFactory;
 import org.delta.circuit.gate.ClockGate;
+import org.delta.circuit.gate.InverterGate;
 import org.jgrapht.graph.DirectedMultigraph;
 
 /**
@@ -86,9 +87,9 @@ public class ComponentGraph extends
             final ClockedComponent cc = (ClockedComponent) component;
             final List<Component.GateInputPort> list = cc.getClockInputList();
             for (GateInputPort gi: list) {
-                final Gate gate = gi.getGate();
+                final Gate gate = gi.gate;
                 final Wire wire = circuit.addEdge(mainClockGate, gate);
-                gate.setWire(wire, gi.getInputNumber());
+                gate.setWire(wire, gi.inputNumber);
             }
         }
         
@@ -243,10 +244,10 @@ public class ComponentGraph extends
         
         Set<Wire> newWireSet = new HashSet<Wire>();
         for (GateInputPort targetGateInputPort: targets) {
-            int targetGateInputNumber = targetGateInputPort.getInputNumber();
+            int targetGateInputNumber = targetGateInputPort.inputNumber;
             
             Gate sourceGate = sourceComponent.getOutputGate(sourceOutputNumber);
-            Gate targetGate = targetGateInputPort.getGate();
+            Gate targetGate = targetGateInputPort.gate;
     
             Wire newWire = circuit.addEdge(sourceGate, targetGate);
             if (newWire == null) continue;

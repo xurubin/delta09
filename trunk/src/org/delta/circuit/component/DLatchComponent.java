@@ -29,15 +29,15 @@ public class DLatchComponent extends ClockedComponent {
         and0.setWire(invToAnd0, 1);
         
         for (GateInputPort gateInputPort: srLatch.getGateInputPorts(0)) {
-            Gate gate = gateInputPort.getGate();
-            int inputNumber = gateInputPort.getInputNumber();
+            Gate gate = gateInputPort.gate;
+            int inputNumber = gateInputPort.inputNumber;
             Wire and0ToLatch0 = dLatch.addEdge(and0, gate);
             gate.setWire(and0ToLatch0, inputNumber);
         }
         
         for (GateInputPort gateInputPort: srLatch.getGateInputPorts(1)) {
-            Gate gate = gateInputPort.getGate();
-            int inputNumber = gateInputPort.getInputNumber();
+            Gate gate = gateInputPort.gate;
+            int inputNumber = gateInputPort.inputNumber;
             Wire and1ToLatch0 = dLatch.addEdge(and1, gate);
             gate.setWire(and1ToLatch0, inputNumber);
         }

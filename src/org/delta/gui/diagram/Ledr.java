@@ -40,7 +40,6 @@ public class Ledr extends DeltaComponent {
 		super();
 		
 		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 2),0);
-		this.addOutputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2),0);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);

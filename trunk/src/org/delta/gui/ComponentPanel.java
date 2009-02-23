@@ -27,6 +27,7 @@ public class ComponentPanel extends JPanel
 	public static final int LOW = 11;
 	public static final int DFLIP = 12;
 	public static final int SWITCH = 13;
+	public static final int SEVENSEG = 14;
 	// TODO: Set up remaining component keys
 	
 	private Box.Filler box;
@@ -167,6 +168,7 @@ public class ComponentPanel extends JPanel
 		
 		ImageIcon ledg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledg.png");
 		ImageIcon ledr_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledr.png");
+		ImageIcon sevenseg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/7seg.png");
 		
 		ImageIcon high_icon    = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
 		ImageIcon low_icon     = new ImageIcon ("src/org/delta/gui/diagram/images/low.png");
@@ -189,6 +191,7 @@ public class ComponentPanel extends JPanel
 		input_cat.add (high_icon,   translator.getString ("HIGH"),   HIGH);
 		input_cat.add (low_icon,    translator.getString ("LOW"),    LOW);
 		input_cat.add (switch_icon, translator.getString ("SWITCH"), SWITCH);
+		leds_cat.add (sevenseg_icon, "SEVENSEGMENT", SEVENSEG);
 		
 		clocked_cat.add (dflip_icon, translator.getString ("DFLIP"), DFLIP);
 		

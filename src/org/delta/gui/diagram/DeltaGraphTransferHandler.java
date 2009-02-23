@@ -349,7 +349,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			if (clone instanceof Ledr) {
 				Ledr ledr = (Ledr)clone;
 				ledr.setModel(model);
-				int ledrNumber = getUserLedNumber(ComponentPanel.LEDR);
+				int ledrNumber = getUserInput(ComponentPanel.LEDR);
 				if (ledrNumber == -1) {
 					JOptionPane.showMessageDialog(MainWindow.get(),
 						    "You did not choose a number for the LED, " +
@@ -363,7 +363,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			else if (clone instanceof Ledg) {
 				Ledg ledg = (Ledg)clone;
 				ledg.setModel(model);
-				int ledgNumber = getUserLedNumber(ComponentPanel.LEDG);
+				int ledgNumber = getUserInput(ComponentPanel.LEDG);
 				if (ledgNumber == -1) {
 					JOptionPane.showMessageDialog(MainWindow.get(),
 						    "You did not choose a number for the LED, " +
@@ -374,46 +374,93 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				}
 				ledg.setLedgNumber(ledgNumber);
 			}
+			else if (clone instanceof Switch) {
+				Switch sw = (Switch)clone;
+				int switchNumber = getUserInput(ComponentPanel.SWITCH);
+				if (switchNumber == -1) {
+					JOptionPane.showMessageDialog(MainWindow.get(),
+						    "You did not choose a number for the component, " +
+						    "so it can't be added to the circuit",
+						    "Component number not chosen",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				sw.setSwitchNumber(switchNumber);
+			}
+			else if (clone instanceof SevenSegment) {
+				SevenSegment sevenSegment = (SevenSegment)clone;
+				sevenSegment.setModel(model);
+				int sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG);
+				if (sevenSegmentNumber == -1) {
+					JOptionPane.showMessageDialog(MainWindow.get(),
+						    "You did not choose a number for the component, " +
+						    "so it can't be added to the circuit",
+						    "Component number not chosen",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				sevenSegment.setSevenSegmentNumber(sevenSegmentNumber);
+			}
 		}
 		
 		// Insert cloned cells
 		graph.getGraphLayoutCache().insertClones(cells, clones, nested, cs, pm, dx, dy);
 	}
 	
-	private int getUserLedNumber(int ledType) {
-		// Set up local variables based on ledType
-		int leds;
-		String ledPrefix = "LED";
-		String ledTypeName;
-		if (ledType == ComponentPanel.LEDR) {
-			leds = 18;
-			ledPrefix += "R";
-			ledTypeName = "red";
-		}
-		else if (ledType == ComponentPanel.LEDG) {
-			leds = 8;
-			ledPrefix += "G";
-			ledTypeName = "green";
-		}
-		else { // Shouldn't happen
-			leds = 0;
-			ledTypeName = "(unknown LED type)";
+	private int getUserInput(int compType) {
+		// Set up local variables based on the type of component
+		int totalComps;
+		String compPrefix;
+		String compName;
+		switch (compType) {
+		case ComponentPanel.LEDR:		totalComps = 18;
+										compPrefix = "LEDR";
+										compName = "red LED";
+										break;
+		case ComponentPanel.LEDG:		totalComps = 9;
+										compPrefix = "LEDG";
+										compName = "green LED";
+										break;
+		case ComponentPanel.SWITCH:		totalComps = 18;
+										compPrefix = "SW";
+										compName = "switch";
+										break;
+		case ComponentPanel.SEVENSEG:	totalComps = 8;
+										compPrefix = "HEX";
+										compName = "seven segment display";
+										break;
+		default:						totalComps = 0;
+										compPrefix = "UNKNOWN";
+										compName = "(unkown component type)";
 		}
 		
-		// Create an array of unused LEDs for the dialog box
-		ArrayList<String> unusedLeds = new ArrayList<String>();
-		for (int led=0; led<leds; led++) {
-			if (!model.isLedUsed(led, ledType))
-				unusedLeds.add(ledPrefix+Integer.toString(led));
+		// Create an array of unused components for the dialog box
+		ArrayList<String> unusedComps = new ArrayList<String>();
+		if ((compType == ComponentPanel.LEDR) || (compType == ComponentPanel.LEDG)) {
+			for (int led=0; led<totalComps; led++) {
+				if (!model.isLedUsed(led, compType))
+					unusedComps.add(compPrefix+Integer.toString(led));
+			}
 		}
-		Object[] possibilities = unusedLeds.toArray();
-		// TODO: What to do when there are no available LEDs.
+		else if (compType == ComponentPanel.SWITCH) {
+			for (int sw=0; sw<totalComps; sw++) {
+				unusedComps.add(compPrefix+Integer.toString(sw));
+			}
+		}
+		else if (compType == ComponentPanel.SEVENSEG) {
+			for (int hex=0; hex<totalComps; hex++) {
+				if (!model.isSevenSegmentUsed(hex))
+					unusedComps.add(compPrefix+Integer.toString(hex));
+			}
+		}
+		Object[] possibilities = unusedComps.toArray();
+		// TODO: What to do when there are no available LEDs or seven segment displays.
 		
 		// Show the dialog and get the users choice
 		String returnedString = (String)JOptionPane.showInputDialog(
 		                    MainWindow.get(),
-		                    "Choose which "+ledTypeName+" LED you would like to represent.",
-		                    "Choose LED number",
+		                    "Choose which "+compName+" you would like to represent.",
+		                    "Choose "+compName+" number",
 		                    JOptionPane.PLAIN_MESSAGE,
 		                    new ImageIcon("org/delta/gui/diagram/images/ledr.png"),
 		                    possibilities,
@@ -423,8 +470,8 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		if (returnedString == null)
 			return -1;
 		
-		String number = returnedString.substring(ledPrefix.length(),returnedString.length());
-		int ledNumber = Integer.valueOf(number);
-		return ledNumber;
+		String number = returnedString.substring(compPrefix.length(),returnedString.length());
+		int compNumber = Integer.valueOf(number);
+		return compNumber;
 	}
 }

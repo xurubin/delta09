@@ -16,6 +16,12 @@ import org.jgraph.graph.GraphConstants;
 public class SevenSegment extends DeltaComponent {
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
+	
+	/** Marker for the seven segment display this component represents. */
+	private int sevenSegmentNumber = -1;
+	
+	/** Reference to the model this LED is a member of. */
+	private DeltaGraphModel model;
 
 	/**
 	 * Creates a new Switch at a default position.
@@ -54,8 +60,39 @@ public class SevenSegment extends DeltaComponent {
 		/*
 		 * TODO: work out 7 segment
 		 */
-	    Gate gate = new SsdGate();
+	   	Gate gate = new SsdGate(sevenSegmentNumber);
         Component component = GateComponentFactory.createComponent(gate);
 		this.setUserObject(component);
+	}
+	
+	/**
+	 * Set the reference to the model - used when inserting into the graph.
+	 * @param graphModel - the model this seven segment display is a part of.
+	 */
+	public void setModel(DeltaGraphModel graphModel) {
+		this.model = graphModel;
+	}
+	
+	/** Accessor method for the seven segment display's number. */
+	public int getSevenSegmentNumber() {
+		return this.sevenSegmentNumber;
+	}
+	
+	/**
+	 * Sets the number of the seven segment display that this component represents.
+	 * @param number - the number of the seven segment display on the DE2 board.
+	 */
+	public void setSevenSegmentNumber(int number) {
+		if (this.sevenSegmentNumber != -1)
+			model.setSevenSegmentUsed(this.sevenSegmentNumber, false);
+		this.sevenSegmentNumber = number;
+		model.setSevenSegmentUsed(this.sevenSegmentNumber, true);
+		this.replaceUserObject();
+	}
+	
+	/** Override toString to display the seven segment display number. */
+	@Override
+	public String toString() {
+		return "HEX"+Integer.toString(this.sevenSegmentNumber);
 	}
 }

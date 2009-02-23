@@ -16,7 +16,10 @@ import org.jgraph.graph.GraphConstants;
 public class Switch extends DeltaComponent {
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
-
+	
+	/** Marker for the seven segment display this component represents. */
+	private int switchNumber = -1;
+	
 	/**
 	 * Creates a new Switch at a default position.
 	 */
@@ -45,8 +48,29 @@ public class Switch extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-	    Gate gate = new SwitchGate(0);
+	    Gate gate = new SwitchGate(switchNumber);
         Component component = GateComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}
+	
+	/** Accessor method for the seven segment display's number. */
+	public int getSwitchNumber() {
+		return this.switchNumber;
+	}
+	
+	/**
+	 * Sets the number of the switch that this component represents.
+	 * @param number - the number of the switch on the DE2 board.
+	 */
+	public void setSwitchNumber(int number) {
+		this.switchNumber = number;
+		this.replaceUserObject();
+	}
+	
+	/** Override toString to display the switch number. */
+	@Override
+	public String toString() {
+		return "SW"+Integer.toString(this.switchNumber);
+	}
+	
 }

@@ -130,18 +130,11 @@ public class VerilogConverter {
 			}
 			else {
 				//i.e. we are an output gate from this circuit
-//				List<Integer> listOfConnections = gateOutputNumberMap.get(g);
-//				if(listOfConnections != null && listOfConnections.size() != 0 && !outputWires.isEmpty()) {
-//					for(Integer w : listOfConnections) {
-//						output.add(outputWires.get(listOfConnections.get(w)));
-//					}
-//				}
 				for(int i = 0; i < component.getOutputCount(); i++) {
 					for(ComponentWire w : component.getOutputWires(i)) {
 						output.add(outputWires.get(w));
 					}
-				}
-				
+				}				
 			}
 			
 			

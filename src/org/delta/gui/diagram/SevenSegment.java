@@ -54,7 +54,7 @@ public class SevenSegment extends DeltaComponent {
 		/*
 		 * TODO: work out 7 segment
 		 */
-	    Gate gate = new LedGate(0);
+	    Gate gate = new SsdGate();
         Component component = GateComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}

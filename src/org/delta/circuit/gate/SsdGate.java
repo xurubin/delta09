@@ -8,7 +8,7 @@ import org.delta.logic.SsdFunction;
 public class SsdGate extends AbstractOutputGate {
     private static final long serialVersionUID = 1L;
     private Function ssd = new SsdFunction();
-
+   
     public SsdGate() {
         super(7);
     }

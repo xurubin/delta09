@@ -6,7 +6,11 @@ import org.delta.logic.Formula;
 import org.delta.logic.LedConstant;
 
 public class LedGate extends AbstractOutputGate {
-    private int ledNumber;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int ledNumber;
     
     public LedGate(int l) {
         super(1);

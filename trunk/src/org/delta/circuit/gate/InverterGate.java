@@ -9,7 +9,12 @@ import org.delta.logic.Not;
 
 public class InverterGate extends Gate {
 
-    public InverterGate() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public InverterGate() {
         super(1);
     }
 

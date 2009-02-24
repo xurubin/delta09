@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import org.delta.logic.State;
 
 public class UndefinedGate extends AbstractInputGate {
-    private boolean firstEvaluation = true;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private boolean firstEvaluation = true;
 
     public UndefinedGate() {
         setState(State.SX);

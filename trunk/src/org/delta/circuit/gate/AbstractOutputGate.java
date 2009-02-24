@@ -4,7 +4,12 @@ import org.delta.circuit.Gate;
 
 public abstract class AbstractOutputGate extends Gate {
 
-    public AbstractOutputGate(int inputCount) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public AbstractOutputGate(int inputCount) {
         super(inputCount);
     }
 

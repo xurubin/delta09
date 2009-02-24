@@ -91,8 +91,7 @@ public class RunAction extends AbstractAction {
 		/*
 		 * TODO: Set clock frequency from spinner
 		 */
-		System.out.println(MainWindow.get().getClockSpinnerValue());
-		
+		cg.setClockFrequency((int) MainWindow.get().getClockSpinnerValue());
 		MainWindow.get().scheduler.start();
 		MainWindow.get().clock_updater = new ClockUpdater (MainWindow.get().clock_label);
 		MainWindow.get().clock_updater.startClock();

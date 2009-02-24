@@ -28,6 +28,7 @@ public class ExportAction extends AbstractAction
 			//chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			//if (chooser.showSaveDialog(chooser) == JFileChooser.APPROVE_OPTION) { 
 				ComponentGraph cg = MainWindow.get().circuit_panel.getComponentGraph();
+				cg.setClockFrequency((int) MainWindow.get().getClockSpinnerValue());
 				if(cg.edgeSet().size() == 0) throw new Exception();
 				//VerilogConverter.saveVerilogProject(chooser.getSelectedFile(), cg);
 				System.out.println(VerilogConverter.convertToVerilog(cg));

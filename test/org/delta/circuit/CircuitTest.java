@@ -45,5 +45,4 @@ public class CircuitTest {
     public void testRemoveEdgeWire() {
         fail("Not yet implemented");
     }
-
 }

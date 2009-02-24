@@ -24,7 +24,7 @@ public class ComponentPanel extends JPanel
 {
 	static final long serialVersionUID = 1;
 	
-	public static final int WIDTH = 200;
+	public static final int WIDTH = 180;
 	
 	public static final int NONE = 0;
 	public static final int AND = 1;
@@ -174,21 +174,21 @@ public class ComponentPanel extends JPanel
 		Category gates_cat   = new Category ("Logic gates", 7);
 		Category leds_cat    = new Category ("LEDs",  2);
 		Category input_cat   = new Category ("Inputs", 3);
-		Category add_cat = new Category ("Others", 1);
+		Category add_cat     = new Category ("Others", 1);
 		Category memory_cat  = new Category ("Memory", 2);
 		
-		ImageIcon and_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
-		ImageIcon or_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
-		ImageIcon nand_icon = new ImageIcon ("src/org/delta/gui/diagram/images/nand.png");
+		ImageIcon and_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
+		ImageIcon or_icon    = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
+		ImageIcon nand_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/nand.png");
 		ImageIcon nand3_icon = new ImageIcon ("src/org/delta/gui/diagram/images/nand3.png");
-		ImageIcon nor_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/nor.png");
+		ImageIcon nor_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/nor.png");
 		ImageIcon nor3_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/nor3.png");
-		ImageIcon xor_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/xor.png");
-		ImageIcon xnor_icon = new ImageIcon ("src/org/delta/gui/diagram/images/xnor.png");
-		ImageIcon not_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/not.png");
+		ImageIcon xor_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/xor.png");
+		ImageIcon xnor_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/xnor.png");
+		ImageIcon not_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/not.png");
 		
-		ImageIcon ledg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledg.png");
-		ImageIcon ledr_icon = new ImageIcon ("src/org/delta/gui/diagram/images/ledr.png");
+		ImageIcon ledg_icon     = new ImageIcon ("src/org/delta/gui/diagram/images/ledg.png");
+		ImageIcon ledr_icon     = new ImageIcon ("src/org/delta/gui/diagram/images/ledr.png");
 		ImageIcon sevenseg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/7seg.png");
 		
 		ImageIcon high_icon    = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
@@ -201,29 +201,30 @@ public class ComponentPanel extends JPanel
 		ImageIcon rom_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/rom.png");
 		ImageIcon ram_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/ram.png");
 		
-		gates_cat.add (and_icon,  translator.getString ("ANDGATE") , AND);
-		gates_cat.add (or_icon,   translator.getString ("ORGATE"),   OR);
-		gates_cat.add (nand_icon, translator.getString ("NANDGATE"), NAND);
-		gates_cat.add (nand3_icon,  translator.getString ("NANDGATE") + " (3)",  NAND3);
-		gates_cat.add (nor_icon,  translator.getString ("NORGATE"),  NOR);
-		gates_cat.add (nor3_icon,  translator.getString ("NORGATE") + " (3)",  NOR3);
-		gates_cat.add (xor_icon,  translator.getString ("XORGATE"),  XOR);
-		gates_cat.add (xnor_icon, translator.getString ("XNORGATE"), XNOR);
-		gates_cat.add (not_icon,  translator.getString ("NOTGATE"),  NOT);
+		gates_cat.add (and_icon,   translator.getString ("ANDGATE") , AND);
+		gates_cat.add (or_icon,    translator.getString ("ORGATE"),   OR);
+		gates_cat.add (nand_icon,  translator.getString ("NANDGATE"), NAND);
+		gates_cat.add (nand3_icon, translator.getString ("NANDGATE") + " (3)",  NAND3);
+		gates_cat.add (nor_icon,   translator.getString ("NORGATE"),  NOR);
+		gates_cat.add (nor3_icon,  translator.getString ("NORGATE") + " (3)",   NOR3);
+		gates_cat.add (xor_icon,   translator.getString ("XORGATE"),  XOR);
+		gates_cat.add (xnor_icon,  translator.getString ("XNORGATE"), XNOR);
+		gates_cat.add (not_icon,   translator.getString ("NOTGATE"),  NOT);
 		
-		leds_cat.add (ledg_icon, translator.getString ("LEDG"), LEDG);
-		leds_cat.add (ledr_icon, translator.getString ("LEDR"), LEDR);
+		leds_cat.add (ledg_icon,     translator.getString ("LEDG"), LEDG);
+		leds_cat.add (ledr_icon,     translator.getString ("LEDR"), LEDR);
+		leds_cat.add (sevenseg_icon, "7-segment",  SEVENSEG);
 		
 		input_cat.add (high_icon,   translator.getString ("HIGH"),   HIGH);
 		input_cat.add (low_icon,    translator.getString ("LOW"),    LOW);
 		input_cat.add (switch_icon, translator.getString ("SWITCH"), SWITCH);
-		leds_cat.add (sevenseg_icon, "SEVENSEGMENT", SEVENSEG);
 		
-		add_cat.add (dflip_icon, translator.getString ("DFLIP"), DFLIP);
-		add_cat.add (rslatch_icon, "RSLATCH", RSLATCH);
+		add_cat.add (dflip_icon,   translator.getString ("DFLIP"),   DFLIP);
+		add_cat.add (rslatch_icon, translator.getString ("RSLATCH"), RSLATCH);
 		
-		memory_cat.add(rom_icon, "ROM", ROM);
-		memory_cat.add(ram_icon, "RAM", RAM);
+		memory_cat.add (rom_icon, translator.getString ("ROM"), ROM);
+		memory_cat.add (ram_icon, translator.getString ("RAM"), RAM);
+		
 		for (Category c : cats)
 		{
 			add (c.lpanel);

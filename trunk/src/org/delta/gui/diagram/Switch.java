@@ -36,7 +36,7 @@ public class Switch extends DeltaComponent {
 		
 		this.replaceUserObject();
 
-		this.addOutputPort(new Point(GraphConstants.PERMILLE,390),0);
+		this.addOutputPort(new Point(GraphConstants.PERMILLE,360),0);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);

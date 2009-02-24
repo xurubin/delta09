@@ -171,11 +171,11 @@ public class ComponentPanel extends JPanel
 		
 		cats = new ArrayList <Category> (4);
 		
-		Category gates_cat   = new Category ("Logic gates", 7);
-		Category leds_cat    = new Category ("LEDs",  2);
-		Category input_cat   = new Category ("Inputs", 3);
-		Category add_cat     = new Category ("Others", 1);
-		Category memory_cat  = new Category ("Memory", 2);
+		Category gates_cat   = new Category (translator.getString("LOGICGATES"), 7);
+		Category leds_cat    = new Category (translator.getString("LEDS"),  2);
+		Category input_cat   = new Category (translator.getString("INPUTS"), 3);
+		Category add_cat     = new Category (translator.getString("OTHERS"), 1);
+		Category memory_cat  = new Category (translator.getString("MEMORY"), 2);
 		
 		ImageIcon and_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
 		ImageIcon or_icon    = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
@@ -213,7 +213,7 @@ public class ComponentPanel extends JPanel
 		
 		leds_cat.add (ledg_icon,     translator.getString ("LEDG"), LEDG);
 		leds_cat.add (ledr_icon,     translator.getString ("LEDR"), LEDR);
-		leds_cat.add (sevenseg_icon, "7-segment",  SEVENSEG);
+		leds_cat.add (sevenseg_icon, translator.getString("7SEG"),  SEVENSEG);
 		
 		input_cat.add (high_icon,   translator.getString ("HIGH"),   HIGH);
 		input_cat.add (low_icon,    translator.getString ("LOW"),    LOW);

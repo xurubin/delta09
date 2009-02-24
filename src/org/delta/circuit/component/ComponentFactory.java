@@ -2,8 +2,6 @@ package org.delta.circuit.component;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
-import org.delta.circuit.gate.GateFactory;
-import org.delta.logic.BinaryFunction;
 
 public class ComponentFactory {
     
@@ -12,7 +10,12 @@ public class ComponentFactory {
     public static Component createComponent(final Gate gate) {
 
         return new Component(gate.getInputCount(), 1) {
-            {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			{
                 getCircuit().addVertex(gate);
 
                 for (int i = 0; i < gate.getInputCount(); ++i) {

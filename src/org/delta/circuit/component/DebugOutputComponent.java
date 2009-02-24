@@ -6,7 +6,12 @@ import org.delta.circuit.gate.DebugOutputGate;
 
 public class DebugOutputComponent extends Component {
 
-    public DebugOutputComponent() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public DebugOutputComponent() {
         this("");
     }
     

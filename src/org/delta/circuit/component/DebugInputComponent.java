@@ -6,7 +6,12 @@ import org.delta.logic.State;
 
 public class DebugInputComponent extends Component {
 
-    public DebugInputComponent(State state) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public DebugInputComponent(State state) {
         super(0, 1);
         
         DebugInputGate in = new DebugInputGate();

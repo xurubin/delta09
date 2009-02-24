@@ -5,7 +5,11 @@ import org.jgrapht.graph.ListenableDirectedGraph;
 public class ListenableComponentGraph
         extends ListenableDirectedGraph<Component, ComponentWire> {
     
-    private ComponentGraph componentGraph;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ComponentGraph componentGraph;
 
     public ListenableComponentGraph(ComponentGraph graph) {
         super(graph);

@@ -3,7 +3,11 @@ package org.delta.logic;
 import org.delta.transport.BoardInterface;
 
 public class SsdFunction extends Function {
-    private int ssdNumber;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int ssdNumber;
     
     public SsdFunction() {
         super(7);

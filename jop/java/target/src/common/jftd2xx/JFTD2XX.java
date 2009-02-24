@@ -86,6 +86,7 @@ public class JFTD2XX {
 
 	private byte cmdBuf[] = new byte[64];
 	static {
+		System.loadLibrary("ftd2xx");
 		System.loadLibrary("jftd2xx");
 	}
 

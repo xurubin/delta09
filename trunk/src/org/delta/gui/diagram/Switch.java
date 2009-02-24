@@ -10,14 +10,14 @@ import org.delta.circuit.gate.SwitchGate;
 import org.jgraph.graph.GraphConstants;
 
 /**
- * Class to represent the "model" of a constant high input in the circuit diagram.
+ * Class to represent the "model" of a switch in the circuit diagram.
  * @author Group Delta 2009
  */
 public class Switch extends DeltaComponent {
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
 	
-	/** Marker for the seven segment display this component represents. */
+	/** Marker for the switch this component represents. */
 	private int switchNumber = -1;
 	
 	/**
@@ -53,7 +53,7 @@ public class Switch extends DeltaComponent {
 		this.setUserObject(component);
 	}
 	
-	/** Accessor method for the seven segment display's number. */
+	/** Accessor method for the switch's number. */
 	public int getSwitchNumber() {
 		return this.switchNumber;
 	}

@@ -11,7 +11,7 @@ import org.delta.logic.Nor;
 import org.jgraph.graph.GraphConstants;
 
 /**
- * Class to represent the "model" of a NandGate in the circuit diagram.
+ * Class to represent the "model" of a 3 input NOR gate in the circuit diagram.
  * @author Group Delta 2009
  */
 public class Nor3Gate extends DeltaComponent {
@@ -19,14 +19,14 @@ public class Nor3Gate extends DeltaComponent {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new NandGate at a default position.
+	 * Creates a new Nor3Gate at a default position.
 	 */
 	public Nor3Gate() {
 		this(new Point(100,100));
 	}
 	
 	/**
-	 * Creates a new NandGate at the given position on the screen.
+	 * Creates a new Nor3Gate at the given position on the screen.
 	 * @param position - where to insert the new component.
 	 */
 	public Nor3Gate(Point position) {

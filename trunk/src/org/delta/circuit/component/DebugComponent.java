@@ -4,7 +4,12 @@ import org.delta.circuit.Component;
 
 public class DebugComponent extends Component {
 
-    public DebugComponent() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public DebugComponent() {
         super(2, 1);
     }
 

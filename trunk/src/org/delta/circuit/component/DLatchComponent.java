@@ -16,7 +16,12 @@ import org.delta.logic.And;
 
 public class DLatchComponent extends ClockedComponent {
 
-    public DLatchComponent() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public DLatchComponent() {
         super(1, 2);
         
         ComponentGraph graph = new ComponentGraph(false);

@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import org.delta.logic.State;
 
 public class DebugInputGate extends AbstractInputGate {
-    private boolean hasChanged = true;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private boolean hasChanged = true;
     
     public void setState(State state) {
         if (state != getState()) {

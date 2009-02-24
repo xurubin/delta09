@@ -1,5 +1,7 @@
 package org.delta.circuit.gate;
 
+import java.util.ArrayList;
+
 import org.delta.logic.Constant;
 import org.delta.logic.Formula;
 import org.delta.logic.SsdFunction;
@@ -27,5 +29,15 @@ public class SsdGate extends AbstractOutputGate {
         
         return ssd;
     }
-
+    
+    @Override
+    public String getVerilogMethod(String name, ArrayList<String> out,
+            ArrayList<String> in) {
+    	String result = "hexdisplay " + name + "(HEX" + this.ssdNumber + ","; 
+    	for(String s : in) {
+    		result += s + ", ";
+    	}
+    	return result.substring(0, result.length() - 2) + ");";
+   
+    }
 }

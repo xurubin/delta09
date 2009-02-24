@@ -6,7 +6,11 @@ import org.delta.logic.State;
 import org.delta.transport.BoardInterface;
 
 public class SwitchGate extends AbstractInputGate {
-    private int switchNumber;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int switchNumber;
     
     public SwitchGate(int switchNumber) {
         this.switchNumber = switchNumber;

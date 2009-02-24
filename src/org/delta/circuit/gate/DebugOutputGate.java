@@ -6,7 +6,11 @@ import org.delta.logic.DebugConstant;
 import org.delta.logic.Formula;
 
 public class DebugOutputGate extends AbstractOutputGate {
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String name;
 
     public DebugOutputGate() {
         this("");

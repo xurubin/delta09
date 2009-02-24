@@ -6,7 +6,11 @@ import org.delta.logic.Formula;
 import org.delta.logic.State;
 
 public abstract class AbstractInputGate extends Gate {
-    private State state = State.SX;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private State state = State.SX;
 
     public AbstractInputGate() {
         super(0);

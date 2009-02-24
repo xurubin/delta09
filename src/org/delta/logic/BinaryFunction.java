@@ -2,7 +2,12 @@ package org.delta.logic;
 
 public abstract class BinaryFunction extends Function {
     
-    public BinaryFunction() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public BinaryFunction() {
         super(2);
     }
     

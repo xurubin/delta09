@@ -2,7 +2,12 @@ package org.delta.logic;
 
 public class And extends BinaryFunction {
     
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
     public State evaluate() {
         switch (evaluateArgument(0)) {
         case S1: return evaluateArgument(1);

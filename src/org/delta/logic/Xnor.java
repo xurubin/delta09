@@ -2,7 +2,12 @@ package org.delta.logic;
 
 public class Xnor extends BinaryFunction {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
     public State evaluate() {
         State arg0 = evaluateArgument(0);
         if (arg0 == State.SX) return State.SX;

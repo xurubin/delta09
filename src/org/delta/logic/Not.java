@@ -2,7 +2,12 @@ package org.delta.logic;
 
 public class Not extends Function {
 
-    public Not(Formula argument) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Not(Formula argument) {
         this();
         setArgument(0, argument);
     }

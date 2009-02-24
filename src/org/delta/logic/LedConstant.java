@@ -4,7 +4,11 @@ import org.delta.circuit.Wire;
 import org.delta.transport.BoardInterface;
 
 public class LedConstant extends Constant {
-    private int ledNumber;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int ledNumber;
 
     public LedConstant(State state) {
         super(state);

@@ -7,7 +7,7 @@ import org.jgraph.graph.GraphConstants;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
-import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.GateFactory;
 import org.delta.logic.And;
 
@@ -50,7 +50,7 @@ public class AndGate extends DeltaComponent {
 	 */
 	protected void replaceUserObject() {
 	    Gate gate = GateFactory.createGate(And.class, 2);
-        Component component = GateComponentFactory.createComponent(gate);
+        Component component = ComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}
 }

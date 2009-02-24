@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import org.jgraph.graph.GraphConstants;
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
-import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.GateFactory;
 import org.delta.logic.Or;
 
@@ -49,7 +49,7 @@ public class OrGate extends DeltaComponent {
 	 */
 	protected void replaceUserObject() {
 	    Gate gate = GateFactory.createGate(Or.class, 2);
-        Component component = GateComponentFactory.createComponent(gate);
+        Component component = ComponentFactory.createComponent(gate);
         this.setUserObject(component);
 	}
 }

@@ -21,7 +21,7 @@ import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
 import org.delta.circuit.component.DFlipFlopComponent;
-import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.GateFactory;
 import org.delta.circuit.gate.HighGate;
 import org.delta.circuit.gate.LedGate;
@@ -304,14 +304,14 @@ public class VerilogConverter {
 		// some simple demo code.
 		ComponentGraph c = new ComponentGraph();
 		
-		Component andGate = GateComponentFactory.createComponent(GateFactory.createGate(And.class, 2));
-		Component orGate = GateComponentFactory.createComponent(GateFactory.createGate(Or.class, 4));
+		Component andGate = ComponentFactory.createComponent(GateFactory.createGate(And.class, 2));
+		Component orGate = ComponentFactory.createComponent(GateFactory.createGate(Or.class, 4));
 		Component dFlip = new DFlipFlopComponent();
 			
-		Component switchOne = GateComponentFactory.createComponent(new SwitchGate(1));
-		Component highGate = GateComponentFactory.createComponent(new HighGate());
-		Component ledOne = GateComponentFactory.createComponent(new LedGate(1));
-		Component ledTwo = GateComponentFactory.createComponent(new LedGate(2));
+		Component switchOne = ComponentFactory.createComponent(new SwitchGate(1));
+		Component highGate = ComponentFactory.createComponent(new HighGate());
+		Component ledOne = ComponentFactory.createComponent(new LedGate(1));
+		Component ledTwo = ComponentFactory.createComponent(new LedGate(2));
 		
 		c.addVertex(switchOne);
 		c.addVertex(highGate);

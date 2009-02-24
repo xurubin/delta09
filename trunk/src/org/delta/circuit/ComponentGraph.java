@@ -4,28 +4,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.delta.circuit.Component.GateInputPort;
-import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.ClockGate;
-import org.delta.circuit.gate.InverterGate;
 import org.jgrapht.graph.DirectedMultigraph;
 
 /**
  * Graph data structure that represents the high-level/user view of the digital
  * circuit.
- * @author Group Delta 2009
  * @see Circuit
  */
 public class ComponentGraph extends
         DirectedMultigraph<Component, ComponentWire> {
     /**
-     * 
-     * 
+     * UID for serialisation.
      */
     private static final long serialVersionUID = 1L;
     /**
@@ -34,13 +30,18 @@ public class ComponentGraph extends
      * @see Circuit
      * @see Simulator
      */
-    private Circuit circuit = new Circuit();
+    Circuit circuit = new Circuit();
     /**
-     * 
+     * A map from wires as represented in {@link ComponentGraph}} and their
+     * corresponding wires in the low-level {@link Circuit} data structure (this
+     * is a one-to-many relation). The map is used to keep {@link
+     * ComponentGraph#circuit} up to date.
+     * @see ComponentGraph#circuit
      */
     private Map<ComponentWire, Set<Wire>> wireMap;
-    private ClockGate mainClockGate;
-    private Component mainClockComponent;
+    final ClockGate mainClockGate;
+    final Component mainClockComponent;
+    private boolean isClocked = true;
 
     /**
      * 
@@ -54,8 +55,22 @@ public class ComponentGraph extends
         // Add clock to circuit.
         mainClockGate = new ClockGate();
         mainClockComponent =
-            GateComponentFactory.createComponent(mainClockGate);
+            ComponentFactory.createComponent(mainClockGate);
         addVertex(mainClockComponent);
+    }
+    
+    /**
+     * Setting the argument to false prevents the component graph from
+     * connecting clocked components to the main clock. This constructor should
+     * only be used for the purpose of creating new components!
+     * @param isClocked - whether clocked components are wired to the main
+     * clock.
+     * @see ComponentGraph#mainClockComponent
+     * @see ClockedComponent
+     */
+    public ComponentGraph(final boolean isClocked) {
+        this();
+        this.isClocked  = isClocked;
     }
 
     /**
@@ -83,7 +98,7 @@ public class ComponentGraph extends
             circuit.addEdge(c.getEdgeSource(w), c.getEdgeTarget(w), w);
         }
         
-        if (component instanceof ClockedComponent) {
+        if (isClocked && component instanceof ClockedComponent) {
             final ClockedComponent cc = (ClockedComponent) component;
             final List<Component.GateInputPort> list = cc.getClockInputList();
             for (GateInputPort gi: list) {
@@ -109,17 +124,13 @@ public class ComponentGraph extends
             <? extends ComponentWire> wireCollection) {
         boolean hasChanged = false;
 
-        Collection<ComponentWire> unchanged = new LinkedList<ComponentWire>();
         for (ComponentWire wire: wireCollection) {
             boolean result = removeEdge(wire);
             if (result) {
                 hasChanged = true;
-            } else {
-                unchanged.add(wire);
             }
         }
-        
-        wireCollection.removeAll(unchanged);
+
         return hasChanged;
     }
 
@@ -258,7 +269,7 @@ public class ComponentGraph extends
         }
         wireMap.put(wire, newWireSet);
     }
-
+    
     /**
      * Method copies the data structure that is used internally to represent
      * digital logic circuits. In this representation, the circuit can be

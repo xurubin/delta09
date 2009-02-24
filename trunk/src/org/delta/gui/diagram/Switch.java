@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
-import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.SwitchGate;
 import org.jgraph.graph.GraphConstants;
 
@@ -49,7 +49,7 @@ public class Switch extends DeltaComponent {
 	 */
 	protected void replaceUserObject() {
 	    Gate gate = new SwitchGate(switchNumber);
-        Component component = GateComponentFactory.createComponent(gate);
+        Component component = ComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}
 	

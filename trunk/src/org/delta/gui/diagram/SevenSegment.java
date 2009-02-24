@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
-import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.SsdGate;
 import org.jgraph.graph.GraphConstants;
 
@@ -61,7 +61,7 @@ public class SevenSegment extends DeltaComponent {
 		 * TODO: work out 7 segment
 		 */
 	   	Gate gate = new SsdGate(sevenSegmentNumber);
-        Component component = GateComponentFactory.createComponent(gate);
+        Component component = ComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}
 	

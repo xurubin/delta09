@@ -2,6 +2,7 @@ package org.delta.circuit;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,22 +43,44 @@ abstract public class Component implements Serializable {
         }
     }
     
-    protected void fromComponentGraph(ComponentGraph graph,
-            Set<ComponentPort> inputs,
-            Set<ComponentPort> outputs,
-            Set<ComponentPort> clockInputs) {
+    public Component(ComponentGraph graph, List<Set<ComponentPort>> inputs,
+            List<ComponentPort> outputs) {
+        this(inputs.size(), outputs.size());
+        
+        fromComponentGraph(graph, inputs, outputs);
     }
     
     protected void fromComponentGraph(ComponentGraph graph,
-            Set<ComponentPort> inputs,
-            Set<ComponentPort> outputs) {
-        Set<ComponentPort> clockedInputs = new HashSet<ComponentPort>();
-        for (Component component: graph.vertexSet()) {
-            if (component instanceof ClockedComponent) {
-                clockedInputs.add(new ComponentPort(component, 0));
+            List<Set<ComponentPort>> inputs,
+            List<ComponentPort> outputs) {
+        // Get circuit.
+        circuit = graph.circuit;
+
+        // Set inputs.
+        for (int i = 0; i< inputs.size(); ++i) {
+            Set<ComponentPort> componentPorts = inputs.get(i);
+            Set<GateInputPort> inputPorts = new HashSet<GateInputPort>();
+            
+            for (ComponentPort port: componentPorts) {
+                Component c = port.component;
+                int inputNumber = port.portNumber;
+                
+                Set<GateInputPort> gatePorts= c.getGateInputPorts(inputNumber);
+                inputPorts.addAll(gatePorts);
             }
+            addAllInputGates(i, inputPorts);
         }
-        fromComponentGraph(graph, inputs, outputs, clockedInputs);
+
+        // Set outputs.
+        for (int i = 0; i< outputs.size(); ++i) {
+            ComponentPort componentPort = outputs.get(i);
+
+            Component c = componentPort.component;
+            int outputNumber = componentPort.portNumber;
+            
+            Gate gate = c.getOutputGate(outputNumber);
+            setOutputGate(i, gate);
+        }
     }
 
     public void setInputWire(int inputNumber, ComponentWire wire) {
@@ -123,8 +146,7 @@ abstract public class Component implements Serializable {
             throw new IllegalArgumentException("Output number out of bounds.");
         if (!circuit.containsVertex(gate)) {
             throw new IllegalArgumentException(
-                "Gate is not part of the circuit"
-            );
+                "Gate is not part of the circuit");
         }
         
         internalOutputList.set(outputNumber, gate);
@@ -155,30 +177,40 @@ abstract public class Component implements Serializable {
 
         return internalInputList.get(inputNumber);
     }
-    
-    protected void addInputGate(int inputNumber, Gate gate,
-            int gateInputNumber) {
+
+    private void addInputGate(int inputNumber, GateInputPort inputPort) {
         if (inputNumber >= getInputCount()) {
             throw new IllegalArgumentException("Input number out of bounds.");
         }
-        if (!circuit.containsVertex(gate)) {
-            throw new IllegalArgumentException(
-                    "Gate is not part of the circuit.");
-        }
-        if (gateInputNumber < 0 || gateInputNumber >= gate.getInputCount()) {
+        if (inputPort.inputNumber < 0 ||
+                inputPort.inputNumber >= inputPort.gate.getInputCount()) {
             throw new IllegalArgumentException(
                 "Input number of gate is out of bounds."
             );
         }
-        
+        if (!circuit.containsVertex(inputPort.gate)) {
+            throw new IllegalArgumentException(
+                "Gate is not part of the circuit");
+        }
+        internalInputList.get(inputNumber).add(inputPort);        
+    }
+    
+    private void addAllInputGates(int inputNumber,
+            Collection<GateInputPort> collection) {
+        for (GateInputPort inputPort: collection) {
+            addInputGate(inputNumber, inputPort);
+        }
+    }
+
+    protected void addInputGate(int inputNumber, Gate gate,
+            int gateInputNumber) {
         GateInputPort gateInputPort = new GateInputPort(gate, gateInputNumber);
-        internalInputList.get(inputNumber).add(gateInputPort);
+        addInputGate(inputNumber, gateInputPort);
     }
     
     public class GateInputPort extends Pair<Gate, Integer> {
-
         /**
-         * 
+         * UID for serialisation.
          */
         private static final long serialVersionUID = 1L;
         public final Gate gate;
@@ -192,13 +224,17 @@ abstract public class Component implements Serializable {
     }
     
     public class ComponentPort extends Pair<Component, Integer> {
+        /**
+         * UID for serialisation.
+         */
+        private static final long serialVersionUID = 1L;
         public final Integer portNumber;
         public final Component component;
 
-        public ComponentPort(final Component first, final Integer second) {
-            super(first, second);
-            component = this.first;
-            portNumber = this.second;
+        public ComponentPort(Component component, Integer portNumber) {
+            super(component, portNumber);
+            this.component = first;
+            this.portNumber = second;
         }
     }
     

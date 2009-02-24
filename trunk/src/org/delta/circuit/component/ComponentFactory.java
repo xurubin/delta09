@@ -5,9 +5,9 @@ import org.delta.circuit.Gate;
 import org.delta.circuit.gate.GateFactory;
 import org.delta.logic.BinaryFunction;
 
-public class GateComponentFactory {
+public class ComponentFactory {
     
-    private GateComponentFactory() {}
+    private ComponentFactory() {}
 
     public static Component createComponent(final Gate gate) {
 

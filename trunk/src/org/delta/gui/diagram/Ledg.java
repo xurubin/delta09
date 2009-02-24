@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
-import org.delta.circuit.component.GateComponentFactory;
+import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.LedGate;
 import org.delta.gui.ComponentPanel;
 import org.jgraph.graph.GraphConstants;
@@ -51,7 +51,7 @@ public class Ledg extends DeltaComponent {
 	 */
 	protected void replaceUserObject() {
 	    Gate gate = new LedGate(ledgnumber + 18);
-        Component component = GateComponentFactory.createComponent(gate);
+        Component component = ComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}
 	

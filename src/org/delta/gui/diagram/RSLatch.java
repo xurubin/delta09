@@ -8,7 +8,7 @@ import org.delta.circuit.component.SrLatchComponent;
 import org.jgraph.graph.GraphConstants;
 
 /**
- * Class to represent the "model" of a DFlip (D flip flop) in the circuit diagram.
+ * Class to represent the "model" of a RSLatch in the circuit diagram.
  * @author Group Delta 2009
  */
 public class RSLatch extends DeltaComponent {
@@ -16,14 +16,14 @@ public class RSLatch extends DeltaComponent {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new NotGate at a default position.
+	 * Creates a new RSLatch at a default position.
 	 */
 	public RSLatch() {
 		this(new Point(100,100));
 	}
 	
 	/**
-	 * Creates a new DFlip at the given position on the screen.
+	 * Creates a new RSLatch at the given position on the screen.
 	 * @param position - where to insert the new component.
 	 */
 	public RSLatch(Point position) {

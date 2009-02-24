@@ -10,7 +10,7 @@ import org.delta.circuit.gate.SsdGate;
 import org.jgraph.graph.GraphConstants;
 
 /**
- * Class to represent the "model" of a constant high input in the circuit diagram.
+ * Class to represent the "model" of a 7 sgement display in the circuit diagram.
  * @author Group Delta 2009
  */
 public class SevenSegment extends DeltaComponent {
@@ -31,7 +31,7 @@ public class SevenSegment extends DeltaComponent {
 	}
 	
 	/**
-	 * Creates a new Switch at the given position on the screen.
+	 * Creates a new Seven segment display at the given position on the screen.
 	 * @param position - where to insert the new component.
 	 */
 	public SevenSegment(Point position) {

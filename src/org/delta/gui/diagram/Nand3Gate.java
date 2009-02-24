@@ -12,7 +12,7 @@ import org.delta.circuit.gate.GateFactory;
 import org.delta.logic.Nand;
 
 /**
- * Class to represent the "model" of a NandGate in the circuit diagram.
+ * Class to represent the "model" of a 3 input NandGate in the circuit diagram.
  * @author Group Delta 2009
  */
 public class Nand3Gate extends DeltaComponent {
@@ -20,14 +20,14 @@ public class Nand3Gate extends DeltaComponent {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates a new NandGate at a default position.
+	 * Creates a new Nand3Gate at a default position.
 	 */
 	public Nand3Gate() {
 		this(new Point(100,100));
 	}
 	
 	/**
-	 * Creates a new NandGate at the given position on the screen.
+	 * Creates a new Nand3Gate at the given position on the screen.
 	 * @param position - where to insert the new component.
 	 */
 	public Nand3Gate(Point position) {

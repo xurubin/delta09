@@ -3,7 +3,11 @@ package org.delta.logic;
 import org.delta.circuit.Wire;
 
 public class DebugConstant extends Constant {
-    private String name = "";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String name = "";
 
     public DebugConstant(State state) {
         super(state);

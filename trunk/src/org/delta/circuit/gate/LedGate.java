@@ -31,7 +31,7 @@ public class LedGate extends AbstractOutputGate {
     
     public String getVerilogMethod(String name, ArrayList<String> out, ArrayList<String> in) {
     	String color = "R";
-    	if(this.getLedNumber() > 18) {
+    	if(this.getLedNumber() >= 18) {
     		color = "G";
     		this.ledNumber -= 18;
     	}

@@ -1,9 +1,22 @@
 package org.delta.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.TransferHandler;
 
 import org.delta.gui.i18n.Translator;
 
@@ -193,7 +206,7 @@ public class ComponentPanel extends JPanel
 		gates_cat.add (nand_icon, translator.getString ("NANDGATE"), NAND);
 		gates_cat.add (nand3_icon,  translator.getString ("NANDGATE") + " (3)",  NAND3);
 		gates_cat.add (nor_icon,  translator.getString ("NORGATE"),  NOR);
-		gates_cat.add (nor_icon,  translator.getString ("NORGATE") + " (3)",  NOR3);
+		gates_cat.add (nor3_icon,  translator.getString ("NORGATE") + " (3)",  NOR3);
 		gates_cat.add (xor_icon,  translator.getString ("XORGATE"),  XOR);
 		gates_cat.add (xnor_icon, translator.getString ("XNORGATE"), XNOR);
 		gates_cat.add (not_icon,  translator.getString ("NOTGATE"),  NOT);

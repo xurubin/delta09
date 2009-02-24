@@ -50,7 +50,7 @@ public class Ledg extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-	    Gate gate = new LedGate(ledgnumber);
+	    Gate gate = new LedGate(ledgnumber + 18);
         Component component = GateComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}

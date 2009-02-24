@@ -9,7 +9,7 @@ public class SimulationScheduler {
     /**
      * Time in milliseconds between two discrete times steps in the simulation.
      */
-    private long simulationFrequency; // TODO: set default value.
+    private long simulationFrequency = 300L; // TODO: set default value.
 
     public SimulationScheduler(Simulator simulator) {
         this.simulator = simulator;

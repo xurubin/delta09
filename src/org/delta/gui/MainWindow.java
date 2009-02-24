@@ -143,7 +143,7 @@ public class MainWindow extends javax.swing.JFrame {
 		
 		JScrollPane component_scroll_pane = new JScrollPane (component_panel);
 		component_scroll_pane.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) ) ;
-		component_scroll_pane.setPreferredSize ( new Dimension (200, 480) );
+		component_scroll_pane.setPreferredSize ( new Dimension (ComponentPanel.WIDTH + 35, 480) );
 		component_scroll_pane.setMinimumSize ( new Dimension (ComponentPanel.WIDTH, 0) );
 		component_scroll_pane.addComponentListener ( new ComponentAdapter() {
 			public void componentResized (ComponentEvent e) {

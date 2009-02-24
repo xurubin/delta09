@@ -46,14 +46,20 @@ public class RunAction extends AbstractAction {
 				BufferedReader input = new BufferedReader(
 						new InputStreamReader(p.getInputStream()));
 				String line;
-				while ((line = input.readLine()) != null) {
+				while ((line = input.readLine()) != null) {	
 					System.err.println(line);
+					if(line.contains("Error")) {
+						throw new Exception("Error programming board.\nCheck that the USB blaster is connected and the board is switched on.");
+					}
 				}
 				input.close();
 				System.err.println("programmed board");
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(MainWindow.get(),
 						e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				MainWindow.get().setCursor(Cursor.getDefaultCursor());
+				timesRun = 0;
+				return;
 			}
 
 			/*
@@ -75,6 +81,9 @@ public class RunAction extends AbstractAction {
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(MainWindow.get(),
 						e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				MainWindow.get().setCursor(Cursor.getDefaultCursor());
+				timesRun = 0;
+				return;
 			}
 			MainWindow.get().setCursor(Cursor.getDefaultCursor());
 		}

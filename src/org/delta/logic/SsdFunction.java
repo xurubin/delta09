@@ -26,7 +26,7 @@ public class SsdFunction extends Function {
             if (state == State.S0) {
                 board.sendHEXEvent(ssdNumber, i, false);
             } else if (state == State.S1) {
-                board.sendHEXEvent(ssdNumber, i, false);
+                board.sendHEXEvent(ssdNumber, i, true);
             }
         }
         

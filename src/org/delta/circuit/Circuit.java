@@ -4,14 +4,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DirectedMultigraph;
 
 /**
  * The simulatable gate-level representation of a circuit.
  * @author Group Delta 2009
  *
  */
-public class Circuit extends DefaultDirectedGraph<Gate, Wire> {
+public class Circuit extends DirectedMultigraph<Gate, Wire> {
 	private static final long serialVersionUID = 1L;
 
 	public Circuit() {

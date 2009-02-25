@@ -65,7 +65,22 @@
 
 <!-- Compile targets -->
   <target name="jar" depends="compile">
-    <jar destfile="${dist.dir}/${app.name}-${app.version}.jar" basedir="${build.deploy.dir}"/>
+    <jar destfile="${dist.dir}/${app.name}-${app.version}.jar" basedir="${build.deploy.dir}" filesetmanifest="mergewithoutmain">
+    	<manifest>
+    	<attribute name="Built-By" value="${user.name}"/>
+    	<attribute name="Main-Class" value="org.delta.gui.MainWindow"/>
+    	<attribute name="Class-Path" value="."/>
+    	</manifest>
+    	<zipfileset excludes="META-INF/*.SF" src="${basedir}/lib/jgraph.jar"/>
+    	<zipfileset excludes="META-INF/*.SF" src="${basedir}/lib/jgrapht.jar"/>
+    	<zipfileset excludes="META-INF/*.SF" src="${basedir}/lib/jop_usb.jar"/>
+    	<zipfileset excludes="META-INF/*.SF" src="${basedir}/lib/i18n.jar"/>
+    	<zipfileset excludes="META-INF/*.SF" src="${basedir}/lib/jh.jar"/>
+    	<zipfileset excludes="META-INF/*.SF" src="${basedir}/lib/swingx-0.9.5.jar"/>
+    	<zipfileset excludes="META-INF/*.SF" src="${basedir}/lib/svgSalamander-tiny.jar"/>
+    	<zipfileset excludes="META-INF/*.SF" src="${basedir}/lib/substance.jar"/>
+    </jar>
+  	 <copy file="${src.dir}/org/delta/gui/Settings.properties" tofile="${dist.dir}/Settings.properties"/>
   </target>
 
   <target name="compile-test" depends="prepare">

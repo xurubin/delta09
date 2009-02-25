@@ -59,7 +59,8 @@ public class MainWindow extends javax.swing.JFrame {
 	protected static Properties configFile;
 	protected SimulationScheduler scheduler;
 	protected JCheckBoxMenuItem change_language_action;
-	public static final String SETTINGS_FILE = "src/org/delta/gui/Settings.properties";
+	public static final String SETTINGS_FILE = "Settings.properties";
+	public static final String ICON_FOLDER = "org/delta/gui/icons/";
 	
 	private static MainWindow mw;
 	
@@ -80,20 +81,21 @@ public class MainWindow extends javax.swing.JFrame {
 		} );
 		
 		// Create ImageIcons to use in Actions
-		ImageIcon new_icon		= new ImageIcon ( "src/org/delta/gui/icons/new.png",     translator.getString("NEW")      );
-		ImageIcon open_icon		= new ImageIcon ( "src/org/delta/gui/icons/open.png",    translator.getString("OPEN")     );
-		ImageIcon save_icon		= new ImageIcon ( "src/org/delta/gui/icons/save.png",    translator.getString("SAVE")     );
-		ImageIcon undo_icon		= new ImageIcon ( "src/org/delta/gui/icons/undo.png",    translator.getString("UNDO")     );
-		ImageIcon redo_icon		= new ImageIcon ( "src/org/delta/gui/icons/redo.png",    translator.getString("REDO")     );
-		ImageIcon run_icon		= new ImageIcon ( "src/org/delta/gui/icons/run.png",     translator.getString("RUN")      );
-		ImageIcon export_icon	= new ImageIcon ( "src/org/delta/gui/icons/export.png",  translator.getString("EXPORT")   );
-		ImageIcon zoom_in_icon	= new ImageIcon ( "src/org/delta/gui/icons/zoomin.png",  translator.getString("ZOOM_IN")  );
-		ImageIcon zoom_out_icon	= new ImageIcon ( "src/org/delta/gui/icons/zoomout.png", translator.getString("ZOOM_OUT") );
-		ImageIcon cut_icon     	= new ImageIcon ( "src/org/delta/gui/icons/cut.png",     translator.getString("CUT")      );
-		ImageIcon copy_icon		= new ImageIcon ( "src/org/delta/gui/icons/copy.png",    translator.getString("COPY")     );
-		ImageIcon paste_icon	= new ImageIcon ( "src/org/delta/gui/icons/paste.png",   translator.getString("PASTE")    );
-		ImageIcon delete_icon	= new ImageIcon ( "src/org/delta/gui/icons/delete.png",	 translator.getString("DELETE")   );
-		ImageIcon stop_icon		= new ImageIcon ( "src/org/delta/gui/icons/stop.png",	 translator.getString("STOP")	  );
+		ClassLoader cl = this.getClass().getClassLoader();
+		ImageIcon new_icon		= new ImageIcon (cl.getResource(ICON_FOLDER + "new.png"),     translator.getString("NEW")      );
+		ImageIcon open_icon		= new ImageIcon ( cl.getResource(ICON_FOLDER + "open.png"),    translator.getString("OPEN")     );
+		ImageIcon save_icon		= new ImageIcon ( cl.getResource(ICON_FOLDER + "save.png"),    translator.getString("SAVE")     );
+		ImageIcon undo_icon		= new ImageIcon ( cl.getResource(ICON_FOLDER + "undo.png"),    translator.getString("UNDO")     );
+		ImageIcon redo_icon		= new ImageIcon ( cl.getResource(ICON_FOLDER + "redo.png"),    translator.getString("REDO")     );
+		ImageIcon run_icon		= new ImageIcon ( cl.getResource(ICON_FOLDER + "run.png"),     translator.getString("RUN")      );
+		ImageIcon export_icon	= new ImageIcon ( cl.getResource(ICON_FOLDER + "export.png"),  translator.getString("EXPORT")   );
+		ImageIcon zoom_in_icon	= new ImageIcon ( cl.getResource(ICON_FOLDER + "zoomin.png"),  translator.getString("ZOOM_IN")  );
+		ImageIcon zoom_out_icon	= new ImageIcon ( cl.getResource(ICON_FOLDER + "zoomout.png"), translator.getString("ZOOM_OUT") );
+		ImageIcon cut_icon     	= new ImageIcon ( cl.getResource(ICON_FOLDER + "cut.png"),     translator.getString("CUT")      );
+		ImageIcon copy_icon		= new ImageIcon ( cl.getResource(ICON_FOLDER + "copy.png"),    translator.getString("COPY")     );
+		ImageIcon paste_icon	= new ImageIcon ( cl.getResource(ICON_FOLDER + "paste.png"),   translator.getString("PASTE")    );
+		ImageIcon delete_icon	= new ImageIcon ( cl.getResource(ICON_FOLDER + "delete.png"),	 translator.getString("DELETE")   );
+		ImageIcon stop_icon		= new ImageIcon ( cl.getResource(ICON_FOLDER + "stop.png"),	 translator.getString("STOP")	  );
 		
 		// Create Actions to add to menus and the toolbar, and to be called from KeyBindings
 		Action new_action		= new NewAction		( translator.getString("NEW"),		new_icon,		"ctrl N", translator.getMnemonic("MNEMONIC_NEW"));
@@ -306,7 +308,7 @@ public class MainWindow extends javax.swing.JFrame {
 	        	try {
 	    			//Other predefined skinning located at org.jvnet.substance.skin.
 	    			UIManager.setLookAndFeel(new SubstanceBusinessBlackSteelLookAndFeel());
-	    			
+	        		//UIManager.setLookAndFeel(new SubstanceMistSilverLookAndFeel());
 	    			/*
 	    			 * deals with the settings file. We show a dialog to user if they have default language selected.
 	    			 */
@@ -317,9 +319,11 @@ public class MainWindow extends javax.swing.JFrame {
 	    			if(localeString == null) {
 	    				//show dialog
 	    				Object[] possibleValues = Translator.languageCodeMap.keySet().toArray();
+	    				ClassLoader cl = MainWindow.class.getClassLoader();
+	    				ImageIcon globe_icon = new ImageIcon(cl.getResource(ICON_FOLDER + "globe.png"));
 	    				localeString = (String) JOptionPane.showInputDialog(null,
-	    				"Choose one", "Input",
-	    				JOptionPane.INFORMATION_MESSAGE, null,
+	    				"Select a language", "Language Choice",
+	    				JOptionPane.INFORMATION_MESSAGE, globe_icon,
 	    				possibleValues, "English");
 	    				//return if user clicks cancel
 	    				if(localeString == null) return;

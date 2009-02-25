@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="lib/jh.jar" sourcepath="lib-src/src.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-0.9.5.jar"/>
 	<classpathentry kind="lib" path="lib/svgSalamander-tiny.jar"/>
+	<classpathentry kind="lib" path="lib/substance.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

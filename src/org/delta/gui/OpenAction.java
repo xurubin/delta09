@@ -86,8 +86,7 @@ public class OpenAction extends AbstractAction
 					{
 						JOptionPane.showMessageDialog ( null,
 		 						 						"The specified circuit\n" +
-		 						 						"could not be loaded: " +
-		 						 						ex,
+		 						 						"could not be loaded.",
 		 						 						"Error",
 		 						 						JOptionPane.ERROR_MESSAGE );
 					}

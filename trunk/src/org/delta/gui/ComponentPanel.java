@@ -59,6 +59,8 @@ public class ComponentPanel extends JPanel
 	private GridLayout component_layout;
 	
 	private Font font;
+	
+	public static final String IMAGE_FOLDER = "org/delta/gui/diagram/images/";
 
 	private class Category
 	{
@@ -160,10 +162,12 @@ public class ComponentPanel extends JPanel
 		collapsed_icon   = new ImageIcon [2];
 		collapsible_icon = new ImageIcon [2];
 		
-		collapsed_icon   [0] = new ImageIcon ("src/org/delta/gui/icons/collapsed.png");
-		collapsed_icon   [1] = new ImageIcon ("src/org/delta/gui/icons/collapsed2.png");
-		collapsible_icon [0] = new ImageIcon ("src/org/delta/gui/icons/collapsible.png");
-		collapsible_icon [1] = new ImageIcon ("src/org/delta/gui/icons/collapsible2.png");
+		ClassLoader cl = this.getClass().getClassLoader();
+		
+		collapsed_icon   [0] = new ImageIcon (cl.getResource(MainWindow.ICON_FOLDER + "collapsed.png"));
+		collapsed_icon   [1] = new ImageIcon (cl.getResource(MainWindow.ICON_FOLDER + "collapsed2.png"));
+		collapsible_icon [0] = new ImageIcon (cl.getResource(MainWindow.ICON_FOLDER + "collapsible.png"));
+		collapsible_icon [1] = new ImageIcon (cl.getResource(MainWindow.ICON_FOLDER + "collapsible2.png"));
 		
 		setLayout ( new BoxLayout (this, BoxLayout.Y_AXIS) );
 		
@@ -177,29 +181,29 @@ public class ComponentPanel extends JPanel
 		Category add_cat     = new Category (translator.getString("OTHERS"), 1);
 		Category memory_cat  = new Category (translator.getString("MEMORY"), 2);
 		
-		ImageIcon and_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/and.png");
-		ImageIcon or_icon    = new ImageIcon ("src/org/delta/gui/diagram/images/or.png");
-		ImageIcon nand_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/nand.png");
-		ImageIcon nand3_icon = new ImageIcon ("src/org/delta/gui/diagram/images/nand3.png");
-		ImageIcon nor_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/nor.png");
-		ImageIcon nor3_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/nor3.png");
-		ImageIcon xor_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/xor.png");
-		ImageIcon xnor_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/xnor.png");
-		ImageIcon not_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/not.png");
+		ImageIcon and_icon   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "and.png"));
+		ImageIcon or_icon    = new ImageIcon (cl.getResource(IMAGE_FOLDER + "or.png"));
+		ImageIcon nand_icon  = new ImageIcon (cl.getResource(IMAGE_FOLDER + "nand.png"));
+		ImageIcon nand3_icon = new ImageIcon (cl.getResource(IMAGE_FOLDER + "nand3.png"));
+		ImageIcon nor_icon   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "nor.png"));
+		ImageIcon nor3_icon  = new ImageIcon (cl.getResource(IMAGE_FOLDER + "nor3.png"));
+		ImageIcon xor_icon   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "xor.png"));
+		ImageIcon xnor_icon  = new ImageIcon (cl.getResource(IMAGE_FOLDER + "xnor.png"));
+		ImageIcon not_icon   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "not.png"));
 		
-		ImageIcon ledg_icon     = new ImageIcon ("src/org/delta/gui/diagram/images/ledg.png");
-		ImageIcon ledr_icon     = new ImageIcon ("src/org/delta/gui/diagram/images/ledr.png");
-		ImageIcon sevenseg_icon = new ImageIcon ("src/org/delta/gui/diagram/images/7seg.png");
+		ImageIcon ledg_icon     = new ImageIcon (cl.getResource(IMAGE_FOLDER + "ledg.png"));
+		ImageIcon ledr_icon     = new ImageIcon (cl.getResource(IMAGE_FOLDER + "ledr.png"));
+		ImageIcon sevenseg_icon = new ImageIcon (cl.getResource(IMAGE_FOLDER + "7seg.png"));
 		
-		ImageIcon high_icon    = new ImageIcon ("src/org/delta/gui/diagram/images/high.png");
-		ImageIcon low_icon     = new ImageIcon ("src/org/delta/gui/diagram/images/low.png");
-		ImageIcon switch_icon  = new ImageIcon ("src/org/delta/gui/diagram/images/switch.png");
+		ImageIcon high_icon    = new ImageIcon (cl.getResource(IMAGE_FOLDER + "high.png"));
+		ImageIcon low_icon     = new ImageIcon (cl.getResource(IMAGE_FOLDER + "low.png"));
+		ImageIcon switch_icon  = new ImageIcon (cl.getResource(IMAGE_FOLDER + "switch.png"));
 		
-		ImageIcon rslatch_icon = new ImageIcon ("src/org/delta/gui/diagram/images/rs_latch.png");
-		ImageIcon dflip_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/d_flip.png");
+		ImageIcon rslatch_icon = new ImageIcon (cl.getResource(IMAGE_FOLDER + "rs_latch.png"));
+		ImageIcon dflip_icon   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "d_flip.png"));
 		
-		ImageIcon rom_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/rom.png");
-		ImageIcon ram_icon   = new ImageIcon ("src/org/delta/gui/diagram/images/ram.png");
+		ImageIcon rom_icon   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "rom.png"));
+		ImageIcon ram_icon   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "ram.png"));
 		
 		gates_cat.add (and_icon,   translator.getString ("ANDGATE") , AND);
 		gates_cat.add (or_icon,    translator.getString ("ORGATE"),   OR);

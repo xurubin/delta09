@@ -31,6 +31,9 @@ import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 
+import org.jvnet.substance.skin.*;
+import javax.swing.SwingUtilities;
+
 import org.delta.gui.diagram.CircuitPanel;
 import org.delta.gui.i18n.Translator;
 import org.delta.simulation.SimulationScheduler;
@@ -280,8 +283,10 @@ public class MainWindow extends javax.swing.JFrame {
 	public static void main(String args[]) {
 		configFile = new Properties();
 		Locale locale;
+		javax.swing.JFrame.setDefaultLookAndFeelDecorated(true);
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			//Other predefined skinning located at org.jvnet.substance.skin.
+			UIManager.setLookAndFeel(new SubstanceBusinessBlackSteelLookAndFeel());
 			Reader fileHandle = new FileReader("src/org/delta/gui/Settings.properties");
 			configFile.load(fileHandle);
 			locale = new Locale((String) configFile.get("LANGUAGE"));
@@ -289,7 +294,16 @@ public class MainWindow extends javax.swing.JFrame {
 			locale = Locale.getDefault();
 			e.printStackTrace();
 		}
-		mw = new MainWindow(locale);
-		mw.setVisible(true);
+		final Locale curLocale = locale;
+		
+	    SwingUtilities.invokeLater(new Runnable() {
+	        public void run() {
+	          mw = new MainWindow(curLocale);
+	          mw.setVisible(true);
+	        }
+	      });
+		
+		//mw = new MainWindow(locale);
+		//mw.setVisible(true);
 	}
 }

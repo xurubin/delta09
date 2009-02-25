@@ -9,34 +9,38 @@ import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.Locale;
 import java.util.Properties;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
-
-import org.jvnet.substance.skin.*;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.delta.gui.diagram.CircuitPanel;
 import org.delta.gui.i18n.Translator;
 import org.delta.simulation.SimulationScheduler;
+import org.jvnet.substance.skin.SubstanceBusinessBlackSteelLookAndFeel;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -54,6 +58,8 @@ public class MainWindow extends javax.swing.JFrame {
 	protected Action undo_action, redo_action, stop_action, run_action, save_action;
 	protected static Properties configFile;
 	protected SimulationScheduler scheduler;
+	protected JCheckBoxMenuItem change_language_action;
+	public static final String SETTINGS_FILE = "src/org/delta/gui/Settings.properties";
 	
 	private static MainWindow mw;
 	
@@ -211,6 +217,8 @@ public class MainWindow extends javax.swing.JFrame {
 		help_menu.setMnemonic(translator.getMnemonic("MNEMONIC_HELP"));
 		help_menu.add (help_action);
 		help_menu.add (about_action);
+		change_language_action = new JCheckBoxMenuItem(translator.getString("LANG_CHANGE"));
+		help_menu.add(change_language_action);
 		
 		// Create menu bar for the window and add the menus
 		JMenuBar menu_bar = new JMenuBar();
@@ -254,6 +262,14 @@ public class MainWindow extends javax.swing.JFrame {
 
 	private void quitApplication()
 	{
+		if(change_language_action.isSelected()) {
+			try {
+				FileWriter newConfigFile = new FileWriter(SETTINGS_FILE);
+				(new Properties()).store(newConfigFile, "erasing settings");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}	
 		System.exit (0);
 	}
 	
@@ -280,30 +296,54 @@ public class MainWindow extends javax.swing.JFrame {
 		return mw;
 	}
 
+
 	public static void main(String args[]) {
-		configFile = new Properties();
-		Locale locale;
-		javax.swing.JFrame.setDefaultLookAndFeelDecorated(true);
-		try {
-			//Other predefined skinning located at org.jvnet.substance.skin.
-			UIManager.setLookAndFeel(new SubstanceBusinessBlackSteelLookAndFeel());
-			Reader fileHandle = new FileReader("src/org/delta/gui/Settings.properties");
-			configFile.load(fileHandle);
-			locale = new Locale((String) configFile.get("LANGUAGE"));
-		} catch (Exception e) {	
-			locale = Locale.getDefault();
-			e.printStackTrace();
-		}
-		final Locale curLocale = locale;
-		
 	    SwingUtilities.invokeLater(new Runnable() {
 	        public void run() {
+	        	configFile = new Properties();
+	    		Locale locale;
+	    		javax.swing.JFrame.setDefaultLookAndFeelDecorated(true);	
+	        	try {
+	    			//Other predefined skinning located at org.jvnet.substance.skin.
+	    			UIManager.setLookAndFeel(new SubstanceBusinessBlackSteelLookAndFeel());
+	    			
+	    			/*
+	    			 * deals with the settings file. We show a dialog to user if they have default language selected.
+	    			 */
+	    			Reader fileHandle = new FileReader(SETTINGS_FILE);
+	    			configFile.load(fileHandle);
+	    			String localeString = (String) configFile.get("LANGUAGE");
+	    			
+	    			if(localeString == null) {
+	    				//show dialog
+	    				Object[] possibleValues = Translator.languageCodeMap.keySet().toArray();
+	    				localeString = (String) JOptionPane.showInputDialog(null,
+	    				"Choose one", "Input",
+	    				JOptionPane.INFORMATION_MESSAGE, null,
+	    				possibleValues, "English");
+	    				//return if user clicks cancel
+	    				if(localeString == null) return;
+	    				
+	    				locale = new Locale(Translator.languageCodeMap.get(localeString));
+	    				
+	    				//write settings to configFile
+	    				Writer fileWriter = new FileWriter(SETTINGS_FILE);
+	    				configFile.setProperty("LANGUAGE", Translator.languageCodeMap.get(localeString));
+	    				configFile.store(fileWriter, "Language Settings");
+	    			}
+	    			else {
+	    				locale = new Locale(localeString);
+	    			}
+	    		} catch (Exception e) {
+	    			locale = Locale.getDefault();
+	    			e.printStackTrace();
+	    		}
+	    		final Locale curLocale = locale;
+	        	
+	        	
 	          mw = new MainWindow(curLocale);
 	          mw.setVisible(true);
 	        }
 	      });
-		
-		//mw = new MainWindow(locale);
-		//mw.setVisible(true);
 	}
 }

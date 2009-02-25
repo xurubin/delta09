@@ -1,13 +1,24 @@
 package org.delta.gui.i18n;
 
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Translator {
 	private ResourceBundle resource;
 	enum Key {
 		A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,NOVALUE
+	}
+	public static Map<String, String> languageCodeMap = new HashMap<String, String>();
+	
+	static {
+		languageCodeMap.put("English", "en");
+		languageCodeMap.put("Français", "fr");
+								languageCodeMap.put("العربية", "ar");
+		languageCodeMap.put("中文", "zh");
+		languageCodeMap.put("日本語", "ja");
 	}
 	
 	public Translator() {

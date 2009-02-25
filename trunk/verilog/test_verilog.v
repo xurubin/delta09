@@ -14,20 +14,7 @@ module test_verilog(
 					);
 
 
-	//set ourselves a clear slate.					
-	assign HEX0 = -1;
-	assign HEX1 = -1;
-	assign HEX2 = -1;
-	assign HEX3 = -1;
-	assign HEX4 = -1;
-	assign HEX5 = -1;
-	assign HEX6 = -1;
-	assign HEX7 = -1;
-	
-	//get_clock g(CLOCK_50, 100000000, 2,LEDR[17]);
-	rslatch(LEDR[17], LEDR[16], SW[17], SW[16]);
-	
-	rom16(LEDR[10], SW[15:12], CLOCK_50);
+					%%PLACEHOLDER%%
 	
 
 endmodule

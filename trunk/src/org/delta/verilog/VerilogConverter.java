@@ -3,12 +3,9 @@ package org.delta.verilog;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +17,7 @@ import org.delta.circuit.ComponentGraph;
 import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
+import org.delta.util.Unzip;
 
 /**
  * Converts our data structure into Verilog.
@@ -29,8 +27,8 @@ import org.delta.circuit.Wire;
  */
 public class VerilogConverter {
 
-	private static File verilogProjectFolder = new File("verilog/");
-	private static String verilogTopLevel = "test_verilog";
+	private static String verilogProjectFolder = "org/delta/verilog/verilog_src.zip";
+	private static String verilogTopLevel = "verilog/test_verilog";
 
 	/**
 	 * converts a named circuit into a verilog declaration. 
@@ -178,61 +176,6 @@ public class VerilogConverter {
 		return wireDecl + componentDecl;
 
 	}
-
-	/**
-	 * Copies a file using nio package.
-	 * 
-	 * @param in
-	 *            source File
-	 * @param out
-	 *            destination File
-	 * @throws IOException
-	 *             If we encounter a file error
-	 */
-	private static void copyFile(File in, File out) throws IOException {
-		FileChannel inChannel = new FileInputStream(in).getChannel();
-		FileChannel outChannel = new FileOutputStream(out).getChannel();
-		try {
-			inChannel.transferTo(0, inChannel.size(), outChannel);
-		} catch (IOException e) {
-			/*
-			 * TODO Proper exception handling
-			 */
-			e.printStackTrace();
-		} finally {
-			if (inChannel != null)
-				inChannel.close();
-			if (outChannel != null)
-				outChannel.close();
-		}
-	}
-
-	/**
-	 * Copies a full directory using copyFile recursively.
-	 * 
-	 * @param srcDir
-	 *            source directory
-	 * @param dstDir
-	 *            destination directory
-	 * @throws IOException
-	 *             If we encounter a file error.
-	 * @see #copyFile(File, File)
-	 */
-	private static void copyDirectory(File srcDir, File dstDir)
-			throws IOException {
-		if (srcDir.isDirectory()) {
-			if (!dstDir.exists())
-				dstDir.mkdir();
-
-			String[] children = srcDir.list();
-			for (int i = 0; i < children.length; i++) {
-				copyDirectory(new File(srcDir, children[i]), new File(dstDir,
-						children[i]));
-			}
-		} else
-			copyFile(srcDir, dstDir);
-	}
-
 	/**
 	 * Saves a circuit to a file in Verilog format
 	 * 
@@ -246,7 +189,8 @@ public class VerilogConverter {
 	public static void saveVerilogProject(File saveFolder, ComponentGraph c) {
 		try {
 			// copy verilog project to saveFolder
-			copyDirectory(VerilogConverter.verilogProjectFolder, saveFolder);
+			System.out.println(saveFolder.getAbsolutePath() + "/");
+			Unzip.unzip(VerilogConverter.verilogProjectFolder, saveFolder.getAbsolutePath() + "/");
 			// open main file for modification.
 
 			File mainVerilogFile = new File(saveFolder, verilogTopLevel + ".v");

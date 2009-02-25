@@ -3,6 +3,7 @@ package org.delta.verilog;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,12 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import org.delta.circuit.Circuit;
 import org.delta.circuit.Component;
 import org.delta.circuit.ComponentGraph;
 import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
+import org.delta.gui.MainWindow;
 import org.delta.util.Unzip;
 
 /**
@@ -219,8 +223,13 @@ public class VerilogConverter {
 			}
 
 			bufferedWriter.close();
-
-		} catch (IOException e) {
+			
+		} 
+		catch(FileNotFoundException e) {
+			JOptionPane.showMessageDialog(MainWindow.get(), "Can't write to specified folder.", "Error Saving Verilog", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

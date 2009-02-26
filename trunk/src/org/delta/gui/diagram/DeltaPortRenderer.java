@@ -1,14 +1,27 @@
 package org.delta.gui.diagram;
 
-import org.jgraph.graph.*;
-import org.jgraph.JGraph;
-
-import java.awt.*;
-
-import javax.swing.*;
-
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.Serializable;
 
+import javax.swing.JComponent;
+import javax.swing.UIManager;
+
+import org.jgraph.JGraph;
+import org.jgraph.graph.AttributeMap;
+import org.jgraph.graph.CellView;
+import org.jgraph.graph.CellViewRenderer;
+import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.PortView;
+
+/**
+ * Customised renderer for input and output ports. The main alteration from the
+ * JGraph PortRenderer is in the paint() method.
+ * @author Group Delta 2009
+ */
 public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Serializable {	
 	
 	private static final long serialVersionUID = 1L;
@@ -16,7 +29,7 @@ public class DeltaPortRenderer extends JComponent implements CellViewRenderer,Se
 	/** Cache the current port color for drwaing. */
 	protected transient Color color;
 	
-	/** Cache the current EdgeView for drawing. */
+	/** Cache the current PortView for drawing. */
 	protected transient PortView view;
 	
 	/** Cache the current graph background. */

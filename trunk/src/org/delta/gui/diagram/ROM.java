@@ -2,9 +2,10 @@ package org.delta.gui.diagram;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import org.delta.circuit.Component;
-import org.delta.circuit.component.DFlipFlopComponent;
+import org.delta.circuit.component.RomComponent;
 import org.jgraph.graph.GraphConstants;
 
 /**
@@ -48,9 +49,9 @@ public class ROM extends DeltaComponent {
 	 */
 	protected void replaceUserObject() {
 		/*
-		 * TODO: add correct ROM component
+		 * TODO: add default function.
 		 */
-        Component component = new DFlipFlopComponent();
+        Component component = new RomComponent(4, 1, new ArrayList<Integer>());
 		this.setUserObject(component);
 	}
 }

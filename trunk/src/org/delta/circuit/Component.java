@@ -14,7 +14,7 @@ import org.delta.verilog.VerilogConverter;
 
 abstract public class Component implements Serializable {
     /**
-     * 
+     * UID for serialisation.
      */
     private static final long serialVersionUID = 1L;
     private BidirectionalIntegerMap<ComponentWire> inputMap;
@@ -57,7 +57,15 @@ abstract public class Component implements Serializable {
         circuit = graph.circuit;
 
         // Set inputs.
-        for (int i = 0; i< inputs.size(); ++i) {
+        /* Ensure that 0th is reserved for the clock if the component is
+         * clocked.
+         */
+        int start = 0;
+        if (this instanceof ClockedComponent) {
+            start = 1;
+        }
+
+        for (int i = 0; i < inputs.size(); ++i) {
             Set<ComponentPort> componentPorts = inputs.get(i);
             Set<GateInputPort> inputPorts = new HashSet<GateInputPort>();
             
@@ -68,7 +76,7 @@ abstract public class Component implements Serializable {
                 Set<GateInputPort> gatePorts= c.getGateInputPorts(inputNumber);
                 inputPorts.addAll(gatePorts);
             }
-            addAllInputGates(i, inputPorts);
+            addAllInputGates(i + start, inputPorts);
         }
 
         // Set outputs.

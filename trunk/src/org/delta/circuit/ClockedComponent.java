@@ -53,7 +53,7 @@ public class ClockedComponent extends Component {
             List<Set<ComponentPort>> inputs,
             List<ComponentPort> outputs,
             Set<ComponentPort> clockedInputs) {
-        super(inputs.size(), outputs.size());
+        super(inputs.size() + 1, outputs.size());
         
         fromComponentGraph(graph, inputs, outputs, clockedInputs);
     }

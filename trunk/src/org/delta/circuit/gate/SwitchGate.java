@@ -36,7 +36,7 @@ public class SwitchGate extends AbstractInputGate {
     public String getVerilogMethod(String name, ArrayList<String> out, ArrayList<String> in) {
     	String result = "";
     	for(String s : out) {
-    		result += "assign SW[" + this.switchNumber + "] = " + s + ";\n";
+    		result += "assign " + s + " = SW[" + this.switchNumber + "];\n";
     	}
     	if(out.size() != 0) result = result.substring(0, result.length() - 1);
     	return result;

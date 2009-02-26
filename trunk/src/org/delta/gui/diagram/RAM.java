@@ -31,12 +31,12 @@ public class RAM extends DeltaComponent {
 		
 		this.replaceUserObject();
 		
-		this.addInputPort(new Point(0,120),0);
-		this.addInputPort(new Point(0,280),1);
-		this.addInputPort(new Point(0,430),2);
-		this.addInputPort(new Point(0,580),3);
-		this.addInputPort(new Point(0,790),4);
-		this.addInputPort(new Point(0,920),5);
+		this.addInputPort(new Point(0,120),2);
+		this.addInputPort(new Point(0,280),3);
+		this.addInputPort(new Point(0,430),4);
+		this.addInputPort(new Point(0,580),5);
+		this.addInputPort(new Point(0,790),1);
+		this.addInputPort(new Point(0,920),6);
 		this.addOutputPort(new Point(GraphConstants.PERMILLE,180),0);
 		// Set position based on parameter
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);

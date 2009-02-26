@@ -3,19 +3,18 @@ package org.delta.gui.diagram;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.delta.circuit.Component;
+import org.delta.circuit.ComponentGraphAdapter;
 import org.delta.circuit.ComponentWire;
 import org.delta.circuit.ListenableComponentGraph;
+import org.delta.gui.ComponentPanel;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.Edge;
-import org.jgraph.graph.Port;
 import org.jgraph.graph.GraphModel;
-import org.delta.circuit.ComponentGraphAdapter;
-import org.delta.gui.ComponentPanel;
+import org.jgraph.graph.Port;
 
 /**
  * @author Group Delta 2009
@@ -163,8 +162,17 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		// If source is an input port, check it has no other edges attached.
 		if (port instanceof DeltaInputPort) {
 			DeltaInputPort inputPort = (DeltaInputPort)port;
-			return (!(inputPort.edges().hasNext()));
+			if (inputPort.edges().hasNext())
+				return false;
 		}
+		// Check other end of edge is not the same type of port
+		Edge castEdge = (Edge)edge;
+		if ((port instanceof DeltaInputPort)
+			&& (castEdge.getTarget() instanceof DeltaInputPort))
+				return false;
+		else if ((port instanceof DeltaOutputPort)
+			&& (castEdge.getTarget() instanceof DeltaOutputPort))
+				return false;
 		return true;
 	}
 	
@@ -189,9 +197,17 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		// If target is an input port, check it has no other edges attached.
 		if (port instanceof DeltaInputPort) {
 			DeltaInputPort inputPort = (DeltaInputPort)port;
-			Set<Edge> portEdges = inputPort.getEdges();
-			return ((portEdges.contains(edge))||(portEdges.isEmpty()));
+			if (inputPort.edges().hasNext())
+				return false;
 		}
+		// Check other end of edge is not the same type of port
+		Edge castEdge = (Edge)edge;
+		if ((port instanceof DeltaInputPort)
+			&& (castEdge.getSource() instanceof DeltaInputPort))
+				return false;
+		else if ((port instanceof DeltaOutputPort)
+			&& (castEdge.getSource() instanceof DeltaOutputPort))
+				return false;
 		return true;
 	}
 	

@@ -119,6 +119,12 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		return cellObj;
 	}
 	
+	/**
+	 * Extra functionality added to make sure ports are always drawn on
+	 * top of components and wires. At the moment not necessary as we
+	 * have disabled XOR mode.
+	 * @see org.jgraph.graph.DefaultGraphModel#edit(Object[], Object[], Map, ConnectionSet, ParentMap, UndoableEdit[])
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void edit(Object[] inserted, Object[] removed, Map attributes,

@@ -1,19 +1,24 @@
 package org.delta.gui.diagram;
 
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.undo.UndoableEdit;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.ComponentGraphAdapter;
 import org.delta.circuit.ComponentWire;
 import org.delta.circuit.ListenableComponentGraph;
 import org.delta.gui.ComponentPanel;
+import org.jgraph.graph.ConnectionSet;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.Edge;
 import org.jgraph.graph.GraphModel;
+import org.jgraph.graph.ParentMap;
 import org.jgraph.graph.Port;
 
 /**
@@ -114,6 +119,21 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		return cellObj;
 	}
 	
+	@Override
+	@SuppressWarnings("unchecked")
+	public void edit(Object[] inserted, Object[] removed, Map attributes,
+			ConnectionSet cs, ParentMap pm, UndoableEdit[] edits) {
+		super.edit(inserted,removed,attributes,cs,pm,edits);
+		if (inserted != null) {
+			Set<Object> portsToFront = new HashSet<Object>();
+			for (int i=0; i<inserted.length; i++) {
+				if (this.isPort(inserted[i]))
+					portsToFront.add(inserted[0]);
+			}
+			this.toFront(portsToFront.toArray());
+		}
+	}
+	
 	/**
 	 * Connects or disconnects the edge and port in this model based on
 	 * <code>remove</code>. Subclassers should override this to update
@@ -155,6 +175,7 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 	 * @return true if source is valid, false otherwise.
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean acceptsSource(Object edge, Object port) {
 		// Check target is not null - we do not allow dangling edges.
 		if (port == null)
@@ -162,7 +183,10 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		// If source is an input port, check it has no other edges attached.
 		if (port instanceof DeltaInputPort) {
 			DeltaInputPort inputPort = (DeltaInputPort)port;
-			if (inputPort.edges().hasNext())
+			Set<Edge> portEdges = inputPort.getEdges();
+			if (portEdges.contains(edge))
+				portEdges.remove(edge);
+			if (!portEdges.isEmpty())
 				return false;
 		}
 		// Check other end of edge is not the same type of port
@@ -197,7 +221,10 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		// If target is an input port, check it has no other edges attached.
 		if (port instanceof DeltaInputPort) {
 			DeltaInputPort inputPort = (DeltaInputPort)port;
-			if (inputPort.edges().hasNext())
+			Set<Edge> portEdges = inputPort.getEdges();
+			if (portEdges.contains(edge))
+				portEdges.remove(edge);
+			if (!portEdges.isEmpty())
 				return false;
 		}
 		// Check other end of edge is not the same type of port

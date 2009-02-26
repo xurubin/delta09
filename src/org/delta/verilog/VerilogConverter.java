@@ -193,7 +193,7 @@ public class VerilogConverter {
 	public static void saveVerilogProject(File saveFolder, ComponentGraph c) {
 		try {
 			// copy verilog project to saveFolder
-			System.out.println(saveFolder.getAbsolutePath() + "/");
+			System.out.println(saveFolder.getAbsolutePath() + "\\");
 			Unzip.unzip(VerilogConverter.verilogProjectFolder, saveFolder.getAbsolutePath() + "\\");
 			// open main file for modification.
 

@@ -138,9 +138,9 @@ public class ComponentGraph extends
      * Removes all wires between two components.
      * @see ComponentGraph#removeEdge(ComponentWire)
      * @see DirectedMultigraph#removeAllEdges(Object, Object)
-     * @param source -
-     * @param target -
-     * @return
+     * @param source - source of the edges to be delted.
+     * @param target - target of the edges to be deleted.
+     * @return the set of wires that have been removed.
      */
     @Override
     public Set<ComponentWire> removeAllEdges(final Component source,

@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 import org.delta.circuit.Component;
-import org.delta.circuit.component.DFlipFlopComponent;
+import org.delta.circuit.component.RamComponent;
 import org.jgraph.graph.GraphConstants;
 
 /**
@@ -52,7 +52,7 @@ public class RAM extends DeltaComponent {
 		/*
 		 * TODO: add correct ROM component
 		 */
-        Component component = new DFlipFlopComponent();
+        Component component = new RamComponent(3, 1);
 		this.setUserObject(component);
 	}
 }

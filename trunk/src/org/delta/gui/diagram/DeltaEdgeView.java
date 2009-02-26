@@ -509,12 +509,10 @@ public class DeltaEdgeView extends EdgeView {
 						edgeModified = true;
 						Rectangle2D dirty = edge.getBounds();
 						if (edge.getSource() != null) {
-							dirty.add(edge.getSource().getParentView()
-									.getBounds());
+							dirty.add(edge.getSource().getBounds());
 						}
 						if (edge.getTarget() != null) {
-							dirty.add(edge.getTarget().getParentView()
-									.getBounds());
+							dirty.add(edge.getTarget().getBounds());
 						}
 						if (graph.isXorEnabled()) {
 							overlay(graph.getGraphics());

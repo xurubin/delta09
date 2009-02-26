@@ -1,6 +1,6 @@
 //gates
 
-module dflip(output reg q, input d, input clk);
+module dflip (output reg q, input d, input clk);
 	always @ (posedge clk) begin
 		q <= d;
 	end
@@ -19,7 +19,7 @@ module hexdisplay(output [6:0] h, input w0, input w1, input w2, input w3, input 
 	assign hex[1] = w1;
 	assign hex[2] = w2;
 	assign hex[3] = w3;
-	assign hex[4] = w4;
-	assign hex[5] = w5;
-	assign hex[6] = w6;	
+	assign hex[4] = w6;
+	assign hex[5] = w4;
+	assign hex[6] = w5;	
 endmodule

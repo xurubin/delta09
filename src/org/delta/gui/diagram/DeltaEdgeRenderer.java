@@ -1,7 +1,6 @@
 package org.delta.gui.diagram;
 
 import java.awt.BasicStroke;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -9,7 +8,6 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import org.jgraph.JGraph;
 import org.jgraph.graph.EdgeRenderer;
 import org.jgraph.graph.EdgeView;
 import org.jgraph.graph.GraphConstants;
@@ -109,7 +107,10 @@ public class DeltaEdgeRenderer extends EdgeRenderer {
 	 * Paint the renderer.
 	 * 
 	 * Note: Overridden to use custom RenderingHints. Now uses a "normalized" stroke rather
-	 * than a pure one and is anti-aliased.
+	 * than a pure one and is anti-aliased. The code is copied from the JGraph EdgeRenderer,
+	 * but I have removed the parts that paint features we are not using to make the code
+	 * look cleaner and run faster. Specifically I have removed the label printing,
+	 * begin/end shape painting and gradient printing.
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -118,69 +119,34 @@ public class DeltaEdgeRenderer extends EdgeRenderer {
 			// Sideeffect: beginShape, lineShape, endShape
 			if (edgeShape != null) {
 				Graphics2D g2 = (Graphics2D) g;
-				// Rendering hints altered from original
+				// Set rendering hints
 				RenderingHints hintsMap = new RenderingHints(
 						RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
 				hintsMap.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				g2.setRenderingHints(hintsMap);
+				
 				int c = BasicStroke.CAP_BUTT;
 				int j = BasicStroke.JOIN_MITER;
 				setOpaque(false);
 				translateGraphics(g);
 				g.setColor(getForeground());
+				
+				// Paint edge using the lineShape
 				if (lineWidth > 0) {
 					g2.setStroke(new BasicStroke(lineWidth, c, j));
-					if (gradientColor != null && !preview) {
-						g2.setPaint(new GradientPaint(0, 0, getBackground(),
-								getWidth(), getHeight(), gradientColor, true));
-					}
-					if (view.beginShape != null) {
-						if (beginFill)
-							g2.fill(view.beginShape);
-						g2.draw(view.beginShape);
-					}
-					if (view.endShape != null) {
-						if (endFill)
-							g2.fill(view.endShape);
-						g2.draw(view.endShape);
-					}
 					if (lineDash != null) // Dash For Line Only
 						g2.setStroke(new BasicStroke(lineWidth, c, j, 10.0f,
 								lineDash, dashOffset));
 					if (view.lineShape != null)
 						g2.draw(view.lineShape);
 				}
-
-				if (selected) { // Paint Selected
+				
+				// Paint differently if selected
+				if (selected) {
 					g2.setStroke(GraphConstants.SELECTION_STROKE);
 					g2.setColor(highlightColor);
-					if (view.beginShape != null)
-						g2.draw(view.beginShape);
 					if (view.lineShape != null)
 						g2.draw(view.lineShape);
-					if (view.endShape != null)
-						g2.draw(view.endShape);
-				}
-				g2.setStroke(new BasicStroke(1));
-				g
-						.setFont((extraLabelFont != null) ? extraLabelFont
-								: getFont());
-				Object[] labels = GraphConstants.getExtraLabels(view
-						.getAllAttributes());
-				JGraph graph = (JGraph)this.graph.get();
-				if (labels != null) {
-					for (int i = 0; i < labels.length; i++)
-						paintLabel(g, graph.convertValueToString(labels[i]),
-								getExtraLabelPosition(view, i),
-								false || !simpleExtraLabels);
-				}
-				if (graph.getEditingCell() != view.getCell()) {
-					g.setFont(getFont());
-					Object label = graph.convertValueToString(view);
-					if (label != null) {
-						paintLabel(g, label.toString(), getLabelPosition(view),
-								true);
-					}
 				}
 			}
 		} else {

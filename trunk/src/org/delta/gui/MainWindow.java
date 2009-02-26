@@ -166,7 +166,7 @@ public class MainWindow extends javax.swing.JFrame {
 		clock_panel = new JPanel();
 		clock_panel.setBorder ( new javax.swing.border.LineBorder (Color.BLACK) );
 		
-		ImageIcon clock_icon = new ImageIcon ("src/org/delta/gui/diagram/images/clock.png");
+		ImageIcon clock_icon = new ImageIcon (cl.getResource("org/delta/gui/diagram/images/" + "clock.png"));
 		
 		spinner = new JSpinner ( new SpinnerNumberModel (50, 1, 100, 1) );
 		

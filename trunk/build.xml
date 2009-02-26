@@ -85,6 +85,8 @@
      <fileset dir="${basedir}/jop_minimum/">
      </fileset>
    </copy>
+  	<copyfile src="${lib.dir}/FTD2XX.DLL" dest="${dist.dir}/ftd2xx.dll" />
+   <copyfile src="${lib.dir}/JFTD2XX.dll" dest="${dist.dir}/jftd2xx.dll" />
   </target>
 
   <target name="compile-test" depends="prepare">

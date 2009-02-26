@@ -22,7 +22,7 @@ public class DLatchComponent extends ClockedComponent {
 	private static final long serialVersionUID = 1L;
 
 	public DLatchComponent() {
-        super(1, 2);
+        super(2, 2);
         
         ComponentGraph graph = new ComponentGraph(false);
         
@@ -56,7 +56,7 @@ public class DLatchComponent extends ClockedComponent {
         clockInputs.add(new ComponentPort(and1, 0));
         
         List<Set<ComponentPort>> inputs = new ArrayList<Set<ComponentPort>>(1);
-        Set<ComponentPort> input0 = new HashSet<ComponentPort>(2);
+        Set<ComponentPort> input0 = new HashSet<ComponentPort>(1);
         input0.add(new ComponentPort(and1, 1));
         input0.add(new ComponentPort(inv, 0));
         inputs.add(input0);

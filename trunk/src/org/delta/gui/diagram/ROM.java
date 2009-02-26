@@ -3,6 +3,7 @@ package org.delta.gui.diagram;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.delta.circuit.Component;
 import org.delta.circuit.component.RomComponent;
@@ -15,6 +16,8 @@ import org.jgraph.graph.GraphConstants;
 public class ROM extends DeltaComponent {
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
+	
+	private List<Integer> store = new ArrayList<Integer>();
 
 	/**
 	 * Creates a new ROM at a default position.
@@ -47,11 +50,17 @@ public class ROM extends DeltaComponent {
 	 * a new component is created on the simulation graph - otherwise we would have two
 	 * display graph components being represented by just one simulation graph component.
 	 */
+	
+	public void setStore(List<Integer> userStore) {
+		this.store = userStore;
+		this.replaceUserObject();
+	}
+	
 	protected void replaceUserObject() {
 		/*
 		 * TODO: add default function.
 		 */
-        Component component = new RomComponent(4, 1, new ArrayList<Integer>());
+        Component component = new RomComponent(4, 1, store);
 		this.setUserObject(component);
 	}
 }

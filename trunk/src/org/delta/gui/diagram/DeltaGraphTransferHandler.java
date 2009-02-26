@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -401,10 +402,23 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				}
 				sevenSegment.setSevenSegmentNumber(sevenSegmentNumber);
 			}
+			else if (clone instanceof ROM) {
+				ROM rom = (ROM) clone;
+				rom.setStore(getUserMemorySelection());
+			}
 		}
 		
 		// Insert cloned cells
 		graph.getGraphLayoutCache().insertClones(cells, clones, nested, cs, pm, dx, dy);
+	}
+	
+	/*
+	 * TODO: get user input for intial memory value
+	 */
+	private List<Integer> getUserMemorySelection() {
+		MemoryDialog dialog = new MemoryDialog(MainWindow.get(), "Select intial memory values");
+		dialog.showDialog();
+		return dialog.getStoreValues();
 	}
 	
 	private int getUserInput(int compType) {

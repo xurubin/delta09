@@ -1,6 +1,6 @@
 package org.delta.circuit.component;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.delta.circuit.Circuit;
 import org.delta.circuit.ClockedComponent;
@@ -65,8 +65,8 @@ public class DFlipFlopComponent extends ClockedComponent {
 	}
 
 	@Override
-	public String getVerilogMethod(String name, HashMap<ComponentWire, String> inputWires,
-			HashMap<ComponentWire, String> outputWires) {
+	public String getVerilogMethod(String name, LinkedHashMap<ComponentWire, String> inputWires,
+			LinkedHashMap<ComponentWire, String> outputWires) {
 
 		ComponentWire[] output1 = new ComponentWire[this.getOutputWires(0).size()];
 		this.getOutputWires(0).toArray(output1);

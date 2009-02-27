@@ -29,7 +29,8 @@ public class ExportAction extends AbstractAction {
 				cg.setClockFrequency((int) MainWindow.get().getClockSpinnerValue());
 				if (cg.edgeSet().size() == 0)
 					throw new Exception();
-				VerilogConverter.saveVerilogProject(chooser.getSelectedFile(), cg);
+				//VerilogConverter.saveVerilogProject(chooser.getSelectedFile(), cg);
+				System.out.println(VerilogConverter.convertToVerilog(cg));
 			}
 		} catch (Exception ex) {
 			JOptionPane
@@ -37,6 +38,7 @@ public class ExportAction extends AbstractAction {
 							MainWindow.get(),
 							"Your circuit isn't fully connected.\nVerilog output requires a full circuit description.",
 							"Circuit Error", JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
 		}
 
 	}

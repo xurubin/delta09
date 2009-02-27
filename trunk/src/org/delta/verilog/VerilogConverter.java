@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -45,13 +46,13 @@ public class VerilogConverter {
 	 * @return
 	 */
 	public static String convertToVerilog(String name, Component component,
-			HashMap<ComponentWire,String> inputWires, HashMap<ComponentWire,String> outputWires) {
+			LinkedHashMap<ComponentWire,String> inputWires, LinkedHashMap<ComponentWire,String> outputWires) {
 		Circuit circuit = component.getCircuit();
 		Set<Wire> wires = circuit.edgeSet();
 		Set<Gate> gates = circuit.vertexSet();
 		
 		String verilog = "";
-		HashMap<Wire, String> wireNames = new HashMap<Wire, String>();
+		LinkedHashMap<Wire, String> wireNames = new LinkedHashMap<Wire, String>();
 		int wCounter = 0;
 		for(Wire w : wires) {
 			String wireName = name + "_w" + wCounter++;
@@ -59,8 +60,8 @@ public class VerilogConverter {
 			verilog += "wire " + wireName + ";";
 		}
 		
-		HashMap<Gate,List<Integer>> gateInputNumberMap = new HashMap<Gate, List<Integer>>();
-		HashMap<Gate, List<Integer>> gateOutputNumberMap = new HashMap<Gate, List<Integer>>();
+		LinkedHashMap<Gate,List<Integer>> gateInputNumberMap = new LinkedHashMap<Gate, List<Integer>>();
+		LinkedHashMap<Gate, List<Integer>> gateOutputNumberMap = new LinkedHashMap<Gate, List<Integer>>();
 		
 		//get list of input gates
 		for(int i = 0; i < component.getInputCount(); i++) {			
@@ -143,7 +144,7 @@ public class VerilogConverter {
 		Set<ComponentWire> wires = circuit.edgeSet();
 		Set<Component> components = circuit.vertexSet();
 
-		HashMap<ComponentWire, String> wireNames = new HashMap<ComponentWire, String>();
+		HashMap<ComponentWire, String> wireNames = new LinkedHashMap<ComponentWire, String>();
 
 		int wCounter = 0;
 		String wireDecl = "";
@@ -156,8 +157,8 @@ public class VerilogConverter {
 		String componentDecl = "";
 		int cCounter = 0;
 		for (Component c : components) {
-			HashMap<ComponentWire,String> output = new HashMap<ComponentWire,String>();
-			HashMap<ComponentWire,String> input = new HashMap<ComponentWire,String>();
+			LinkedHashMap<ComponentWire,String> output = new LinkedHashMap<ComponentWire,String>();
+			LinkedHashMap<ComponentWire,String> input = new LinkedHashMap<ComponentWire,String>();
 			
 			/*
 			 * Get outputs and inputs (in order)
@@ -193,8 +194,7 @@ public class VerilogConverter {
 	public static void saveVerilogProject(File saveFolder, ComponentGraph c) {
 		try {
 			// copy verilog project to saveFolder
-			System.out.println(saveFolder.getAbsolutePath() + "\\");
-			Unzip.unzip(VerilogConverter.verilogProjectFolder, saveFolder.getAbsolutePath() + "\\");
+			Unzip.unzip(VerilogConverter.verilogProjectFolder, saveFolder.getAbsolutePath() + "/");
 			// open main file for modification.
 
 			File mainVerilogFile = new File(saveFolder, verilogTopLevel + ".v");

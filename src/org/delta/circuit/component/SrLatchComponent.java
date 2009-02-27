@@ -1,6 +1,6 @@
 package org.delta.circuit.component;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.delta.circuit.Circuit;
 import org.delta.circuit.Component;
@@ -42,8 +42,8 @@ public class SrLatchComponent extends Component {
 	}
 
 	public String getVerilogMethod(String name,
-			HashMap<ComponentWire, String> inputWires,
-			HashMap<ComponentWire, String> outputWires) {
+			LinkedHashMap<ComponentWire, String> inputWires,
+			LinkedHashMap<ComponentWire, String> outputWires) {
 
 		ComponentWire[] output1 = new ComponentWire[this.getOutputWires(0)
 				.size()];

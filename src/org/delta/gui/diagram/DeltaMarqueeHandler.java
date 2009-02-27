@@ -130,10 +130,19 @@ public class DeltaMarqueeHandler extends BasicMarqueeHandler implements Serializ
 		// If Valid Event, Current and First Port, then check proposed Edge is valid
 		if (e != null && port != null && firstPort != null && firstPort != port) {
 			DeltaEdge edge = new DeltaEdge();
+			boolean samePortType = false;
+			// Check other end of edge is not the same type of port
+			if ((port.getCell() instanceof DeltaInputPort)
+				&& (firstPort.getCell() instanceof DeltaInputPort))
+					samePortType = true;
+			else if ((port.getCell() instanceof DeltaOutputPort)
+				&& (firstPort.getCell() instanceof DeltaOutputPort))
+					samePortType = true;
 			// If valid edge, add it to the graph
 			if (graph.getModel().acceptsSource(edge, firstPort.getCell())
-					&& graph.getModel().acceptsTarget(edge, port.getCell())) {
-				graph.getGraphLayoutCache().insertEdge(edge, firstPort.getCell(), port.getCell());
+					&& graph.getModel().acceptsTarget(edge, port.getCell())
+						&& !samePortType) {
+					graph.getGraphLayoutCache().insertEdge(edge, firstPort.getCell(), port.getCell());
 			}
 			// If not then repaint
 			else

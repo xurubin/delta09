@@ -40,13 +40,13 @@ public class ComponentPanel extends JPanel
 	public static final int LOW = 11;
 	public static final int DFLIP = 12;
 	public static final int SWITCH = 13;
-	public static final int SEVENSEG = 14;
-	public static final int RSLATCH = 15;	
-	public static final int ROM = 16;	
-	public static final int RAM = 17;	
-	public static final int NAND3 = 18;
-	public static final int NOR3 = 19;
-	// TODO: Set up remaining component keys
+	public static final int PUSHBUTTON = 14;
+	public static final int SEVENSEG = 15;
+	public static final int RSLATCH = 16;	
+	public static final int ROM = 17;	
+	public static final int RAM = 18;	
+	public static final int NAND3 = 19;
+	public static final int NOR3 = 20;
 	
 	private Box.Filler box;
 	
@@ -198,6 +198,7 @@ public class ComponentPanel extends JPanel
 		ImageIcon high_icon    = new ImageIcon (cl.getResource(IMAGE_FOLDER + "high.png"));
 		ImageIcon low_icon     = new ImageIcon (cl.getResource(IMAGE_FOLDER + "low.png"));
 		ImageIcon switch_icon  = new ImageIcon (cl.getResource(IMAGE_FOLDER + "switch.png"));
+		ImageIcon pb_icon	   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "push_button.png"));
 		
 		ImageIcon rslatch_icon = new ImageIcon (cl.getResource(IMAGE_FOLDER + "rs_latch.png"));
 		ImageIcon dflip_icon   = new ImageIcon (cl.getResource(IMAGE_FOLDER + "d_flip.png"));
@@ -222,6 +223,7 @@ public class ComponentPanel extends JPanel
 		input_cat.add (high_icon,   translator.getString ("HIGH"),   HIGH);
 		input_cat.add (low_icon,    translator.getString ("LOW"),    LOW);
 		input_cat.add (switch_icon, translator.getString ("SWITCH"), SWITCH);
+		input_cat.add (pb_icon,		translator.getString ("BUTTON"), PUSHBUTTON);
 		
 		add_cat.add (dflip_icon,   translator.getString ("DFLIP"),   DFLIP);
 		add_cat.add (rslatch_icon, translator.getString ("RSLATCH"), RSLATCH);

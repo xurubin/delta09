@@ -97,7 +97,6 @@ public class BoardInterface {
 	 * Sends a packet to the DE2 board with the new status of the lights.
 	 * @param i	the number of the LED on the board.
 	 * @param b	the value to set that LED to.
-	 * @return 1 if successful. 
 	 */
 	public void sendLEDEvent(int i, boolean b) {
 		//compare state change event to lights packed int.

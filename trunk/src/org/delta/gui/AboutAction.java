@@ -35,7 +35,7 @@ public class AboutAction extends AbstractAction
 		
 		ImageIcon icon = new ImageIcon("src/org/delta/gui/icons/logo.png");
 		JLabel imageLabel = new JLabel("", icon, JLabel.CENTER);
-		JLabel text = new JLabel(MainWindow.get().translator.getString("ABOUT"), JLabel.CENTER);
+		JLabel text = new JLabel(MainWindow.get().translator.getString("ABOUT_TEXT"), JLabel.CENTER);
 		
 		container.add(imageLabel, BorderLayout.NORTH);
 		container.add(text, BorderLayout.CENTER);

@@ -352,11 +352,10 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				ledr.setModel(model);
 				int ledrNumber = getUserInput(ComponentPanel.LEDR);
 				if (ledrNumber == -1) {
-					JOptionPane.showMessageDialog(MainWindow.get(),
-						    "You did not choose a number for the LED, " +
-						    "so it can't be added to the circuit",
-						    "LED number not chosen",
-						    JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog ( MainWindow.get(),
+													MainWindow.getTranslatorString ("NO_LED_NUM_LONG"),
+													MainWindow.getTranslatorString ("NO_LED_NUM"),
+													JOptionPane.ERROR_MESSAGE );
 					return;
 				}
 				ledr.setLedrNumber(ledrNumber);
@@ -366,11 +365,10 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				ledg.setModel(model);
 				int ledgNumber = getUserInput(ComponentPanel.LEDG);
 				if (ledgNumber == -1) {
-					JOptionPane.showMessageDialog(MainWindow.get(),
-						    "You did not choose a number for the LED, " +
-						    "so it can't be added to the circuit",
-						    "LED number not chosen",
-						    JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog ( MainWindow.get(),
+													MainWindow.getTranslatorString ("NO_LED_NUM_LONG"),
+													MainWindow.getTranslatorString ("NO_LED_NUM"),
+													JOptionPane.ERROR_MESSAGE );
 					return;
 				}
 				ledg.setLedgNumber(ledgNumber);
@@ -379,11 +377,10 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				Switch sw = (Switch)clone;
 				int switchNumber = getUserInput(ComponentPanel.SWITCH);
 				if (switchNumber == -1) {
-					JOptionPane.showMessageDialog(MainWindow.get(),
-						    "You did not choose a number for the component, " +
-						    "so it can't be added to the circuit",
-						    "Component number not chosen",
-						    JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog ( MainWindow.get(),
+													MainWindow.getTranslatorString ("NO_COMP_NUM_LONG"),
+													MainWindow.getTranslatorString ("NO_COMP_NUM"),
+													JOptionPane.ERROR_MESSAGE );
 					return;
 				}
 				sw.setSwitchNumber(switchNumber);
@@ -392,11 +389,10 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				PushButton key = (PushButton)clone;
 				int pushButtonNumber = getUserInput(ComponentPanel.PUSHBUTTON);
 				if (pushButtonNumber == -1) {
-					JOptionPane.showMessageDialog(MainWindow.get(),
-						    "You did not choose a number for the component, " +
-						    "so it can't be added to the circuit",
-						    "Component number not chosen",
-						    JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog ( MainWindow.get(),
+													MainWindow.getTranslatorString ("NO_COMP_NUM_LONG"),
+													MainWindow.getTranslatorString ("NO_COMP_NUM"),
+													JOptionPane.ERROR_MESSAGE );
 					return;
 				}
 				key.setPushButtonNumber(pushButtonNumber);
@@ -406,11 +402,10 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				sevenSegment.setModel(model);
 				int sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG);
 				if (sevenSegmentNumber == -1) {
-					JOptionPane.showMessageDialog(MainWindow.get(),
-						    "You did not choose a number for the component, " +
-						    "so it can't be added to the circuit",
-						    "Component number not chosen",
-						    JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog ( MainWindow.get(),
+													MainWindow.getTranslatorString ("NO_COMP_NUM_LONG"),
+													MainWindow.getTranslatorString ("NO_COMP_NUM"),
+													JOptionPane.ERROR_MESSAGE );
 					return;
 				}
 				sevenSegment.setSevenSegmentNumber(sevenSegmentNumber);
@@ -429,7 +424,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	 * TODO: get user input for intial memory value
 	 */
 	private List<Integer> getUserMemorySelection() {
-		MemoryDialog dialog = new MemoryDialog(MainWindow.get(), "Select intial memory values");
+		MemoryDialog dialog = new MemoryDialog(MainWindow.get(), MainWindow.getTranslatorString("SELECT_MEM"));
 		dialog.showDialog();
 		return dialog.getStoreValues();
 	}
@@ -442,27 +437,27 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		switch (compType) {
 		case ComponentPanel.LEDR:		totalComps = 18;
 										compPrefix = "LEDR";
-										compName = "red LED";
+										compName = MainWindow.getTranslatorString("RED_LED");
 										break;
 		case ComponentPanel.LEDG:		totalComps = 9;
 										compPrefix = "LEDG";
-										compName = "green LED";
+										compName = MainWindow.getTranslatorString("GREEN_LED");
 										break;
 		case ComponentPanel.SWITCH:		totalComps = 18;
 										compPrefix = "SW";
-										compName = "switch";
+										compName = MainWindow.getTranslatorString("SWITCH2");
 										break;
 		case ComponentPanel.PUSHBUTTON:	totalComps = 4;
 										compPrefix = "KEY";
-										compName = "push button";
+										compName = MainWindow.getTranslatorString("BUTTON2");
 										break;
 		case ComponentPanel.SEVENSEG:	totalComps = 8;
 										compPrefix = "HEX";
-										compName = "seven segment display";
+										compName = MainWindow.getTranslatorString("7SEG2");
 										break;
 		default:						totalComps = 0;
 										compPrefix = "UNKNOWN";
-										compName = "(unkown component type)";
+										compName = MainWindow.getTranslatorString("UNKNOWN");
 		}
 		
 		// Create an array of unused components for the dialog box
@@ -494,13 +489,17 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		
 		// Show the dialog and get the users choice
 		String returnedString = (String)JOptionPane.showInputDialog(
-		                    MainWindow.get(),
-		                    "Choose which "+compName+" you would like to represent.",
-		                    "Choose "+compName+" number",
-		                    JOptionPane.PLAIN_MESSAGE,
-		                    new ImageIcon("org/delta/gui/diagram/images/ledr.png"),
-		                    possibilities,
-		                    possibilities[0]);
+				MainWindow.get(),
+				MainWindow.getTranslatorString("CHOOSE1")
+				+ compName +
+				MainWindow.getTranslatorString("CHOOSE2"),
+				MainWindow.getTranslatorString("CHOOSE3")
+				+ compName +
+				MainWindow.getTranslatorString("CHOOSE4"),
+				JOptionPane.PLAIN_MESSAGE,
+				new ImageIcon("org/delta/gui/diagram/images/ledr.png"),
+				possibilities,
+				possibilities[0]);
 		
 		// If no string is returned (i.e. user clicks cancel), return -1 and let caller handle it
 		if (returnedString == null)

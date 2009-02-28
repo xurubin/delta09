@@ -52,7 +52,7 @@ public class RAM extends DeltaComponent {
 		/*
 		 * TODO: add correct ROM component
 		 */
-        Component component = new RamComponent(3, 1);
+        Component component = new RamComponent(4, 1);
 		this.setUserObject(component);
 	}
 }

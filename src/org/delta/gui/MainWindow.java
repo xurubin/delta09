@@ -292,8 +292,8 @@ public class MainWindow extends javax.swing.JFrame {
 		return ((Integer) spinner.getValue()).longValue();
 	}
 	
-	public Translator getTranslator() {
-		return translator;
+	public static String getTranslatorString (String s) {
+		return get().translator.getString(s);
 	}
 	
 	public static MainWindow get()

@@ -3,8 +3,6 @@ package org.delta.logic;
 import org.delta.circuit.Wire;
 import org.delta.transport.BoardInterface;
 
-import com.google.inject.Inject;
-
 public class LedConstant extends Constant {
     /**
 	 * 

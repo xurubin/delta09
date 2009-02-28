@@ -34,7 +34,6 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 		ComponentPanelLabel draggedComponent = (ComponentPanelLabel) comp;
 		int componentKey = draggedComponent.getComponentKey();
 		Object[] cells = new Object[1];
-		// TODO: Complete case statement
 		switch (componentKey) {
 		//case 0: unused
 		case 1: cells[0] = new AndGate(new Point(0,0)); break;
@@ -50,12 +49,13 @@ public class ComponentTransferHandler extends GraphTransferHandler {
 		case 11: cells[0] = new LowInput(new Point(0,0)); break;
 		case 12: cells[0] = new DFlip(new Point(0,0)); break;
 		case 13: cells[0] = new Switch(new Point(0,0)); break;
-		case 14: cells[0] = new SevenSegment(new Point(0,0)); break;
-		case 15: cells[0] = new RSLatch(new Point(0,0)); break;
-		case 16: cells[0] = new ROM(new Point(0,0)); break;
-		case 17: cells[0] = new RAM(new Point(0,0)); break;
-		case 18: cells[0] = new Nand3Gate(new Point(0,0)); break;
-		case 19: cells[0] = new Nor3Gate(new Point(0,0)); break;
+		case 14: cells[0] = new PushButton(new Point(0,0)); break;
+		case 15: cells[0] = new SevenSegment(new Point(0,0)); break;
+		case 16: cells[0] = new RSLatch(new Point(0,0)); break;
+		case 17: cells[0] = new ROM(new Point(0,0)); break;
+		case 18: cells[0] = new RAM(new Point(0,0)); break;
+		case 19: cells[0] = new Nand3Gate(new Point(0,0)); break;
+		case 20: cells[0] = new Nor3Gate(new Point(0,0)); break;
 		}
 		
 		// Create a new graph containing only the new component

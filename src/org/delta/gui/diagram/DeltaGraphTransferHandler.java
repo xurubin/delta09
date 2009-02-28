@@ -388,6 +388,19 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				}
 				sw.setSwitchNumber(switchNumber);
 			}
+			else if (clone instanceof PushButton) {
+				PushButton key = (PushButton)clone;
+				int pushButtonNumber = getUserInput(ComponentPanel.PUSHBUTTON);
+				if (pushButtonNumber == -1) {
+					JOptionPane.showMessageDialog(MainWindow.get(),
+						    "You did not choose a number for the component, " +
+						    "so it can't be added to the circuit",
+						    "Component number not chosen",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				key.setPushButtonNumber(pushButtonNumber);
+			}
 			else if (clone instanceof SevenSegment) {
 				SevenSegment sevenSegment = (SevenSegment)clone;
 				sevenSegment.setModel(model);
@@ -439,6 +452,10 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 										compPrefix = "SW";
 										compName = "switch";
 										break;
+		case ComponentPanel.PUSHBUTTON:	totalComps = 4;
+										compPrefix = "KEY";
+										compName = "push button";
+										break;
 		case ComponentPanel.SEVENSEG:	totalComps = 8;
 										compPrefix = "HEX";
 										compName = "seven segment display";
@@ -459,6 +476,11 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		else if (compType == ComponentPanel.SWITCH) {
 			for (int sw=0; sw<totalComps; sw++) {
 				unusedComps.add(compPrefix+Integer.toString(sw));
+			}
+		}
+		else if (compType == ComponentPanel.PUSHBUTTON) {
+			for (int key=0; key<totalComps; key++) {
+				unusedComps.add(compPrefix+Integer.toString(key));
 			}
 		}
 		else if (compType == ComponentPanel.SEVENSEG) {

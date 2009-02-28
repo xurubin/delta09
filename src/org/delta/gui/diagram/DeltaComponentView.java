@@ -52,6 +52,7 @@ public class DeltaComponentView extends VertexView {
 	private static final String LOW_ICON = "low.svg";
 	private static final String DFLIP_ICON = "d_flip.svg";
 	private static final String SWITCH_ICON = "switch.svg";
+	private static final String PUSH_BUTTON_ICON = "push_button.svg";
 	private static final String SEVENSEG_ICON = "7seg.svg";
 	private static final String RSLATCH_ICON = "rs_latch.svg";
 	private static final String ROM_ICON = "rom.svg";
@@ -109,6 +110,8 @@ public class DeltaComponentView extends VertexView {
 			iconFileName = DFLIP_ICON;
 		else if (cell instanceof Switch)
 			iconFileName = SWITCH_ICON;
+		else if (cell instanceof PushButton)
+			iconFileName = PUSH_BUTTON_ICON;
 		else if (cell instanceof SevenSegment)
 			iconFileName = SEVENSEG_ICON;
 		else if (cell instanceof RSLatch)

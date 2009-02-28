@@ -3,6 +3,8 @@ package org.delta.logic;
 import org.delta.circuit.Wire;
 import org.delta.transport.BoardInterface;
 
+import com.google.inject.Inject;
+
 public class LedConstant extends Constant {
     /**
 	 * 
@@ -18,14 +20,22 @@ public class LedConstant extends Constant {
         super(wire);
     }
     
+    public LedConstant() {
+        super(State.SX);
+    }
+    
     public void setLedNumber(int ledNumber) {
         this.ledNumber = ledNumber;
+    }
+    
+    protected BoardInterface getBoardInterface() {
+        return BoardInterface.getInstance();
     }
 
     @Override
     public State evaluate() {
-        State state = super.evaluate();
-        BoardInterface board = BoardInterface.getInstance(); 
+        final State state = super.evaluate();
+        BoardInterface board = getBoardInterface(); 
         
         if (state == State.S0) {
             board.sendLEDEvent(ledNumber, false);

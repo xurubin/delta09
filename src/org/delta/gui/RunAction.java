@@ -49,7 +49,7 @@ public class RunAction extends AbstractAction {
 				while ((line = input.readLine()) != null) {	
 					System.err.println(line);
 					if(line.contains("Error")) {
-						throw new Exception("Error programming board.\nCheck that the USB blaster is connected and the board is switched on.");
+						throw new Exception(MainWindow.get().translator.getString("TRANSFER_ERROR"));
 					}
 				}
 				input.close();
@@ -80,7 +80,7 @@ public class RunAction extends AbstractAction {
 				System.err.println("loaded JOP Daemon");
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(MainWindow.get(),
-						e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						e2.getMessage(), MainWindow.get().translator.getString("ERROR"), JOptionPane.ERROR_MESSAGE);
 				MainWindow.get().setCursor(Cursor.getDefaultCursor());
 				timesRun = 0;
 				return;

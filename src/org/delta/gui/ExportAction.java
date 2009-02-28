@@ -22,7 +22,7 @@ public class ExportAction extends AbstractAction {
 		// Export the circuit to a Verilog file
 		try {
 			JFileChooser chooser = new JFileChooser();
-			chooser.setDialogTitle("Select Folder");
+			chooser.setDialogTitle ( MainWindow.get().translator.getString ("SELECT_FOLDER") );
 			chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			if (chooser.showSaveDialog(chooser) == JFileChooser.APPROVE_OPTION) {
 				ComponentGraph cg = MainWindow.get().circuit_panel.getComponentGraph();
@@ -33,11 +33,11 @@ public class ExportAction extends AbstractAction {
 				System.out.println(VerilogConverter.convertToVerilog(cg));
 			}
 		} catch (Exception ex) {
-			JOptionPane
-					.showMessageDialog(
-							MainWindow.get(),
-							"Your circuit isn't fully connected.\nVerilog output requires a full circuit description.",
-							"Circuit Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog
+						(	MainWindow.get(),
+							MainWindow.get().translator.getString ("BAD_VERILOG"),
+							MainWindow.get().translator.getString ("CIRCUIT_ERROR"),
+							JOptionPane.ERROR_MESSAGE	);
 			ex.printStackTrace();
 		}
 

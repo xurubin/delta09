@@ -434,30 +434,37 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		int totalComps;
 		String compPrefix;
 		String compName;
+		String compImage;
 		switch (compType) {
 		case ComponentPanel.LEDR:		totalComps = 18;
 										compPrefix = "LEDR";
 										compName = MainWindow.getTranslatorString("RED_LED");
+										compImage = "ledr.png";
 										break;
 		case ComponentPanel.LEDG:		totalComps = 9;
 										compPrefix = "LEDG";
 										compName = MainWindow.getTranslatorString("GREEN_LED");
+										compImage = "ledg.png";
 										break;
 		case ComponentPanel.SWITCH:		totalComps = 18;
 										compPrefix = "SW";
 										compName = MainWindow.getTranslatorString("SWITCH2");
+										compImage = "switch.png";
 										break;
 		case ComponentPanel.PUSHBUTTON:	totalComps = 4;
 										compPrefix = "KEY";
 										compName = MainWindow.getTranslatorString("BUTTON2");
+										compImage = "button.png";
 										break;
 		case ComponentPanel.SEVENSEG:	totalComps = 8;
 										compPrefix = "HEX";
 										compName = MainWindow.getTranslatorString("7SEG2");
+										compImage = "7seg.png";
 										break;
 		default:						totalComps = 0;
 										compPrefix = "UNKNOWN";
 										compName = MainWindow.getTranslatorString("UNKNOWN");
+										compImage = "";
 		}
 		
 		// Create an array of unused components for the dialog box
@@ -488,6 +495,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		// TODO: What to do when there are no available LEDs or seven segment displays.
 		
 		// Show the dialog and get the users choice
+		ClassLoader cl = this.getClass().getClassLoader();
 		String returnedString = (String)JOptionPane.showInputDialog(
 				MainWindow.get(),
 				MainWindow.getTranslatorString("CHOOSE1")
@@ -497,7 +505,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				+ compName +
 				MainWindow.getTranslatorString("CHOOSE4"),
 				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon("org/delta/gui/diagram/images/ledr.png"),
+				new ImageIcon(cl.getResource("org/delta/gui/diagram/images/" + compImage)),
 				possibilities,
 				possibilities[0]);
 		

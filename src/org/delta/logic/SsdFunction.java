@@ -16,10 +16,14 @@ public class SsdFunction extends Function {
     public void setSsdNumber(int ssdNumber) {
         this.ssdNumber = ssdNumber;
     }
+    
+    protected BoardInterface getBoardInterface() {
+        return BoardInterface.getInstance();
+    }
 
     @Override
     public State evaluate() {
-        BoardInterface board = BoardInterface.getInstance(); 
+        BoardInterface board = getBoardInterface(); 
         
         for (int i = 0; i < getArgumentCount(); ++i) {
             State state = evaluateArgument(i); 

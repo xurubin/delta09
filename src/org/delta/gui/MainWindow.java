@@ -76,8 +76,8 @@ public class MainWindow extends javax.swing.JFrame {
 		mw = this;
 		
 		addWindowListener ( new WindowAdapter() {
-			public void windowClosing (WindowEvent evt) {
-				quitApplication();
+			public void windowClosing (WindowEvent e) {
+				quitApplication ( new ActionEvent (e.getSource(), e.getID(), e.paramString() ) );
 			}
 		} );
 		
@@ -194,7 +194,7 @@ public class MainWindow extends javax.swing.JFrame {
 		file_menu.add(exit_menu_item);
 		exit_menu_item.addActionListener ( new ActionListener() {
 			public void actionPerformed (ActionEvent evt) {
-				quitApplication();
+				quitApplication (evt);
 			}
 		} );
 		
@@ -263,17 +263,30 @@ public class MainWindow extends javax.swing.JFrame {
 
 	}
 
-	private void quitApplication()
+	private void quitApplication (ActionEvent e)
 	{
-		if(change_language_action.isSelected()) {
-			try {
-				FileWriter newConfigFile = new FileWriter(SETTINGS_FILE);
-				(new Properties()).store(newConfigFile, "erasing settings");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}	
-		System.exit (0);
+		int choice = JOptionPane.showConfirmDialog
+		 ( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
+		
+		switch (choice)
+		{
+			case JOptionPane.YES_OPTION:
+				// save circuit
+				MainWindow.get().getSaveAction().actionPerformed
+				( new ActionEvent ( e.getSource(), e.getID(), e.getActionCommand() ) );
+				// deliberately no "break;"
+			case JOptionPane.NO_OPTION:
+				if(change_language_action.isSelected()) {
+					try {
+						FileWriter newConfigFile = new FileWriter(SETTINGS_FILE);
+						(new Properties()).store(newConfigFile, "erasing settings");
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				}	
+				System.exit (0);
+			default:
+		}
 	}
 	
 	public Action getUndoAction() {

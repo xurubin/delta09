@@ -13,7 +13,7 @@ public class CircuitFileFilter extends FileFilter
 
 	public String getDescription()
 	{
-		return ".cir files";
+		return MainWindow.get().translator.getString ("CIR_FILES");
 	}
 
 }

@@ -33,7 +33,8 @@ public class OpenAction extends AbstractAction
 	public void actionPerformed(ActionEvent e)
 	{
 		// Checks whether the user wants to save the current circuit (or cancel)
-		int choice = JOptionPane.showConfirmDialog (MainWindow.get(), "Save current circuit first?");
+		int choice = JOptionPane.showConfirmDialog
+					 ( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
 		
 		switch (choice)
 		{
@@ -77,17 +78,15 @@ public class OpenAction extends AbstractAction
 					catch (FileNotFoundException ex)
 					{
 						 JOptionPane.showMessageDialog ( null,
-								 						 "The specified circuit file\n" +
-								 						 "could not be found.",
-								 						 "File not found",
+								 						 MainWindow.get().translator.getString ("CIRCUIT_NOT_FOUND"),
+								 						 MainWindow.get().translator.getString ("FILE_NOT_FOUND"),
 								 						 JOptionPane.ERROR_MESSAGE );
 					}
 					catch (IOException ex)
 					{
 						JOptionPane.showMessageDialog ( null,
-		 						 						"The specified circuit\n" +
-		 						 						"could not be loaded.",
-		 						 						"Error",
+														MainWindow.get().translator.getString ("CIRCUIT_NOT_LOADED"),
+														MainWindow.get().translator.getString ("ERROR"),
 		 						 						JOptionPane.ERROR_MESSAGE );
 					}
 				}

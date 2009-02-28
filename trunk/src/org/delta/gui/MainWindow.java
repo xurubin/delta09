@@ -59,6 +59,7 @@ public class MainWindow extends javax.swing.JFrame {
 	protected static Properties configFile;
 	protected SimulationScheduler scheduler;
 	protected JCheckBoxMenuItem change_language_action;
+	protected Translator translator;
 	public static final String SETTINGS_FILE = "Settings.properties";
 	public static final String ICON_FOLDER = "org/delta/gui/icons/";
 	
@@ -68,7 +69,7 @@ public class MainWindow extends javax.swing.JFrame {
 	{
 		super ("Delta Circuit Simulation");
 		// Create translator object
-		Translator translator = new Translator(language);
+		translator = new Translator(language);
 		Container cp = getContentPane();
 		cp.setComponentOrientation(ComponentOrientation.getOrientation(language));
 		
@@ -291,14 +292,17 @@ public class MainWindow extends javax.swing.JFrame {
 		return ((Integer) spinner.getValue()).longValue();
 	}
 	
+	public Translator getTranslator() {
+		return translator;
+	}
+	
 	public static MainWindow get()
 	{
 		if (mw == null)
 			mw = new MainWindow(Locale.getDefault());
 		return mw;
 	}
-
-
+	
 	public static void main(String args[]) {
 	    SwingUtilities.invokeLater(new Runnable() {
 	        public void run() {

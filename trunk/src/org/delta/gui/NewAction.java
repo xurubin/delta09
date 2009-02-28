@@ -28,7 +28,8 @@ public class NewAction extends AbstractAction
 		// Create a brand new circuit
 		// But gives the user the option of saving the current circuit (or cancelling)
 		
-		int choice = JOptionPane.showConfirmDialog (MainWindow.get(), "Save current circuit first?");
+		int choice = JOptionPane.showConfirmDialog
+					 ( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
 		
 		switch (choice)
 		{

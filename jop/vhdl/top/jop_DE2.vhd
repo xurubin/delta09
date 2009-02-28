@@ -184,7 +184,7 @@ cmp_clk_clock: work.clk_clock
 --	extern reset by holding Key[0..3]
 --
 
-external_reset <= (not KEY(0)) and (not KEY(1)) and (not KEY(2)) and (not KEY(3));
+external_reset <= '0';--(not KEY(0)) and (not KEY(1)) and (not KEY(2)) and (not KEY(3));
 process(clk_int)
 begin
 	if rising_edge(clk_int) then

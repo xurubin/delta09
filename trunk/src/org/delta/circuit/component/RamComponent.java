@@ -2,10 +2,9 @@ package org.delta.circuit.component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-
-import javax.swing.text.GapContent;
 
 import org.delta.circuit.ClockedComponent;
 import org.delta.circuit.Component;
@@ -13,7 +12,6 @@ import org.delta.circuit.ComponentGraph;
 import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.gate.GateFactory;
-import org.delta.circuit.gate.MemoryFunction;
 import org.delta.circuit.gate.MemoryGate;
 import org.delta.logic.And;
 import org.delta.logic.Or;
@@ -152,5 +150,31 @@ public class RamComponent extends ClockedComponent {
             }
         }
     }
+    
+	@Override
+	public String getVerilogMethod(String name, LinkedHashMap<ComponentWire, String> inputWires,
+			LinkedHashMap<ComponentWire, String> outputWires) {
+
+		ComponentWire[] output1 = new ComponentWire[this.getOutputWires(0).size()];
+		this.getOutputWires(0).toArray(output1);
+
+		String mainOutput1 = output1.length > 0 ? outputWires.get(output1[0]) : "";
+
+		String result = "ram16 " + name + "(" + mainOutput1 + ", "
+				+ inputWires.get(this.getInputWire(0)) + ", "
+				+ inputWires.get(this.getInputWire(1))  + ", "
+				+ inputWires.get(this.getInputWire(2))  + ", "
+				+ inputWires.get(this.getInputWire(3))  + ", "
+				+ inputWires.get(this.getInputWire(4))  + ", "
+				+ inputWires.get(this.getInputWire(5))  +
+				", world_clock);";
+
+		for (int i = 1; i < output1.length; i++) {
+			result += "\nassign " + outputWires.get(output1[i]) + " = " + mainOutput1;
+		}
+
+
+		return result;
+	}
 
 }

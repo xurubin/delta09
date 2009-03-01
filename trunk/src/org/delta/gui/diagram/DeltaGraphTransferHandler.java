@@ -464,7 +464,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		case ComponentPanel.PUSHBUTTON:	totalComps = 4;
 										compPrefix = "KEY";
 										compName = MainWindow.getTranslatorString("BUTTON2");
-										compImage = "button.png";
+										compImage = "push_button.png";
 										break;
 		case ComponentPanel.SEVENSEG:	totalComps = 8;
 										compPrefix = "HEX";

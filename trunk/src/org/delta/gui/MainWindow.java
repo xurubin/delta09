@@ -36,6 +36,7 @@ import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 
 import org.delta.gui.diagram.CircuitPanel;
 import org.delta.gui.i18n.Translator;
@@ -74,6 +75,8 @@ public class MainWindow extends javax.swing.JFrame {
 		cp.setComponentOrientation(ComponentOrientation.getOrientation(language));
 		
 		mw = this;
+		
+		setDefaultCloseOperation (WindowConstants.DO_NOTHING_ON_CLOSE);
 		
 		addWindowListener ( new WindowAdapter() {
 			public void windowClosing (WindowEvent e) {
@@ -266,7 +269,9 @@ public class MainWindow extends javax.swing.JFrame {
 	private void quitApplication (ActionEvent e)
 	{
 		int choice = JOptionPane.showConfirmDialog
-		 ( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
+			( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
+		
+		System.out.println (choice);
 		
 		switch (choice)
 		{
@@ -283,7 +288,7 @@ public class MainWindow extends javax.swing.JFrame {
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
-				}	
+				}
 				System.exit (0);
 			default:
 		}

@@ -351,10 +351,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				Ledr ledr = (Ledr)clone;
 				int ledrNumber = getUserInput(ComponentPanel.LEDR);
 				if (ledrNumber == -1) {
-					JOptionPane.showMessageDialog ( MainWindow.get(),
-													MainWindow.getTranslatorString ("NO_LED_NUM_LONG"),
-													MainWindow.getTranslatorString ("NO_LED_NUM"),
-													JOptionPane.ERROR_MESSAGE );
+					// Do not display error message - was a bit annoying and is unnecessary
 					return;
 				}
 				else if (ledrNumber == -2) {
@@ -373,10 +370,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				Ledg ledg = (Ledg)clone;
 				int ledgNumber = getUserInput(ComponentPanel.LEDG);
 				if (ledgNumber == -1) {
-					JOptionPane.showMessageDialog ( MainWindow.get(),
-													MainWindow.getTranslatorString ("NO_LED_NUM_LONG"),
-													MainWindow.getTranslatorString ("NO_LED_NUM"),
-													JOptionPane.ERROR_MESSAGE );
+					// Do not display error message - was a bit annoying and is unnecessary
 					return;
 				}
 				else if (ledgNumber == -2) {
@@ -395,10 +389,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				Switch sw = (Switch)clone;
 				int switchNumber = getUserInput(ComponentPanel.SWITCH);
 				if (switchNumber == -1) {
-					JOptionPane.showMessageDialog ( MainWindow.get(),
-													MainWindow.getTranslatorString ("NO_COMP_NUM_LONG"),
-													MainWindow.getTranslatorString ("NO_COMP_NUM"),
-													JOptionPane.ERROR_MESSAGE );
+					// Do not display error message - was a bit annoying and is unnecessary
 					return;
 				}
 				sw.setSwitchNumber(switchNumber);
@@ -407,10 +398,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				PushButton key = (PushButton)clone;
 				int pushButtonNumber = getUserInput(ComponentPanel.PUSHBUTTON);
 				if (pushButtonNumber == -1) {
-					JOptionPane.showMessageDialog ( MainWindow.get(),
-													MainWindow.getTranslatorString ("NO_COMP_NUM_LONG"),
-													MainWindow.getTranslatorString ("NO_COMP_NUM"),
-													JOptionPane.ERROR_MESSAGE );
+					// Do not display error message - was a bit annoying and is unnecessary
 					return;
 				}
 				key.setPushButtonNumber(pushButtonNumber);
@@ -419,10 +407,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 				SevenSegment sevenSegment = (SevenSegment)clone;
 				int sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG);
 				if (sevenSegmentNumber == -1) {
-					JOptionPane.showMessageDialog ( MainWindow.get(),
-													MainWindow.getTranslatorString ("NO_COMP_NUM_LONG"),
-													MainWindow.getTranslatorString ("NO_COMP_NUM"),
-													JOptionPane.ERROR_MESSAGE );
+					// Do not display error message - was a bit annoying and is unnecessary
 					return;
 				}
 				else if (sevenSegmentNumber == -2) {

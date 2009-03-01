@@ -100,11 +100,14 @@ public class ClockedComponent extends Component {
     }
     
     private void addAllClockInputs(Collection<GateInputPort> gateInputPorts) {
-        clockInputList.addAll(gateInputPorts);
+        for (GateInputPort inputPort: gateInputPorts) {
+          addClockInput(inputPort);
+        }
     }
 
     private void addClockInput(GateInputPort gateInputPort) {
         clockInputList.add(gateInputPort);
+        addInputGate(0, gateInputPort);
     }
 
     protected void fromComponentGraph(ComponentGraph graph,

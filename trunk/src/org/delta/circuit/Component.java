@@ -186,7 +186,7 @@ abstract public class Component implements Serializable {
         return internalInputList.get(inputNumber);
     }
 
-    private void addInputGate(int inputNumber, GateInputPort inputPort) {
+    protected void addInputGate(int inputNumber, GateInputPort inputPort) {
         if (inputNumber >= getInputCount()) {
             throw new IllegalArgumentException("Input number out of bounds.");
         }

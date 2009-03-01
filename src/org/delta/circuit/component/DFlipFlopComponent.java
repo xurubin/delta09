@@ -71,7 +71,7 @@ public class DFlipFlopComponent extends ClockedComponent {
 		String mainOutput2 = output2.length > 0 ? outputWires.get(output2[0]) : "";
 
 		String result = "dflip " + name + "(" + mainOutput1 + ", " + mainOutput2 + ", "
-				+ inputWires.get(this.getInputWire(0)) + ", world_clock);";
+				+ inputWires.get(this.getInputWire(1)) + ", world_clock);";
 
 		for (int i = 1; i < output1.length; i++) {
 			result += "\nassign " + outputWires.get(output1[i]) + " = " + mainOutput1;

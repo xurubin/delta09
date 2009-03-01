@@ -58,7 +58,7 @@ public class RomComponent extends Component {
 		String mainOutput1 = output1.length > 0 ? outputWires.get(output1[0]) : "";
 		
 		String data = "assign " + name + "_data_wire  = 16'b";
-		for(int i = 0; i < 16; i++) {
+		for(int i = 15; i >= 0; i--) {
 			data += (this.presetValue.get(i) == 0 ? "0" : "1");
 		}
 		data += ";\n";

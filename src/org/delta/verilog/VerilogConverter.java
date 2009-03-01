@@ -50,6 +50,7 @@ public class VerilogConverter {
 		Circuit circuit = component.getCircuit();
 		Set<Wire> wires = circuit.edgeSet();
 		Set<Gate> gates = circuit.vertexSet();
+	
 		
 		String verilog = "";
 		LinkedHashMap<Wire, String> wireNames = new LinkedHashMap<Wire, String>();
@@ -124,7 +125,6 @@ public class VerilogConverter {
 				}				
 			}
 			
-			
 			verilog += g.getVerilogMethod(name + "_g" + gCounter++, output, inputs);
 		}
 		return verilog;
@@ -144,7 +144,13 @@ public class VerilogConverter {
 		Set<ComponentWire> wires = circuit.edgeSet();
 		Set<Component> components = circuit.vertexSet();
 
-		HashMap<ComponentWire, String> wireNames = new LinkedHashMap<ComponentWire, String>();
+		LinkedHashMap<ComponentWire, String> wireNames = new LinkedHashMap<ComponentWire, String>();
+		
+		/*
+		 * hack to avoid "null" strings appearing in verilog output.
+		 * since verilog can deal with lack of wire connections by omittance.
+		 */
+		wireNames.put(null, "");
 
 		int wCounter = 0;
 		String wireDecl = "";
@@ -173,6 +179,7 @@ public class VerilogConverter {
 			for (int i = 0; i < c.getInputCount(); i++) {
 				input.put(c.getInputWire(i), wireNames.get(c.getInputWire(i)));
 			}
+			
 			componentDecl += c.getVerilogMethod("component_" + cCounter++, input, output);
 			componentDecl += "\n";
 
@@ -194,7 +201,7 @@ public class VerilogConverter {
 	public static void saveVerilogProject(File saveFolder, ComponentGraph c) {
 		try {
 			// copy verilog project to saveFolder
-			String pathDelimiter = System.getProperty("path.separator");
+			String pathDelimiter = System.getProperty("file.separator");
 			Unzip.unzip(VerilogConverter.verilogProjectFolder, saveFolder.getAbsolutePath() + pathDelimiter);
 			// open main file for modification.
 

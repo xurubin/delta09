@@ -11,9 +11,8 @@ import org.delta.circuit.ComponentGraph;
 import org.delta.circuit.ComponentWire;
 
 public class RomComponent extends Component {
-
-    /**
-	 * 
+  /**
+	 * UID for serialisation. 
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<Integer> presetValue;
@@ -35,7 +34,7 @@ public class RomComponent extends Component {
             new ArrayList<Set<ComponentPort>>(getInputCount());
         for (int i = 0; i < getInputCount(); ++i) {
             Set<ComponentPort> list = new HashSet<ComponentPort>(1);
-            list.add(new ComponentPort(rom, i + 1));
+            list.add(new ComponentPort(rom, i + 2));
             inputs.add(list);
         }
         

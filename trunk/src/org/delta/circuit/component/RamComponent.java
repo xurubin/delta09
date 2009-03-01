@@ -77,7 +77,7 @@ public class RamComponent extends ClockedComponent {
             // Connect to clock.
             clockInputs.add(new ComponentPort(and, 0));
             // Connect to WE.
-            inputs.get(1).add(new ComponentPort(and, 1));
+            inputs.get(0).add(new ComponentPort(and, 1));
             // Connect to associated decoder output.
             ComponentWire wire = graph.addEdge(dec, and);
             graph.registerEdge(wire, i, 2);
@@ -100,6 +100,7 @@ public class RamComponent extends ClockedComponent {
             List<Component> cellArray = memoryCellArrays.get(j);
             for (int i = 0; i < getOutputCount(); ++i) {
                 Gate memoryGate = new MemoryGate();
+                ((MemoryGate) memoryGate).setStore(State.S0);
                 memoryCells.add((MemoryGate) memoryGate);
                 Component memoryCell =
                     ComponentFactory.createComponent(memoryGate); 

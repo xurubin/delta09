@@ -31,6 +31,10 @@ public class RunAction extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if(!System.getProperty("os.name").contains("Windows")) {
+			JOptionPane.showMessageDialog(MainWindow.get(), MainWindow.get().translator.getString("WINDOWS_REQUIRED_LONG"), MainWindow.get().translator.getString("WINDOWS_REQUIRED"), JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		if (timesRun++ == 0) {
 			MainWindow.get().setCursor(
 					Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

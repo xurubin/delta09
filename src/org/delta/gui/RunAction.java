@@ -14,6 +14,7 @@ import javax.swing.KeyStroke;
 import org.delta.circuit.ComponentGraph;
 import org.delta.simulation.SimulationScheduler;
 import org.delta.simulation.Simulator;
+import org.delta.transport.BoardInterface;
 
 public class RunAction extends AbstractAction {
 	/**
@@ -99,6 +100,11 @@ public class RunAction extends AbstractAction {
 		
 	    Simulator s = new Simulator();
 		s.setCircuit(cg.getCircuit());
+		
+		//erase old LED states
+		BoardInterface.getInstance().reset();
+		
+		
 		MainWindow.get().scheduler = new SimulationScheduler(s);
 		MainWindow.get().scheduler.start();
 		MainWindow.get().clock_updater = new ClockUpdater (MainWindow.get().clock_label);

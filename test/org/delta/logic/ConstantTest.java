@@ -18,7 +18,7 @@ public class ConstantTest {
     }
     
     @Test
-    public void ConstantTest() {
+    public void ConstantConstuctorTest() {
         Constant constantNullState = new Constant((State) null);
         assertEquals(State.SX, constantNullState.evaluate());
 

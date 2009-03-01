@@ -53,7 +53,8 @@ public class Pair<T1, T2> implements Serializable {
      * @return true if equal, false otherwise.
      * @see Object#equals(Object) 
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;

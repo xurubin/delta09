@@ -61,7 +61,12 @@ public class LedConstantTest {
     }
 
     private class InjectedLedConstant extends LedConstant {
-        public InjectedLedConstant(State state) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public InjectedLedConstant(State state) {
             super(state);
         }
         

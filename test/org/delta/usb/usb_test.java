@@ -1,8 +1,10 @@
 package org.delta.usb;
 
-import com.jopdesign.io.HostDatagramLayer;
-import jftd2xx.JFTD2XX;
 import java.util.Random;
+
+import jftd2xx.JFTD2XX;
+
+import com.jopdesign.io.HostDatagramLayer;
 
 public class usb_test {
 
@@ -54,8 +56,8 @@ while(true){
 			if (data[i]<min) min = data[i];
 		}
 		
-		int serializedLen = u.serialiseIntArray(data, data.length, buf);
-		int a[] = u.deserialiseIntArray(buf);
+		int serializedLen = HostDatagramLayer.serialiseIntArray(data, data.length, buf);
+		int a[] = HostDatagramLayer.deserialiseIntArray(buf);
 		sort(a, DATA_LEN);
 		u.sendDatagram(buf,serializedLen);
 
@@ -69,8 +71,7 @@ while(true){
 		int i = 0, j = 0;
 		int LED =0, L;
 		HostDatagramLayer u = new HostDatagramLayer();
-		long t1,t2,t3;
-		t3 = System.currentTimeMillis();
+		long t3 = System.currentTimeMillis();
 		while (true) {
 			i = (int)(System.currentTimeMillis());
 			u.sendLEDHEXStates((i&0xF)<<22 | LED, j+((long)j<<28));

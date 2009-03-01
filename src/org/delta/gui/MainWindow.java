@@ -71,6 +71,15 @@ public class MainWindow extends javax.swing.JFrame {
 		super ("Delta Circuit Simulation");
 		// Create translator object
 		translator = new Translator(language);
+		
+		
+		//Set button values for JOptionPane dialog boxes
+		UIManager.put("OptionPane.cancelButtonText", translator.getString("CANCEL"));
+		UIManager.put("OptionPane.noButtonText", translator.getString("NO"));
+		UIManager.put("OptionPane.okButtonText", translator.getString("OK"));
+		UIManager.put("OptionPane.yesButtonText", translator.getString("YES"));
+		
+		
 		Container cp = getContentPane();
 		cp.setComponentOrientation(ComponentOrientation.getOrientation(language));
 		

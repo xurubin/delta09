@@ -48,8 +48,7 @@ public class PushButton extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-	    // TODO: Check what component from the simulation to use
-		Gate gate = new SwitchGate(pushButtonNumber);
+		Gate gate = new SwitchGate(pushButtonNumber+19);
         Component component = ComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}

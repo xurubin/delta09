@@ -451,7 +451,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 										compName = MainWindow.getTranslatorString("RED_LED");
 										compImage = "ledr.png";
 										break;
-		case ComponentPanel.LEDG:		totalComps = 9;
+		case ComponentPanel.LEDG:		totalComps = 8;
 										compPrefix = "LEDG";
 										compName = MainWindow.getTranslatorString("GREEN_LED");
 										compImage = "ledg.png";

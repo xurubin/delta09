@@ -3,7 +3,6 @@ package org.delta.circuit.gate;
 import org.delta.circuit.Gate;
 import org.delta.logic.Constant;
 import org.delta.logic.Formula;
-import org.delta.logic.Function;
 import org.delta.logic.State;
 
 public class MemoryGate extends Gate {

@@ -1,6 +1,6 @@
 package org.delta.logic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,9 @@ import org.delta.transport.BoardInterface;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.Sequence;
-import org.jmock.api.Expectation;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SsdFunctionTest {
@@ -75,7 +73,12 @@ public class SsdFunctionTest {
     
     private class InjectedSsdFunction extends SsdFunction {
         
-        @Override
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
         protected BoardInterface getBoardInterface() {
             return boardInterface;
         }

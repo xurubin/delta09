@@ -1,10 +1,8 @@
 package org.delta.transport;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
-
-import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.AfterClass;

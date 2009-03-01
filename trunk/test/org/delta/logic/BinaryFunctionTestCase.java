@@ -1,7 +1,7 @@
 package org.delta.logic;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import org.delta.util.Pair;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public abstract class BinaryFunctionTestCase {

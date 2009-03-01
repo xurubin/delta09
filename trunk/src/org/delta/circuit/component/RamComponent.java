@@ -164,8 +164,8 @@ public class RamComponent extends ClockedComponent {
 		String mainOutput1 = output1.length > 0 ? outputWires.get(output1[0]) : "";
 
 		String result = "ram16 " + name + "(" + mainOutput1 + ", "
-				+ inputWires.get(this.getInputWire(0)) + ", "
-				+ inputWires.get(this.getInputWire(1))  + ", "
+				+ inputWires.get(this.getInputWire(1)) + ", "
+				+ inputWires.get(this.getInputWire(6))  + ", "
 				+ inputWires.get(this.getInputWire(2))  + ", "
 				+ inputWires.get(this.getInputWire(3))  + ", "
 				+ inputWires.get(this.getInputWire(4))  + ", "

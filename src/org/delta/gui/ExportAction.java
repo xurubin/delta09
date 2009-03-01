@@ -29,7 +29,7 @@ public class ExportAction extends AbstractAction {
 				cg.setClockFrequency((int) MainWindow.get().getClockSpinnerValue());
 				if (cg.edgeSet().size() == 0)
 					throw new Exception();
-				//VerilogConverter.saveVerilogProject(chooser.getSelectedFile(), cg);
+				VerilogConverter.saveVerilogProject(chooser.getSelectedFile(), cg);
 				System.out.println(VerilogConverter.convertToVerilog(cg));
 			}
 		} catch (Exception ex) {

@@ -4,4 +4,6 @@
 	<tocitem target="Installation_help_id" text="1. Installation"/>
 	<tocitem target="Getting_Started_help_id" text="2. Getting Started"/>
 	<tocitem target="UI_help_id" text="3. User Interface Explained"/>
+	<tocitem target="Memory_help_id" text="4. Memory Components"/>
+	<tocitem target="Clocked_help_id" text="4. Clocked Components"/>
 </toc>

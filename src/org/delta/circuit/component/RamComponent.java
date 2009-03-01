@@ -23,9 +23,12 @@ public class RamComponent extends ClockedComponent {
      */
     private static final long serialVersionUID = 1L;
     private List<MemoryGate> memoryCells = new ArrayList<MemoryGate>();
+    private final int selectCount;
 
     public RamComponent(final int selectCount, final int outputCount) {
         super(selectCount + outputCount + 2, outputCount);
+        
+        this.selectCount = selectCount;
         
         // List of inputs.
         List<Set<ComponentPort>> inputs =
@@ -100,7 +103,6 @@ public class RamComponent extends ClockedComponent {
             List<Component> cellArray = memoryCellArrays.get(j);
             for (int i = 0; i < getOutputCount(); ++i) {
                 Gate memoryGate = new MemoryGate();
-                ((MemoryGate) memoryGate).setStore(State.S0);
                 memoryCells.add((MemoryGate) memoryGate);
                 Component memoryCell =
                     ComponentFactory.createComponent(memoryGate); 
@@ -142,7 +144,7 @@ public class RamComponent extends ClockedComponent {
             int result = store.get(i);
             
             for (int j = 0; j < getOutputCount(); ++j) {
-                MemoryGate m = memoryCells.get(i*j);
+                MemoryGate m = memoryCells.get(j*selectCount+i);
                 if ((result & (1 << j)) != 0) {
                     m.setStore(State.S1);
                 } else {

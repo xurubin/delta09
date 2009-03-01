@@ -16,6 +16,10 @@ public abstract class AbstractInputGate extends Gate {
         super(0);
     }
     
+    public AbstractInputGate(int inputCount) {
+      super(inputCount);
+  }
+    
     public abstract boolean update();
     
     void setState(State state) {

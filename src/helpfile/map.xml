@@ -4,4 +4,6 @@
 <mapID target="Installation_help_id" url="html/install.html"/>
 <mapID target="Getting_Started_help_id" url="html/gettingstarted.html"/>
 <mapID target="UI_help_id" url="html/ui.html"/>
+<mapID target="Memory_help_id" url="html/memory.html"/>
+<mapID target="Clocked_help_id" url="html/clock.html"/>
 </map>

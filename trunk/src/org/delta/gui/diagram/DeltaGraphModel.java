@@ -13,7 +13,6 @@ import org.delta.circuit.Component;
 import org.delta.circuit.ComponentGraphAdapter;
 import org.delta.circuit.ComponentWire;
 import org.delta.circuit.ListenableComponentGraph;
-import org.delta.gui.ComponentPanel;
 import org.jgraph.graph.ConnectionSet;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.Edge;
@@ -32,13 +31,13 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 	private static final long serialVersionUID = 1L;
 	
 	/** Array indicating which red LEDs are currently in use. */
-	private boolean[] ledrArray = new boolean[18];
+	protected boolean[] ledrArray = new boolean[18];
 	
 	/** Array indicating which green LEDs are currently in use. */
-	private boolean[] ledgArray = new boolean[9];
+	protected boolean[] ledgArray = new boolean[9];
 	
 	/** Array indicating which 7-segment displays are currently in use. */
-	private boolean[] sevenSegmentArray = new boolean[8];
+	protected boolean[] sevenSegmentArray = new boolean[8];
 	
 	/**
 	 * This constructor simply calls the parent constructor with the given grapht graph.
@@ -276,22 +275,6 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		this.ledrArray = newLedrArray.clone();
 		this.ledgArray = newLedgArray.clone();
 		this.sevenSegmentArray = newSevenSegmentArray.clone();
-	}
-	
-	/**
-	 * Checks if the given numbered component of the given component type is
-	 * already being used in the circuit somewhere.
-	 * @param number - the component number (as on the DE2 board).
-	 * @param compType - the type of component (red LED, green LED or seven segment display).
-	 * @return true if the component is currently in the circuit, false if not.
-	 */
-	public boolean isComponentUsed(int number, int compType) {
-		switch(compType) {
-		case ComponentPanel.LEDR:		return ledrArray[number];
-		case ComponentPanel.LEDG:		return ledgArray[number];
-		case ComponentPanel.SEVENSEG:	return sevenSegmentArray[number];
-		default: return false;
-		}
 	}
 	
 }

@@ -315,7 +315,6 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	 * @param pm - ParentMap of the cells being dropped.
 	 * @param dx - x co-ordinate used to position the dropped cells.
 	 * @param dy - y co-ordinate used to position the dropped cells.
-	 * @see 
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -355,13 +354,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					return;
 				}
 				else if (ledrNumber == -2) {
-					JOptionPane.showMessageDialog ( MainWindow.get(),
-													MainWindow.getTranslatorString ("NO_MORE_COMP_1")
-													+ MainWindow.getTranslatorString ("RED_LED")
-													+ MainWindow.getTranslatorString ("NO_MORE_COMP_2"),
-													MainWindow.getTranslatorString ("NO_MORE_COMP_TITLE")
-													+ MainWindow.getTranslatorString("RED_LED"),
-													JOptionPane.ERROR_MESSAGE );
+					this.showNoMoreComponentsMessage(ComponentPanel.LEDR);
 					return;
 				}
 				ledr.setLedrNumber(ledrNumber);
@@ -374,13 +367,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					return;
 				}
 				else if (ledgNumber == -2) {
-					JOptionPane.showMessageDialog ( MainWindow.get(),
-													MainWindow.getTranslatorString ("NO_MORE_COMP_1")
-													+ MainWindow.getTranslatorString ("GREEN_LED")
-													+ MainWindow.getTranslatorString ("NO_MORE_COMP_2"),
-													MainWindow.getTranslatorString ("NO_MORE_COMP_TITLE")
-													+ MainWindow.getTranslatorString("GREEN_LED"),
-													JOptionPane.ERROR_MESSAGE );
+					this.showNoMoreComponentsMessage(ComponentPanel.LEDG);
 					return;
 				}
 				ledg.setLedgNumber(ledgNumber);
@@ -411,13 +398,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					return;
 				}
 				else if (sevenSegmentNumber == -2) {
-					JOptionPane.showMessageDialog ( MainWindow.get(),
-													MainWindow.getTranslatorString ("NO_MORE_COMP_1")
-													+ MainWindow.getTranslatorString ("7SEG2")
-													+ MainWindow.getTranslatorString ("NO_MORE_COMP_2"),
-													MainWindow.getTranslatorString ("NO_MORE_COMP_TITLE")
-													+ MainWindow.getTranslatorString("7SEG2"),
-													JOptionPane.ERROR_MESSAGE );
+					this.showNoMoreComponentsMessage(ComponentPanel.SEVENSEG);
 					return;
 				}
 				sevenSegment.setSevenSegmentNumber(sevenSegmentNumber);
@@ -444,6 +425,13 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		return dialog.getStoreValues();
 	}
 	
+	/**
+	 * Private method to display a dialogue box and let the user choose which
+	 * component on the DE2 board they would like the icon they have just
+	 * dropped to represent.
+	 * @param compType - the type of component that has just been dropped. 
+	 * @return the number (on the DE2 board) of the component to represent.
+	 */
 	private int getUserInput(int compType) {
 		// Set up local variables based on the type of component
 		int totalComps;
@@ -534,5 +522,25 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		String number = returnedString.substring(compPrefix.length(),returnedString.length());
 		int compNumber = Integer.valueOf(number);
 		return compNumber;
+	}
+	
+	/**
+	 * Internal shortcut method to display an error message when there are no more components
+	 * of a particular type available and the user tries to add one.
+	 * @param compType - the type of component of which there are no more.
+	 */
+	private void showNoMoreComponentsMessage(int compType) {
+		String compName;
+		switch(compType) {
+		case ComponentPanel.LEDR:		compName = MainWindow.getTranslatorString ("LEDR"); 	break;
+		case ComponentPanel.LEDG:		compName = MainWindow.getTranslatorString ("LEDG"); 	break;
+		case ComponentPanel.SEVENSEG:	compName = MainWindow.getTranslatorString ("7SEG2");	break;
+		default:						compName = MainWindow.getTranslatorString ("UNKNOWN");	break;
+		}
+		JOptionPane.showMessageDialog ( MainWindow.get(),
+				MainWindow.getTranslatorString ("NO_MORE_COMP_1") + compName
+				+ MainWindow.getTranslatorString ("NO_MORE_COMP_2"),
+				MainWindow.getTranslatorString ("NO_MORE_COMP_TITLE") + compName,
+				JOptionPane.ERROR_MESSAGE );
 	}
 }

@@ -335,7 +335,6 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		
 		// Create Map of cloned cells
 		Map<Object,Object> clones = null;
-		DeltaGraphModel model = (DeltaGraphModel) graph.getModel();
 		// If dragged from ComponentPanel, pm will be null so perform a deep copy (including ports)
 		if (pm == null)
 			clones = model.cloneCells(graph.getModel(), cells);
@@ -345,10 +344,15 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		
 		// If drop contains LEDs, ask user to choose the number, and tell the LED what model it's in
 		Iterable clonedCells = clones.values();
+		// Take temporary copies of used component arrays so we can keep track of which
+		// ones have already been inserted.
+		boolean[] tempLedrArray = model.ledrArray.clone();
+		boolean[] tempLedgArray = model.ledgArray.clone();
+		boolean[] tempSevenSegmentArray = model.sevenSegmentArray.clone();
 		for (Object clone : clonedCells) {
 			if (clone instanceof Ledr) {
 				Ledr ledr = (Ledr)clone;
-				int ledrNumber = getUserInput(ComponentPanel.LEDR);
+				int ledrNumber = getUserInput(ComponentPanel.LEDR,tempLedrArray);
 				if (ledrNumber == -1) {
 					// Do not display error message - was a bit annoying and is unnecessary
 					return;
@@ -358,10 +362,11 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					return;
 				}
 				ledr.setLedrNumber(ledrNumber);
+				tempLedrArray[ledrNumber] = true;
 			}
 			else if (clone instanceof Ledg) {
 				Ledg ledg = (Ledg)clone;
-				int ledgNumber = getUserInput(ComponentPanel.LEDG);
+				int ledgNumber = getUserInput(ComponentPanel.LEDG, tempLedgArray);
 				if (ledgNumber == -1) {
 					// Do not display error message - was a bit annoying and is unnecessary
 					return;
@@ -371,10 +376,11 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					return;
 				}
 				ledg.setLedgNumber(ledgNumber);
+				tempLedgArray[ledgNumber] = true;
 			}
 			else if (clone instanceof Switch) {
 				Switch sw = (Switch)clone;
-				int switchNumber = getUserInput(ComponentPanel.SWITCH);
+				int switchNumber = getUserInput(ComponentPanel.SWITCH, null);
 				if (switchNumber == -1) {
 					// Do not display error message - was a bit annoying and is unnecessary
 					return;
@@ -383,7 +389,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			}
 			else if (clone instanceof PushButton) {
 				PushButton key = (PushButton)clone;
-				int pushButtonNumber = getUserInput(ComponentPanel.PUSHBUTTON);
+				int pushButtonNumber = getUserInput(ComponentPanel.PUSHBUTTON, null);
 				if (pushButtonNumber == -1) {
 					// Do not display error message - was a bit annoying and is unnecessary
 					return;
@@ -392,7 +398,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			}
 			else if (clone instanceof SevenSegment) {
 				SevenSegment sevenSegment = (SevenSegment)clone;
-				int sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG);
+				int sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG, tempSevenSegmentArray);
 				if (sevenSegmentNumber == -1) {
 					// Do not display error message - was a bit annoying and is unnecessary
 					return;
@@ -402,6 +408,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					return;
 				}
 				sevenSegment.setSevenSegmentNumber(sevenSegmentNumber);
+				tempSevenSegmentArray[sevenSegmentNumber] = true;
 			}
 			else if (clone instanceof ROM) {
 				ROM rom = (ROM) clone;
@@ -432,7 +439,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	 * @param compType - the type of component that has just been dropped. 
 	 * @return the number (on the DE2 board) of the component to represent.
 	 */
-	private int getUserInput(int compType) {
+	private int getUserInput(int compType, boolean[] usedComponentsArray) {
 		// Set up local variables based on the type of component
 		int totalComps;
 		String compPrefix;
@@ -474,7 +481,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		ArrayList<String> unusedComps = new ArrayList<String>();
 		if ((compType == ComponentPanel.LEDR) || (compType == ComponentPanel.LEDG)) {
 			for (int led=0; led<totalComps; led++) {
-				if (!model.isComponentUsed(led, compType))
+				if (!usedComponentsArray[led])
 					unusedComps.add(compPrefix+Integer.toString(led));
 			}
 		}
@@ -490,7 +497,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		}
 		else if (compType == ComponentPanel.SEVENSEG) {
 			for (int hex=0; hex<totalComps; hex++) {
-				if (!model.isComponentUsed(hex, compType))
+				if (!usedComponentsArray[hex])
 					unusedComps.add(compPrefix+Integer.toString(hex));
 			}
 		}

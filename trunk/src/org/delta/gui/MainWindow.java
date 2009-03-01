@@ -277,8 +277,15 @@ public class MainWindow extends javax.swing.JFrame {
 
 	private void quitApplication (ActionEvent e)
 	{
-		int choice = JOptionPane.showConfirmDialog
+		int choice;
+		//don't ask to save if we haven't created a circuit yet.
+		if(this.circuit_panel.getComponentGraph().vertexSet().size() <= 1) {
+			choice = JOptionPane.NO_OPTION;
+		}
+		else {
+			choice = JOptionPane.showConfirmDialog
 			( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
+		}
 		
 		switch (choice)
 		{

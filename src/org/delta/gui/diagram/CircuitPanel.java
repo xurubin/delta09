@@ -12,6 +12,12 @@ import org.delta.gui.MainWindow;
 import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphUndoManager;
 
+/**
+ * Panel that displays the electrical circuit. It uses an extended version of the JGraph
+ * library to store and display the diagram, and has various methods that allow the
+ * rest of the application to interact with it.
+ * @author Group Delta 2009
+ */
 public class CircuitPanel extends JPanel {
 	/** Needed for correct serialization. */ 
 	private static final long serialVersionUID = 1L;
@@ -82,10 +88,28 @@ public class CircuitPanel extends JPanel {
 		undoManager = new GraphUndoManager() {
 			private static final long serialVersionUID = 1L;
 			// Override superclass method so we can update undo/redo buttons
+			@Override
 			public void undoableEditHappened(UndoableEditEvent e) {
 				super.undoableEditHappened(e);
 				MainWindow.get().getUndoAction().setEnabled(undoManager.canUndo(graph.getGraphLayoutCache()));
 				MainWindow.get().getRedoAction().setEnabled(undoManager.canRedo(graph.getGraphLayoutCache()));
+			
+			}
+			// Override so we can check used components after an undo
+			@Override
+			public void undo(Object source) {
+				super.undo(source);
+				GraphLayoutCache cache = (GraphLayoutCache)source;
+				DeltaGraphModel model = (DeltaGraphModel)cache.getModel();
+				model.checkUsedComponents();
+			}
+			// Override so we can check used components after a redo
+			@Override
+			public void redo(Object source) {
+				super.redo(source);
+				GraphLayoutCache cache = (GraphLayoutCache)source;
+				DeltaGraphModel model = (DeltaGraphModel)cache.getModel();
+				model.checkUsedComponents();
 			}
 		};
 		graph.getModel().addUndoableEditListener(undoManager);
@@ -123,7 +147,7 @@ public class CircuitPanel extends JPanel {
 	}
 	
 	/**
-	 * Accessor method for the GraphUndoManager. This is required for the
+	 * Accessor method for the undo manager. This is required for the
 	 * undo and redo actions.
 	 * @return the GraphUndoManager for this graph.
 	 */

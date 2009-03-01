@@ -67,7 +67,7 @@ public class DeltaEdgeView extends EdgeView {
 	 * to be overwritten to return a DeltaEdgeRenderer rather than a plain
 	 * EdgeRenderer. Note getShape and getBounds have also been overwritten.
 	 */
-	protected DeltaEdgeRenderer getEdgeRenderer() {
+	protected DeltaEdgeRenderer getDeltaEdgeRenderer() {
 		return (DeltaEdgeRenderer) getRenderer();
 	}
 	
@@ -88,7 +88,7 @@ public class DeltaEdgeView extends EdgeView {
 		if (sharedPath != null)
 			return sharedPath;
 		else {
-			return sharedPath = (GeneralPath) getEdgeRenderer().createShape();
+			return sharedPath = (GeneralPath) getDeltaEdgeRenderer().createShape();
 		}
 	}
 	
@@ -100,7 +100,7 @@ public class DeltaEdgeView extends EdgeView {
 		Rectangle2D rect = super.getBounds();
 		if (rect == null) {
 			if (cachedBounds == null) {
-				cachedBounds = getEdgeRenderer().getBounds(this);
+				cachedBounds = getDeltaEdgeRenderer().getBounds(this);
 			}
 			rect = cachedBounds;
 		}
@@ -119,7 +119,7 @@ public class DeltaEdgeView extends EdgeView {
 		} else if (intersects) {
 			Rectangle r = new Rectangle((int) rect.getX(), (int) rect.getY(),
 					(int) rect.getWidth(), (int) rect.getHeight());
-			return getEdgeRenderer().intersects(graph, this, r);
+			return getDeltaEdgeRenderer().intersects(graph, this, r);
 		}
 		return false;
 	}

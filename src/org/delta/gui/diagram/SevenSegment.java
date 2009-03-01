@@ -19,9 +19,6 @@ public class SevenSegment extends DeltaComponent {
 	
 	/** Marker for the seven segment display this component represents. */
 	private int sevenSegmentNumber = -1;
-	
-	/** Reference to the model this LED is a member of. */
-	private DeltaGraphModel model;
 
 	/**
 	 * Creates a new Switch at a default position.
@@ -57,20 +54,9 @@ public class SevenSegment extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-		/*
-		 * TODO: work out 7 segment
-		 */
 	   	Gate gate = new SsdGate(sevenSegmentNumber);
         Component component = ComponentFactory.createComponent(gate);
 		this.setUserObject(component);
-	}
-	
-	/**
-	 * Set the reference to the model - used when inserting into the graph.
-	 * @param graphModel - the model this seven segment display is a part of.
-	 */
-	public void setModel(DeltaGraphModel graphModel) {
-		this.model = graphModel;
 	}
 	
 	/** Accessor method for the seven segment display's number. */
@@ -83,10 +69,7 @@ public class SevenSegment extends DeltaComponent {
 	 * @param number - the number of the seven segment display on the DE2 board.
 	 */
 	public void setSevenSegmentNumber(int number) {
-		if (this.sevenSegmentNumber != -1)
-			model.setSevenSegmentUsed(this.sevenSegmentNumber, false);
 		this.sevenSegmentNumber = number;
-		model.setSevenSegmentUsed(this.sevenSegmentNumber, true);
 		this.replaceUserObject();
 	}
 	

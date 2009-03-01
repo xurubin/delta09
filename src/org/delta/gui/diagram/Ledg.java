@@ -7,7 +7,6 @@ import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
 import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.LedGate;
-import org.delta.gui.ComponentPanel;
 import org.jgraph.graph.GraphConstants;
 
 /**
@@ -20,9 +19,6 @@ public class Ledg extends DeltaComponent {
 	
 	/** Marker for the green LED this component represents. */
 	private int ledgnumber = -1;
-	
-	/** Reference to the model this LED is a member of. */
-	private DeltaGraphModel model;
 	
 	/**
 	 * Creates a new green LED at a default position.
@@ -55,14 +51,6 @@ public class Ledg extends DeltaComponent {
 		this.setUserObject(component);
 	}
 	
-	/**
-	 * Set the reference to the model - used when inserting into the graph.
-	 * @param graphModel - the model this LED is a part of.
-	 */
-	public void setModel(DeltaGraphModel graphModel) {
-		this.model = graphModel;
-	}
-	
 	/** Accessor method for the LED's number. */
 	public int getLedNumber() {
 		return this.ledgnumber;
@@ -73,10 +61,7 @@ public class Ledg extends DeltaComponent {
 	 * @param number - the number (0-7) of the green LED on the DE2 board.
 	 */
 	public void setLedgNumber(int number) {
-		if (ledgnumber != -1)
-			model.setLedUsed(this.ledgnumber, ComponentPanel.LEDG, false);
 		this.ledgnumber = number;
-		model.setLedUsed(this.ledgnumber, ComponentPanel.LEDG, true);
 		this.replaceUserObject();
 	}
 	

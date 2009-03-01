@@ -349,7 +349,6 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		for (Object clone : clonedCells) {
 			if (clone instanceof Ledr) {
 				Ledr ledr = (Ledr)clone;
-				ledr.setModel(model);
 				int ledrNumber = getUserInput(ComponentPanel.LEDR);
 				if (ledrNumber == -1) {
 					JOptionPane.showMessageDialog ( MainWindow.get(),
@@ -372,7 +371,6 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			}
 			else if (clone instanceof Ledg) {
 				Ledg ledg = (Ledg)clone;
-				ledg.setModel(model);
 				int ledgNumber = getUserInput(ComponentPanel.LEDG);
 				if (ledgNumber == -1) {
 					JOptionPane.showMessageDialog ( MainWindow.get(),
@@ -419,7 +417,6 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			}
 			else if (clone instanceof SevenSegment) {
 				SevenSegment sevenSegment = (SevenSegment)clone;
-				sevenSegment.setModel(model);
 				int sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG);
 				if (sevenSegmentNumber == -1) {
 					JOptionPane.showMessageDialog ( MainWindow.get(),
@@ -448,6 +445,9 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		
 		// Insert cloned cells
 		graph.getGraphLayoutCache().insertClones(cells, clones, nested, cs, pm, dx, dy);
+		
+		// Update array of used LEDs/7segs
+		model.checkUsedComponents();
 	}
 	
 	/*
@@ -501,7 +501,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		ArrayList<String> unusedComps = new ArrayList<String>();
 		if ((compType == ComponentPanel.LEDR) || (compType == ComponentPanel.LEDG)) {
 			for (int led=0; led<totalComps; led++) {
-				if (!model.isLedUsed(led, compType))
+				if (!model.isComponentUsed(led, compType))
 					unusedComps.add(compPrefix+Integer.toString(led));
 			}
 		}
@@ -517,7 +517,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		}
 		else if (compType == ComponentPanel.SEVENSEG) {
 			for (int hex=0; hex<totalComps; hex++) {
-				if (!model.isSevenSegmentUsed(hex))
+				if (!model.isComponentUsed(hex, compType))
 					unusedComps.add(compPrefix+Integer.toString(hex));
 			}
 		}

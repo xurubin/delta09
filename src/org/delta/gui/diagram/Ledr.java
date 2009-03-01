@@ -3,13 +3,11 @@ package org.delta.gui.diagram;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
-import org.jgraph.graph.GraphConstants;
-
 import org.delta.circuit.Component;
 import org.delta.circuit.Gate;
 import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.LedGate;
-import org.delta.gui.ComponentPanel;
+import org.jgraph.graph.GraphConstants;
 
 /**
  * Class to represent the "model" of a red LED in the circuit diagram.
@@ -21,9 +19,6 @@ public class Ledr extends DeltaComponent {
 	
 	/** Marker for the red LED this component represents. */
 	private int ledrnumber = -1;
-	
-	/** Reference to the model this LED is a member of. */
-	private DeltaGraphModel model;
 	
 	/**
 	 * Creates a new red LED at a default position.
@@ -56,14 +51,6 @@ public class Ledr extends DeltaComponent {
 		this.setUserObject(component);
 	}
 	
-	/**
-	 * Set the reference to the model - used when inserting into the graph.
-	 * @param graphModel - the model this LED is a part of.
-	 */
-	public void setModel(DeltaGraphModel graphModel) {
-		this.model = graphModel;
-	}
-	
 	/** Accessor method for the LED's number. */
 	public int getLedNumber() {
 		return this.ledrnumber;
@@ -74,10 +61,7 @@ public class Ledr extends DeltaComponent {
 	 * @param number - the number (0-17) of the red LED on the DE2 board.
 	 */
 	public void setLedrNumber(int number) {
-		if (ledrnumber != -1)
-			model.setLedUsed(this.ledrnumber, ComponentPanel.LEDR, false);
 		this.ledrnumber = number;
-		model.setLedUsed(this.ledrnumber, ComponentPanel.LEDR, true);
 		this.replaceUserObject();
 	}
 	

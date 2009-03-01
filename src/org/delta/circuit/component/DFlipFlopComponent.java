@@ -6,16 +6,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.delta.circuit.Circuit;
 import org.delta.circuit.ClockedComponent;
 import org.delta.circuit.Component;
 import org.delta.circuit.ComponentGraph;
 import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
-import org.delta.circuit.Wire;
-import org.delta.circuit.Component.ComponentPort;
 import org.delta.circuit.gate.GateFactory;
-import org.delta.circuit.gate.InverterGate;
 import org.delta.logic.Not;
 
 public class DFlipFlopComponent extends ClockedComponent {
@@ -39,13 +35,6 @@ public class DFlipFlopComponent extends ClockedComponent {
     graph.addVertex(master);
     graph.addVertex(slave);
     graph.addVertex(inv);
-    
-    ////
-    Component debug = new DebugOutputComponent("slave");
-    graph.addVertex(debug);
-    
-    ComponentWire slaveToDebug = graph.addEdge(slave, debug);
-    graph.registerEdge(slaveToDebug, 0, 0);
     
     ComponentWire masterToSlave = graph.addEdge(master, slave);
     graph.registerEdge(masterToSlave, 0, 1);

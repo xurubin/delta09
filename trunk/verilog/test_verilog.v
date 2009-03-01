@@ -1,6 +1,7 @@
 module test_verilog(
 					input [17:0] SW,
 					input CLOCK_50,
+					input [3:0] KEY,
 					output [17:0] LEDR,
 					output [7:0] LEDG,
 					output [6:0] HEX0,

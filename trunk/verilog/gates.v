@@ -1,8 +1,9 @@
 //gates
 
-module dflip (output reg q, input d, input clk);
+module dflip (output reg q1, output reg q2, input d, input clk);
 	always @ (posedge clk) begin
-		q <= d;
+		q1 <= d;
+		q2 <= ~d;
 	end
 endmodule
 

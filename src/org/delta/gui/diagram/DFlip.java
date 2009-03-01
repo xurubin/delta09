@@ -31,7 +31,7 @@ public class DFlip extends DeltaComponent {
 		
 		this.replaceUserObject();
 		
-		this.addInputPort(new Point(0,490),0);
+		this.addInputPort(new Point(0,490),1);
 		this.addOutputPort(new Point(GraphConstants.PERMILLE,180),0);
 		this.addOutputPort(new Point(GraphConstants.PERMILLE,810),1);
 		// Set position based on parameter

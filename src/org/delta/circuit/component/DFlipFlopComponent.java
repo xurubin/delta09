@@ -1,13 +1,22 @@
 package org.delta.circuit.component;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
 
 import org.delta.circuit.Circuit;
 import org.delta.circuit.ClockedComponent;
+import org.delta.circuit.Component;
+import org.delta.circuit.ComponentGraph;
 import org.delta.circuit.ComponentWire;
 import org.delta.circuit.Gate;
 import org.delta.circuit.Wire;
+import org.delta.circuit.Component.ComponentPort;
+import org.delta.circuit.gate.GateFactory;
 import org.delta.circuit.gate.InverterGate;
+import org.delta.logic.Not;
 
 public class DFlipFlopComponent extends ClockedComponent {
 
@@ -17,51 +26,47 @@ public class DFlipFlopComponent extends ClockedComponent {
 	private static final long serialVersionUID = 1L;
 
 	public DFlipFlopComponent() {
-		super(1, 2);
-		Circuit circuit = getCircuit();
-
-		ClockedComponent master = new DLatchComponent();
-		circuit.addCircuit(master.getCircuit());
-		ClockedComponent slave = new DLatchComponent();
-		circuit.addCircuit(slave.getCircuit());
-
-		for (GateInputPort gateInputPort : slave.getGateInputPorts(0)) {
-			Gate gate = gateInputPort.gate;
-			int inputNumber = gateInputPort.inputNumber;
-
-			Wire wire = circuit.addEdge(master.getOutputGate(0), gate);
-			gate.setWire(wire, inputNumber);
-		}
-
-		Gate inv = new InverterGate();
-		circuit.addVertex(inv);
-
-		for (GateInputPort gateInputPort : master.getClockInputList()) {
-			Gate gate = gateInputPort.gate;
-			int inputNumber = gateInputPort.inputNumber;
-
-			Wire wire = circuit.addEdge(inv, gate);
-			gate.setWire(wire, inputNumber);
-		}
-
-		addClockInput(inv, 0);
-
-		for (GateInputPort gateInputPort : slave.getClockInputList()) {
-			Gate gate = gateInputPort.gate;
-			int inputNumber = gateInputPort.inputNumber;
-
-			addClockInput(gate, inputNumber);
-		}
-
-		for (GateInputPort gateInputPort : master.getGateInputPorts(0)) {
-			Gate gate = gateInputPort.gate;
-			int gateInputNumber = gateInputPort.inputNumber;
-
-			addInputGate(0, gate, gateInputNumber);
-		}
-
-		setOutputGate(0, slave.getOutputGate(0));
-		setOutputGate(1, slave.getOutputGate(1));
+		super(2, 2);
+		
+    ComponentGraph graph = new ComponentGraph(false);
+    
+    Component master = new DLatchComponent();
+    Component slave = new DLatchComponent();
+    
+    Gate invGate = GateFactory.createGate(Not.class);
+    Component inv = ComponentFactory.createComponent(invGate);
+    
+    graph.addVertex(master);
+    graph.addVertex(slave);
+    graph.addVertex(inv);
+    
+    ////
+    Component debug = new DebugOutputComponent("slave");
+    graph.addVertex(debug);
+    
+    ComponentWire slaveToDebug = graph.addEdge(slave, debug);
+    graph.registerEdge(slaveToDebug, 0, 0);
+    
+    ComponentWire masterToSlave = graph.addEdge(master, slave);
+    graph.registerEdge(masterToSlave, 0, 1);
+    
+    ComponentWire invToMaster = graph.addEdge(inv, master);
+    graph.registerEdge(invToMaster, 0, 0);
+    
+    Set<ComponentPort> clockInputs = new HashSet<ComponentPort>(2);
+    clockInputs.add(new ComponentPort(inv, 0));
+    clockInputs.add(new ComponentPort(slave, 0));
+    
+    List<Set<ComponentPort>> inputs = new ArrayList<Set<ComponentPort>>(1);
+    Set<ComponentPort> input0 = new HashSet<ComponentPort>(1);
+    input0.add(new ComponentPort(master, 1));
+    inputs.add(input0);
+    
+    List<ComponentPort> outputs = new ArrayList<ComponentPort>(2);
+    outputs.add(new ComponentPort(slave, 0));
+    outputs.add(new ComponentPort(slave, 1));
+    
+    fromComponentGraph(graph, inputs, outputs, clockInputs);
 	}
 
 	@Override

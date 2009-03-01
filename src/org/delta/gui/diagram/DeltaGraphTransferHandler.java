@@ -358,6 +358,16 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 													JOptionPane.ERROR_MESSAGE );
 					return;
 				}
+				else if (ledrNumber == -2) {
+					JOptionPane.showMessageDialog ( MainWindow.get(),
+													MainWindow.getTranslatorString ("NO_MORE_COMP_1")
+													+ MainWindow.getTranslatorString ("RED_LED")
+													+ MainWindow.getTranslatorString ("NO_MORE_COMP_2"),
+													MainWindow.getTranslatorString ("NO_MORE_COMP_TITLE")
+													+ MainWindow.getTranslatorString("RED_LED"),
+													JOptionPane.ERROR_MESSAGE );
+					return;
+				}
 				ledr.setLedrNumber(ledrNumber);
 			}
 			else if (clone instanceof Ledg) {
@@ -368,6 +378,16 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					JOptionPane.showMessageDialog ( MainWindow.get(),
 													MainWindow.getTranslatorString ("NO_LED_NUM_LONG"),
 													MainWindow.getTranslatorString ("NO_LED_NUM"),
+													JOptionPane.ERROR_MESSAGE );
+					return;
+				}
+				else if (ledgNumber == -2) {
+					JOptionPane.showMessageDialog ( MainWindow.get(),
+													MainWindow.getTranslatorString ("NO_MORE_COMP_1")
+													+ MainWindow.getTranslatorString ("GREEN_LED")
+													+ MainWindow.getTranslatorString ("NO_MORE_COMP_2"),
+													MainWindow.getTranslatorString ("NO_MORE_COMP_TITLE")
+													+ MainWindow.getTranslatorString("GREEN_LED"),
 													JOptionPane.ERROR_MESSAGE );
 					return;
 				}
@@ -405,6 +425,16 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					JOptionPane.showMessageDialog ( MainWindow.get(),
 													MainWindow.getTranslatorString ("NO_COMP_NUM_LONG"),
 													MainWindow.getTranslatorString ("NO_COMP_NUM"),
+													JOptionPane.ERROR_MESSAGE );
+					return;
+				}
+				else if (sevenSegmentNumber == -2) {
+					JOptionPane.showMessageDialog ( MainWindow.get(),
+													MainWindow.getTranslatorString ("NO_MORE_COMP_1")
+													+ MainWindow.getTranslatorString ("7SEG2")
+													+ MainWindow.getTranslatorString ("NO_MORE_COMP_2"),
+													MainWindow.getTranslatorString ("NO_MORE_COMP_TITLE")
+													+ MainWindow.getTranslatorString("7SEG2"),
 													JOptionPane.ERROR_MESSAGE );
 					return;
 				}
@@ -491,8 +521,11 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 					unusedComps.add(compPrefix+Integer.toString(hex));
 			}
 		}
+		// If there are no available components to paste, return -2 and let caller handle it
+		if (unusedComps.isEmpty())
+			return -2;
+		
 		Object[] possibilities = unusedComps.toArray();
-		// TODO: What to do when there are no available LEDs or seven segment displays.
 		
 		// Show the dialog and get the users choice
 		ClassLoader cl = this.getClass().getClassLoader();

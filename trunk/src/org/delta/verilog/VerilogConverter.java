@@ -194,7 +194,8 @@ public class VerilogConverter {
 	public static void saveVerilogProject(File saveFolder, ComponentGraph c) {
 		try {
 			// copy verilog project to saveFolder
-			Unzip.unzip(VerilogConverter.verilogProjectFolder, saveFolder.getAbsolutePath() + "/");
+			String pathDelimiter = System.getProperty("path.separator");
+			Unzip.unzip(VerilogConverter.verilogProjectFolder, saveFolder.getAbsolutePath() + pathDelimiter);
 			// open main file for modification.
 
 			File mainVerilogFile = new File(saveFolder, verilogTopLevel + ".v");

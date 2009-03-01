@@ -16,41 +16,45 @@ import org.delta.logic.And;
  * @author Group Delta 2009
  */
 public class AndGate extends DeltaComponent {
-	/** Needed for correct serialization. */
-	private static final long serialVersionUID = 1L;
+    /** Needed for correct serialization. */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Creates a new AndGate at a default position.
-	 */
-	public AndGate() {
-		this(new Point(100,100));
-	}
-	
-	/**
-	 * Creates a new AndGate at the given position on the screen.
-	 * @param position - where to insert the new component.
-	 */
-	public AndGate(Point position) {
-		super();
-		
-		this.replaceUserObject();
-		
-		this.addInputPort(new Point(0,GraphConstants.PERMILLE / 4),0);
-		this.addInputPort(new Point(0,3*GraphConstants.PERMILLE / 4),1);
-		this.addOutputPort(new Point(GraphConstants.PERMILLE,GraphConstants.PERMILLE / 2),0);
-		// Set position based on parameter
-		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
-		GraphConstants.setBounds(this.getAttributes(),bounds);
-	}
-	
-	/**
-	 * Replaces the userObject with a new one. This is used when copying the cell so that
-	 * a new component is created on the simulation graph - otherwise we would have two
-	 * display graph components being represented by just one simulation graph component.
-	 */
-	protected void replaceUserObject() {
-	    Gate gate = GateFactory.createGate(And.class, 2);
+    /**
+     * Creates a new AndGate at a default position.
+     */
+    public AndGate() {
+        this(new Point(DEFAULTX, DEFAULTY));
+    }
+
+    /**
+     * Creates a new AndGate at the given position on the screen.
+     * @param position - where to insert the new component.
+     */
+    public AndGate(final Point position) {
+        super();
+
+        this.replaceUserObject();
+
+        this.addInputPort(new Point(0, GraphConstants.PERMILLE / 4), 0);
+        this.addInputPort(new Point(0, 3 * GraphConstants.PERMILLE / 4), 1);
+        this.addOutputPort(new Point(GraphConstants.PERMILLE,
+                GraphConstants.PERMILLE / 2), 0);
+        // Set position based on parameter
+        Rectangle2D bounds = new Rectangle2D.Double(position.getX(),
+                position.getY(), DEFAULTWIDTH, DEFAULTHEIGHT);
+        GraphConstants.setBounds(this.getAttributes(), bounds);
+    }
+
+    /**
+     * Replaces the userObject with a new one. This is used when copying the
+     * cell so that a new component is created on the simulation graph -
+     * otherwise we would have two display graph components being represented
+     * by just one simulation graph component.
+     */
+    @Override
+    protected final void replaceUserObject() {
+        Gate gate = GateFactory.createGate(And.class, 2);
         Component component = ComponentFactory.createComponent(gate);
-		this.setUserObject(component);
-	}
+        this.setUserObject(component);
+    }
 }

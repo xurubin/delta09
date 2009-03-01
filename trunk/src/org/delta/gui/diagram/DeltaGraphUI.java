@@ -31,7 +31,7 @@ import org.jgraph.plaf.basic.BasicGraphUI;
  * root handles cannot be used to grag wires - only control points.
  * @author Group Delta 2009
  */
-public class DeltaGraphUI extends BasicGraphUI {
+public class DeltaGraphUI extends BasicGraphUI implements Serializable {
 
 	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;

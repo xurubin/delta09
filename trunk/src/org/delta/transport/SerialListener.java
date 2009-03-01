@@ -30,6 +30,11 @@ class SerialListener extends Thread {
 	   return switches;
    }
    
+   public void reset() {
+	   lights = 0;
+	   hexs= 0l;
+   }
+   
    public void setLights(int p, boolean b) {
 	   if(b) {
 		   lights |= (1 << p);

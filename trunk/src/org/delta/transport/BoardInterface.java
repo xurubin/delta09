@@ -103,6 +103,10 @@ public class BoardInterface {
 		serialListener.setLights(i,b);
 	}
 	
+	public void reset() {
+		serialListener.reset();
+	}
+	
 	/**
 	 * Gets the status of the ith switch.
 	 * @param i the switch number.

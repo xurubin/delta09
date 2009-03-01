@@ -271,8 +271,6 @@ public class MainWindow extends javax.swing.JFrame {
 		int choice = JOptionPane.showConfirmDialog
 			( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
 		
-		System.out.println (choice);
-		
 		switch (choice)
 		{
 			case JOptionPane.YES_OPTION:

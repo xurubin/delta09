@@ -10,9 +10,6 @@ import javax.swing.KeyStroke;
 
 import org.delta.gui.diagram.DeltaGraph;
 import org.delta.gui.diagram.DeltaGraphModel;
-import org.delta.gui.diagram.Ledg;
-import org.delta.gui.diagram.Ledr;
-import org.delta.gui.diagram.SevenSegment;
 import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.Edge;
 
@@ -57,25 +54,6 @@ public class DeleteAction extends AbstractAction
 			Object[] components = graph.getSelectionCells();
 			components = graph.getDescendants(components);
 			
-			// If any of the components are LEDs or seven segment displays, free them up for reuse
-			for (int i=0; i<components.length; i++) {
-				if (components[i] instanceof Ledr) {
-					Ledr ledr = (Ledr)components[i];
-					DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
-					model.setLedUsed(ledr.getLedNumber(), ComponentPanel.LEDR, false);
-				}
-				else if (components[i] instanceof Ledg) {
-					Ledg ledg = (Ledg)components[i];
-					DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
-					model.setLedUsed(ledg.getLedNumber(), ComponentPanel.LEDG, false);
-				}
-				else if (components[i] instanceof SevenSegment) {
-					SevenSegment sevenSegment = (SevenSegment)components[i];
-					DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
-					model.setSevenSegmentUsed(sevenSegment.getSevenSegmentNumber(), false);
-				}
-			}
-			
 			// Create array of all edges connected to components in the selection
 			Set<Edge> edgeSet = DefaultGraphModel.getEdges(graph.getModel(), components);
 			Object[] edgeArray = edgeSet.toArray();
@@ -94,6 +72,10 @@ public class DeleteAction extends AbstractAction
 			
 			// Pass the combined array to the GraphModel for removal
 			graph.getModel().remove(cellsToRemove);
+			
+			// If any of the components were LEDs or seven segment displays, free them up for reuse
+			DeltaGraphModel model = (DeltaGraphModel)graph.getModel();
+			model.checkUsedComponents();
 		}
 	}
 	

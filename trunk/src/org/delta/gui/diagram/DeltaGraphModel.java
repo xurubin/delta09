@@ -22,8 +22,9 @@ import org.jgraph.graph.ParentMap;
 import org.jgraph.graph.Port;
 
 /**
+ * Customised GraphModel that among other things keeps track of which LEDs/7segs
+ * are being used and implements the wire input/output port constraints.
  * @author Group Delta 2009
- * 
  */
 public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWire> {
 
@@ -244,27 +245,53 @@ public class DeltaGraphModel extends ComponentGraphAdapter<Component,ComponentWi
 		return true;
 	}
 	
-	public boolean isLedUsed(int number, int ledType) {
-		if (ledType == ComponentPanel.LEDR)
-			return ledrArray[number];
-		else if (ledType == ComponentPanel.LEDG)
-			return ledgArray[number];
-		else return true;
+	/**
+	 * Updates the currently used LEDs and Seven Segment Displays
+	 * based on the components that are in the model.
+	 */
+	public void checkUsedComponents() {
+		// Initialise needed arrays
+		Object[] allComponents = getDescendants(this, this.getRoots().toArray()).toArray();
+		boolean[] newLedrArray = new boolean[18];
+		boolean[] newLedgArray = new boolean[9];
+		boolean[] newSevenSegmentArray = new boolean[8];
+		
+		// Iterate through every diagram component and see which LEDs/7segs are used
+		for (int i=0; i<allComponents.length; i++) {
+			if (allComponents[i] instanceof Ledr) {
+				Ledr ledr = (Ledr)allComponents[i];
+				newLedrArray[ledr.getLedNumber()] = true;
+			}
+			else if (allComponents[i] instanceof Ledg) {
+				Ledg ledg = (Ledg)allComponents[i];
+				newLedgArray[ledg.getLedNumber()] = true;
+			}
+			else if (allComponents[i] instanceof SevenSegment) {
+				SevenSegment sevenSeg = (SevenSegment)allComponents[i];
+				newSevenSegmentArray[sevenSeg.getSevenSegmentNumber()] = true;
+			}
+		}
+		
+		// Replace the old arrays with the new ones
+		this.ledrArray = newLedrArray.clone();
+		this.ledgArray = newLedgArray.clone();
+		this.sevenSegmentArray = newSevenSegmentArray.clone();
 	}
 	
-	public void setLedUsed(int number, int ledType, boolean used) {
-		if (ledType == ComponentPanel.LEDR)
-			ledrArray[number] = used;
-		else if (ledType == ComponentPanel.LEDG)
-			ledgArray[number] = used;
-	}
-	
-	public boolean isSevenSegmentUsed(int number) {
-		return sevenSegmentArray[number];
-	}
-	
-	public void setSevenSegmentUsed(int number, boolean used) {
-		sevenSegmentArray[number] = used;
+	/**
+	 * Checks if the given numbered component of the given component type is
+	 * already being used in the circuit somewhere.
+	 * @param number - the component number (as on the DE2 board).
+	 * @param compType - the type of component (red LED, green LED or seven segment display).
+	 * @return true if the component is currently in the circuit, false if not.
+	 */
+	public boolean isComponentUsed(int number, int compType) {
+		switch(compType) {
+		case ComponentPanel.LEDR:		return ledrArray[number];
+		case ComponentPanel.LEDG:		return ledgArray[number];
+		case ComponentPanel.SEVENSEG:	return sevenSegmentArray[number];
+		default: return false;
+		}
 	}
 	
 }

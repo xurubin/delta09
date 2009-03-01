@@ -32,9 +32,15 @@ public class OpenAction extends AbstractAction
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		// Checks whether the user wants to save the current circuit (or cancel)
-		int choice = JOptionPane.showConfirmDialog
-					 ( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
+		int choice;
+		//don't ask to save if we haven't created a circuit yet.
+		if(MainWindow.get().circuit_panel.getComponentGraph().vertexSet().size() <= 1) {
+			choice = JOptionPane.NO_OPTION;
+		}
+		else {
+			choice = JOptionPane.showConfirmDialog
+			( MainWindow.get(), MainWindow.get().translator.getString ("ASK_SAVE") );
+		}
 		
 		switch (choice)
 		{

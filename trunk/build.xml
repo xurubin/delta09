@@ -61,11 +61,16 @@
     <javac srcdir="${src.dir}" destdir="${build.deploy.dir}" debug="${compile.debug}">
       <classpath refid="compile.classpath"/>
     </javac>
+  	<copy todir="${build.deploy.dir}">
+  	<fileset dir="${src.dir}">
+  	   <exclude name="**/*.java" />
+  	</fileset>
+  	</copy>
   </target>
 
 <!-- Compile targets -->
   <target name="jar" depends="compile">
-    <jar destfile="${dist.dir}/${app.name}-${app.version}.jar" basedir="${basedir}/bin" filesetmanifest="mergewithoutmain">
+    <jar destfile="${dist.dir}/${app.name}-${app.version}.jar" basedir="${build.deploy.dir}" filesetmanifest="mergewithoutmain">
     	<manifest>
     	<attribute name="Built-By" value="${user.name}"/>
     	<attribute name="Main-Class" value="org.delta.gui.MainWindow"/>

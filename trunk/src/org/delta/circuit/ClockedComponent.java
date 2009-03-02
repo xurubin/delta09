@@ -74,7 +74,6 @@ public class ClockedComponent extends Component {
         // Disconnect from old clock component, remove old clock gate.
         Set<ComponentWire> oldClockWires =
             graph.outgoingEdgesOf(graph.mainClockComponent);
-        graph.circuit.removeVertex(graph.mainClockGate);
         
         super.fromComponentGraph(graph, inputs, outputs);
 

@@ -36,9 +36,9 @@ public class SevenSegment extends DeltaComponent {
 		
 		this.replaceUserObject();
 
-		this.addInputPort(new Point(GraphConstants.PERMILLE,430),1);
-		this.addInputPort(new Point(GraphConstants.PERMILLE,670),6);
-		this.addInputPort(new Point(GraphConstants.PERMILLE,220),2);
+		this.addInputPort(new Point(GraphConstants.PERMILLE,430),6);
+		this.addInputPort(new Point(GraphConstants.PERMILLE,670),2);
+		this.addInputPort(new Point(GraphConstants.PERMILLE,220),1);
 		this.addInputPort(new Point(0,150),0);
 		this.addInputPort(new Point(0,350),5);
 		this.addInputPort(new Point(0,530),4);

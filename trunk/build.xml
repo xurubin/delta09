@@ -87,7 +87,7 @@
     </jar>
   	 <copy file="${src.dir}/org/delta/gui/Settings.properties" tofile="${dist.dir}/Settings.properties"/>
    <copy todir="${dist.dir}/jop">
-     <fileset dir="${basedir}/jop_minimum/">
+     <fileset dir="${basedir}/jop/">
      </fileset>
    </copy>
   	<copyfile src="${lib.dir}/FTD2XX.DLL" dest="${dist.dir}/ftd2xx.dll" />

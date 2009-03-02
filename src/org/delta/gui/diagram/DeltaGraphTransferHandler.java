@@ -352,7 +352,15 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 		for (Object clone : clonedCells) {
 			if (clone instanceof Ledr) {
 				Ledr ledr = (Ledr)clone;
-				int ledrNumber = getUserInput(ComponentPanel.LEDR,tempLedrArray);
+				int ledrNumber = ledr.getLedNumber();
+				
+				if (ledrNumber >= 0  &&
+						ledrNumber < tempLedrArray.length) {
+						if (tempLedrArray[ledrNumber]) //ledr already used
+							ledrNumber = getUserInput(ComponentPanel.LEDR,tempLedrArray);
+					} else //Invalid ledr id.
+						ledrNumber = getUserInput(ComponentPanel.LEDR,tempLedrArray);
+
 				if (ledrNumber == -1) {
 					// Do not display error message - was a bit annoying and is unnecessary
 					return;
@@ -366,7 +374,15 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			}
 			else if (clone instanceof Ledg) {
 				Ledg ledg = (Ledg)clone;
-				int ledgNumber = getUserInput(ComponentPanel.LEDG, tempLedgArray);
+				int ledgNumber = ledg.getLedNumber();
+				
+				if (ledgNumber >= 0  &&
+						ledgNumber < tempLedgArray.length) {
+						if (tempLedgArray[ledgNumber]) //ledg already used
+							ledgNumber = getUserInput(ComponentPanel.LEDG,tempLedgArray);
+					} else //Invalid ledg id.
+						ledgNumber = getUserInput(ComponentPanel.LEDG,tempLedgArray);
+
 				if (ledgNumber == -1) {
 					// Do not display error message - was a bit annoying and is unnecessary
 					return;
@@ -398,7 +414,14 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			}
 			else if (clone instanceof SevenSegment) {
 				SevenSegment sevenSegment = (SevenSegment)clone;
-				int sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG, tempSevenSegmentArray);
+				int sevenSegmentNumber = ((SevenSegment)clone).getSevenSegmentNumber();
+				if (sevenSegmentNumber >= 0 && 
+					sevenSegmentNumber < tempSevenSegmentArray.length) {
+					if (tempSevenSegmentArray[sevenSegmentNumber]) //HEX already used
+						sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG, tempSevenSegmentArray);
+				} else //Invalid HEX id.
+					sevenSegmentNumber = getUserInput(ComponentPanel.SEVENSEG, tempSevenSegmentArray);
+					
 				if (sevenSegmentNumber == -1) {
 					// Do not display error message - was a bit annoying and is unnecessary
 					return;

@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="lib/jgrapht.jar" sourcepath="lib/jgrapht.jar"/>
 	<classpathentry kind="lib" path="lib/jop_usb.jar" sourcepath="jop/java/target/src/common">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="lib"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="delta09/lib"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/i18n.jar"/>

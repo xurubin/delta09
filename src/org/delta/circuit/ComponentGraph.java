@@ -11,6 +11,7 @@ import java.util.Set;
 import org.delta.circuit.Component.GateInputPort;
 import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.ClockGate;
+import org.delta.util.PipedDeepCopy;
 import org.jgrapht.graph.DirectedMultigraph;
 
 /**
@@ -286,7 +287,9 @@ public class ComponentGraph extends
             throw new IllegalStateException("Circuit is not valid.");
         }
 
-        Circuit clone = (Circuit) circuit.clone();
+        // Deep copy
+        Circuit clone = (Circuit) PipedDeepCopy.copy(circuit);
+        //Circuit clone = (Circuit) circuit.clone();
         
         return clone;
     }

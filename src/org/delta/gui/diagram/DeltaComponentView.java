@@ -156,7 +156,7 @@ public class DeltaComponentView extends VertexView {
 	private class DeltaSVGIcon extends SVGIcon implements Serializable {
 
 		/** Needed for correct serialization. */
-		private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 2L;
         
         /** Relative path to icon file. */
         private String path;

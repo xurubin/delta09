@@ -48,16 +48,25 @@ public class DeltaComponentView extends VertexView {
 	private static final String LEDG_ICON = "ledg.svg";
 	/** File name of icon for HighInput. */
 	private static final String HIGH_ICON = "high.svg";
-	/** File name of icon for LowInput. */
+	/** File name of icon for DFlip (D flip-flop). */
 	private static final String LOW_ICON = "low.svg";
+    /** File name of icon for LowInput. */
 	private static final String DFLIP_ICON = "d_flip.svg";
+    /** File name of icon for Switch. */
 	private static final String SWITCH_ICON = "switch.svg";
+    /** File name of icon for PushButton. */
 	private static final String PUSH_BUTTON_ICON = "push_button.svg";
+    /** File name of icon for SevenSegment. */
 	private static final String SEVENSEG_ICON = "7seg.svg";
+    /** File name of icon for RsLatch. */
 	private static final String RSLATCH_ICON = "rs_latch.svg";
+    /** File name of icon for ROM. */
 	private static final String ROM_ICON = "rom.svg";
+    /** File name of icon for RAM. */
 	private static final String RAM_ICON = "ram.svg";
+    /** File name of icon for Nand3Gate (3 input Nand gate). */
 	private static final String NAND3_ICON = "nand3.svg";
+    /** File name of icon for a Nor3Gate (3 input Nor gate). */
 	private static final String NOR3_ICON = "nor3.svg";
 	// TODO: Add file names for all the other component icons.
 	
@@ -128,7 +137,7 @@ public class DeltaComponentView extends VertexView {
 		
 		// Attempt to create SVG icon
 		String iconPath = ICONFOLDERPATH + iconFileName;
-		SVGIcon icon = new DeltaSVGIcon();
+		SVGIcon icon = new DeltaSVGIcon(iconPath);
 		try {
 			URI svgURI = new URI(DeltaComponentView.class.getClassLoader().getResource(iconPath).toString());
 			icon.setSvgURI(svgURI);
@@ -147,16 +156,28 @@ public class DeltaComponentView extends VertexView {
 	private class DeltaSVGIcon extends SVGIcon implements Serializable {
 
 		/** Needed for correct serialization. */
-		private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 2L;
+        
+        /** Relative path to icon file. */
+        private String path;
 		
-		/** Custom serialization - only stores the URI for the icon. */
+		/** Custom serialization - only stores the path for the icon. */
 		private void writeObject(ObjectOutputStream out) throws IOException {
-			out.writeObject(this.getSvgURI());
+			out.writeObject(path);
 		}
 		
-		/** Custom serialization - read back the URI and set the default properties. */
+		/** Custom serialization - read back the icon path and set default properties. */
 		private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-			this.setSvgURI((URI)in.readObject());
+			// Read in the stored path
+            path = (String)in.readObject();
+            // Set the icon
+            try {
+                URI svgURI = new URI(DeltaComponentView.class.getClassLoader().getResource(path).toString());
+                this.setSvgURI(svgURI);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            // Set default properties
 			this.setScaleToFit(true);
 			this.setAntiAlias(true);
 		}
@@ -164,11 +185,13 @@ public class DeltaComponentView extends VertexView {
 		/**
 		 * Creates a new SVGIcon by calling its super constructor and
 		 * sets some default properties.
+         * @param iconPath - the path the to the icon's SVG file.
 		 */
-		public DeltaSVGIcon(){
+		public DeltaSVGIcon(String iconPath){
 			super();
 			this.setScaleToFit(true);
 			this.setAntiAlias(true);
+            this.path = iconPath;
 		}
 	}
 	

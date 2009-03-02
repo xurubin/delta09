@@ -13,6 +13,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import org.delta.gui.MainWindow;
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.BasicMarqueeHandler;
 import org.jgraph.graph.GraphConstants;
@@ -93,7 +95,7 @@ public class DeltaMarqueeHandler extends BasicMarqueeHandler implements Serializ
     public JPopupMenu createPopupMenu(final Point pt, final Object cell) {
         JPopupMenu menu = new JPopupMenu();
         if (cell instanceof ROM) {
-            menu.add(new AbstractAction("Edit") {
+            menu.add(new AbstractAction(MainWindow.getTranslatorString("EDIT_POPUP")) {
                 // Needed for correct serialization.
                 private static final long serialVersionUID = 1L;
                 // Change the ROM contents by calling the TransferHandler method

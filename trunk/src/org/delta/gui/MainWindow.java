@@ -194,7 +194,7 @@ public class MainWindow extends javax.swing.JFrame {
 
 		ImageIcon clock_icon = new ImageIcon(cl.getResource("org/delta/gui/diagram/images/" + "clock.png"));
 
-		spinner = new JSpinner(new SpinnerNumberModel(50, 1, 500, 5));
+		spinner = new JSpinner(new SpinnerNumberModel(50, 1, 250, 5));
 
 		clock_label = new ClockLabel(clock_icon, spinner);
 

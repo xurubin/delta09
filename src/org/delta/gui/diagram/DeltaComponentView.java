@@ -48,9 +48,9 @@ public class DeltaComponentView extends VertexView {
 	private static final String LEDG_ICON = "ledg.svg";
 	/** File name of icon for HighInput. */
 	private static final String HIGH_ICON = "high.svg";
-	/** File name of icon for DFlip (D flip-flop). */
+	/** File name of icon for LowInput. */
 	private static final String LOW_ICON = "low.svg";
-    /** File name of icon for LowInput. */
+    /** File name of icon for DFlip (D flip-flop). */
 	private static final String DFLIP_ICON = "d_flip.svg";
     /** File name of icon for Switch. */
 	private static final String SWITCH_ICON = "switch.svg";
@@ -156,7 +156,7 @@ public class DeltaComponentView extends VertexView {
 	private class DeltaSVGIcon extends SVGIcon implements Serializable {
 
 		/** Needed for correct serialization. */
-		private static final long serialVersionUID = 2L;
+		private static final long serialVersionUID = 1L;
         
         /** Relative path to icon file. */
         private String path;

@@ -16,7 +16,7 @@ public class Translator {
 	static {
 		languageCodeMap.put("English", "en");
 		languageCodeMap.put("Français", "fr");
-								languageCodeMap.put("العربية", "ar");
+		languageCodeMap.put("العربية", "ar");
 		languageCodeMap.put("中文", "zh");
 		languageCodeMap.put("日本語", "ja");
 	}

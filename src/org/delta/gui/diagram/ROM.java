@@ -44,18 +44,31 @@ public class ROM extends DeltaComponent {
 		Rectangle2D bounds = new Rectangle2D.Double(position.getX(),position.getY(),60,40);
 		GraphConstants.setBounds(this.getAttributes(),bounds);
 	}
-	
-	/**
-	 * Replaces the userObject with a new one. This is used when copying the cell so that
-	 * a new component is created on the simulation graph - otherwise we would have two
-	 * display graph components being represented by just one simulation graph component.
-	 */
-	
+
+    /**
+     * Mutator method for the contents of the ROM. Replaces the locally stored
+     * ROM contents and replaces the userObject so the simulation is kept
+     * up to date.
+     * @param userStore
+     */
 	public void setStore(List<Integer> userStore) {
 		this.store = userStore;
 		this.replaceUserObject();
 	}
 	
+    /**
+     * Accessor method for the contents of the ROM.
+     * @return a List representation of the ROM's contents.
+     */
+    public List<Integer> getStore() {
+        return this.store;
+    }
+    
+    /**
+     * Replaces the userObject with a new one. This is used when copying the cell so that
+     * a new component is created on the simulation graph - otherwise we would have two
+     * display graph components being represented by just one simulation graph component.
+     */
 	protected void replaceUserObject() {
 		/*
 		 * TODO: add default function.

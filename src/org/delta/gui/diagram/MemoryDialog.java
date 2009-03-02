@@ -23,37 +23,57 @@ import javax.swing.table.TableModel;
 
 import org.delta.gui.MainWindow;
 
+/**
+ * Customised dialogue that displays a window with a 4x4 table representing the
+ * contents of a ROM component. These can the be edited using comboboxes.
+ * @author Group Delta 2009
+ */
+/*
+ * TODO: Extend for RAMs as well as ROMs.
+ */
 public class MemoryDialog extends JDialog {
-
-	/**
-	 * 
-	 */
-
+	/** Needed for correct serialization. */
 	private static final long serialVersionUID = 1L;
-
+	
+    /** Array storing the contents of the table. */
 	private Object[][] data;
 
-	public MemoryDialog(Frame owner, String title) {
+    /**
+     * Creates a MemoryDialog for the specified ROM component.
+     * @param owner - window the dialogue will be displayed in.
+     * @param title - title for the dialogue box.
+     * @param rom - ROM component whose contents are being edited.
+     */
+	public MemoryDialog(Frame owner, String title, ROM rom) {
 		super(owner, title);
 
 		Container cp = getContentPane();
-
 		cp.setLayout(new GridLayout(0, 1));
 
 		JPanel panel3 = new JPanel();
 		panel3.setBorder(BorderFactory.createEmptyBorder(5, 10, 0, 10));
-
 		panel3.add(new JLabel(MainWindow.getTranslatorString("ROM_CONTENTS"), JLabel.CENTER));
-
 		cp.add(panel3);
 
 		JComboBox combo = new JComboBox(new Integer[] { new Integer(0), new Integer(1) });
-
-		Object[][] d = { { new Integer(0), new Integer(0), new Integer(0), new Integer(0) },
-				{ new Integer(0), new Integer(0), new Integer(0), new Integer(0) },
-				{ new Integer(0), new Integer(0), new Integer(0), new Integer(0) },
-				{ new Integer(0), new Integer(0), new Integer(0), new Integer(0) } };
-		data = d;
+		Object[][] tempData = new Object[4][4];
+        // If the ROM has just been created, initialise the contents to 0
+        if (rom.getStore().isEmpty()) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j ++) {
+                    tempData[i][j] = new Integer(0);
+                }
+            }
+        }
+        // Else if the ROM already exists, use the existing values
+        else {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j ++) {
+                    tempData[i][j] = rom.getStore().get((j * 4) + i);
+                }
+            }
+        }
+		data = tempData;
 
 		TableModel dataModel = new AbstractTableModel() {
 			private static final long serialVersionUID = 1L;

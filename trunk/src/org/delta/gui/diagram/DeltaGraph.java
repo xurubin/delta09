@@ -22,6 +22,14 @@ public class DeltaGraph extends JGraph {
 	public DeltaGraph() {
 		super();
 	}
+	
+	/**
+	 * removes selection. Used before save to stop NullPointerException.
+	 * TODO: proper fix
+	 */
+	public void removeSelection() {
+		this.selectionModel.clearSelection();
+	}
 
 	/**
 	 * @see org.jgraph.JGraph#JGraph(GraphModel)

@@ -30,6 +30,9 @@ public class SaveAction extends AbstractAction
 	
 	public void actionPerformed (ActionEvent e)
 	{	
+		//removes selection before save
+		MainWindow.get().circuit_panel.getGraph().removeSelection();
+		
 		// Display save dialog and then save the circuit to file
 		
 		JFileChooser chooser = new JFileChooser();

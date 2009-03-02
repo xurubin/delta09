@@ -87,6 +87,7 @@ public class OpenAction extends AbstractAction
 								 						 MainWindow.get().translator.getString ("CIRCUIT_NOT_FOUND"),
 								 						 MainWindow.get().translator.getString ("FILE_NOT_FOUND"),
 								 						 JOptionPane.ERROR_MESSAGE );
+						 ex.printStackTrace();
 					}
 					catch (IOException ex)
 					{
@@ -94,6 +95,7 @@ public class OpenAction extends AbstractAction
 														MainWindow.get().translator.getString ("CIRCUIT_NOT_LOADED"),
 														MainWindow.get().translator.getString ("ERROR"),
 		 						 						JOptionPane.ERROR_MESSAGE );
+						ex.printStackTrace();
 					}
 				}
 

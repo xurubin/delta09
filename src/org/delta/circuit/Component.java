@@ -53,6 +53,8 @@ abstract public class Component implements Serializable {
     protected void fromComponentGraph(ComponentGraph graph,
             List<Set<ComponentPort>> inputs,
             List<ComponentPort> outputs) {
+        // Remove clock.
+        graph.circuit.removeVertex(graph.mainClockGate);
         // Get circuit.
         circuit = graph.circuit;
 

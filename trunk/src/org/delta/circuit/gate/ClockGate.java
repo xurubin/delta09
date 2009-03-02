@@ -60,7 +60,7 @@ public class ClockGate extends AbstractInputGate {
     
     public String getVerilogMethod(String name, ArrayList<String> out, ArrayList<String> in) {
     	//calculate clock_multiplier
-    	return "get_clock clock1(CLOCK_50, 100000000, " + 2*clockFrequency + ", world_clock);";
+    	return "get_clock clock1(CLOCK_50, 100000000, " + 2*(1000/clockFrequency) + ", world_clock);";
     }
 
 }

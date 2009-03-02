@@ -240,19 +240,21 @@ public class ComponentGraph extends
         final Component sourceComponent = getEdgeSource(wire);
         final Component targetComponent = getEdgeTarget(wire);
         
+        // Remove old wire.
+        if (wireMap.containsKey(wire) && !wireMap.get(wire).isEmpty()) {
+            Set<Wire> oldWireSet = wireMap.get(wire);
+
+            if (!circuit.removeAllEdges(oldWireSet)) {
+                throw new IllegalStateException("Inconsistent state.");
+            }
+            unregisterEdge(wire);
+        }
+        
         sourceComponent.addOutputWire(sourceOutputNumber, wire);
         targetComponent.setInputWire(targetInputNumber, wire);
 
         Set<Component.GateInputPort> targets =
             targetComponent.getGateInputPorts(targetInputNumber);
-
-        // Remove old wire.
-        if (wireMap.containsKey(wire) && !wireMap.get(wire).isEmpty()) {
-            Set<Wire> oldWireSet = wireMap.get(wire);
-
-            if (!circuit.removeAllEdges(oldWireSet))
-                throw new IllegalStateException("Inconsistent state.");
-        }
         
         Set<Wire> newWireSet = new HashSet<Wire>();
         for (GateInputPort targetGateInputPort: targets) {
@@ -271,6 +273,14 @@ public class ComponentGraph extends
         wireMap.put(wire, newWireSet);
     }
     
+    private void unregisterEdge(ComponentWire wire) {
+        Component source = getEdgeSource(wire);
+        Component target = getEdgeTarget(wire);
+        
+        source.removeOutputWire(wire);
+        target.removeInputWire(wire);
+    }
+
     /**
      * Method copies the data structure that is used internally to represent
      * digital logic circuits. In this representation, the circuit can be
@@ -314,15 +324,21 @@ public class ComponentGraph extends
                  */
                 if (w != null) {
                     // Is the wire part of the component graph? If not, reject.
-                    if (!edgeSet().contains(w)) return false;
+                    if (!edgeSet().contains(w)) {
+                      return false;
+                    }
                     /* Is the head of the wire the same component as the one the
                      * wire is registered with? If not, reject.
                      */
-                    if (component != getEdgeTarget(w)) return false;
+                    if (component != getEdgeTarget(w)) {
+                      return false;
+                    }
                     /* Is the tail vertex of the wire in the vertex set of the
                      * component graph.
                      */
-                    if (!vertexSet().contains(getEdgeSource(w))) return false;
+                    if (!vertexSet().contains(getEdgeSource(w))) {
+                      return false;
+                    }
                     // Wire is valid, increase edge counter.
                     ++countEdges;
                 }

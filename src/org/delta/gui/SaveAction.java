@@ -29,7 +29,7 @@ public class SaveAction extends AbstractAction
 	}
 	
 	public void actionPerformed (ActionEvent e)
-	{
+	{	
 		// Display save dialog and then save the circuit to file
 		
 		JFileChooser chooser = new JFileChooser();

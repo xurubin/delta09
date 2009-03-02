@@ -2,11 +2,15 @@ package org.delta.gui.diagram;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
+import javax.swing.AbstractAction;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import org.jgraph.JGraph;
@@ -62,11 +66,11 @@ public class DeltaMarqueeHandler extends BasicMarqueeHandler implements Serializ
 		// If Right Mouse Button
 		if (SwingUtilities.isRightMouseButton(e)) {
 			// Find Cell in Model Coordinates
-			//Object cell = graph.getFirstCellForLocation(e.getX(), e.getY());
+			Object cell = graph.getFirstCellForLocation(e.getX(), e.getY());
 			// Create PopupMenu for the Cell
-			//JPopupMenu menu = createPopupMenu(e.getPoint(), cell);
+			JPopupMenu menu = createPopupMenu(e.getPoint(), cell);
 			// Display PopupMenu
-			//menu.show(graph, e.getX(), e.getY());
+			menu.show(graph, e.getX(), e.getY());
 			// Else if in ConnectMode and Remembered Port is Valid
 		} else if (port != null && graph.isPortsVisible()) {
 			// Remember Start Location
@@ -78,6 +82,55 @@ public class DeltaMarqueeHandler extends BasicMarqueeHandler implements Serializ
 			super.mousePressed(e);
 		}
 	}
+    
+    /**
+     * Creates right-click context menu for the graph. At the moment is only
+     * used to change the contents of a ROM after it has been added.
+     * @param pt - point where the right-click occurred.
+     * @param cell - cell at that point.
+     * @return the popup menu relevant for this context.
+     */
+    public JPopupMenu createPopupMenu(final Point pt, final Object cell) {
+        JPopupMenu menu = new JPopupMenu();
+        if (cell instanceof ROM) {
+            menu.add(new AbstractAction("Edit") {
+                // Needed for correct serialization.
+                private static final long serialVersionUID = 1L;
+                // Change the ROM contents by calling the TransferHandler method
+                public void actionPerformed(ActionEvent e) {
+                    DeltaGraphTransferHandler handler =
+                        (DeltaGraphTransferHandler) graph.getTransferHandler();
+                    ROM rom = (ROM) cell;
+                    rom.setStore(handler.getUserMemorySelection(rom));
+                }
+            });
+        }
+        /*if (cell != null) {
+            // Edit
+            menu.add(new AbstractAction("Edit") {
+                public void actionPerformed(ActionEvent e) {
+                    graph.startEditingAtCell(cell);
+                }
+            });
+        }
+        // Remove
+        if (!graph.isSelectionEmpty()) {
+            menu.addSeparator();
+            menu.add(new AbstractAction("Remove") {
+                public void actionPerformed(ActionEvent e) {
+                    remove.actionPerformed(e);
+                }
+            });
+        }
+        menu.addSeparator();
+        // Insert
+        menu.add(new AbstractAction("Insert") {
+            public void actionPerformed(ActionEvent ev) {
+                insert(pt);
+            }
+        });*/
+        return menu;
+    }
 
 	// Find Port under Mouse and Repaint Connector
 	public void mouseDragged(MouseEvent e) {

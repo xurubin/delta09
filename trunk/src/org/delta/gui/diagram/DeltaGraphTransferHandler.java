@@ -412,7 +412,7 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 			}
 			else if (clone instanceof ROM) {
 				ROM rom = (ROM) clone;
-				rom.setStore(getUserMemorySelection());
+				rom.setStore(getUserMemorySelection(rom));
 			}
 		}
 		
@@ -426,8 +426,16 @@ public class DeltaGraphTransferHandler extends GraphTransferHandler {
 	/*
 	 * TODO: get user input for intial memory value
 	 */
-	private List<Integer> getUserMemorySelection() {
-		MemoryDialog dialog = new MemoryDialog(MainWindow.get(), MainWindow.getTranslatorString("SELECT_MEM"));
+    /**
+     * Displays a dialog box that allows the user to edit the contents of the
+     * ROM. Is used both when first inserting the ROM and when changing its
+     * contents in-place.
+     * @param rom - the ROM component to edit.
+     * @return a List representing the contents of the ROM.
+     */
+	protected List<Integer> getUserMemorySelection(ROM rom) {
+		MemoryDialog dialog = new MemoryDialog(MainWindow.get(),
+                MainWindow.getTranslatorString("SELECT_MEM"), rom);
 		dialog.showDialog();
 		return dialog.getStoreValues();
 	}

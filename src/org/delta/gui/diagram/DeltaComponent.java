@@ -1,6 +1,8 @@
 package org.delta.gui.diagram;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
@@ -64,4 +66,13 @@ public abstract class DeltaComponent extends DefaultGraphCell {
      */
     protected abstract void replaceUserObject();
 
+    /**
+     * Customised unserialization. The userObject field used to store the
+     * jgrapht vertex is transient.
+     */
+    private void readObject(ObjectInputStream in)
+        throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.replaceUserObject();
+    }
 }

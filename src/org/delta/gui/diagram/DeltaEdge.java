@@ -1,5 +1,8 @@
 package org.delta.gui.diagram;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.GraphConstants;
 
@@ -49,5 +52,15 @@ public class DeltaEdge extends DefaultEdge {
 	protected void replaceUserObject() {
 		this.setUserObject(new ComponentWire());
 	}
+    
+    /**
+     * Customised unserialization. The userObject field used to store the
+     * jgrapht edge is transient.
+     */
+    private void readObject(ObjectInputStream in)
+        throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.replaceUserObject();
+    }
 	
 }

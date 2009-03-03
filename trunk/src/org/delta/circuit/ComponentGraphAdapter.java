@@ -288,6 +288,16 @@ public class ComponentGraphAdapter<V, E>
     //~ Methods ----------------------------------------------------------------
 
     /**
+     * Custom unserialization. For some reason when this is unserialized the
+     * JGraphListener is not added again. This is the easiest fix.
+     */
+    private void readObject(ObjectInputStream in)
+        throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.addGraphModelListener(new JGraphListener());
+    }
+
+    /**
      * Creates and returns a map of attributes to be used as defaults for edge
      * attributes, depending on the specified graph.
      *

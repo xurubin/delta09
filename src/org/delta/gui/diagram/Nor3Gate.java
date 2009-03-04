@@ -8,6 +8,7 @@ import org.delta.circuit.Gate;
 import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.GateFactory;
 import org.delta.logic.Nor;
+import org.delta.logic.Nor3;
 import org.jgraph.graph.GraphConstants;
 
 /**
@@ -49,7 +50,7 @@ public class Nor3Gate extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-	    Gate gate = GateFactory.createGate(Nor.class, 3);
+	    Gate gate = GateFactory.createGate(Nor3.class);
         Component component = ComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}

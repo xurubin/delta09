@@ -10,6 +10,7 @@ import org.delta.circuit.Gate;
 import org.delta.circuit.component.ComponentFactory;
 import org.delta.circuit.gate.GateFactory;
 import org.delta.logic.Nand;
+import org.delta.logic.Nand3;
 
 /**
  * Class to represent the "model" of a 3 input NandGate in the circuit diagram.
@@ -50,7 +51,7 @@ public class Nand3Gate extends DeltaComponent {
 	 * display graph components being represented by just one simulation graph component.
 	 */
 	protected void replaceUserObject() {
-	    Gate gate = GateFactory.createGate(Nand.class, 3);
+	    Gate gate = GateFactory.createGate(Nand3.class);
         Component component = ComponentFactory.createComponent(gate);
 		this.setUserObject(component);
 	}

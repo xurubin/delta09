@@ -1,0 +1,9 @@
+The Citrix colours are as follows:
+
+in RGB values
+
+```
+main    204/0/0 255/153/0 99/108/137
+lighter 228/0/0 255/204/102 166/72/190
+darker  126/0/0 215/110/5 53/58/73
+```

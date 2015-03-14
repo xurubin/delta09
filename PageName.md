@@ -1,0 +1,55 @@
+# Introduction #
+
+Description of GUI (draft)
+
+
+# Details #
+
+A draft mockup of the GUI can be found [here](http://code.google.com/p/delta09/source/browse/trunk/documents/GUI_mockup.png). I still need to neaten it up a bit and add labels to explain the main components.
+
+The user interface will consist of the following elements:
+
+  * A scrollable main panel where the circuit to be simulated is designed.
+  * A scrollable panel to the left of this, which contains a list of circuit components (gates, ROM/RAM, RS-latch, D-flip-flop, fixed inputs) with graphics and text descriptions.
+  * A panel underneath the main one containing diagramatic representations of all the DE2 board's toggle switches, push-buttons and red and green LEDs.
+  * A panel in the bottom-left corner of the window containing a clock icon and an adjustable frequency spinner.
+  * A toolbar at the top of the window containing the following buttons:
+    * New circuit
+    * Load circuit
+    * Save circuit
+    * Undo
+    * Redo
+    * Cut
+    * Copy
+    * Paste
+    * Run on board
+    * Export to Verilog
+    * Zoom in
+    * Zoom out
+  * A menu bar containing the following menus:
+    * File
+      * New
+      * Open
+      * Save
+      * Exit
+    * Edit
+      * Undo
+      * Redo
+      * Cut
+      * Copy
+      * Paste
+      * Delete
+    * View
+      * Zoom in
+      * Zoom out
+    * Help
+      * Contents
+      * About
+
+The user should be able to drag components from the left or bottom panels and drop them in the main panel to form part of the circuit. The interface will allow unlimited uses of each type of component with the exception of the LEDs, which are single-use only. Each component in the main panel will have one or more ports for input (represented as blue circles) and/or output (represented as red circles). Wires will be constructed by clicking on one of these ports, followed by clicking on a port of the opposite type. The interface will disallow multiple wires being connected to the same input port, and wires being connected from one input port to another (and similarly with output ports). The user will be able to select intermediate points for the wires by clicking as many times as desired between the source and destination ports.
+
+The user should be able to select components and wires in the main panel by clicking on them, which will highlight them. Multiple components and wires will be selected by dragging out a box. Selections can be moved by dragging. They can also be cut, copied, pasted and deleted using the edit menu, buttons on the toolbar or keyboard shortcuts.
+
+The user will be able to change the size and position of the display of the circuit by zooming (using the toolbar/menu bar controls) and scrolling.
+
+The current circuit will be simulated on the board when the user clicks the "Run on board" button. This will then be greyed out until a change is made to the circuit, or to the clock speed which can be adjusted using the spinner. Clicking the "Export to Verilog" button will open a dialog asking the user the name and location of the Verilog file he/she wants to save.

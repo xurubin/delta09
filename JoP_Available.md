@@ -1,0 +1,30 @@
+The initial version of myjop is online now! It;s in the myjop directory under svn root.
+
+
+Quick installation steps: (Under Win32 Environment)
+
+I haven’t done a through testing. It’s possible that you may encounter errors even during the following steps. Please notify me if you encounter any problems.
+
+1. Follow the Documents\Design Flow.pdf for required build tools. Cygwin etc.
+
+2. use "make tools" to create various tools for the design flow such as assembler and room
+content generator for JoP.
+
+3. use "make jopser" to generate the boot strapper for JoP and synthesise quartus project
+This step can be done separately by running asm\jopser.bat to generate the boot strapper and then use the quartus project file in quartus\altde2sram for synthesise.
+
+4. program the FPGA using “make prog\_jop”
+5 compile the java program, upload it to DE2 and view results using “make japp”
+This can be done separately as well.
+Compile the java program: make java\_app. Check the Makefile for arguments P1 P2 P3 and java\target\src\test\test directory if you want to build your own program.
+(Optional) To run simulation, use make jsim
+
+Upload java to DE2. First do a fresh programming of the FPGA. Then use “upload.exe JopFile” to upload. JopFile should be copied to the root of the directory after a “make java\_app”
+
+View results: use console.exe.  This program will not terminate atomically. Press Ctrl+C instead.
+
+
+
+So far, that's it. Notice that The sdram introduce a 50% slow done in my Pentomino program. I think that’s because the garbage collector is marking the memory address space uniformly for its operations. I’ll look into it later. Currently, you can limit the available memory to GC by changing java\target\src\common\com\jopdesign\sys\startup.java to achieve a speedup.
+
+
